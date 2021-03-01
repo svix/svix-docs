@@ -24,6 +24,11 @@ module.exports = {
           label: 'API Specifications',
           position: 'left',
         },
+        {
+          to: 'mailto:contact@diahook.com',
+          label: 'Contact Us',
+          position: 'left',
+        },
       ],
     },
     footer: {
