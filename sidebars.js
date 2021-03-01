@@ -7,5 +7,6 @@ module.exports = {
         'receiving/verifying-payloads',
       ],
     },
+    'get-help',
   ],
 };
