@@ -36,6 +36,14 @@ pip install diahook
 ```
 
 </TabItem>
+<TabItem value="curl">
+
+```shell
+# Install cURL. E.g. on arch linux:
+pacman -S curl
+```
+
+</TabItem>
 </CodeTabs>
 
 Then verify webhooks using the following:
@@ -81,6 +89,11 @@ wh = Webhook(secret);
 # Throws on error, returns the verified content on success
 payload = wh.verify(payload, headers);
 ```
+
+</TabItem>
+<TabItem value="curl">
+
+No easy way to verify the signature just with cURL.
 
 </TabItem>
 </CodeTabs>

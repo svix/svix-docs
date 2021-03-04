@@ -2,6 +2,11 @@
 title: Quickstart
 ---
 
+import CodeTabs from '@theme/CodeTabs';
+import TabItem from '@theme/TabItem';
+
+
+
 This is a quick document to get you started and covers the main interacting points with the Diahook API. Please keep in mind that this document covers usage against the REST API, rather than the client side libraries. We are working on adding documentation for these, but until then, let us know if you have any questions.
 
 ### Structure
@@ -19,6 +24,38 @@ You should get your `AuthToken` from us when first joining. If you haven't alrea
 
 Each of your users needs an associated application. The easiest way is to create a new application whenever a user signs up. Use the [create application API endpoint](https://api.diahook.com/docs#/application/create_application_api_v1_app__post) to create an application, and save the returned application ID in the database next to your user.
 
+For example:
+
+<CodeTabs>
+<TabItem value="js">
+
+```js
+const ret = new Diahook("AUTH_TOKEN");
+const app = await dh.application.create({name: "Application name"});
+```
+
+</TabItem>
+<TabItem value="py">
+
+```python
+# Will be added soon
+```
+
+</TabItem>
+<TabItem value="curl">
+
+```shell
+curl -X POST "https://api.diahook.com/api/v1/app/" \
+    -H  "Accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization: Bearer AUTH_TOKEN" \
+    -d '{"name": "Application name"}'
+```
+
+</TabItem>
+</CodeTabs>
+
+
 ### Sending messages
 
 To send a new message use the [create message API endpoint](https://api.diahook.com/docs#/message/create_message_api_v1_app__app_id__msg__post). It accepts an `app_id`, which is the application's ID. In addition, it accepts the following fields (as part the json body):
@@ -28,11 +65,80 @@ To send a new message use the [create message API endpoint](https://api.diahook.
 - `data`: a JSON dictionary that can hold anything. Its content will be sent as the webhook content.
 
 
+For example:
+
+<CodeTabs>
+<TabItem value="js">
+
+```js
+const ret = new Diahook("AUTH_TOKEN");
+await dh.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
+    "eventType": "invoice.paid",
+    "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G",
+    "data": {
+        "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql",
+        "status": "paid",
+        "attempt": 2
+    }
+});
+```
+
+</TabItem>
+<TabItem value="py">
+
+```python
+# Will be added soon
+```
+
+</TabItem>
+<TabItem value="curl">
+
+```shell
+curl -X POST "https://api.diahook.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/msg/" \
+    -H  "Accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization:  Bearer AUTH_TOKEN" \
+    -d '{"eventType": "invoice.paid", "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G", "data": {"id": "invoice_WF7WtCLFFtd8ubcTgboSFNql", "status": "paid", "attempt": 2}}'
+```
+
+</TabItem>
+</CodeTabs>
+
+
 ### Admin UI + adding endpoints
 
 You have two options for adding endpoints for your users (where endpoints will be sent). The first is to do it using the endpoints API, and the second is to just give them access to the admin UI.
 
 To give your users access to the admin UI, just use the [dashboard access endpoint](https://api.diahook.com/docs#/authentication/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post). Calling this endpoint with an `app_id`, returns a url you can just redirect your users to in order to log them into the admin UI. They will stay logged in for a few days or until they log out.
+
+<CodeTabs>
+<TabItem value="js">
+
+```js
+const ret = new Diahook("AUTH_TOKEN");
+const dashboard = await dh.authentication.dashboardAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0");
+// A URL that automatically logs user into the dashboard
+console.log(dashboard.url);
+```
+
+</TabItem>
+<TabItem value="py">
+
+```python
+# Will be added soon
+```
+
+</TabItem>
+<TabItem value="curl">
+
+```shell
+curl -X POST "https://api.diahook.com/api/v1/auth/dashboard_access/app_Xzx8bQeOB1D1XEYmAJaRGoj0/" \
+    -H  "Accept: application/json" \
+    -H  "Authorization:  Bearer AUTH_TOKEN"
+```
+
+</TabItem>
+</CodeTabs>
 
 
 ## Closing words
