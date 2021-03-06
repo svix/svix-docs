@@ -30,7 +30,7 @@ For example:
 <TabItem value="js">
 
 ```js
-const ret = new Diahook("AUTH_TOKEN");
+const dh = new Diahook("AUTH_TOKEN");
 const app = await dh.application.create({name: "Application name"});
 ```
 
@@ -71,7 +71,7 @@ For example:
 <TabItem value="js">
 
 ```js
-const ret = new Diahook("AUTH_TOKEN");
+const dh = new Diahook("AUTH_TOKEN");
 await dh.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
     "eventType": "invoice.paid",
     "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G",
@@ -115,7 +115,7 @@ To give your users access to the admin UI, just use the [dashboard access endpoi
 <TabItem value="js">
 
 ```js
-const ret = new Diahook("AUTH_TOKEN");
+const dh = new Diahook("AUTH_TOKEN");
 const dashboard = await dh.authentication.dashboardAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0");
 // A URL that automatically logs user into the dashboard
 console.log(dashboard.url);
