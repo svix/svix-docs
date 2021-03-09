@@ -1,0 +1,46 @@
+---
+title: Management UI
+---
+
+import CodeTabs from '@theme/CodeTabs';
+import TabItem from '@theme/TabItem';
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+Diahook comes with a management UI for your users that you can use out of the box. You users can then use it to add endpoints, debug delivery, as well as inspect and replay past webhooks. This is the easiest way to get started, but you can alternatively use the API to build your own.
+
+Here is how it looks like:
+
+<img alt="Management UI screenshot" src={useBaseUrl("img/attempts.png")} />
+
+## Giving your users access
+
+To give your users access to the admin UI, just use the [dashboard access endpoint](https://api.diahook.com/docs#/authentication/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post). Calling this endpoint with an `app_id`, returns a url you can just redirect your users to in order to log them into the admin UI. They will stay logged in for a few days or until they log out.
+
+<CodeTabs>
+<TabItem value="js">
+
+```js
+const dh = new Diahook("AUTH_TOKEN");
+const dashboard = await dh.authentication.dashboardAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0");
+// A URL that automatically logs user into the dashboard
+console.log(dashboard.url);
+```
+
+</TabItem>
+<TabItem value="py">
+
+```python
+# Will be added soon
+```
+
+</TabItem>
+<TabItem value="curl">
+
+```shell
+curl -X POST "https://api.diahook.com/api/v1/auth/dashboard_access/app_Xzx8bQeOB1D1XEYmAJaRGoj0/" \
+    -H  "Accept: application/json" \
+    -H  "Authorization:  Bearer AUTH_TOKEN"
+```
+
+</TabItem>
+</CodeTabs>

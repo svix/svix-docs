@@ -7,6 +7,7 @@ module.exports = {
         'receiving/verifying-payloads',
       ],
     },
+    'management-ui',
     'get-help',
   ],
 };
