@@ -61,7 +61,7 @@ curl -X POST "https://api.diahook.com/api/v1/app/" \
 To send a new message use the [create message API endpoint](https://api.diahook.com/docs#/message/create_message_api_v1_app__app_id__msg__post). It accepts an `app_id`, which is the application's ID. In addition, it accepts the following fields (as part the json body):
 
 - `eventType`: an identifier denoting the type of the event. E.g. `invoice.paid`.
-- `eventId`: an optional unique ID for the event. This is useful if you want to map each message to unique events on your system.
+- `eventId`: an optional unique ID for the event. This is useful if you want to map each message to unique events on your system. This is also used as an idempotency key.
 - `data`: a JSON dictionary that can hold anything. Its content will be sent as the webhook content.
 
 
@@ -103,6 +103,13 @@ curl -X POST "https://api.diahook.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/ms
 
 </TabItem>
 </CodeTabs>
+
+
+#### Idempotentcy
+
+As mentioned above, the `eventId` is also used as an idempotency key. This means that if you send the same request (with the same `eventId`) more than once, only one message will be created. The rest of the attempts will be ignored.
+
+This means that you can safely retry sending messages on errors (such as network errors) without worrying about duplicate messages being sent.
 
 
 ### Management UI + adding endpoints
