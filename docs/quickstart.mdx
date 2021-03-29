@@ -22,9 +22,13 @@ In Diahook you have three important models/routes you will be interacting with:
 
 You should get your `AuthToken` from us when first joining. If you haven't already, please reach out again.
 
+### Creating an application
+
 Each of your users needs an associated application. The easiest way is to create a new application whenever a user signs up. Use the [create application API endpoint](https://api.diahook.com/docs#/application/create_application_api_v1_app__post) to create an application, and save the returned application ID in the database next to your user.
 
-For example:
+Saving an additional identifier in your database can be annoying, so you can alternatively pass your own unique identifier (`uid`) when creating the application, and use that anywhere that accepts an application ID.
+
+Code example:
 
 <CodeTabs>
 <TabItem value="js">
