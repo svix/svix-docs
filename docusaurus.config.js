@@ -2,7 +2,7 @@ module.exports = {
   title: 'Diahook Docs',
   tagline: 'Webhooks as a service',
   url: 'https://www.diahook.com',
-  baseUrl: '/docs/',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
@@ -41,8 +41,8 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
           routeBasePath: '/',
+          sidebarPath: require.resolve('./sidebars.js'),
         },
         blog: {
           showReadingTime: true,

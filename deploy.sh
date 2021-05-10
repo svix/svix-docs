@@ -1,7 +1,7 @@
 SSH_HOST=www.diahook.com
 SSH_PORT=22
 SSH_USER=tom
-SSH_TARGET_DIR=sites/docs.diahook.com/docs
+SSH_TARGET_DIR=sites/docs.diahook.com
 
 OUTPUTDIR=./build
 
