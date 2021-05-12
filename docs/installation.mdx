@@ -1,0 +1,72 @@
+---
+title: Installation
+---
+
+import CodeTabs from '@theme/CodeTabs';
+import TabItem from '@theme/TabItem';
+
+
+When working with Diahook you can either use our [REST API](https://api.diahook.com/docs) directly, or using any of our libraries. In this document we'll cover how to install them for each platform.
+
+
+## Install the libraries
+
+<CodeTabs>
+<TabItem value="js">
+
+```js
+npm install diahook
+// Or
+yarn add diahook
+```
+
+</TabItem>
+<TabItem value="py">
+
+```sh
+pip install diahook
+```
+
+</TabItem>
+<TabItem value="curl">
+
+```shell
+# Install cURL. E.g. on arch linux:
+pacman -S curl
+# Or on macOS
+brew install curl
+```
+
+</TabItem>
+</CodeTabs>
+
+Then you can just use them as follows
+
+<CodeTabs>
+<TabItem value="js">
+
+```js
+import { Diahook } from "diahook";
+
+const dh = new Diahook("AUTH_TOKEN");
+const app = await dh.application.create({name: "Application name"});
+```
+
+</TabItem>
+<TabItem value="py">
+
+```python
+from diahook import Diahook
+
+dh = Diahook("AUTH_TOKEN)
+# FIXME: add the rest of the example
+```
+
+</TabItem>
+<TabItem value="curl">
+
+# Nothing to do.
+
+</TabItem>
+</CodeTabs>
+

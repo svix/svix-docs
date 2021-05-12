@@ -2,7 +2,7 @@ module.exports = {
   someSidebar: [
     'introduction',
     {
-      'Getting Started': ['overview', 'quickstart'],
+      'Getting Started': ['overview', 'installation', 'quickstart'],
       'Consuming Webhooks': [
         'receiving/verifying-payloads',
       ],
