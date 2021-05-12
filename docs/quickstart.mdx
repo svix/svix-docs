@@ -7,26 +7,29 @@ import TabItem from '@theme/TabItem';
 
 
 
-This is a quick document to get you started and covers the main interacting points with the Diahook API. This document is constantly improving, but it already covers everything you need to get started with Diahook.
+This page has everything you need to start sending webhooks with Diahook.
 
-### Structure
 
-In Diahook you have three important models/routes you will be interacting with:
+### Main concepts
 
-- `messages`: these are essentially the webhooks being sent. They can have contents and a few other properties.
-- `application`: this is where `messages` are sent to. Usually you want to create one application for each of your users. You will need the application ID for sending messages.
+In Diahook you have three important entities you will be interacting with:
+
+- `messages`: these are the webhooks being sent. They can have contents and a few other properties.
+- `application`: this is where `messages` are sent to. Usually you want to create one application for each of your users.
 - `endpoint`: endpoints are the URLs messages will be sent to. Each application can have multiple `endpoints` and each message sent to that application will be sent to all of them.
 
 
 ## Getting started
 
-You should get your `AuthToken` from us when first joining. If you haven't already, please reach out again.
+Get your authentication token (`AuthToken`) from the [Diahook dashboard](https://dashboard.diahook.com).
+
+## Sending messages
 
 ### Creating an application
 
-Each of your users needs an associated application. The easiest way is to create a new application whenever a user signs up. Use the [create application API endpoint](https://api.diahook.com/docs#/application/create_application_api_v1_app__post) to create an application, and save the returned application ID in the database next to your user.
+Each of your users needs an associated application. The easiest way is to create a new application whenever a user signs up. In this section we will use the [create application API endpoint](https://api.diahook.com/docs#/application/create_application_api_v1_app__post) to create an application.
 
-Saving an additional identifier in your database can be annoying, so you can alternatively pass your own unique identifier (`uid`) when creating the application, and use that anywhere that accepts an application ID.
+You would need the application's ID when sending messages. You can either save the ID returned when creating the application, or set your own unique id (e.g. your user's username or internal database id) in the optional `uid` field and use that intsead.
 
 Code example:
 
@@ -34,6 +37,8 @@ Code example:
 <TabItem value="js">
 
 ```js
+import { Diahook } from "diahook";
+
 const dh = new Diahook("AUTH_TOKEN");
 const app = await dh.application.create({name: "Application name"});
 ```
@@ -60,9 +65,9 @@ curl -X POST "https://api.diahook.com/api/v1/app/" \
 </CodeTabs>
 
 
-### Sending messages
+### Send a message
 
-To send a new message use the [create message API endpoint](https://api.diahook.com/docs#/message/create_message_api_v1_app__app_id__msg__post). It accepts an `app_id`, which is the application's ID. In addition, it accepts the following fields (as part the json body):
+We will now send a new message using the [create message API endpoint](https://api.diahook.com/docs#/message/create_message_api_v1_app__app_id__msg__post). It accepts an `app_id`, which is the application's ID (or custom `uid`) from the previous section. In addition, it accepts the following fields (as part the json body):
 
 - `eventType`: an identifier denoting the type of the event. E.g. `invoice.paid`.
 - `eventId`: an optional unique ID for the event. This is useful if you want to map each message to unique events on your system. This is also used as an idempotency key.
@@ -116,13 +121,21 @@ As mentioned above, the `eventId` is also used as an idempotency key. This means
 This means that you can safely retry sending messages on errors (such as network errors) without worrying about duplicate messages being sent.
 
 
-### Management UI + adding endpoints
+## Add webhook endpoints
 
-You have two options for adding endpoints for your users (where endpoints will be sent). The first is to do it using the endpoints API, and the second is to just give them access to the admin UI.
+In the example above we showed how to send messages, though these messages were not sent to any specific URLs. In order for them to be sent, we need to add endpoints. This is what this section is about.
 
-For more information please refer to the [management UI docs](management-ui).
+### Using the management UI
+
+Diahook offers a pre-build management UI. With [one API call](https://api.diahook.com/docs#/authentication/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post), you can give your users access to this UI and they can then add their own endpoints themselves.
+
+More on that in the [management UI docs](management-ui).
+
+### Using the API
+
+In addition to the management UI, you can also use our API to add endpoints to your applications. To do so, you will use the [create endpoint API](https://api.diahook.com/docs#/endpoint/create_endpoint_api_v1_app__app_id__endpoint__post).
 
 
 ## Closing words
 
-That's it! There are only three API calls you should really care about. Creating applications (i.e users), sending messages, and giving your users access to the admin UI.
+That's it! There are only three API calls you should really care about. Creating applications (i.e users), sending messages, and giving your users access to the admin UI. All of them are covered here.
