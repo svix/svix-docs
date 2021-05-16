@@ -58,9 +58,9 @@ const secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
 
 // These were all sent from the server
 const headers = {
-  "dh-id": "msg_p5jXN8AQM9LWM0D4loKWxJek",
-  "dh-timestamp": "1614265330",
-  "dh-signature": "v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE=",
+  "svix-id": "msg_p5jXN8AQM9LWM0D4loKWxJek",
+  "svix-timestamp": "1614265330",
+  "svix-signature": "v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE=",
 };
 const payload = '{"test": 2432232314}';
 
@@ -79,9 +79,9 @@ secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
 
 # These were all sent from the server
 headers = {
-  "dh-id": "msg_p5jXN8AQM9LWM0D4loKWxJek",
-  "dh-timestamp": "1614265330",
-  "dh-signature": "v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE=",
+  "svix-id": "msg_p5jXN8AQM9LWM0D4loKWxJek",
+  "svix-timestamp": "1614265330",
+  "svix-signature": "v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE=",
 }
 payload = '{"test": 2432232314}'
 
@@ -102,16 +102,16 @@ No easy way to verify the signature just with cURL.
 
 Each webhook call includes three headers with additional information that are used for verification:
 
-* `DH-Id`: the unique message identifier for the webhook message. This identifier is unique across all messages, but will be the same when the same webhook is being resent (e.g. due to a previous failure).
-* `DH-Timestamp`: timestamp in [seconds since epoch](https://en.wikipedia.org/wiki/Unix_time).
-* `DH-Signature`: the [Base64](https://en.wikipedia.org/wiki/Base64) encoded signature.
+* `Svix-Id`: the unique message identifier for the webhook message. This identifier is unique across all messages, but will be the same when the same webhook is being resent (e.g. due to a previous failure).
+* `Svix-Timestamp`: timestamp in [seconds since epoch](https://en.wikipedia.org/wiki/Unix_time).
+* `Svix-Signature`: the [Base64](https://en.wikipedia.org/wiki/Base64) encoded signature.
 
 ### Constructing the signed content
 
 The signature is composed by concatenating the following the id, timestamp and payload, separated by the full-stop character `.`. Which in code will look something like:
 
 ```javascript
-signed_content = "${dh_id}.${dh_timestamp}.${body}"
+signed_content = "${svix_id}.${svix_timestamp}.${body}"
 ```
 
 Where `body` is the raw body of the request. The signature is sensitive to any changes, so even a small change in the body will cause the signature to be completely different. This means that you should *not* change the body in any way before verifying.
@@ -120,13 +120,13 @@ Where `body` is the raw body of the request. The signature is sensitive to any c
 
 Diahook uses an [HMAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code) with [SHA-256](https://en.wikipedia.org/wiki/SHA-2) to sign its webhooks.
 
-So to calculate the expected signature, you should HMAC the `signed_content` from above using your secret webhook signature key. This generated signature should match the one sent in the `DH-Signature` header.
+So to calculate the expected signature, you should HMAC the `signed_content` from above using your secret webhook signature key. This generated signature should match the one sent in the `Svix-Signature` header.
 
 Please note that to compare the signatures it's recommended to use a constant-time string comparison method in order to prevent timing attacks.
 
 ### Verify timestamp
 
-As mentioned above, Diahook also sends the timestamp of the attempt in the `DH-Timestamp` header. You should compare this timestamp against your system timestamp and make sure it's within your tolerance in order to prevent timestamp attacks.
+As mentioned above, Diahook also sends the timestamp of the attempt in the `Svix-Timestamp` header. You should compare this timestamp against your system timestamp and make sure it's within your tolerance in order to prevent timestamp attacks.
 
 
 ## Building your own libraries
