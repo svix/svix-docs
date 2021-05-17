@@ -47,7 +47,10 @@ const app = await dh.application.create({name: "Application name"});
 <TabItem value="py">
 
 ```python
-# Will be added soon
+from diahook import Diahook, ApplicationIn
+
+dh = Diahook("AUTH_TOKEN")
+app = dh.application.create(ApplicationIn(name="Application name"))
 ```
 
 </TabItem>
@@ -96,7 +99,19 @@ await dh.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
 <TabItem value="py">
 
 ```python
-# Will be added soon
+dh = Diahook("AUTH_TOKEN")
+dh.message.create(
+    "app_Xzx8bQeOB1D1XEYmAJaRGoj0",
+    MessageIn(
+        event_type: "invoice.paid",
+        event_id: "evt_Wqb1k73rXprtTm7Qdlr38G",
+        data: {
+            "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql",
+            "status": "paid",
+            "attempt": 2
+        }
+    )
+)
 ```
 
 </TabItem>

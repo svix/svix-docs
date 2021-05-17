@@ -56,10 +56,10 @@ const app = await dh.application.create({name: "Application name"});
 <TabItem value="py">
 
 ```python
-from diahook import Diahook
+from diahook import Diahook, ApplicationIn
 
 dh = Diahook("AUTH_TOKEN)
-# FIXME: add the rest of the example
+app = dh.application.create(ApplicationIn(name="Application name")
 ```
 
 </TabItem>
