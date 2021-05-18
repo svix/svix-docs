@@ -150,6 +150,50 @@ More on that in the [management UI docs](management-ui).
 
 In addition to the management UI, you can also use our API to add endpoints to your applications. To do so, you will use the [create endpoint API](https://api.diahook.com/docs#/endpoint/create_endpoint_api_v1_app__app_id__endpoint__post).
 
+For example:
+
+<CodeTabs>
+<TabItem value="js">
+
+```js
+const dh = new Diahook("AUTH_TOKEN");
+await dh.endpoint.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
+    "url": "https://api.example.com/svix-webhooks/",
+    "version": 1,
+    "description": "My main endpoint",
+});
+```
+
+</TabItem>
+<TabItem value="py">
+
+```python
+dh = Diahook("AUTH_TOKEN")
+dh.endpoint.create(
+    "app_Xzx8bQeOB1D1XEYmAJaRGoj0",
+    EndpointIn(
+        url="https://api.example.com/svix-webhooks/",
+        version=1,
+        description="My main endpoint",
+    )
+)
+```
+
+</TabItem>
+<TabItem value="curl">
+
+```shell
+curl -X POST "https://api.diahook.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/endpoint/" \
+    -H  "Accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization: Bearer AUTH_TOKEN" \
+    -d '{"url": "https://api.example.com/svix-webhooks/", "version": 1, "description": "My main endpoint"}'
+```
+
+</TabItem>
+</CodeTabs>
+
+The version number is an integer signifying the current version of the API. You can set it to `1` if you haven't started versioning your API yet.
 
 ## Closing words
 
