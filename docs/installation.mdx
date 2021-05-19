@@ -6,7 +6,7 @@ import CodeTabs from '@theme/CodeTabs';
 import TabItem from '@theme/TabItem';
 
 
-When working with Diahook you can either use our [REST API](https://api.diahook.com/docs) directly, or using any of our libraries. In this document we'll cover how to install them for each platform.
+When working with Svix you can either use our [REST API](https://api.svix.com/docs) directly, or using any of our libraries. In this document we'll cover how to install them for each platform.
 
 
 ## Install the libraries
@@ -15,16 +15,16 @@ When working with Diahook you can either use our [REST API](https://api.diahook.
 <TabItem value="js">
 
 ```js
-npm install diahook
+npm install svix
 // Or
-yarn add diahook
+yarn add svix
 ```
 
 </TabItem>
 <TabItem value="py">
 
 ```sh
-pip install diahook
+pip install svix
 ```
 
 </TabItem>
@@ -46,9 +46,9 @@ Then you can just use them as follows
 <TabItem value="js">
 
 ```js
-import { Diahook } from "diahook";
+import { Svix } from "svix";
 
-const dh = new Diahook("AUTH_TOKEN");
+const dh = new Svix("AUTH_TOKEN");
 const app = await dh.application.create({name: "Application name"});
 ```
 
@@ -56,9 +56,9 @@ const app = await dh.application.create({name: "Application name"});
 <TabItem value="py">
 
 ```python
-from diahook import Diahook, ApplicationIn
+from svix import Svix, ApplicationIn
 
-dh = Diahook("AUTH_TOKEN)
+dh = Svix("AUTH_TOKEN)
 app = dh.application.create(ApplicationIn(name="Application name")
 ```
 

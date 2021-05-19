@@ -1,31 +1,30 @@
 module.exports = {
-  title: 'Diahook Docs',
+  title: 'Svix Docs',
   tagline: 'Webhooks as a service',
-  url: 'https://www.diahook.com',
+  url: 'https://www.svix.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   themeConfig: {
     navbar: {
-      title: 'Diahook',
       logo: {
-        alt: 'Diahook logo',
-        src: 'img/logo.svg',
+        alt: 'Svix logo',
+        src: 'img/brand.svg',
       },
       items: [
         {
-          to: 'https://www.diahook.com',
+          to: 'https://www.svix.com',
           label: 'Website',
           position: 'left',
         },
         {
-          to: 'https://api.diahook.com/docs',
+          to: 'https://api.svix.com/docs',
           label: 'API Specifications',
           position: 'left',
         },
         {
-          to: 'mailto:contact@diahook.com',
+          to: 'mailto:contact@svix.com',
           label: 'Contact Us',
           position: 'left',
         },
@@ -33,7 +32,7 @@ module.exports = {
     },
     footer: {
       style: 'dark',
-      copyright: `Copyright © Diahook`,
+      copyright: `Copyright © Svix`,
     },
   },
   presets: [

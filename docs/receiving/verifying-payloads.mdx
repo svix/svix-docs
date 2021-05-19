@@ -8,11 +8,11 @@ import TabItem from '@theme/TabItem';
 
 Because of the way webhooks work, anyone can impersonate your service by sending a webhook to your endpoint. Think about it: it's just an HTTP POST from an unknown source. This is a potential security hole for many applications, or at the very least, a source of problems.
 
-In order to prevent it, Diahook signs every webhook and its metadata with a unique key for each endpoint. This signature can then be used to verify the webhook indeed comes from Diahook, and only process it if it is.
+In order to prevent it, Svix signs every webhook and its metadata with a unique key for each endpoint. This signature can then be used to verify the webhook indeed comes from Svix, and only process it if it is.
 
 Another potential security hole is what's called replay attacks. A [replay attack](https://en.wikipedia.org/wiki/Replay_attack) is when an attacker intercepts a valid payload (including the signature), and re-transmits it to your endpoint. This payload will pass signature validation, and will therefore be acted upon.
 
-To mitigate this attack, Diahook includes a timestamp for when the webhook attempt occurred. Our libraries automatically reject webhooks with a timestamp that are more than five minutes away (past or future) from the current time. This requires your server's clock to be synchronised and accurate, and it's recommended that you use [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) to achieve this.
+To mitigate this attack, Svix includes a timestamp for when the webhook attempt occurred. Our libraries automatically reject webhooks with a timestamp that are more than five minutes away (past or future) from the current time. This requires your server's clock to be synchronised and accurate, and it's recommended that you use [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) to achieve this.
 
 
 ## Verifying signatures using our official libraries
@@ -23,16 +23,16 @@ First install the libraries if you haven't already:
 <TabItem value="js">
 
 ```js
-npm install diahook
+npm install svix
 // Or
-yarn add diahook
+yarn add svix
 ```
 
 </TabItem>
 <TabItem value="py">
 
 ```sh
-pip install diahook
+pip install svix
 ```
 
 </TabItem>
@@ -52,7 +52,7 @@ Then verify webhooks using the following:
 <TabItem value="js">
 
 ```js
-import { Webhook } from "diahook";
+import { Webhook } from "svix";
 
 const secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
 
@@ -73,7 +73,7 @@ const payload = wh.verify(payload, headers);
 <TabItem value="py">
 
 ```python
-from diahook import Webhook
+from svix import Webhook
 
 secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
 
@@ -118,7 +118,7 @@ Where `body` is the raw body of the request. The signature is sensitive to any c
 
 ### Determining the expected signature
 
-Diahook uses an [HMAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code) with [SHA-256](https://en.wikipedia.org/wiki/SHA-2) to sign its webhooks.
+Svix uses an [HMAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code) with [SHA-256](https://en.wikipedia.org/wiki/SHA-2) to sign its webhooks.
 
 So to calculate the expected signature, you should HMAC the `signed_content` from above using your secret webhook signature key. This generated signature should match the one sent in the `Svix-Signature` header.
 
@@ -126,11 +126,11 @@ Please note that to compare the signatures it's recommended to use a constant-ti
 
 ### Verify timestamp
 
-As mentioned above, Diahook also sends the timestamp of the attempt in the `Svix-Timestamp` header. You should compare this timestamp against your system timestamp and make sure it's within your tolerance in order to prevent timestamp attacks.
+As mentioned above, Svix also sends the timestamp of the attempt in the `Svix-Timestamp` header. You should compare this timestamp against your system timestamp and make sure it's within your tolerance in order to prevent timestamp attacks.
 
 
 ## Building your own libraries
 
 Depending on your product you may want to offer additional processing before passing the verified payload for your customers. For example, you may want to create API objects from the payload that your users can use to interact with your API.
 
-In this scenario you would want to create your own `Webhook` class equivalent that uses the `Diahook` class internally. This way you can get all of the verification that Diahook offer, while still being able to post-process the payload before passing it to your users.
+In this scenario you would want to create your own `Webhook` class equivalent that uses the `Svix` class internally. This way you can get all of the verification that Svix offer, while still being able to post-process the payload before passing it to your users.

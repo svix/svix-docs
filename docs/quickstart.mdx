@@ -7,12 +7,12 @@ import TabItem from '@theme/TabItem';
 
 
 
-This page has everything you need to start sending webhooks with Diahook.
+This page has everything you need to start sending webhooks with Svix.
 
 
 ### Main concepts
 
-In Diahook you have three important entities you will be interacting with:
+In Svix you have three important entities you will be interacting with:
 
 - `messages`: these are the webhooks being sent. They can have contents and a few other properties.
 - `application`: this is where `messages` are sent to. Usually you want to create one application for each of your users.
@@ -21,13 +21,13 @@ In Diahook you have three important entities you will be interacting with:
 
 ## Getting started
 
-Get your authentication token (`AuthToken`) from the [Diahook dashboard](https://dashboard.diahook.com).
+Get your authentication token (`AuthToken`) from the [Svix dashboard](https://dashboard.svix.com).
 
 ## Sending messages
 
 ### Creating an application
 
-Each of your users needs an associated application. The easiest way is to create a new application whenever a user signs up. In this section we will use the [create application API endpoint](https://api.diahook.com/docs#/application/create_application_api_v1_app__post) to create an application.
+Each of your users needs an associated application. The easiest way is to create a new application whenever a user signs up. In this section we will use the [create application API endpoint](https://api.svix.com/docs#/application/create_application_api_v1_app__post) to create an application.
 
 You would need the application's ID when sending messages. You can either save the ID returned when creating the application, or set your own unique id (e.g. your user's username or internal database id) in the optional `uid` field and use that intsead.
 
@@ -37,9 +37,9 @@ Code example:
 <TabItem value="js">
 
 ```js
-import { Diahook } from "diahook";
+import { Svix } from "svix";
 
-const dh = new Diahook("AUTH_TOKEN");
+const dh = new Svix("AUTH_TOKEN");
 const app = await dh.application.create({name: "Application name"});
 ```
 
@@ -47,9 +47,9 @@ const app = await dh.application.create({name: "Application name"});
 <TabItem value="py">
 
 ```python
-from diahook import Diahook, ApplicationIn
+from svix import Svix, ApplicationIn
 
-dh = Diahook("AUTH_TOKEN")
+dh = Svix("AUTH_TOKEN")
 app = dh.application.create(ApplicationIn(name="Application name"))
 ```
 
@@ -57,7 +57,7 @@ app = dh.application.create(ApplicationIn(name="Application name"))
 <TabItem value="curl">
 
 ```shell
-curl -X POST "https://api.diahook.com/api/v1/app/" \
+curl -X POST "https://api.svix.com/api/v1/app/" \
     -H  "Accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: Bearer AUTH_TOKEN" \
@@ -70,7 +70,7 @@ curl -X POST "https://api.diahook.com/api/v1/app/" \
 
 ### Send a message
 
-We will now send a new message using the [create message API endpoint](https://api.diahook.com/docs#/message/create_message_api_v1_app__app_id__msg__post). It accepts an `app_id`, which is the application's ID (or custom `uid`) from the previous section. In addition, it accepts the following fields (as part the json body):
+We will now send a new message using the [create message API endpoint](https://api.svix.com/docs#/message/create_message_api_v1_app__app_id__msg__post). It accepts an `app_id`, which is the application's ID (or custom `uid`) from the previous section. In addition, it accepts the following fields (as part the json body):
 
 - `eventType`: an identifier denoting the type of the event. E.g. `invoice.paid`.
 - `eventId`: an optional unique ID for the event. This is useful if you want to map each message to unique events on your system. This is also used as an idempotency key.
@@ -83,7 +83,7 @@ For example:
 <TabItem value="js">
 
 ```js
-const dh = new Diahook("AUTH_TOKEN");
+const dh = new Svix("AUTH_TOKEN");
 await dh.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
     "eventType": "invoice.paid",
     "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G",
@@ -99,7 +99,7 @@ await dh.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
 <TabItem value="py">
 
 ```python
-dh = Diahook("AUTH_TOKEN")
+dh = Svix("AUTH_TOKEN")
 dh.message.create(
     "app_Xzx8bQeOB1D1XEYmAJaRGoj0",
     MessageIn(
@@ -118,7 +118,7 @@ dh.message.create(
 <TabItem value="curl">
 
 ```shell
-curl -X POST "https://api.diahook.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/msg/" \
+curl -X POST "https://api.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/msg/" \
     -H  "Accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: Bearer AUTH_TOKEN" \
@@ -142,13 +142,13 @@ In the example above we showed how to send messages, though these messages were 
 
 ### Using the management UI
 
-Diahook offers a pre-build management UI. With [one API call](https://api.diahook.com/docs#/authentication/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post), you can give your users access to this UI and they can then add their own endpoints themselves.
+Svix offers a pre-build management UI. With [one API call](https://api.svix.com/docs#/authentication/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post), you can give your users access to this UI and they can then add their own endpoints themselves.
 
 More on that in the [management UI docs](management-ui).
 
 ### Using the API
 
-In addition to the management UI, you can also use our API to add endpoints to your applications. To do so, you will use the [create endpoint API](https://api.diahook.com/docs#/endpoint/create_endpoint_api_v1_app__app_id__endpoint__post).
+In addition to the management UI, you can also use our API to add endpoints to your applications. To do so, you will use the [create endpoint API](https://api.svix.com/docs#/endpoint/create_endpoint_api_v1_app__app_id__endpoint__post).
 
 For example:
 
@@ -156,7 +156,7 @@ For example:
 <TabItem value="js">
 
 ```js
-const dh = new Diahook("AUTH_TOKEN");
+const dh = new Svix("AUTH_TOKEN");
 await dh.endpoint.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
     "url": "https://api.example.com/svix-webhooks/",
     "version": 1,
@@ -168,7 +168,7 @@ await dh.endpoint.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
 <TabItem value="py">
 
 ```python
-dh = Diahook("AUTH_TOKEN")
+dh = Svix("AUTH_TOKEN")
 dh.endpoint.create(
     "app_Xzx8bQeOB1D1XEYmAJaRGoj0",
     EndpointIn(
@@ -183,7 +183,7 @@ dh.endpoint.create(
 <TabItem value="curl">
 
 ```shell
-curl -X POST "https://api.diahook.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/endpoint/" \
+curl -X POST "https://api.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/endpoint/" \
     -H  "Accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: Bearer AUTH_TOKEN" \
