@@ -6,7 +6,7 @@ import CodeTabs from '@theme/CodeTabs';
 import TabItem from '@theme/TabItem';
 
 
-Because of the way webhooks works, anyone can impersonate your service by sending a webhook to your endpoint. Think about it, it's just an HTTP POST from an unknown source. This is a potential security hole for many applications, or at the very least, a source of problems.
+Because of the way webhooks work, anyone can impersonate your service by sending a webhook to your endpoint. Think about it: it's just an HTTP POST from an unknown source. This is a potential security hole for many applications, or at the very least, a source of problems.
 
 In order to prevent it, Diahook signs every webhook and its metadata with a unique key for each endpoint. This signature can then be used to verify the webhook indeed comes from Diahook, and only process it if it is.
 
