@@ -1,7 +1,7 @@
-SSH_HOST=docs.diahook.com
+SSH_HOST=docs.svix.com
 SSH_PORT=22
 SSH_USER=tom
-SSH_TARGET_DIR=sites/docs.diahook.com
+SSH_TARGET_DIR=sites/docs.svix.com
 
 OUTPUTDIR=./build
 
