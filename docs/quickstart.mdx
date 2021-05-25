@@ -39,8 +39,8 @@ Code example:
 ```js
 import { Svix } from "svix";
 
-const dh = new Svix("AUTH_TOKEN");
-const app = await dh.application.create({name: "Application name"});
+const svix = new Svix("AUTH_TOKEN");
+const app = await svix.application.create({name: "Application name"});
 ```
 
 </TabItem>
@@ -49,8 +49,8 @@ const app = await dh.application.create({name: "Application name"});
 ```python
 from svix import Svix, ApplicationIn
 
-dh = Svix("AUTH_TOKEN")
-app = dh.application.create(ApplicationIn(name="Application name"))
+svix = Svix("AUTH_TOKEN")
+app = svix.application.create(ApplicationIn(name="Application name"))
 ```
 
 </TabItem>
@@ -83,8 +83,8 @@ For example:
 <TabItem value="js">
 
 ```js
-const dh = new Svix("AUTH_TOKEN");
-await dh.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
+const svix = new Svix("AUTH_TOKEN");
+await svix.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
     "eventType": "invoice.paid",
     "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G",
     "data": {
@@ -99,8 +99,8 @@ await dh.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
 <TabItem value="py">
 
 ```python
-dh = Svix("AUTH_TOKEN")
-dh.message.create(
+svix = Svix("AUTH_TOKEN")
+svix.message.create(
     "app_Xzx8bQeOB1D1XEYmAJaRGoj0",
     MessageIn(
         event_type: "invoice.paid",
@@ -156,8 +156,8 @@ For example:
 <TabItem value="js">
 
 ```js
-const dh = new Svix("AUTH_TOKEN");
-await dh.endpoint.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
+const svix = new Svix("AUTH_TOKEN");
+await svix.endpoint.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
     "url": "https://api.example.com/svix-webhooks/",
     "version": 1,
     "description": "My main endpoint",
@@ -168,8 +168,8 @@ await dh.endpoint.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
 <TabItem value="py">
 
 ```python
-dh = Svix("AUTH_TOKEN")
-dh.endpoint.create(
+svix = Svix("AUTH_TOKEN")
+svix.endpoint.create(
     "app_Xzx8bQeOB1D1XEYmAJaRGoj0",
     EndpointIn(
         url="https://api.example.com/svix-webhooks/",

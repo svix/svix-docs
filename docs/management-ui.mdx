@@ -20,8 +20,8 @@ To give your users access to the admin UI, just use the [dashboard access endpoi
 <TabItem value="js">
 
 ```js
-const dh = new Svix("AUTH_TOKEN");
-const dashboard = await dh.authentication.dashboardAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0");
+const svix = new Svix("AUTH_TOKEN");
+const dashboard = await svix.authentication.dashboardAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0");
 // A URL that automatically logs user into the dashboard
 console.log(dashboard.url);
 ```
@@ -30,8 +30,8 @@ console.log(dashboard.url);
 <TabItem value="py">
 
 ```python
-dh = Svix("AUTH_TOKEN")
-dashboard = dh.authentication.dashboardAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0")
+svix = Svix("AUTH_TOKEN")
+dashboard = svix.authentication.dashboardAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0")
 # A URL that automatically logs user into the dashboard
 print(dashboard.url)
 ```

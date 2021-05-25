@@ -48,8 +48,8 @@ Then you can just use them as follows
 ```js
 import { Svix } from "svix";
 
-const dh = new Svix("AUTH_TOKEN");
-const app = await dh.application.create({name: "Application name"});
+const svix = new Svix("AUTH_TOKEN");
+const app = await svix.application.create({name: "Application name"});
 ```
 
 </TabItem>
@@ -58,8 +58,8 @@ const app = await dh.application.create({name: "Application name"});
 ```python
 from svix import Svix, ApplicationIn
 
-dh = Svix("AUTH_TOKEN)
-app = dh.application.create(ApplicationIn(name="Application name")
+svix = Svix("AUTH_TOKEN")
+app = svix.application.create(ApplicationIn(name="Application name")
 ```
 
 </TabItem>
