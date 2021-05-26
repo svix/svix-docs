@@ -37,6 +37,16 @@ print(dashboard.url)
 ```
 
 </TabItem>
+<TabItem value="go">
+
+```go
+svixClient := svix.New("AUTH_TOKEN", nil)
+dashboard, _ := svixClient.Authentication.DashboardAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0")
+// A URL that automatically logs user into the dashboard
+fmt.Println(dashboard.Url)
+```
+
+</TabItem>
 <TabItem value="curl">
 
 ```shell
