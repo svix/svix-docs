@@ -28,6 +28,13 @@ pip install svix
 ```
 
 </TabItem>
+<TabItem value="go">
+
+```shell
+go get github.com/svixhq/svix-libs/go
+```
+
+</TabItem>
 <TabItem value="curl">
 
 ```shell
@@ -60,6 +67,20 @@ from svix import Svix, ApplicationIn
 
 svix = Svix("AUTH_TOKEN")
 app = svix.application.create(ApplicationIn(name="Application name")
+```
+
+</TabItem>
+<TabItem value="go">
+
+```go
+import (
+	svix "github.com/svixhq/svix-libs/go"
+)
+
+svixClient := svix.New("AUTH_TOKEN", nil)
+app, err := svixClient.Application.Create(&svix.ApplicationIn{
+    Name: "Application name",
+})}
 ```
 
 </TabItem>

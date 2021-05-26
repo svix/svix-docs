@@ -54,6 +54,20 @@ app = svix.application.create(ApplicationIn(name="Application name"))
 ```
 
 </TabItem>
+<TabItem value="go">
+
+```go
+import (
+	svix "github.com/svixhq/svix-libs/go"
+)
+
+svixClient := svix.New("AUTH_TOKEN", nil)
+app, err := svixClient.Application.Create(&svix.ApplicationIn{
+    Name: "Application name",
+})}
+```
+
+</TabItem>
 <TabItem value="curl">
 
 ```shell
@@ -112,6 +126,22 @@ svix.message.create(
         }
     )
 )
+```
+
+</TabItem>
+<TabItem value="go">
+
+```go
+svixClient := svix.New("AUTH_TOKEN", nil)
+svixClient.Message.Create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.MessageIn{
+    EventType: "invoice.paid",
+    EventId:   svix.String("evt_Wqb1k73rXprtTm7Qdlr38G"),
+    Data: map[string]interface{}{
+        "id":      "invoice_WF7WtCLFFtd8ubcTgboSFNql",
+        "status":  "paid",
+        "attempt": 2,
+    },
+})
 ```
 
 </TabItem>
@@ -177,6 +207,18 @@ svix.endpoint.create(
         description="My main endpoint",
     )
 )
+```
+
+</TabItem>
+<TabItem value="go">
+
+```go
+svixClient := svix.New("AUTH_TOKEN", nil)
+svixClient.Endpoint.Create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.EndpointIn{
+    Url:         "https://api.example.com/svix-webhooks/",
+    Version:     1,
+    Description: svix.String("My main endpoint"),
+})
 ```
 
 </TabItem>
