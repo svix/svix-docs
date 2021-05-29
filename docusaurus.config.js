@@ -24,8 +24,13 @@ module.exports = {
           position: 'left',
         },
         {
+          to: 'https://www.svix.com/slack/',
+          label: 'Slack',
+          position: 'left',
+        },
+        {
           to: 'mailto:contact@svix.com',
-          label: 'Contact Us',
+          label: 'Contact',
           position: 'left',
         },
       ],
@@ -42,6 +47,8 @@ module.exports = {
         docs: {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
+          editUrl:
+            'https://github.com/svixhq/svix-docs/edit/main/',
         },
         blog: {
           showReadingTime: true,
