@@ -88,7 +88,7 @@ We will now send a new message using the [create message API endpoint](https://a
 
 - `eventType`: an identifier denoting the type of the event. E.g. `invoice.paid`.
 - `eventId`: an optional unique ID for the event. This is useful if you want to map each message to unique events on your system. This is also used as an idempotency key.
-- `data`: a JSON dictionary that can hold anything. Its content will be sent as the webhook content.
+- `payload`: a JSON dictionary that can hold anything. Its content will be sent as the webhook content.
 
 
 For example:
@@ -101,7 +101,7 @@ const svix = new Svix("AUTH_TOKEN");
 await svix.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
     "eventType": "invoice.paid",
     "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G",
-    "data": {
+    "payload": {
         "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql",
         "status": "paid",
         "attempt": 2
@@ -119,7 +119,7 @@ svix.message.create(
     MessageIn(
         event_type: "invoice.paid",
         event_id: "evt_Wqb1k73rXprtTm7Qdlr38G",
-        data: {
+        payload: {
             "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql",
             "status": "paid",
             "attempt": 2
@@ -136,7 +136,7 @@ svixClient := svix.New("AUTH_TOKEN", nil)
 svixClient.Message.Create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.MessageIn{
     EventType: "invoice.paid",
     EventId:   svix.String("evt_Wqb1k73rXprtTm7Qdlr38G"),
-    Data: map[string]interface{}{
+    Payload: map[string]interface{}{
         "id":      "invoice_WF7WtCLFFtd8ubcTgboSFNql",
         "status":  "paid",
         "attempt": 2,
@@ -152,7 +152,7 @@ curl -X POST "https://api.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/msg/"
     -H  "Accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: Bearer AUTH_TOKEN" \
-    -d '{"eventType": "invoice.paid", "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G", "data": {"id": "invoice_WF7WtCLFFtd8ubcTgboSFNql", "status": "paid", "attempt": 2}}'
+    -d '{"eventType": "invoice.paid", "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G", "payload": {"id": "invoice_WF7WtCLFFtd8ubcTgboSFNql", "status": "paid", "attempt": 2}}'
 ```
 
 </TabItem>
