@@ -35,6 +35,13 @@ go get github.com/svixhq/svix-libs/go
 ```
 
 </TabItem>
+<TabItem value="cli">
+
+Improved installation steps coming soon.
+
+For the time being checkout the <a href="https://github.com/svixhq/svix-cli#installation">CLI docs</a> on Github.
+
+</TabItem>
 <TabItem value="curl">
 
 ```shell
@@ -81,6 +88,14 @@ svixClient := svix.New("AUTH_TOKEN", nil)
 app, err := svixClient.Application.Create(&svix.ApplicationIn{
     Name: "Application name",
 })}
+```
+
+</TabItem>
+<TabItem value="cli">
+
+```sh
+export SVIX_AUTH_TOKEN=AUTH_TOKEN
+svix application create '{ "name": "Application name" }'
 ```
 
 </TabItem>
