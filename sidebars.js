@@ -1,13 +1,26 @@
 module.exports = {
-  someSidebar: [
+  mainSidebar: [
     'introduction',
     {
       'Getting Started': ['overview', 'installation', 'quickstart'],
-      'Consuming Webhooks': [
-        'receiving/verifying-payloads',
-      ],
     },
+    'consuming-webhooks',
     'management-ui',
     'get-help',
+  ],
+  consumersSidebar: [
+    'receiving/introduction',
+    {
+      'Verifying Webhooks': ['receiving/verifying-payloads/why', 'receiving/verifying-payloads/how'],
+    },
+    {
+      type: 'ref',
+      id: 'introduction',
+      label: 'Sending Webhooks',
+    },
+    {
+      type: 'ref',
+      id: 'get-help',
+    },
   ],
 };

@@ -59,4 +59,17 @@ module.exports = {
       },
     ],
   ],
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {
+            to: '/receiving/verifying-payloads/why',
+            from: '/receiving/verifying-payloads',
+          },
+        ],
+      },
+    ],
+  ],
 };
