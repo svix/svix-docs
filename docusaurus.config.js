@@ -39,6 +39,9 @@ module.exports = {
       style: 'dark',
       copyright: `Copyright © Svix`,
     },
+    prism: {
+      additionalLanguages: ['ruby', 'php'],
+    },
   },
   presets: [
     [

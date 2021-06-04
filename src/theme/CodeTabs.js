@@ -2,7 +2,7 @@ import React from 'react';
 
 import Tabs from '@theme/Tabs';
 
-export default function CodeTabs({ children }) {
+export default function CodeTabs({ children, additionalTabs=[] }) {
     return (
         <Tabs
           defaultValue="js"
@@ -11,6 +11,7 @@ export default function CodeTabs({ children }) {
             { label: 'JavaScript', value: 'js', },
             { label: 'Python', value: 'py', },
             { label: 'Go', value: 'go', },
+            ...additionalTabs,
             { label: 'CLI', value: 'cli', },
             { label: 'cURL', value: 'curl', },
           ]
