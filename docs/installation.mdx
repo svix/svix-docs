@@ -35,6 +35,11 @@ go get github.com/svix/svix-libs/go
 ```
 
 </TabItem>
+<TabItem value="java">
+
+Installation steps coming soon.
+
+</TabItem>
 <TabItem value="cli">
 
 On macOS install via <a href="https://brew.sh/">Homebrew</a>:
@@ -97,6 +102,18 @@ svixClient := svix.New("AUTH_TOKEN", nil)
 app, err := svixClient.Application.Create(&svix.ApplicationIn{
     Name: "Application name",
 })}
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+import com.svix.generated.model.ApplicationIn;
+import com.svix.generated.model.ApplicationOut;
+import com.svix.Svix;
+
+Svix svix = new Svix("AUTH_TOKEN");
+ApplicationOut app = svix.getApplication().create(new ApplicationIn().name("Application name"));
 ```
 
 </TabItem>

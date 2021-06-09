@@ -68,6 +68,18 @@ app, err := svixClient.Application.Create(&svix.ApplicationIn{
 ```
 
 </TabItem>
+<TabItem value="java">
+
+```java
+import com.svix.generated.model.ApplicationIn;
+import com.svix.generated.model.ApplicationOut;
+import com.svix.Svix;
+
+Svix svix = new Svix("AUTH_TOKEN");
+ApplicationOut app = svix.getApplication().create(new ApplicationIn().name("Application name"));
+```
+
+</TabItem>
 <TabItem value="cli">
 
 ```shell
@@ -149,6 +161,23 @@ svixClient.Message.Create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.MessageIn{
         "status":  "paid",
         "attempt": 2,
     },
+})
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+Svix svix = new Svix("AUTH_TOKEN");
+svix.getMessage().create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", 
+  new MessageIn()
+    .eventType("invoice.paid")
+    .eventId("evt_Wqb1k73rXprtTm7Qdlr38G")
+    .payload("{
+       \"id\": \"invoice_WF7WtCLFFtd8ubcTgboSFNql\",
+       \"status\":  \"paid\",
+       \"attempt\": 2
+      }"));
 })
 ```
 
@@ -235,6 +264,19 @@ svixClient.Endpoint.Create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.EndpointIn{
     Version:     1,
     Description: svix.String("My main endpoint"),
 })
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+Svix svix = new Svix("AUTH_TOKEN");
+svix.getEndpoint()
+    .create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", 
+            new EndpointIn()
+              .url("https://api.example.com/svix-webhooks/")
+              .version(1)
+              .description("My main endpoint"));
 ```
 
 </TabItem>
