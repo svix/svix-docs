@@ -51,7 +51,7 @@ module.exports = {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
-            'https://github.com/svixhq/svix-docs/edit/main/',
+            'https://github.com/svix/svix-docs/edit/main/',
         },
         blog: {
           showReadingTime: true,
