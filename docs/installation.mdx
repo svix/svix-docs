@@ -31,7 +31,7 @@ pip install svix
 <TabItem value="go">
 
 ```shell
-go get github.com/svixhq/svix-libs/go
+go get github.com/svix/svix-libs/go
 ```
 
 </TabItem>
@@ -48,7 +48,7 @@ scoop bucket add svix https://github.com/svix/scoop-svix.git
 scoop install svix
 ```
 
-For other platforms, such as linux, checkout the <a href="https://github.com/svixhq/svix-cli#installation">CLI docs</a> on Github.
+For other platforms, such as linux, checkout the <a href="https://github.com/svix/svix-cli#installation">CLI docs</a> on Github.
 
 </TabItem>
 <TabItem value="curl">
@@ -90,7 +90,7 @@ app = svix.application.create(ApplicationIn(name="Application name")
 
 ```go
 import (
-	svix "github.com/svixhq/svix-libs/go"
+	svix "github.com/svix/svix-libs/go"
 )
 
 svixClient := svix.New("AUTH_TOKEN", nil)
