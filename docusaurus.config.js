@@ -25,7 +25,7 @@ module.exports = {
         },
         {
           to: 'https://www.svix.com/slack/',
-          label: 'Slack',
+          label: 'Community',
           position: 'left',
         },
         {
