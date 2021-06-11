@@ -1,0 +1,88 @@
+---
+title: Event Types
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import CodeTabs from '@theme/CodeTabs';
+import TabItem from '@theme/TabItem';
+
+
+Each message sent through Svix has an associated event type.
+Event types are identifiers denoting the type of the message being sent.
+
+Event types are just string, and can be anything. For example: `user.signup`, `invoice.paid` and `workflow.completed`.
+
+Event types are primarily used to decide which events are sent to which endpoint. By default, all messages are sent to all endpoints. Though when adding or editing endpoints, users can choose to only subscribe to some of the event types for this particular endpoint.
+
+This is how it looks like in the [pre-built management UI](management-ui.mdx):
+
+<img alt="Management UI screenshot" src={useBaseUrl("img/event-types-ui.png")} />
+
+
+## Using event types
+
+You can add, edit, and delete event types in [the dashboard](https://dashboard.svix.com) or through the API below.
+
+
+<CodeTabs>
+<TabItem value="js">
+
+```js
+import { Svix } from "svix";
+
+const svix = new Svix("AUTH_TOKEN");
+const eventType = await api.eventType.create({
+    name: "user.signup",
+    description: "A user has signed up"
+});
+```
+
+</TabItem>
+<TabItem value="py">
+
+```python
+from svix import Svix, EventTypeIn
+
+svix = Svix("AUTH_TOKEN")
+app = svix.application.create(EventTypeIn(
+    name="user.signup",
+    description="A user has signed up"
+))
+```
+
+</TabItem>
+<TabItem value="go">
+
+```go
+import (
+	svix "github.com/svix/svix-libs/go"
+)
+
+svixClient := svix.New("AUTH_TOKEN", nil)
+app, err := svixClient.EventType.Create(&svix.EventTypeIn{
+    Name: "user.signup",
+    Description: "A user has signed up",
+})}
+```
+
+</TabItem>
+<TabItem value="cli">
+
+```shell
+export SVIX_AUTH_TOKEN='AUTH_TOKEN'
+svix event-type create '{ "name": "user.signup", "description": "A user has signed up" }'
+```
+
+</TabItem>
+<TabItem value="curl">
+
+```shell
+curl -X POST "https://api.svix.com/api/v1/event-type/" \
+    -H  "Accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization: Bearer AUTH_TOKEN" \
+    -d '{ "name": "user.signup", "description": "A user has signed up" }'
+```
+
+</TabItem>
+</CodeTabs>

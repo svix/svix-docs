@@ -16,7 +16,7 @@ In Svix you have three important entities you will be interacting with:
 
 - `messages`: these are the webhooks being sent. They can have contents and a few other properties.
 - `application`: this is where `messages` are sent to. Usually you want to create one application for each of your users.
-- `endpoint`: endpoints are the URLs messages will be sent to. Each application can have multiple `endpoints` and each message sent to that application will be sent to all of them (unless they are not subscribed to the sent `eventType`).
+- `endpoint`: endpoints are the URLs messages will be sent to. Each application can have multiple `endpoints` and each message sent to that application will be sent to all of them (unless they are not subscribed to the sent [event type](event-types.mdx)).
 
 
 ## Getting started
@@ -94,7 +94,7 @@ curl -X POST "https://api.svix.com/api/v1/app/" \
 
 We will now send a new message using the [create message API endpoint](https://api.svix.com/docs#/message/create_message_api_v1_app__app_id__msg__post). It accepts an `app_id`, which is the application's ID (or custom `uid`) from the previous section. In addition, it accepts the following fields (as part the json body):
 
-- `eventType`: an identifier denoting the type of the event. E.g. `invoice.paid`.
+- [`eventType`](event-types.mdx): an identifier denoting the type of the event. E.g. `invoice.paid`.
 - `eventId`: an optional unique ID for the event. This is useful if you want to map each message to unique events on your system. This is also used as an idempotency key.
 - `payload`: a JSON dictionary that can hold anything. Its content will be sent as the webhook content.
 

@@ -2,10 +2,9 @@ module.exports = {
   mainSidebar: [
     'introduction',
     {
-      'Getting Started': ['overview', 'installation', 'quickstart'],
+      'Getting Started': ['overview', 'installation', 'quickstart', 'event-types', 'management-ui'],
     },
     'consuming-webhooks',
-    'management-ui',
     'get-help',
   ],
   consumersSidebar: [
