@@ -16,7 +16,7 @@ In Svix you have three important entities you will be interacting with:
 
 - `messages`: these are the webhooks being sent. They can have contents and a few other properties.
 - `application`: this is where `messages` are sent to. Usually you want to create one application for each of your users.
-- `endpoint`: endpoints are the URLs messages will be sent to. Each application can have multiple `endpoints` and each message sent to that application will be sent to all of them.
+- `endpoint`: endpoints are the URLs messages will be sent to. Each application can have multiple `endpoints` and each message sent to that application will be sent to all of them (unless they are not subscribed to the sent `eventType`).
 
 
 ## Getting started
