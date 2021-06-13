@@ -7,7 +7,7 @@ import TabItem from '@theme/TabItem';
 
 As shown in the [Why Verify section](./why), verifying incoming webhooks is very important. This section describes how to do it.
 
-## Verifying signatures using our official libraries
+## Verifying using our official libraries
 
 First install the libraries if you haven't already:
 
@@ -210,32 +210,113 @@ No easy way to verify the signature just with cURL.
 </TabItem>
 </CodeTabs>
 
-## Verifying signatures manually
 
-Each webhook call includes three headers with additional information that are used for verification:
+## Framework specific examples
 
-* `Svix-Id`: the unique message identifier for the webhook message. This identifier is unique across all messages, but will be the same when the same webhook is being resent (e.g. due to a previous failure).
-* `Svix-Timestamp`: timestamp in [seconds since epoch](https://en.wikipedia.org/wiki/Unix_time).
-* `Svix-Signature`: the [Base64](https://en.wikipedia.org/wiki/Base64) encoded signature.
+Here are examples on how to adjust the above examples to your favourite framework!
 
-### Constructing the signed content
+### Python (Django)
 
-The signature is composed by concatenating the following the id, timestamp and payload, separated by the full-stop character `.`. Which in code will look something like:
+```python
+from django.http import HttpResponse
 
-```javascript
-signed_content = "${svix_id}.${svix_timestamp}.${body}"
+from svix import Webhook, WebhookVerificationError
+
+secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
+
+@csrf_exempt
+def webhook_handler(request):
+    headers = request.META
+    payload = request.body
+
+    try:
+        wh = Webhook(secret)
+        msg = wh.verify(payload, headers)
+    except WebhookVerificationError as e:
+        return HttpResponse(status=400)
+
+    # Do someting with the message...
+
+    return HttpResponse(status=204)
 ```
 
-Where `body` is the raw body of the request. The signature is sensitive to any changes, so even a small change in the body will cause the signature to be completely different. This means that you should *not* change the body in any way before verifying.
+### Python (FastAPI)
 
-### Determining the expected signature
+```python
+from fastapi import Request, Response, status
 
-Svix uses an [HMAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code) with [SHA-256](https://en.wikipedia.org/wiki/SHA-2) to sign its webhooks.
+from svix import Webhook, WebhookVerificationError
 
-So to calculate the expected signature, you should HMAC the `signed_content` from above using your secret webhook signature key. This generated signature should match the one sent in the `Svix-Signature` header.
+secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
 
-Please note that to compare the signatures it's recommended to use a constant-time string comparison method in order to prevent timing attacks.
+@router.post("/webhook/", status_code=status.HTTP_204_NO_CONTENT)
+async def webhook_handler(request: Request, response: Response):
+    headers = request.headers
+    payload = await request.body()
 
-### Verify timestamp
+    try:
+        wh = Webhook(secret)
+        msg = wh.verify(payload, headers)
+    except WebhookVerificationError as e:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return
 
-As mentioned above, Svix also sends the timestamp of the attempt in the `Svix-Timestamp` header. You should compare this timestamp against your system timestamp and make sure it's within your tolerance in order to prevent timestamp attacks.
+    # Do someting with the message...
+```
+
+### Node.js (Next.js)
+
+```js
+import { Webhook } from "svix";
+import { buffer } from "micro";
+
+export const config = {
+    api: {
+        bodyParser: false,
+    },
+}
+
+const secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
+
+export default async function handler(req, res) {
+    const payload = (await buffer(req)).toString();
+    const headers = req.headers;
+
+    const wh = new Webhook(secret);
+    let msg;
+    try {
+        msg = wh.verify(payload, headers);
+    } catch (err) {
+        res.status(400).json({});
+    }
+
+    // Do something with the message...
+
+    res.json({});
+}
+```
+
+### Node.js (Express)
+
+```js
+import { Webhook } from "svix";
+import bodyParser from "body-parser";
+
+const secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
+
+app.post('/webhook', bodyParser.raw({type: 'application/json'}), (req, res) => {
+    const payload = req.body;
+    const headers = req.headers;
+
+    let msg;
+    try {
+        msg = wh.verify(payload, headers);
+    } catch (err) {
+        res.status(400).json({});
+    }
+
+    // Do something with the message...
+
+    res.json({});
+});
+```

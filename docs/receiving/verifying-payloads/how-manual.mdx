@@ -1,0 +1,40 @@
+---
+title: Verifying Manually
+---
+
+import CodeTabs from '@theme/CodeTabs';
+import TabItem from '@theme/TabItem';
+
+The recommended way to verify webhooks is using our official libraries as outlined in the [How to Verify](./how.mdx) section.
+
+However, here are instructions for verifying manually for those who need it.
+
+## Verifying signatures manually
+
+Each webhook call includes three headers with additional information that are used for verification:
+
+* `Svix-Id`: the unique message identifier for the webhook message. This identifier is unique across all messages, but will be the same when the same webhook is being resent (e.g. due to a previous failure).
+* `Svix-Timestamp`: timestamp in [seconds since epoch](https://en.wikipedia.org/wiki/Unix_time).
+* `Svix-Signature`: the [Base64](https://en.wikipedia.org/wiki/Base64) encoded signature.
+
+### Constructing the signed content
+
+The signature is composed by concatenating the following the id, timestamp and payload, separated by the full-stop character `.`. Which in code will look something like:
+
+```javascript
+signed_content = "${svix_id}.${svix_timestamp}.${body}"
+```
+
+Where `body` is the raw body of the request. The signature is sensitive to any changes, so even a small change in the body will cause the signature to be completely different. This means that you should *not* change the body in any way before verifying.
+
+### Determining the expected signature
+
+Svix uses an [HMAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code) with [SHA-256](https://en.wikipedia.org/wiki/SHA-2) to sign its webhooks.
+
+So to calculate the expected signature, you should HMAC the `signed_content` from above using your secret webhook signature key. This generated signature should match the one sent in the `Svix-Signature` header.
+
+Please note that to compare the signatures it's recommended to use a constant-time string comparison method in order to prevent timing attacks.
+
+### Verify timestamp
+
+As mentioned above, Svix also sends the timestamp of the attempt in the `Svix-Timestamp` header. You should compare this timestamp against your system timestamp and make sure it's within your tolerance in order to prevent timestamp attacks.
