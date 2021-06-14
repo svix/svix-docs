@@ -474,3 +474,30 @@ class WebhookController < ApplicationController
   end
 end
 ```
+
+### PHP (Laravel)
+
+In your `routes/api.php` file add the following after the last use directive:
+
+```php
+use Svix\Webhook;
+use Svix\Exception\WebhookVerificationException;
+
+Route::post('webhook', function(Request $request) {
+    $payload = $request->getContent();
+    $headers = collect($request->headers->all())->transform(function ($item) {
+        return $item[0];
+    });
+
+    try {
+        $wh = new Webhook("MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw");
+        $json = $wh->verify($payload, $headers);
+
+        # Do something with the message...
+
+        return response()->noContent();
+    } catch (WebhookVerificationException $e) {
+        return response(null, 400);
+    }
+});
+```
