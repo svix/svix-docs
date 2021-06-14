@@ -411,3 +411,66 @@ func main() {
 	r.Run()
 }
 ```
+
+### Ruby (Ruby on Rails)
+
+Once you've setup your project add a route to your `config/routes.rb` file at the top of the `Rails.application.routes.draw` block:
+
+```rb
+Rails.application.routes.draw do
+  post "/webhook", to: "webhook#index"
+
+  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+end
+```
+
+The route above declares that `POST /webhook` requests are mapped to the index action of `WebhookController`.
+
+To create `WebhookController` and its index action, we'll run the controller generator (with the `--skip-routes` option because we already have an appropriate route):
+
+```sh
+bin/rails generate controller Webhook index --skip-routes
+```
+
+Rails will create several files for you:
+
+```sh
+    create  app/controllers/webhook_controller.rb
+    invoke  erb
+    create    app/views/webhook
+    create    app/views/webhook/index.html.erb
+    invoke  test_unit
+    create    test/controllers/webhook_controller_test.rb
+    invoke  helper
+    create    app/helpers/webhook_helper.rb
+    invoke    test_unit
+    invoke  assets
+    invoke    scss
+    create      app/assets/stylesheets/webhook.scss
+```
+
+Now we can add our verification logic to the newly created `app/controllers/webhook_controller.rb` file:
+
+```rb
+require 'svix'
+
+class WebhookController < ApplicationController
+  protect_from_forgery with: :null_session # disables CSRF middleware; required for API endpoints
+
+  def index
+    begin
+      payload = request.body.read
+      headers = request.headers
+      wh = Svix::Webhook.new("MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw")
+
+      json = wh.verify(payload, headers)
+
+      # Do something with the message...
+
+      head :no_content
+    rescue
+      head :bad_request
+    end
+  end
+end
+```
