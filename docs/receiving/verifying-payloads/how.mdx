@@ -320,3 +320,94 @@ app.post('/webhook', bodyParser.raw({type: 'application/json'}), (req, res) => {
     res.json({});
 });
 ```
+
+### Go (Standard lib)
+
+```go
+package main
+
+import (
+	"io"
+	"log"
+	"net/http"
+
+	svix "github.com/svix/svix-libs/go"
+)
+
+const secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
+
+func main() {
+
+	wh, err := svix.NewWebhook(secret)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	http.HandleFunc("/webhook", func(w http.ResponseWriter, r *http.Request) {
+		headers := r.Header
+		payload, err := io.ReadAll(r.Body)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		err = wh.Verify(payload, headers)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		// Do something with the message...
+
+        w.WriteHeader(http.StatusNoContent)
+
+	})
+	http.ListenAndServe(":8080", nil)
+}
+```
+
+### Go (Gin)
+
+```go
+package main
+
+import (
+	"io"
+	"log"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+	svix "github.com/svix/svix-libs/go"
+)
+
+const secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
+
+func main() {
+
+	wh, err := svix.NewWebhook(secret)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	r := gin.Default()
+	r.POST("/webhook", func(c *gin.Context) {
+		headers := c.Request.Header
+		payload, err := io.ReadAll(c.Request.Body)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		err = wh.Verify(payload, headers)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		// Do something with the message...
+
+		c.JSON(200, gin.H{})
+	})
+	r.Run()
+}
+```
