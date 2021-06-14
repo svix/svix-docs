@@ -19,7 +19,7 @@ Each webhook call includes three headers with additional information that are us
 
 ### Constructing the signed content
 
-The signature is composed by concatenating the following the id, timestamp and payload, separated by the full-stop character `.`. Which in code will look something like:
+The signature is composed by concatenating the id, timestamp and payload, separated by the full-stop character (`.`). In code, it will look something like:
 
 ```javascript
 signed_content = "${svix_id}.${svix_timestamp}.${body}"
