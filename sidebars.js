@@ -10,7 +10,7 @@ module.exports = {
   consumersSidebar: [
     'receiving/introduction',
     {
-      'Verifying Webhooks': ['receiving/verifying-payloads/why', 'receiving/verifying-payloads/how'],
+      'Verifying Webhooks': ['receiving/verifying-payloads/why', 'receiving/verifying-payloads/how',  'receiving/verifying-payloads/how-manual'],
     },
     {
       type: 'ref',

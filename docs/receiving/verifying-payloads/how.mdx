@@ -7,7 +7,7 @@ import TabItem from '@theme/TabItem';
 
 As shown in the [Why Verify section](./why), verifying incoming webhooks is very important. This section describes how to do it.
 
-## Verifying signatures using our official libraries
+## Verifying using our official libraries
 
 First install the libraries if you haven't already:
 
@@ -210,32 +210,294 @@ No easy way to verify the signature just with cURL.
 </TabItem>
 </CodeTabs>
 
-## Verifying signatures manually
 
-Each webhook call includes three headers with additional information that are used for verification:
+## Framework specific examples
 
-* `Svix-Id`: the unique message identifier for the webhook message. This identifier is unique across all messages, but will be the same when the same webhook is being resent (e.g. due to a previous failure).
-* `Svix-Timestamp`: timestamp in [seconds since epoch](https://en.wikipedia.org/wiki/Unix_time).
-* `Svix-Signature`: the [Base64](https://en.wikipedia.org/wiki/Base64) encoded signature.
+Here are examples on how to adjust the above examples to your favourite framework!
 
-### Constructing the signed content
+### Python (Django)
 
-The signature is composed by concatenating the following the id, timestamp and payload, separated by the full-stop character `.`. Which in code will look something like:
+```python
+from django.http import HttpResponse
 
-```javascript
-signed_content = "${svix_id}.${svix_timestamp}.${body}"
+from svix import Webhook, WebhookVerificationError
+
+secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
+
+@csrf_exempt
+def webhook_handler(request):
+    headers = request.META
+    payload = request.body
+
+    try:
+        wh = Webhook(secret)
+        msg = wh.verify(payload, headers)
+    except WebhookVerificationError as e:
+        return HttpResponse(status=400)
+
+    # Do someting with the message...
+
+    return HttpResponse(status=204)
 ```
 
-Where `body` is the raw body of the request. The signature is sensitive to any changes, so even a small change in the body will cause the signature to be completely different. This means that you should *not* change the body in any way before verifying.
+### Python (FastAPI)
 
-### Determining the expected signature
+```python
+from fastapi import Request, Response, status
 
-Svix uses an [HMAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code) with [SHA-256](https://en.wikipedia.org/wiki/SHA-2) to sign its webhooks.
+from svix import Webhook, WebhookVerificationError
 
-So to calculate the expected signature, you should HMAC the `signed_content` from above using your secret webhook signature key. This generated signature should match the one sent in the `Svix-Signature` header.
+secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
 
-Please note that to compare the signatures it's recommended to use a constant-time string comparison method in order to prevent timing attacks.
+@router.post("/webhook/", status_code=status.HTTP_204_NO_CONTENT)
+async def webhook_handler(request: Request, response: Response):
+    headers = request.headers
+    payload = await request.body()
 
-### Verify timestamp
+    try:
+        wh = Webhook(secret)
+        msg = wh.verify(payload, headers)
+    except WebhookVerificationError as e:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return
 
-As mentioned above, Svix also sends the timestamp of the attempt in the `Svix-Timestamp` header. You should compare this timestamp against your system timestamp and make sure it's within your tolerance in order to prevent timestamp attacks.
+    # Do someting with the message...
+```
+
+### Node.js (Next.js)
+
+```js
+import { Webhook } from "svix";
+import { buffer } from "micro";
+
+export const config = {
+    api: {
+        bodyParser: false,
+    },
+}
+
+const secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
+
+export default async function handler(req, res) {
+    const payload = (await buffer(req)).toString();
+    const headers = req.headers;
+
+    const wh = new Webhook(secret);
+    let msg;
+    try {
+        msg = wh.verify(payload, headers);
+    } catch (err) {
+        res.status(400).json({});
+    }
+
+    // Do something with the message...
+
+    res.json({});
+}
+```
+
+### Node.js (Express)
+
+```js
+import { Webhook } from "svix";
+import bodyParser from "body-parser";
+
+const secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
+
+app.post('/webhook', bodyParser.raw({type: 'application/json'}), (req, res) => {
+    const payload = req.body;
+    const headers = req.headers;
+
+    let msg;
+    try {
+        msg = wh.verify(payload, headers);
+    } catch (err) {
+        res.status(400).json({});
+    }
+
+    // Do something with the message...
+
+    res.json({});
+});
+```
+
+### Go (Standard lib)
+
+```go
+package main
+
+import (
+	"io"
+	"log"
+	"net/http"
+
+	svix "github.com/svix/svix-libs/go"
+)
+
+const secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
+
+func main() {
+
+	wh, err := svix.NewWebhook(secret)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	http.HandleFunc("/webhook", func(w http.ResponseWriter, r *http.Request) {
+		headers := r.Header
+		payload, err := io.ReadAll(r.Body)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		err = wh.Verify(payload, headers)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		// Do something with the message...
+
+        w.WriteHeader(http.StatusNoContent)
+
+	})
+	http.ListenAndServe(":8080", nil)
+}
+```
+
+### Go (Gin)
+
+```go
+package main
+
+import (
+	"io"
+	"log"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+	svix "github.com/svix/svix-libs/go"
+)
+
+const secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
+
+func main() {
+
+	wh, err := svix.NewWebhook(secret)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	r := gin.Default()
+	r.POST("/webhook", func(c *gin.Context) {
+		headers := c.Request.Header
+		payload, err := io.ReadAll(c.Request.Body)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		err = wh.Verify(payload, headers)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		// Do something with the message...
+
+		c.JSON(200, gin.H{})
+	})
+	r.Run()
+}
+```
+
+### Ruby (Ruby on Rails)
+
+Once you've setup your project add a route to your `config/routes.rb` file at the top of the `Rails.application.routes.draw` block:
+
+```rb
+Rails.application.routes.draw do
+  post "/webhook", to: "webhook#index"
+
+  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+end
+```
+
+The route above declares that `POST /webhook` requests are mapped to the index action of `WebhookController`.
+
+To create `WebhookController` and its index action, we'll run the controller generator (with the `--skip-routes` option because we already have an appropriate route):
+
+```sh
+bin/rails generate controller Webhook index --skip-routes
+```
+
+Rails will create several files for you:
+
+```sh
+    create  app/controllers/webhook_controller.rb
+    invoke  erb
+    create    app/views/webhook
+    create    app/views/webhook/index.html.erb
+    invoke  test_unit
+    create    test/controllers/webhook_controller_test.rb
+    invoke  helper
+    create    app/helpers/webhook_helper.rb
+    invoke    test_unit
+    invoke  assets
+    invoke    scss
+    create      app/assets/stylesheets/webhook.scss
+```
+
+Now we can add our verification logic to the newly created `app/controllers/webhook_controller.rb` file:
+
+```rb
+require 'svix'
+
+class WebhookController < ApplicationController
+  protect_from_forgery with: :null_session # disables CSRF middleware; required for API endpoints
+
+  def index
+    begin
+      payload = request.body.read
+      headers = request.headers
+      wh = Svix::Webhook.new("MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw")
+
+      json = wh.verify(payload, headers)
+
+      # Do something with the message...
+
+      head :no_content
+    rescue
+      head :bad_request
+    end
+  end
+end
+```
+
+### PHP (Laravel)
+
+In your `routes/api.php` file add the following after the last use directive:
+
+```php
+use Svix\Webhook;
+use Svix\Exception\WebhookVerificationException;
+
+Route::post('webhook', function(Request $request) {
+    $payload = $request->getContent();
+    $headers = collect($request->headers->all())->transform(function ($item) {
+        return $item[0];
+    });
+
+    try {
+        $wh = new Webhook("MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw");
+        $json = $wh->verify($payload, $headers);
+
+        # Do something with the message...
+
+        return response()->noContent();
+    } catch (WebhookVerificationException $e) {
+        return response(null, 400);
+    }
+});
+```
