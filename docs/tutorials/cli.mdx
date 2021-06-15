@@ -159,21 +159,21 @@ For example, to automatically open the dashboard for the app we created in step 
 
 
 ```sh
-svix application list |  jq '.data[] | select(.name == "My Application").id' | xargs svix auth dashboard | jq '.url' | xargs open
+svix application get <MY-APP-ID> | jq '.id' | xargs svix auth dashboard | jq '.url' | xargs open
 ```
 
 With a slight modification, we can convert this one-liner to a shell function:
 
 ```zsh
 function dashboard {
-   svix application list | jq -r --arg NAME "$1" '.data[] | select(.name == $NAME).id' | xargs svix auth dashboard | jq '.url' | xargs open
+   svix application get "$1" | jq '.id' | xargs svix auth dashboard | jq '.url' | xargs open
 }
 ```
 
 Which you can run like so:
 
 ```zsh
-dashboard "My Application"
+dashboard <MY-APP-ID>
 ```
 
 ### Final note
