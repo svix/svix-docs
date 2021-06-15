@@ -123,10 +123,10 @@ svix application list --limit 100 # get the first 100 applications
 
 ### Add an endpoint
 
-Next lets add an endpoint to the application we created above.  The create command should have returned an Application ID.
+Next let's add an endpoint to the application we created above.  The create command should have returned an Application ID.
 Since the application name is not unique, will need its ID to make changes.
 
-Lets add a webhook endpoint with the url `http://example.com/webhook`. Every endpoint must have a version associated with it
+Let's add a webhook endpoint with the url `http://example.com/webhook`. Every endpoint must have a version associated with it
 to help you version your webhook API.  For this example we will set the version to `1`.
 
 ```sh
@@ -136,7 +136,7 @@ svix endpoint create <MY-APP-ID> --data-url http://example.com/webhook --data-ve
 ## Send a message
 
 Now that we have an application created and an endpoint configured to listen to messages from that app, we are ready to send our first
-webhook message! Lets send a `user.created` event with the users name and email.
+webhook message! Let's send a `user.created` event with the users name and email.
 
 ```sh
 svix message create <MY-APP-ID> --data-eventType "user.created" --data-payload "{\"username\":\"new_user\",\"email\":\"new_user@example.com\"}"
