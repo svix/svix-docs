@@ -11,15 +11,16 @@ With the Svix CLI you can:
  - Interact with our API
  - Validate Webhook payloads
  - Quickly open our docs
+ - And much more.
 
 In this tutorial, we will learn how to install, update, and use the Svix CLI.
 
-### 1) Install the Svix CLI
+### Install the Svix CLI
 
 <CLITabs>
 <TabItem value="homebrew">
 
-To install the Svix CLI with [Hombrew](https://homebrew.sh), run:
+To install the Svix CLI with [Homebrew](https://homebrew.sh), run:
 
 
 
@@ -76,7 +77,7 @@ To install the Svix CLI on Windows without Scoop:
 </TabItem>
 </CLITabs>
 
-### 2) Login to your Svix Account
+### Login to your Svix Account
 
 After installing the Svix CLI, you must pair it with your Svix account.
 
@@ -96,7 +97,7 @@ If you would prefer not to store your AUTH_TOKEN on disk you can temporarily set
  - On Windows via command prompt: `set SVIX_AUTH_TOKEN=<MY-AUTH-TOKEN>`
  - On Windows via PowerShell: `$env:SVIX_AUTH_TOKEN = '<MY-AUTH-TOKEN>'`
 
-### 3) Run your first command
+### Run your first command
 
 You’re now ready to use the Svix CLI. To get started let's create a new application:
 
@@ -106,12 +107,12 @@ svix application create --data-name "My Application"
 
 This command creates a new application on Svix and returns the raw application object as JSON.
 
-### 4) Upgrade the Svix CLI
+### Upgrade the Svix CLI
 
 <CLITabs>
 <TabItem value="homebrew">
 
-To upgrade the Svix CLI with [Hombrew](https://homebrew.sh), run:
+To upgrade the Svix CLI with [Homebrew](https://homebrew.sh), run:
 
 
 
@@ -165,7 +166,7 @@ To upgrade the Svix CLI on Windows without Scoop:
 </TabItem>
 </CLITabs>
 
-### 5) Get creative
+### Get creative
 
 The Svix CLI has commands to interact with every part of the Svix API.
 
@@ -197,7 +198,7 @@ Which you can run like so:
 dashboard "My Application"
 ```
 
-### 6) Final note
+### Final note
 
 You can find the source for the Svix CLI on our [Github](https://github.com/svix/svix-cli). If you find a bug or have an idea
 on how it can be improved; we encourage you to file an [issue](https://github.com/svix/svix-cli/issues/new) or open a

@@ -6,7 +6,7 @@ module.exports = {
     },
     'consuming-webhooks',
     {
-      'Tutorials': [ 'cli' ],
+      'Tutorials': [ 'tutorials/cli' ],
     },
     'get-help',
   ],
