@@ -97,7 +97,7 @@ If you prefer not to store your Auth Token on disk you can temporarily set it vi
  - On Windows via command prompt: `set SVIX_AUTH_TOKEN=<MY-AUTH-TOKEN>`
  - On Windows via PowerShell: `$env:SVIX_AUTH_TOKEN = '<MY-AUTH-TOKEN>'`
 
-### Run your first command
+### Create an application
 
 You’re now ready to use the Svix CLI. To get started let's create a new application:
 
@@ -106,6 +106,43 @@ svix application create --data-name "My Application"
 ```
 
 This command creates a new application on Svix and returns the raw application object as JSON.
+
+## List your applications
+
+Once you've created some applications you can list them with via the `list` command:
+
+```sh
+svix application list
+```
+
+The list command by default returns the first 50 applications, you can change this limit by adding the `--limit` flag
+
+```sh
+svix application list --limit 100 # get the first 100 applications
+```
+
+### Add an endpoint
+
+Next we can add an endpoint to the application we created above.  The create command should have returned an Application ID.
+Since the application name is not unique, will need its ID to make changes.
+
+Lets add a webhook endpoint with the url `http://example.com/webhook`. Every endpoint must have a version associated with it
+to help you version your webhook API.  For this example we will set the version to `1`.
+
+```sh
+svix endpoint create <MY-APP-ID> --data-url http://example.com/webhook --data-version 1
+```
+
+## Send a message
+
+Now that we have an application created and and enpoint configured to listen to messages from that app, we are ready to send our first
+webhook message! Lets send a `user.created` event with the users name and email.
+
+```sh
+svix message create <MY-APP-ID> --data-eventType "user.created" --data-payload "{\"username\":\"new_user\",\"email\":\"new_user@example.com\"}"
+```
+
+This message will now be sent to Svix and dispatched to all webhook endpoints listening to your application.
 
 ### Get creative
 
