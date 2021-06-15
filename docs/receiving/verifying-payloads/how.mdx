@@ -39,6 +39,11 @@ go get github.com/svix/svix-libs/go
 ```
 
 </TabItem>
+<TabItem value="java">
+
+Installation steps coming soon.
+
+</TabItem>
 <TabItem value="ruby">
 
 ```shell
@@ -150,6 +155,29 @@ payload := []byte(`{"test": 2432232314}`)
 wh, err := svix.NewWebhook(secret)
 err := wh.Verify(payload, headers)
 // returns nil on success, error otherwise
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+import com.svix.Webhook;
+
+String secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
+
+// These were all sent from the server
+HashMap<String, List<String>> headerMap = new HashMap<String, List<String>>();
+headerMap.put("svix-id", Arrays.asList("msg_p5jXN8AQM9LWM0D4loKWxJek"));
+headerMap.put("svix-timestamp", Arrays.asList("1614265330"));
+headerMap.put("svix-signature", Arrays.asList("v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE="));
+HttpHeaders headers = HttpHeaders.of(headerMap, BiPredicate<String, String>)
+
+String payload = "{\"test\": 2432232314}";
+
+Webhook webhook = new Webhook(secret);
+
+webhook.verify(payload, headers)
+// throws WebhookVerificationError exception on failure. 
 ```
 
 </TabItem>
