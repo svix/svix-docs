@@ -17,11 +17,11 @@ Each webhook call includes three headers with additional information that are us
 
 * `Svix-Id`: the unique message identifier for the webhook message. This identifier is unique across all messages, but will be the same when the same webhook is being resent (e.g. due to a previous failure).
 * `Svix-Timestamp`: timestamp in [seconds since epoch](https://en.wikipedia.org/wiki/Unix_time).
-* `Svix-Signature`: the [Base64](https://en.wikipedia.org/wiki/Base64) encoded signature.
+* `Svix-Signature`: the [Base64](https://en.wikipedia.org/wiki/Base64) encoded list of signatures (space delimited).
 
 ### Constructing the signed content
 
-The signature is composed by concatenating the id, timestamp and payload, separated by the full-stop character (`.`). In code, it will look something like:
+The content to sign is composed by concatenating the id, timestamp and payload, separated by the full-stop character (`.`). In code, it will look something like:
 
 ```javascript
 signed_content = "${svix_id}.${svix_timestamp}.${body}"
@@ -33,7 +33,15 @@ Where `body` is the raw body of the request. The signature is sensitive to any c
 
 Svix uses an [HMAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code) with [SHA-256](https://en.wikipedia.org/wiki/SHA-2) to sign its webhooks.
 
-So to calculate the expected signature, you should HMAC the `signed_content` from above using your secret webhook signature key. This generated signature should match the one sent in the `Svix-Signature` header.
+So to calculate the expected signature, you should HMAC the `signed_content` from above using your secret webhook signature key. This generated signature should match one of the ones sent in the `Svix-Signature` header.
+
+The `Svix-Signature` header is composed of a list of space delimited signatures and their corresponding version identifiers. The signature list is most commonly of length one. Though there could be any number of signatures. For example:
+
+```
+v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE= v1,bm9ldHUjKzFob2VudXRob2VodWUzMjRvdWVvdW9ldQo= v2,MzJsNDk4MzI0K2VvdSMjMTEjQEBAQDEyMzMzMzEyMwo=
+```
+
+Make sure to remove the version prefix and delimiter (e.g. `v1,`) before verifying the signature.
 
 Please note that to compare the signatures it's recommended to use a constant-time string comparison method in order to prevent timing attacks.
 
