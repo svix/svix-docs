@@ -75,3 +75,28 @@ curl -X POST "https://api.svix.com/api/v1/auth/dashboard_access/app_Xzx8bQeOB1D1
 
 </TabItem>
 </CodeTabs>
+
+
+## Embedding in your own dashboard
+
+The returned URL from the previous section can also be embedded in your own dashboard using an iframe.
+
+<img alt="Embedded Management UI screenshot" src={useBaseUrl("img/embedded-management-ui.png")} />
+
+To add this to your application, just pass the URL you received in the previous example to the `src` property of the iframe:
+
+```html
+<iframe
+    src="http://localhost:3000/login#key=eyJhcHBJZCI6ICJhcHBfMXRSdFlMN3pwWWR2NHFuWTRRZFI1azE4eXQ0IiwgInRva2VuIjogImFwcHNrX2UxOUN0Rm5hbTFoOU1Gamh5azRSMTUzNUNSd05VSWI0In0="
+    style="width: 100%; height: 100%; border: none;"
+>
+</iframe>
+```
+
+We have also included some basic styling to make the iframe to look nicer, though that can be omitted or modified depending on your needs.
+
+## White labeling
+
+Keep the same look and feel of your application by white labeling the Management UI. From the [Svix dashboard](https://dashboard.svix.com/settings), you can configure the color palette as well as the logo that your users will see.
+
+To customize these settings, please head to your [Organization Settings](https://dashboard.svix.com/settings) on the Svix Dashboard.
