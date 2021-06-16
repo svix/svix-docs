@@ -11,6 +11,7 @@ export default function CodeTabs({ children, additionalTabs=[] }) {
             { label: 'JavaScript', value: 'js', },
             { label: 'Python', value: 'py', },
             { label: 'Go', value: 'go', },
+            { label: 'Java', value: 'java', },
             ...additionalTabs,
             { label: 'CLI', value: 'cli', },
             { label: 'cURL', value: 'curl', },
