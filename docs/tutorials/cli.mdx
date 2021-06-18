@@ -1,0 +1,185 @@
+---
+title: Getting Started with the CLI
+---
+
+import CLITabs from '@theme/CLITabs';
+import TabItem from '@theme/TabItem';
+
+The [Svix CLI](https://github.com/svix/svix-cli) is one of the fastest ways to interact with our API, which is especially useful during development.
+
+With the Svix CLI you can interact with our API, validate webhook payloads, quickly open our docs, and much more.
+
+In this tutorial, we will learn how to install the Svix CLI and use it to send your first webhook message!
+
+:::info
+This tutorial assumes you have already familiar with the Svix service. If this is your first time using Svix,
+we recommend you first check out our [quickstart documentaion](https://docs.svix.com/overview).
+:::
+
+## Install the Svix CLI
+
+<CLITabs>
+<TabItem value="homebrew">
+
+To install the Svix CLI with [Homebrew](https://homebrew.sh), run:
+
+
+
+```sh
+brew install svix/svix/svix
+```
+</TabItem>
+<TabItem value="scoop">
+
+To install the Svix CLI with [Scoop](https://scoop.sh/), run:
+
+
+```sh
+scoop bucket add svix https://github.com/svix/scoop-svix.git
+```
+
+```sh
+scoop install svix
+```
+
+</TabItem>
+<TabItem value="macos">
+
+To install the Svix CLI on macOS without Homebrew:
+
+1. Download the latest Darwin tar.gz file from <https://github.com/svix/svix-cli/releases/latest>
+
+2. Extract the file: `tar -xvf svix_X.X.X_Darwin_x86_64.tar.gz`
+
+2. Optionally, install the binary in a location where you can execute it globally (e.g., /usr/local/bin).
+
+</TabItem>
+<TabItem value="linux">
+
+To install the Svix CLI on Linux without a package manager:
+
+1. Download the latest Linux tar.gz file from <https://github.com/svix/svix-cli/releases/latest>
+
+2. Extract the file: `tar -xvf svix_X.X.X_Linux_x86_64.tar.gz`
+
+3. Run the executable: `./svix`
+
+</TabItem>
+<TabItem value="windows">
+
+To install the Svix CLI on Windows without Scoop:
+
+1. Download the latest Windows tar.gz file from <https://github.com/svix/svix-cli/releases/latest>
+
+2. Extract the `svix_X.X.X_Windows_x86_64.tar.gz` file.
+
+3. Run the `.exe` file
+
+</TabItem>
+</CLITabs>
+
+## Authenticate with your Svix account
+
+After installing the Svix CLI, you must authenticate with your Svix account before you can start running commands.
+
+To do so, simply set your Svix Auth Token to the `SVIX_AUTH_TOKEN` env variable:
+
+ - On macOS and Linux: `export SVIX_AUTH_TOKEN=<MY-AUTH-TOKEN>`
+ - On Windows via command prompt: `set SVIX_AUTH_TOKEN=<MY-AUTH-TOKEN>`
+ - On Windows via PowerShell: `$env:SVIX_AUTH_TOKEN = '<MY-AUTH-TOKEN>'`
+
+## Create an application
+
+You’re now ready to use the Svix CLI. To get started let's create a new application.
+
+Each Svix CLI command accepts raw JSON input as either the first positional argument or piped via `stdin`.
+
+We can create an application with the `application create` command:
+
+```sh
+svix application create '{"name": "My Application"}'
+```
+
+API commands also include convenience flags for common values to make it easier when hand crafting commands.
+For example, the same application could have been created using the `--data-name` flag: 
+
+```sh
+svix application create --data-name "My Application"
+```
+
+This command creates a new application on Svix and returns the raw application object as JSON.
+
+## List your applications
+
+Now that we've created an app we can list our existing apps with the following command:
+
+```sh
+svix application list
+```
+
+The list command by default returns the first 50 applications, you can change this limit by adding the `--limit` flag
+
+```sh
+# Get the first 100 applications
+svix application list --limit 100
+```
+
+## Add an endpoint
+
+Next let's add an endpoint to the application we created above.  The create command should have returned an Application ID.
+Since the application name is not unique, we will need its ID to make changes.
+
+Let's add a webhook endpoint with the url `http://example.com/webhook`. Every endpoint must have a version associated with it
+to help you version your webhook API.  For this example we will set the version to `1`.
+
+```sh
+svix endpoint create <MY-APP-ID> \
+    --data-url http://example.com/webhook \
+    --data-version 1
+```
+
+## Send a message
+
+Now that we have an application created and an endpoint configured to listen to messages from that app, we are ready to send our first
+webhook message! Let's send a `user.created` event with the user's username and email.
+
+```sh
+svix message create <MY-APP-ID> \
+    --data-eventType "user.created" \
+    --data-payload '{
+	    "username": "new_user",
+	    "email": "new_user@example.com"
+	}'
+```
+
+This message will now be sent to Svix and dispatched to all webhook endpoints listening to your application.
+
+## Get creative
+
+The Svix CLI has commands to interact with every part of the Svix API.
+
+To get a complete list of commands, run `svix --help`.
+
+Since each command accepts raw JSON input piped over `stdin`, you can chain Svix CLI commands together with other command line tools (like the popular JSON parser
+[jq](https://stedolan.github.io/jq/)) to create powerful snippets to improve your workflow.
+
+For example, to automatically open the dashboard for the app we created in step 3, on macOS you can run the following command:
+
+
+```sh
+svix application get <MY-APP-ID> | jq '.id' | xargs svix auth dashboard | jq '.url' | xargs open
+```
+
+With a slight modification, we can convert this one-liner to a shell function:
+
+```zsh
+function dashboard {
+   svix application get "$1" | jq '.id' | xargs svix auth dashboard | jq '.url' | xargs open
+}
+```
+
+Which you can run like so:
+
+```zsh
+dashboard <MY-APP-ID>
+```

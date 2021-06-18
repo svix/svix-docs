@@ -5,6 +5,9 @@ module.exports = {
       'Getting Started': ['overview', 'installation', 'quickstart', 'event-types', 'management-ui'],
     },
     'consuming-webhooks',
+    {
+      'Tutorials': [ 'tutorials/cli' ],
+    },
     'get-help',
   ],
   consumersSidebar: [
