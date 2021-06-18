@@ -126,7 +126,9 @@ Let's add a webhook endpoint with the url `http://example.com/webhook`. Every en
 to help you version your webhook API.  For this example we will set the version to `1`.
 
 ```sh
-svix endpoint create <MY-APP-ID> --data-url http://example.com/webhook --data-version 1
+svix endpoint create <MY-APP-ID> \
+    --data-url http://example.com/webhook \
+    --data-version 1
 ```
 
 ## Send a message
