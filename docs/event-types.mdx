@@ -70,7 +70,18 @@ app, err := svixClient.EventType.Create(&svix.EventTypeIn{
 </TabItem>
 <TabItem value="java">
 
-**To be added**
+```java
+import com.svix.Svix;
+import com.svix.models.EventTypeIn;
+
+
+Svix svix = new Svix("AUTH_TOKEN");
+svix.getEventType()
+  .create(new EventTypeIn()
+    .name("user.signup")
+    .description("A user has signed up")
+  );
+```
 
 </TabItem>
 <TabItem value="cli">
@@ -162,12 +173,87 @@ with open("./data.json", "r") as f:
 </TabItem>
 <TabItem value="go">
 
-**To be added**
+```go
+package main
+
+import (
+	"encoding/csv"
+	"io"
+	"log"
+	"os"
+
+	svix "github.com/svix/svix-libs/go"
+)
+
+func main() {
+	svixClient := svix.New("AUTH_TOKEN", nil)
+
+	f, err := os.Open("./data.csv")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+
+	r := csv.NewReader(f)
+	for {
+		record, err := r.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatal(err)
+		}
+		_, err = svixClient.EventType.Create(&svix.EventTypeIn{
+			Name:        record[0],
+			Description: record[1],
+		})
+		if err != nil {
+			log.Println(err)
+		}
+	}
+}
+```
 
 </TabItem>
 <TabItem value="java">
 
-**To be added**
+
+```java
+package sviximport;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+import com.svix.Svix;
+import com.svix.models.EventTypeIn;
+import com.svix.exceptions.ApiException;
+
+public class App {
+
+    public static void main(String[] args) {
+        Svix svix = new Svix("AUTH_TOKEN");
+
+        try (CSVReader csvReader = new CSVReader(new FileReader("./data.csv"));) {
+            String[] record = null;
+            while ((record = csvReader.readNext()) != null) {
+                try {
+                    svix.getEventType().create(new EventTypeIn().name(record[0]).description(record[1]));
+                } catch(ApiException e) {
+                    if (e.getCode() != 409) {
+                        System.out.println(e.getResponseBody());
+                        System.exit(1);
+                    }
+                }
+            }
+        } catch(IOException|CsvValidationException e) {
+            System.out.println(e.toString());
+            System.exit(1);
+        }
+    }
+}
+```
 
 </TabItem>
 <TabItem value="cli">
