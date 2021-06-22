@@ -110,17 +110,17 @@ curl -X POST "https://api.svix.com/api/v1/event-type/" \
 
 ## Bulk creating event types
 
-The easiest way to bulk-create event types is by just writing a simple script to load a `CSV` or a `JSON` file with the event types and make the API requests.
+The easiest way to bulk-create event types is by just writing a simple script to load a [`TSV` file](https://en.wikipedia.org/wiki/Tab-separated_values) or a `JSON` file with the event types and make the API requests.
 
-Here is an example with a `CSV` file (without headers). Here is an example `CSV`:
+Here is an example `TSV` file (without headers) of events:
 
+```tsv
+user.created	A user has been created
+user.removed	A user has been removed
+user.changed	A user has changed
 ```
-user.created,A user has been created
-user.removed,A user has been removed
-user.changed,A user has changed
-```
 
-Here are the scripts:
+Here are some example scripts for processing the above file:
 
 <CodeTabs>
 <TabItem value="js">
@@ -133,7 +133,7 @@ import readline from "readline";
 const svix = new Svix("AUTH_TOKEN");
 
 async function execute() {
-  const fileStream = fs.createReadStream("./data.csv");
+  const fileStream = fs.createReadStream("./data.tsv");
 
   const data = readline.createInterface({
     input: fileStream,
@@ -141,7 +141,7 @@ async function execute() {
   });
 
   for await (const lineItr of data) {
-    const line = lineItr.split(",");
+    const line = lineItr.split("\t");
     const eventType = await api.eventType.create({
       name: line[0],
       description: line[1],
@@ -162,9 +162,9 @@ from svix.openapi_client.models import EventTypeIn
 
 svix = Svix("AUTH_TOKEN")
 
-with open("./data.csv", "r") as f:
+with open("./data.tsv", "r") as f:
     for line in f:
-        name, description = line.split(",")
+        name, description = line.split("\t")
         app = svix.event_type.create(EventTypeIn(
             description,
             name,
@@ -178,10 +178,10 @@ with open("./data.csv", "r") as f:
 package main
 
 import (
-	"encoding/csv"
-	"io"
+	"bufio"
 	"log"
 	"os"
+	"strings"
 
 	svix "github.com/svix/svix-libs/go"
 )
@@ -189,28 +189,25 @@ import (
 func main() {
 	svixClient := svix.New("AUTH_TOKEN", nil)
 
-	f, err := os.Open("./data.csv")
+	f, err := os.Open("./data.tsv")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer f.Close()
 
-	r := csv.NewReader(f)
-	for {
-		record, err := r.Read()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			log.Fatal(err)
-		}
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		line := strings.Split(scanner.Text(), "\t")
 		_, err = svixClient.EventType.Create(&svix.EventTypeIn{
-			Name:        record[0],
-			Description: record[1],
+			Name:        line[0],
+			Description: line[1],
 		})
 		if err != nil {
 			log.Println(err)
 		}
+	}
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
 	}
 }
 ```
@@ -225,8 +222,6 @@ package sviximport;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
-import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvValidationException;
 import com.svix.Svix;
 import com.svix.models.EventTypeIn;
 import com.svix.exceptions.ApiException;
@@ -236,11 +231,11 @@ public class App {
     public static void main(String[] args) {
         Svix svix = new Svix("AUTH_TOKEN");
 
-        try (CSVReader csvReader = new CSVReader(new FileReader("./data.csv"));) {
-            String[] record = null;
-            while ((record = csvReader.readNext()) != null) {
+        try (Scanner scanner = new Scanner(new FileReader("/Users/fcjr/Desktop/import/data.tsv"));) {
+            while (scanner.hasNextLine()) {
                 try {
-                    svix.getEventType().create(new EventTypeIn().name(record[0]).description(record[1]));
+                    String[] line = scanner.nextLine().split("\t");
+                    svix.getEventType().create(new EventTypeIn().name(line[0]).description(line[1]));
                 } catch(ApiException e) {
                     if (e.getCode() != 409) {
                         System.out.println(e.getResponseBody());
@@ -248,7 +243,7 @@ public class App {
                     }
                 }
             }
-        } catch(IOException|CsvValidationException e) {
+        } catch(IOException e) {
             System.out.println(e.toString());
             System.exit(1);
         }
@@ -262,10 +257,10 @@ public class App {
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
 
-while IFS=, read -r name description
+while IFS=$'\t', read -r name description
 do
     svix event-type create "{ \"name\": \"${name}\", \"description\": \"${description}\" }"
-done < data.csv
+done < data.tsv
 ```
 
 </TabItem>
@@ -274,14 +269,14 @@ done < data.csv
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
 
-while IFS=, read -r name description
+while IFS=$'\t', read -r name description
 do
     curl -X POST "https://api.svix.com/api/v1/event-type/" \
         -H  "Accept: application/json" \
         -H  "Content-Type: application/json" \
         -H  "Authorization: Bearer ${SVIX_AUTH_TOKEN}" \
         -d  "{ \"name\": \"${name}\", \"description\": \"${description}\" }"
-done < data.csv
+done < data.tsv
 ```
 
 </TabItem>
