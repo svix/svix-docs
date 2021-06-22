@@ -157,16 +157,17 @@ execute();
 
 ```python
 import json
-from svix import Svix, EventTypeIn
+from svix import Svix
+from svix.openapi_client.models import EventTypeIn
 
 svix = Svix("AUTH_TOKEN")
 
-with open("./data.json", "r") as f:
+with open("./data.csv", "r") as f:
     for line in f:
         name, description = line.split(",")
-        app = svix.application.create(EventTypeIn(
-            name=name,
-            description=description,
+        app = svix.event_type.create(EventTypeIn(
+            description,
+            name,
         ))
 ```
 
