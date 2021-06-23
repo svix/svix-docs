@@ -6,7 +6,6 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import CodeTabs from '@theme/CodeTabs';
 import TabItem from '@theme/TabItem';
 
-
 Each message sent through Svix has an associated event type.
 Event types are identifiers denoting the type of the message being sent.
 
@@ -14,10 +13,13 @@ Event types are just string, and can be anything. For example: `user.signup`, `i
 
 Event types are primarily used to decide which events are sent to which endpoint. By default, all messages are sent to all endpoints. Though when adding or editing endpoints, users can choose to only subscribe to some of the event types for this particular endpoint.
 
-This is how it looks like in the [pre-built management UI](management-ui.mdx):
+:::success
+It's recommended to add the event types you are going to use ahead of time. You can do it using the scripts in the [bulk creating event types section](#bulk-creating-event-types).
+:::
+
+This is how choosing event types look like in the [pre-built management UI](management-ui.mdx):
 
 <img alt="Management UI screenshot" src={useBaseUrl("img/event-types-ui.png")} />
-
 
 ## Using event types
 
@@ -66,6 +68,22 @@ app, err := svixClient.EventType.Create(&svix.EventTypeIn{
 ```
 
 </TabItem>
+<TabItem value="java">
+
+```java
+import com.svix.Svix;
+import com.svix.models.EventTypeIn;
+
+
+Svix svix = new Svix("AUTH_TOKEN");
+svix.getEventType()
+  .create(new EventTypeIn()
+    .name("user.signup")
+    .description("A user has signed up")
+  );
+```
+
+</TabItem>
 <TabItem value="cli">
 
 ```shell
@@ -77,11 +95,188 @@ svix event-type create '{ "name": "user.signup", "description": "A user has sign
 <TabItem value="curl">
 
 ```shell
+export SVIX_AUTH_TOKEN='AUTH_TOKEN'
+
 curl -X POST "https://api.svix.com/api/v1/event-type/" \
     -H  "Accept: application/json" \
     -H  "Content-Type: application/json" \
-    -H  "Authorization: Bearer AUTH_TOKEN" \
+    -H  "Authorization: Bearer ${SVIX_AUTH_TOKEN}" \
     -d '{ "name": "user.signup", "description": "A user has signed up" }'
+```
+
+</TabItem>
+</CodeTabs>
+
+
+## Bulk creating event types
+
+The easiest way to bulk-create event types is by just writing a simple script to load a [pipe delimited `CSV`](https://en.wikipedia.org/wiki/Comma-separated_values) file or a `JSON` file with the event types and make the API requests.
+
+Here is an example `CSV` file (without headers) of events:
+
+```csv
+user.created|A user has been created
+user.removed|A user has been removed
+user.changed|A user has changed
+```
+
+Here are some example scripts for processing the above file:
+
+<CodeTabs>
+<TabItem value="js">
+
+```js
+import { Svix } from "svix";
+import fs from "fs";
+import readline from "readline";
+
+const svix = new Svix("AUTH_TOKEN");
+
+async function execute() {
+  const fileStream = fs.createReadStream("./data.csv");
+
+  const data = readline.createInterface({
+    input: fileStream,
+    crlfDelay: Infinity
+  });
+
+  for await (const lineItr of data) {
+    const line = lineItr.split("|");
+    const eventType = await api.eventType.create({
+      name: line[0],
+      description: line[1],
+    });
+  }
+}
+
+execute();
+```
+
+</TabItem>
+<TabItem value="py">
+
+```python
+import json
+from svix import Svix
+from svix.api import EventTypeIn
+
+svix = Svix("AUTH_TOKEN")
+
+with open("./data.csv", "r") as f:
+    for line in f:
+        name, description = line.split("|")
+        app = svix.event_type.create(EventTypeIn(
+            name=name,
+            description=description,
+        ))
+```
+
+</TabItem>
+<TabItem value="go">
+
+```go
+package main
+
+import (
+	"bufio"
+	"log"
+	"os"
+	"strings"
+
+	svix "github.com/svix/svix-libs/go"
+)
+
+func main() {
+	svixClient := svix.New("AUTH_TOKEN", nil)
+
+	f, err := os.Open("./data.csv")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		line := strings.Split(scanner.Text(), "|")
+		_, err = svixClient.EventType.Create(&svix.EventTypeIn{
+			Name:        line[0],
+			Description: line[1],
+		})
+		if err != nil {
+			log.Println(err)
+		}
+	}
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+}
+```
+
+</TabItem>
+<TabItem value="java">
+
+
+```java
+package sviximport;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+import com.svix.Svix;
+import com.svix.models.EventTypeIn;
+import com.svix.exceptions.ApiException;
+
+public class App {
+
+    public static void main(String[] args) {
+        Svix svix = new Svix("AUTH_TOKEN");
+
+        try (Scanner scanner = new Scanner(new FileReader("/Users/fcjr/Desktop/import/data.csv"));) {
+            while (scanner.hasNextLine()) {
+                try {
+                    String[] line = scanner.nextLine().split("|");
+                    svix.getEventType().create(new EventTypeIn().name(line[0]).description(line[1]));
+                } catch(ApiException e) {
+                    if (e.getCode() != 409) {
+                        System.out.println(e.getResponseBody());
+                        System.exit(1);
+                    }
+                }
+            }
+        } catch(IOException e) {
+            System.out.println(e.toString());
+            System.exit(1);
+        }
+    }
+}
+```
+
+</TabItem>
+<TabItem value="cli">
+
+```shell
+export SVIX_AUTH_TOKEN='AUTH_TOKEN'
+
+while IFS=$'|', read -r name description
+do
+    svix event-type create "{ \"name\": \"${name}\", \"description\": \"${description}\" }"
+done < data.csv
+```
+
+</TabItem>
+<TabItem value="curl">
+
+```shell
+export SVIX_AUTH_TOKEN='AUTH_TOKEN'
+
+while IFS=$'|', read -r name description
+do
+    curl -X POST "https://api.svix.com/api/v1/event-type/" \
+        -H  "Accept: application/json" \
+        -H  "Content-Type: application/json" \
+        -H  "Authorization: Bearer ${SVIX_AUTH_TOKEN}" \
+        -d  "{ \"name\": \"${name}\", \"description\": \"${description}\" }"
+done < data.csv
 ```
 
 </TabItem>
