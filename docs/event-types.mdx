@@ -110,14 +110,14 @@ curl -X POST "https://api.svix.com/api/v1/event-type/" \
 
 ## Bulk creating event types
 
-The easiest way to bulk-create event types is by just writing a simple script to load a [`TSV` file](https://en.wikipedia.org/wiki/Tab-separated_values) or a `JSON` file with the event types and make the API requests.
+The easiest way to bulk-create event types is by just writing a simple script to load a [pipe delimited `CSV`](https://en.wikipedia.org/wiki/Comma-separated_values) file or a `JSON` file with the event types and make the API requests.
 
-Here is an example `TSV` file (without headers) of events:
+Here is an example `CSV` file (without headers) of events:
 
-```tsv
-user.created	A user has been created
-user.removed	A user has been removed
-user.changed	A user has changed
+```csv
+user.created|A user has been created
+user.removed|A user has been removed
+user.changed|A user has changed
 ```
 
 Here are some example scripts for processing the above file:
@@ -133,7 +133,7 @@ import readline from "readline";
 const svix = new Svix("AUTH_TOKEN");
 
 async function execute() {
-  const fileStream = fs.createReadStream("./data.tsv");
+  const fileStream = fs.createReadStream("./data.csv");
 
   const data = readline.createInterface({
     input: fileStream,
@@ -141,7 +141,7 @@ async function execute() {
   });
 
   for await (const lineItr of data) {
-    const line = lineItr.split("\t");
+    const line = lineItr.split("|");
     const eventType = await api.eventType.create({
       name: line[0],
       description: line[1],
@@ -162,9 +162,9 @@ from svix.openapi_client.models import EventTypeIn
 
 svix = Svix("AUTH_TOKEN")
 
-with open("./data.tsv", "r") as f:
+with open("./data.csv", "r") as f:
     for line in f:
-        name, description = line.split("\t")
+        name, description = line.split("|")
         app = svix.event_type.create(EventTypeIn(
             description,
             name,
@@ -189,7 +189,7 @@ import (
 func main() {
 	svixClient := svix.New("AUTH_TOKEN", nil)
 
-	f, err := os.Open("./data.tsv")
+	f, err := os.Open("./data.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -197,7 +197,7 @@ func main() {
 
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
-		line := strings.Split(scanner.Text(), "\t")
+		line := strings.Split(scanner.Text(), "|")
 		_, err = svixClient.EventType.Create(&svix.EventTypeIn{
 			Name:        line[0],
 			Description: line[1],
@@ -231,10 +231,10 @@ public class App {
     public static void main(String[] args) {
         Svix svix = new Svix("AUTH_TOKEN");
 
-        try (Scanner scanner = new Scanner(new FileReader("/Users/fcjr/Desktop/import/data.tsv"));) {
+        try (Scanner scanner = new Scanner(new FileReader("/Users/fcjr/Desktop/import/data.csv"));) {
             while (scanner.hasNextLine()) {
                 try {
-                    String[] line = scanner.nextLine().split("\t");
+                    String[] line = scanner.nextLine().split("|");
                     svix.getEventType().create(new EventTypeIn().name(line[0]).description(line[1]));
                 } catch(ApiException e) {
                     if (e.getCode() != 409) {
@@ -257,10 +257,10 @@ public class App {
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
 
-while IFS=$'\t', read -r name description
+while IFS=$'|', read -r name description
 do
     svix event-type create "{ \"name\": \"${name}\", \"description\": \"${description}\" }"
-done < data.tsv
+done < data.csv
 ```
 
 </TabItem>
@@ -269,14 +269,14 @@ done < data.tsv
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
 
-while IFS=$'\t', read -r name description
+while IFS=$'|', read -r name description
 do
     curl -X POST "https://api.svix.com/api/v1/event-type/" \
         -H  "Accept: application/json" \
         -H  "Content-Type: application/json" \
         -H  "Authorization: Bearer ${SVIX_AUTH_TOKEN}" \
         -d  "{ \"name\": \"${name}\", \"description\": \"${description}\" }"
-done < data.tsv
+done < data.csv
 ```
 
 </TabItem>
