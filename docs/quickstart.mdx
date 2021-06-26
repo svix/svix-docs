@@ -27,7 +27,7 @@ Get your authentication token (`AuthToken`) from the [Svix dashboard](https://da
 
 ### Creating an application
 
-Each of your users needs an associated application. The easiest way is to create a new application whenever a user signs up. In this section we will use the [create application API endpoint](https://api.svix.com/docs#/application/create_application_api_v1_app__post) to create an application.
+Each of your users needs an associated application. The easiest way is to create a new application whenever a user signs up. In this section we will use the [create application API endpoint](https://api.svix.com/docs#operation/create_application_api_v1_app__post) to create an application.
 
 You would need the application's ID when sending messages. You can either save the ID returned when creating the application, or set your own unique id (e.g. your user's username or internal database id) in the optional `uid` field and use that intsead.
 
@@ -104,7 +104,7 @@ curl -X POST "https://api.svix.com/api/v1/app/" \
 
 ### Send a message
 
-We will now send a new message using the [create message API endpoint](https://api.svix.com/docs#/message/create_message_api_v1_app__app_id__msg__post). It accepts an `app_id`, which is the application's ID (or custom `uid`) from the previous section. In addition, it accepts the following fields (as part the json body):
+We will now send a new message using the [create message API endpoint](https://api.svix.com/docs#operation/create_message_api_v1_app__app_id__msg__post). It accepts an `app_id`, which is the application's ID (or custom `uid`) from the previous section. In addition, it accepts the following fields (as part the json body):
 
 - [`eventType`](event-types.mdx): an identifier denoting the type of the event. E.g. `invoice.paid`.
 - `eventId`: an optional unique ID for the event. This is useful if you want to map each message to unique events on your system. This is also used as an idempotency key.
@@ -216,13 +216,13 @@ In the example above we showed how to send messages, though these messages were 
 
 ### Using the management UI
 
-Svix offers a pre-build management UI. With [one API call](https://api.svix.com/docs#/authentication/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post), you can give your users access to this UI and they can then add their own endpoints themselves.
+Svix offers a pre-build management UI. With [one API call](https://api.svix.com/docs#operation/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post), you can give your users access to this UI and they can then add their own endpoints themselves.
 
 More on that in the [management UI docs](management-ui).
 
 ### Using the API
 
-In addition to the management UI, you can also use our API to add endpoints to your applications. To do so, you will use the [create endpoint API](https://api.svix.com/docs#/endpoint/create_endpoint_api_v1_app__app_id__endpoint__post).
+In addition to the management UI, you can also use our API to add endpoints to your applications. To do so, you will use the [create endpoint API](https://api.svix.com/docs#operation/create_endpoint_api_v1_app__app_id__endpoint__post).
 
 For example:
 
