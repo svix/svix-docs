@@ -9,6 +9,11 @@ module.exports = {
       'Tutorials': [ 'tutorials/cli' ],
     },
     'get-help',
+    {
+      type: 'link',
+      href: 'https://api.svix.com/docs',
+      label: 'API Browser',
+    },
   ],
   consumersSidebar: [
     'receiving/introduction',
