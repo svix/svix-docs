@@ -33,7 +33,7 @@ You can add, edit, and delete event types in [the dashboard](https://dashboard.s
 import { Svix } from "svix";
 
 const svix = new Svix("AUTH_TOKEN");
-const eventType = await api.eventType.create({
+const eventType = await svix.eventType.create({
     name: "user.signup",
     description: "A user has signed up"
 });
@@ -142,7 +142,7 @@ async function execute() {
 
   for await (const lineItr of data) {
     const line = lineItr.split("|");
-    const eventType = await api.eventType.create({
+    const eventType = await svix.eventType.create({
       name: line[0],
       description: line[1],
     });
