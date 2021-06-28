@@ -20,7 +20,7 @@ module.exports = {
         },
         {
           to: 'https://api.svix.com/docs',
-          label: 'API Browser',
+          label: 'API Documentation',
           position: 'left',
         },
         {
