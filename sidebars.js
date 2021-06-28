@@ -12,7 +12,7 @@ module.exports = {
     {
       type: 'link',
       href: 'https://api.svix.com/docs',
-      label: 'API Browser',
+      label: 'API Documentation',
     },
   ],
   consumersSidebar: [
