@@ -112,7 +112,7 @@ The signature you should get from where you added the endpoint, e.g. the managem
 ```js
 import { Webhook } from "svix";
 
-const secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
+const secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
 
 // These were all sent from the server
 const headers = {
@@ -133,7 +133,7 @@ const payload = wh.verify(payload, headers);
 ```python
 from svix import Webhook
 
-secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
+secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
 
 # These were all sent from the server
 headers = {
@@ -156,7 +156,7 @@ import (
 	svix "github.com/svix/svix-libs/go"
 )
 
-secret := "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
+secret := "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
 
 // These were all sent from the server
 headers := http.Header{}
@@ -177,7 +177,7 @@ err := wh.Verify(payload, headers)
 ```java
 import com.svix.Webhook;
 
-String secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
+String secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
 
 // These were all sent from the server
 HashMap<String, List<String>> headerMap = new HashMap<String, List<String>>();
@@ -209,7 +209,7 @@ headers = {
 }
 payload = '{"test": 2432232314}'
 
-wh = Svix::Webhook.new("MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw")
+wh = Svix::Webhook.new("whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw")
 # Raises on error, returns the verified content on success
 json = wh.verify(payload, headers)
 ```
@@ -232,7 +232,7 @@ $header = array(
     );
 
 // Throws on error, returns the verified content on success
-$wh = new \Svix\Webhook('MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw');
+$wh = new \Svix\Webhook('whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw');
 $json = $wh->verify($payload, $header);
 ```
 
@@ -241,7 +241,7 @@ $json = $wh->verify($payload, $header);
 
 ```shell
 export SVIX_AUTH_TOKEN="AUTH_TOKEN"
-svix verify --secret MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw --msg-id msg_p5jXN8AQM9LWM0D4loKWxJek --timestamp 1614265330 --signature v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE= '{"test": 2432232314}'
+svix verify --secret whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw --msg-id msg_p5jXN8AQM9LWM0D4loKWxJek --timestamp 1614265330 --signature v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE= '{"test": 2432232314}'
 ```
 
 </TabItem>
@@ -264,7 +264,7 @@ from django.http import HttpResponse
 
 from svix import Webhook, WebhookVerificationError
 
-secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
+secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
 
 @csrf_exempt
 def webhook_handler(request):
@@ -289,7 +289,7 @@ from fastapi import Request, Response, status
 
 from svix import Webhook, WebhookVerificationError
 
-secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
+secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
 
 @router.post("/webhook/", status_code=status.HTTP_204_NO_CONTENT)
 async def webhook_handler(request: Request, response: Response):
@@ -318,7 +318,7 @@ export const config = {
     },
 }
 
-const secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
+const secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
 
 export default async function handler(req, res) {
     const payload = (await buffer(req)).toString();
@@ -344,7 +344,7 @@ export default async function handler(req, res) {
 import { Webhook } from "svix";
 import bodyParser from "body-parser";
 
-const secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
+const secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
 
 app.post('/webhook', bodyParser.raw({type: 'application/json'}), (req, res) => {
     const payload = req.body;
@@ -376,7 +376,7 @@ import (
 	svix "github.com/svix/svix-libs/go"
 )
 
-const secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
+const secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
 
 func main() {
 
@@ -422,7 +422,7 @@ import (
 	svix "github.com/svix/svix-libs/go"
 )
 
-const secret = "MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
+const secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
 
 func main() {
 
@@ -503,7 +503,7 @@ class WebhookController < ApplicationController
     begin
       payload = request.body.read
       headers = request.headers
-      wh = Svix::Webhook.new("MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw")
+      wh = Svix::Webhook.new("whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw")
 
       json = wh.verify(payload, headers)
 
@@ -532,7 +532,7 @@ Route::post('webhook', function(Request $request) {
     });
 
     try {
-        $wh = new Webhook("MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw");
+        $wh = new Webhook("whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw");
         $json = $wh->verify($payload, $headers);
 
         # Do something with the message...

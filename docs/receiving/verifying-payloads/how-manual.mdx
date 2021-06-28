@@ -33,7 +33,10 @@ Where `body` is the raw body of the request. The signature is sensitive to any c
 
 Svix uses an [HMAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code) with [SHA-256](https://en.wikipedia.org/wiki/SHA-2) to sign its webhooks.
 
-So to calculate the expected signature, you should HMAC the `signed_content` from above using your secret webhook signature key. This generated signature should match one of the ones sent in the `Svix-Signature` header.
+So to calculate the expected signature, you should HMAC the `signed_content` from above using the base64 portion of your signing secret (this is the part after the `whsec_` prefix) as the key.
+For example, given the secret `whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw` you will want to use `MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw`.
+
+This generated signature should match one of the ones sent in the `Svix-Signature` header.
 
 The `Svix-Signature` header is composed of a list of space delimited signatures and their corresponding version identifiers. The signature list is most commonly of length one. Though there could be any number of signatures. For example:
 
