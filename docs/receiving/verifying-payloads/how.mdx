@@ -268,7 +268,7 @@ secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
 
 @csrf_exempt
 def webhook_handler(request):
-    headers = request.META
+    headers = request.headers
     payload = request.body
 
     try:
