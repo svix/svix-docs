@@ -282,6 +282,31 @@ def webhook_handler(request):
     return HttpResponse(status=204)
 ```
 
+### Python (Flask)
+
+```python
+from flask import request
+
+from svix import Webhook, WebhookVerificationError
+
+secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
+
+@app.route('/webhook/')
+def webhook_handler():
+    headers = request.headers
+    payload = request.get_data()
+
+    try:
+        wh = Webhook(secret)
+        msg = wh.verify(payload, headers)
+    except WebhookVerificationError as e:
+        return ('', 400)
+
+    # Do someting with the message...
+
+    return ('', 204)
+```
+
 ### Python (FastAPI)
 
 ```python
