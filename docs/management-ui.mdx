@@ -4,13 +4,12 @@ title: Management UI
 
 import CodeTabs from '@theme/CodeTabs';
 import TabItem from '@theme/TabItem';
-import useBaseUrl from "@docusaurus/useBaseUrl";
 
 Svix comes with a management UI for your users that you can use out of the box. Your users can then use it to add endpoints, debug delivery, as well as inspect and replay past webhooks. This is the easiest way to get started, but you can alternatively use the API to build your own.
 
 Here is how it looks like standalone, or scroll down for the embedded version:
 
-<img alt="Management UI screenshot" src={useBaseUrl("img/attempts.png")} />
+![Management UI screenshot](./img/attempts.png)
 
 ## Giving your users access
 
@@ -81,7 +80,7 @@ curl -X POST "https://api.svix.com/api/v1/auth/dashboard_access/app_Xzx8bQeOB1D1
 
 The returned URL from the previous section can also be embedded in your own dashboard using an iframe.
 
-<img alt="Embedded Management UI screenshot" src={useBaseUrl("img/embedded-management-ui.png")} />
+![Embedded Management UI screenshot](./img/embedded-management-ui.png)
 
 To add this to your application, just pass the URL you received in the previous example to the `src` property of the iframe:
 
