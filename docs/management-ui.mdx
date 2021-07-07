@@ -95,6 +95,29 @@ We have also included some basic styling to make the iframe to look nicer, thoug
 
 ## White labeling
 
-Keep the same look and feel of your application by white labeling the Management UI. From the [Svix dashboard](https://dashboard.svix.com/settings), you can configure the color palette as well as the logo that your users will see.
+Keep the same look and feel of your application by white labeling the Management UI. From the [Svix dashboard](https://dashboard.svix.com/settings), you can configure the color palette, font and the logo that your users will see.
 
 To customize these settings, please head to your [Organization Settings](https://dashboard.svix.com/settings) on the Svix Dashboard.
+
+
+### Custom settings per application
+
+In some scenarios you may want to customize the management UI per application, rather than for your whole organization. For example, if you change the color of your own dashboard for each of your users.
+
+This is possible by changing the query parameters of the URL to the settings of your choosing.
+
+:::caution
+Please use proper URL parsing rather than string manipulation as the structure of the URL (e.g. the fragment part may change). Another reason to use proper URL parsing is that you want to make sure to URL-encode the parameters.
+:::
+
+The supported parameters are:
+
+- `primaryColor` - the primary color of the UI. Format: `RRGGBB`, e.g. `28bb93`.
+- `icon` - a URL to an image file. E.g. `https://www.example.com/logo.png` (remember to URL-encode it!).
+- `fontFamily` - one of the fonts listed in the dashboard (see previous section). E.g. `Roboto`.
+
+So for example:
+
+```
+http://app.svix.com/login?primaryColor=28bb93&fontFamily=Roboto#key=eyJhcHBJZCI6ICJhcHBfMXRSdFlMN3pwWWR2NHFuWTRRZFI1azE4eXQ0IiwgInRva2VuIjogImFwcHNrX2UxOUN0Rm5hbTFoOU1Gamh5azRSMTUzNUNSd05VSWI0In0=
+```
