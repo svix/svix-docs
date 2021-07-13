@@ -15,6 +15,7 @@ First install the libraries if you haven't already:
   additionalTabs={[
     { label: 'Ruby', value: 'ruby', },
     { label: 'PHP', value: 'php', },
+    { label: 'C#', value: 'csharp', },
   ]}>
 <TabItem value="js">
 
@@ -72,6 +73,13 @@ composer require svix/svix
 ```
 
 </TabItem>
+<TabItem value="csharp">
+
+```shell
+dotnet add package Svix
+```
+
+</TabItem>
 <TabItem value="cli">
 
 On macOS install via <a href="https://brew.sh/">Homebrew</a>:
@@ -106,6 +114,7 @@ The signature you should get from where you added the endpoint, e.g. the managem
   additionalTabs={[
     { label: 'Ruby', value: 'ruby', },
     { label: 'PHP', value: 'php', },
+    { label: 'C#', value: 'csharp', },
   ]}>
 <TabItem value="js">
 
@@ -234,6 +243,26 @@ $header = array(
 // Throws on error, returns the verified content on success
 $wh = new \Svix\Webhook('whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw');
 $json = $wh->verify($payload, $header);
+```
+
+</TabItem>
+<TabItem value="csharp">
+
+```csharp
+using Svix;
+using System.Net;
+
+// These were all sent from the server
+var headers = new WebHeaderCollection();
+headers.Set("svix-id", "msg_p5jXN8AQM9LWM0D4loKWxJek");
+headers.Set("svix-timestamp", "1614265330");
+headers.Set("svix-signature", "v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE=");
+var payload = "{\"test\": 2432232314}";
+
+var wh = new Webhook("whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw/Je4ZJEGP1QFb");
+
+// Throws on error
+wh.Verify(payload, headers);
 ```
 
 </TabItem>
