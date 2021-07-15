@@ -1,0 +1,26 @@
+---
+title: Retry Schedule
+---
+
+Svix attempts to deliver each webhook message based on a retry schedule with exponential backoff.
+
+
+## The schedule
+
+Each message is attempted based on this schedule:
+
+- Immediately
+- 5 seconds
+- 5 minutes
+- 30 minutes
+- 2 hours
+- 5 hours
+- 10 hours
+- 10 hours
+
+Your customers can also manually retry each message at any time from the application portal. Additionally, if an endpoint is removed or disabled delivery attempts to the endpoint will be disabled as well.
+
+
+## Failed delivery handling
+
+After the conclusion of the above attempts the message will be marked as `Failed` for this endpoint, and you will get a webhook of type `message.attempt.exhausted` notifying you of this error.
