@@ -11,6 +11,7 @@ module.exports = {
       logo: {
         alt: 'Svix logo',
         src: 'img/brand.svg',
+        srcDark: 'img/brand.white.svg',
       },
       items: [
         {
