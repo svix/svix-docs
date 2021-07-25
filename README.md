@@ -1,7 +1,9 @@
-<p align="center">
-  <img width="120" src="https://avatars.githubusercontent.com/u/80175132?s=200&v=4" />
-  <h1 align="center">Svix - Webhooks as a service</h1>
-</p>
+<h1 align="center">
+  <a href="https://www.svix.com">
+    <img width="120" src="https://avatars.githubusercontent.com/u/80175132?s=200&v=4" />
+    <p align="center">Svix - Webhooks as a service</p>
+  </a>
+</h1>
 
 Documentation for the Svix libraries and CLI tool
 
