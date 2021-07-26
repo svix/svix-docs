@@ -1,15 +1,15 @@
 ---
-title: Application Portal
+title: App Portal
 ---
 
-import CodeTabs from '@theme/CodeTabs';
-import TabItem from '@theme/TabItem';
+import CodeTabs from "@theme/CodeTabs";
+import TabItem from "@theme/TabItem";
 
 Svix comes with a application portal for your users that you can use out of the box. Your users can then use it to add endpoints, debug delivery, as well as inspect and replay past webhooks. This is the easiest way to get started, but you can alternatively use the API to build your own.
 
 Here is how it looks like standalone, or scroll down for the embedded version:
 
-![Application portal screenshot](./img/attempts.png)
+![App Portal screenshot](/img/app-portal/endpoint.png)
 
 ## Giving your users access
 
@@ -20,7 +20,9 @@ To give your users access to the admin UI, just use the [dashboard access endpoi
 
 ```js
 const svix = new Svix("AUTH_TOKEN");
-const dashboard = await svix.authentication.dashboardAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0");
+const dashboard = await svix.authentication.dashboardAccess(
+  "app_Xzx8bQeOB1D1XEYmAJaRGoj0"
+);
 // A URL that automatically logs user into the dashboard
 console.log(dashboard.url);
 ```
@@ -75,19 +77,20 @@ curl -X POST "https://api.svix.com/api/v1/auth/dashboard_access/app_Xzx8bQeOB1D1
 </TabItem>
 </CodeTabs>
 
-
 ## Embedding in your own dashboard
 
 The returned URL from the previous section can also be embedded in your own dashboard using an iframe.
 
-![Embedded application portal screenshot](./img/embedded-management-ui.png)
+![Embedded App Portal screenshot](/img/app-portal/embedded.png)
 
 To add this to your application, just pass the URL you received in the previous example to the `src` property of the iframe:
 
 ```html
 <iframe
-    src="http://app.svix.com/login#key=eyJhcHBJZCI6ICJhcHBfMXRSdFlMN3pwWWR2NHFuWTRRZFI1azE4eXQ0IiwgInRva2VuIjogImFwcHNrX2UxOUN0Rm5hbTFoOU1Gamh5azRSMTUzNUNSd05VSWI0In0="
-    style="width: 100%; height: 100%; border: none;">
+  src="http://app.svix.com/login#key=eyJhcHBJZCI6ICJhcHBfMXRSdFlMN3pwWWR2NHFuWTRRZFI1azE4eXQ0IiwgInRva2VuIjogImFwcHNrX2UxOUN0Rm5hbTFoOU1Gamh5azRSMTUzNUNSd05VSWI0In0="
+  style="width: 100%; height: 100%; border: none;"
+  loading="lazy"
+>
 </iframe>
 ```
 
@@ -105,7 +108,6 @@ yarn add svix-react
 
 The npm package is lightweight and provides some basic styling and a loading indicator out of the box. To use it, simply provide the magic link from the [`get_dashboard_access` endpoint](https://api.svix.com/docs#operation/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post).
 
-
 ```js
 import React from "react";
 import ReactDOM from "react-dom";
@@ -114,35 +116,30 @@ import { AppPortal } from "svix-react";
 import "svix-react/style.css";
 
 const SvixEmbed = () => {
-  const svixAppId = 'app_x'; // this might vary from customer to customer
+  const svixAppId = "app_x"; // this might vary from customer to customer
 
   const [appPortal, setAppPortal] = React.useState(null);
   const svixAppPortal = React.useEffect(() => {
-    // Prerequisite: You'll need an endpoint that returns the App Portal 
+    // Prerequisite: You'll need an endpoint that returns the App Portal
     // magic URL (https://api.svix.com/docs#operation/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post)
     fetch(`/your-backend-service/svix/${svixAppId}/app-portal`, { method: "POST" })
-      .then(res => res.json())
-      .then(result => setAppPortal(result));
+      .then((res) => res.json())
+      .then((result) => setAppPortal(result));
   }, [svixAppId]);
 
-  return (
-    <AppPortal url={appPortal?.url} />
-  );
+  return <AppPortal url={appPortal?.url} />;
 };
 
-const App = () => (
-  <SvixEmbed />
-);
+const App = () => <SvixEmbed />;
 
 ReactDOM.render(<App />, document.body);
 ```
 
 ## White labeling
 
-Keep the same look and feel of your application by white labeling the Management UI. From the [Svix dashboard](https://dashboard.svix.com/settings), you can configure the color palette, font and the logo that your users will see.
+Keep the same look and feel of your application by white labeling the App Portal. From the [Svix dashboard](https://dashboard.svix.com/settings), you can configure the color palette, font and the logo that your users will see.
 
 To customize these settings, please head to your [Organization Settings](https://dashboard.svix.com/settings) on the Svix Dashboard.
-
 
 ### Custom settings per application
 
