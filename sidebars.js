@@ -3,6 +3,7 @@ module.exports = {
     'introduction',
     {
       'Getting Started': ['overview', 'installation', 'quickstart', 'event-types', 'management-ui'],
+      'Advanced': ['rate-limit'],
       'Manage Your Account': ['account/overview', 'account/environments', 'account/org-members', 'account/retries'],
     },
     'consuming-webhooks',
