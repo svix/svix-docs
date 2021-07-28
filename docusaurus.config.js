@@ -1,7 +1,7 @@
 module.exports = {
   title: 'Svix Docs',
   tagline: 'Webhooks as a service',
-  url: 'https://www.svix.com',
+  url: 'https://docs.svix.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
