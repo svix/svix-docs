@@ -54,9 +54,7 @@ module.exports = {
           editUrl:
             'https://github.com/svix/svix-docs/edit/main/',
         },
-        blog: {
-          showReadingTime: true,
-        },
+        blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
