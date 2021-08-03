@@ -10,6 +10,7 @@ module.exports = {
     {
       'Tutorials': [ 'tutorials/cli' ],
     },
+    'play',
     'get-help',
     {
       type: 'link',
