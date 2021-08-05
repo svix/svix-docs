@@ -2,8 +2,8 @@
 title: Event Types
 ---
 
-import CodeTabs from '@theme/CodeTabs';
-import TabItem from '@theme/TabItem';
+import CodeTabs from "@theme/CodeTabs";
+import TabItem from "@theme/TabItem";
 
 Each message sent through Svix has an associated event type.
 Event types are identifiers denoting the type of the message being sent.
@@ -12,7 +12,7 @@ Event types are just string, and can be anything. For example: `user.signup`, `i
 
 Event types are primarily used to decide which events are sent to which endpoint. By default, all messages are sent to all endpoints. Though when adding or editing endpoints, users can choose to only subscribe to some of the event types for this particular endpoint.
 
-:::success
+:::tip Bulk Create
 It's recommended to add the event types you are going to use ahead of time. You can do it using the scripts in the [bulk creating event types section](#bulk-creating-event-types).
 :::
 
@@ -24,7 +24,6 @@ This is how choosing event types look like in the [pre-built application portal]
 
 You can add, edit, and delete event types in [the dashboard](https://dashboard.svix.com) or through the API below.
 
-
 <CodeTabs>
 <TabItem value="js">
 
@@ -33,8 +32,8 @@ import { Svix } from "svix";
 
 const svix = new Svix("AUTH_TOKEN");
 const eventType = await svix.eventType.create({
-    name: "user.signup",
-    description: "A user has signed up"
+  name: "user.signup",
+  description: "A user has signed up",
 });
 ```
 
@@ -106,7 +105,6 @@ curl -X POST "https://api.svix.com/api/v1/event-type/" \
 </TabItem>
 </CodeTabs>
 
-
 ## Bulk creating event types
 
 The easiest way to bulk-create event types is by just writing a simple script to load a [pipe delimited `CSV`](https://en.wikipedia.org/wiki/Comma-separated_values) file or a `JSON` file with the event types and make the API requests.
@@ -136,7 +134,7 @@ async function execute() {
 
   const data = readline.createInterface({
     input: fileStream,
-    crlfDelay: Infinity
+    crlfDelay: Infinity,
   });
 
   for await (const lineItr of data) {
@@ -213,7 +211,6 @@ func main() {
 
 </TabItem>
 <TabItem value="java">
-
 
 ```java
 package sviximport;
