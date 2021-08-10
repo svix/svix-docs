@@ -15,7 +15,7 @@ module.exports = {
     {
       type: 'link',
       href: 'https://api.svix.com/docs',
-      label: 'API Documentation',
+      label: 'API Reference',
     },
   ],
   consumersSidebar: [

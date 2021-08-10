@@ -21,7 +21,7 @@ module.exports = {
         },
         {
           to: 'https://api.svix.com/docs',
-          label: 'API Documentation',
+          label: 'API Reference',
           position: 'left',
         },
         {
