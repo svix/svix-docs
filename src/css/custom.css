@@ -16,7 +16,7 @@
   --ifm-color-primary-lightest: rgb(146, 224, 208);
   --ifm-code-font-size: 95%;
 
-  --ifm-menu-link-padding-horizontal: 0;
+  --ifm-menu-link-padding-horizontal: 1rem;
 }
 
 .docusaurus-highlight-code-line {
