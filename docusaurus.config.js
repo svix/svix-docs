@@ -36,6 +36,12 @@ module.exports = {
         },
       ],
     },
+    colorMode: {
+      switchConfig: {
+        darkIcon: ' ',
+        lightIcon: ' ',
+      },
+    },
     footer: {
       style: 'dark',
       copyright: `Copyright © Svix`,
@@ -51,8 +57,8 @@ module.exports = {
         docs: {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl:
-            'https://github.com/svix/svix-docs/edit/main/',
+          editUrl: 'https://github.com/svix/svix-docs/edit/main/',
+          sidebarCollapsible: false,
         },
         blog: false,
         theme: {
