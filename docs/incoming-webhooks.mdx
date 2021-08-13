@@ -1,0 +1,226 @@
+---
+title: Incoming Webhooks
+---
+
+import EventTypeTabs from '@theme/EventTypeTags';
+import TabItem from '@theme/TabItem';
+
+
+As you may expect from a webhooks service, Svix also uses webhooks to notify you of events. To configure which event types you would like to listen to and which endpoints these events will be sent to, please use the [Incoming Webhooks](https://dashboard.svix.com/webhooks) section of the dashboard.
+
+
+## Supported messages
+
+### Message delivery failed (`message.attempt.exhausted`)
+
+Sent when a message delivery has failed (all of the retry attempts have been exhausted).
+
+<EventTypeTabs>
+<TabItem value="json">
+
+```json
+{
+    "type": "message.attempt.exhausted",
+    "data": {
+        "appId": "app_1srOrx2ZWZBpBUvZwXKQmoEYga2",
+        "appUid": "string",
+        "msgId": "msg_1srOrx2ZWZBpBUvZwXKQmoEYga2",
+        "endpointId": "ep_1srOrx2ZWZBpBUvZwXKQmoEYga2",
+        "lastAttempt": {
+            "id": "atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2",
+            "responseStatusCode": 500,
+            "timestamp": "2019-08-24T14:15:22Z"
+        }
+    }
+}
+```
+
+</TabItem>
+<TabItem value="json-schema">
+
+```json
+{
+    "title": "MessageAttemptExhaustedEvent",
+    "type": "object",
+    "properties": {
+        "type": {
+            "default": "message.attempt.exhausted",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/EventType"
+                }
+            ]
+        },
+        "data": {
+            "$ref": "#/definitions/MessageAttemptExhaustedEventData"
+        }
+    },
+    "required": [
+        "data"
+    ],
+    "definitions": {
+        "EventType": {
+            "title": "EventType",
+            "description": "An enumeration.",
+            "enum": [
+                "message.attempt.exhausted",
+                "endpoint.disabled"
+            ],
+            "type": "string"
+        },
+        "MessageAttemptFailedEvent": {
+            "title": "MessageAttemptFailedEvent",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Id",
+                    "example": "atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2",
+                    "type": "string"
+                },
+                "responseStatusCode": {
+                    "title": "Responsestatuscode",
+                    "example": 500,
+                    "type": "integer"
+                },
+                "timestamp": {
+                    "title": "Timestamp",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "required": [
+                "id",
+                "responseStatusCode",
+                "timestamp"
+            ]
+        },
+        "MessageAttemptExhaustedEventData": {
+            "title": "MessageAttemptExhaustedEventData",
+            "type": "object",
+            "properties": {
+                "appId": {
+                    "title": "Appid",
+                    "example": "app_1srOrx2ZWZBpBUvZwXKQmoEYga2",
+                    "type": "string"
+                },
+                "appUid": {
+                    "title": "Appuid",
+                    "type": "string"
+                },
+                "msgId": {
+                    "title": "Msgid",
+                    "example": "msg_1srOrx2ZWZBpBUvZwXKQmoEYga2",
+                    "type": "string"
+                },
+                "endpointId": {
+                    "title": "Endpointid",
+                    "example": "ep_1srOrx2ZWZBpBUvZwXKQmoEYga2",
+                    "type": "string"
+                },
+                "lastAttempt": {
+                    "$ref": "#/definitions/MessageAttemptFailedEvent"
+                }
+            },
+            "required": [
+                "appId",
+                "msgId",
+                "endpointId",
+                "lastAttempt"
+            ]
+        }
+    }
+}
+```
+
+</TabItem>
+</EventTypeTabs>
+
+
+### Endpoint disabled (`endpoint.disabled`)
+
+Sent when an endpoint has been automatically disabled after continuous failures.
+
+<EventTypeTabs>
+<TabItem value="json">
+
+```json
+{
+    "type": "endpoint.disabled",
+    "data": {
+        "appId": "app_1srOrx2ZWZBpBUvZwXKQmoEYga2",
+        "appUid": "string",
+        "endpointId": "ep_1srOrx2ZWZBpBUvZwXKQmoEYga2",
+        "failSince": "2019-08-24T14:15:22Z"
+    }
+}
+```
+
+</TabItem>
+<TabItem value="json-schema">
+
+```json
+{
+    "title": "EndpointDisabledEvent",
+    "type": "object",
+    "properties": {
+        "type": {
+            "default": "endpoint.disabled",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/EventType"
+                }
+            ]
+        },
+        "data": {
+            "$ref": "#/definitions/EndpointDisabledEventData"
+        }
+    },
+    "required": [
+        "data"
+    ],
+    "definitions": {
+        "EventType": {
+            "title": "EventType",
+            "description": "An enumeration.",
+            "enum": [
+                "message.attempt.exhausted",
+                "endpoint.disabled"
+            ],
+            "type": "string"
+        },
+        "EndpointDisabledEventData": {
+            "title": "EndpointDisabledEventData",
+            "type": "object",
+            "properties": {
+                "appId": {
+                    "title": "Appid",
+                    "example": "app_1srOrx2ZWZBpBUvZwXKQmoEYga2",
+                    "type": "string"
+                },
+                "appUid": {
+                    "title": "Appuid",
+                    "type": "string"
+                },
+                "endpointId": {
+                    "title": "Endpointid",
+                    "example": "ep_1srOrx2ZWZBpBUvZwXKQmoEYga2",
+                    "type": "string"
+                },
+                "failSince": {
+                    "title": "Failsince",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "required": [
+                "appId",
+                "endpointId",
+                "failSince"
+            ]
+        }
+    }
+}
+```
+
+</TabItem>
+</EventTypeTabs>

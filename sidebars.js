@@ -2,7 +2,7 @@ module.exports = {
   mainSidebar: [
     {
       'Introduction': ['introduction', 'overview', 'installation', 'quickstart', 'event-types', 'management-ui'],
-      'Advanced': ['rate-limit'],
+      'Advanced': ['incoming-webhooks', 'rate-limit'],
       'Manage Your Account': ['account/overview', 'account/environments', 'account/org-members', 'account/retries'],
     },
     {
