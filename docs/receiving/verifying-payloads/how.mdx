@@ -430,6 +430,7 @@ app.post('/webhook', bodyParser.raw({type: 'application/json'}), (req, res) => {
     const payload = req.body;
     const headers = req.headers;
 
+    const wh = new Webhook(secret);
     let msg;
     try {
         msg = wh.verify(payload, headers);
