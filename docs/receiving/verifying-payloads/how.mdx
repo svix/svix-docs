@@ -392,6 +392,32 @@ export default async function handler(req, res) {
 }
 ```
 
+### Node.js (Netlify Functions)
+
+```js
+import { Webhook } from "svix";
+
+const secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
+
+
+export const handler = async ({body, headers}) => {
+    const payload = body;
+
+    const wh = new Webhook(secret);
+    let msg;
+    try {
+        msg = wh.verify(payload, headers);
+    } catch (err) {
+        res.status(400).json({});
+    }
+
+    // Do something with the message...
+
+    res.json({});
+}
+```
+
+
 ### Node.js (Express)
 
 ```js
