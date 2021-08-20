@@ -105,6 +105,6 @@ Similar to the application rate limiting, you can set the rate limit on an endpo
 
 ## Intended use
 
-The rate limit is intended to be use as a sort of a fuse to protect your customers' servers from sudden peaks in message traffic that they may not be able to withstand. With the rate limiting, this peak is smoothened and spread over multiple seconds, sending messages at a rate your customers can handle.
+The rate limit is intended to be used as a sort of a fuse to protect your customers' servers from sudden peaks in message traffic that they may not be able to withstand. With the rate limiting, this peak is smoothened and spread over multiple seconds, sending messages at a rate your customers can handle.
 
 One important thing to remember with rate limiting, is that if you are limiting to 1,000 messages per second and are consistently sending messages over that limit (e.g. 2,000 per second), the queue will get congested and you will be sending messages with infinitely increasing delays. We can alert you of such issues, and help you address them when they occur, though this is still something to be mindful of.
