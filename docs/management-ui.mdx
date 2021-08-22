@@ -103,7 +103,40 @@ npm install svix-react
 yarn add svix-react
 ```
 
-The npm package is lightweight and provides some basic styling and a loading indicator out of the box. For a more complete usage example, check out the [package README](https://www.npmjs.com/package/svix-react).
+The npm package is lightweight and provides some basic styling and a loading indicator out of the box. To use it, simply provide the magic link from the [`get_dashboard_access` endpoint](https://api.svix.com/docs#operation/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post).
+
+#### Example
+
+```js
+import React from "react";
+import ReactDOM from "react-dom";
+import { AppPortal } from "svix-react";
+
+import "svix-react/style.css";
+
+const SvixEmbed = () => {
+  const svixAppId = 'app_x'; // this might vary from customer to customer
+
+  const [appPortal, setAppPortal] = React.useState(null);
+  const svixAppPortal = React.useEffect(() => {
+    // Prerequisite: You'll need an endpoint that returns the App Portal 
+    // magic URL (https://api.svix.com/docs#operation/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post)
+    fetch(`/your-backend-service/svix/${svixAppId}/app-portal`, { method: "POST" })
+      .then(res => res.json())
+      .then(result => setAppPortal(result));
+  }, [svixAppId]);
+
+  return (
+    <AppPortal url={appPortal?.url} />
+  );
+};
+
+const App = () => (
+  <SvixEmbed />
+);
+
+ReactDOM.render(<App />, document.body);
+```
 
 ## White labeling
 
