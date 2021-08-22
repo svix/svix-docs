@@ -93,6 +93,50 @@ To add this to your application, just pass the URL you received in the previous 
 
 We have also included some basic styling to make the iframe to look nicer, though that can be omitted or modified depending on your needs.
 
+### Embedding in a React application
+
+We also provide the [`svix-react`](https://www.npmjs.com/package/svix-react) package that you can use to easily embed the App Portal. To use it, simply run:
+
+```sh
+npm install svix-react
+# or
+yarn add svix-react
+```
+
+The npm package is lightweight and provides some basic styling and a loading indicator out of the box. To use it, simply provide the magic link from the [`get_dashboard_access` endpoint](https://api.svix.com/docs#operation/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post).
+
+
+```js
+import React from "react";
+import ReactDOM from "react-dom";
+import { AppPortal } from "svix-react";
+
+import "svix-react/style.css";
+
+const SvixEmbed = () => {
+  const svixAppId = 'app_x'; // this might vary from customer to customer
+
+  const [appPortal, setAppPortal] = React.useState(null);
+  const svixAppPortal = React.useEffect(() => {
+    // Prerequisite: You'll need an endpoint that returns the App Portal 
+    // magic URL (https://api.svix.com/docs#operation/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post)
+    fetch(`/your-backend-service/svix/${svixAppId}/app-portal`, { method: "POST" })
+      .then(res => res.json())
+      .then(result => setAppPortal(result));
+  }, [svixAppId]);
+
+  return (
+    <AppPortal url={appPortal?.url} />
+  );
+};
+
+const App = () => (
+  <SvixEmbed />
+);
+
+ReactDOM.render(<App />, document.body);
+```
+
 ## White labeling
 
 Keep the same look and feel of your application by white labeling the Management UI. From the [Svix dashboard](https://dashboard.svix.com/settings), you can configure the color palette, font and the logo that your users will see.
