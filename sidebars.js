@@ -1,7 +1,7 @@
 module.exports = {
   mainSidebar: [
     {
-      'Introduction': ['introduction', 'overview', 'installation', 'quickstart', 'event-types', 'management-ui'],
+      'Introduction': ['introduction', 'overview', 'installation', 'quickstart', 'event-types', 'management-ui', 'consuming-webhooks'],
       'Advanced': ['incoming-webhooks', 'rate-limit'],
       'Manage Your Account': ['account/overview', 'account/environments', 'account/org-members', 'account/retries'],
     },
@@ -10,7 +10,6 @@ module.exports = {
     },
     {
       'Additional links': [
-        'consuming-webhooks',
         'play',
         'get-help',
         {
