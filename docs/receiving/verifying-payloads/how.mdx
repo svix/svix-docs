@@ -140,7 +140,7 @@ const payload = wh.verify(payload, headers);
 <TabItem value="py">
 
 ```python
-from svix import Webhook
+from svix.webhooks import Webhook
 
 secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
 
@@ -291,7 +291,7 @@ Here are examples on how to adjust the above examples to your favourite framewor
 ```python
 from django.http import HttpResponse
 
-from svix import Webhook, WebhookVerificationError
+from svix.webhooks import Webhook, WebhookVerificationError
 
 secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
 
@@ -316,7 +316,7 @@ def webhook_handler(request):
 ```python
 from flask import request
 
-from svix import Webhook, WebhookVerificationError
+from svix.webhooks import Webhook, WebhookVerificationError
 
 secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
 
@@ -341,7 +341,7 @@ def webhook_handler():
 ```python
 from fastapi import Request, Response, status
 
-from svix import Webhook, WebhookVerificationError
+from svix.webhooks import Webhook, WebhookVerificationError
 
 secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
 

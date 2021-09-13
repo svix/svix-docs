@@ -41,7 +41,7 @@ const eventType = await svix.eventType.create({
 <TabItem value="py">
 
 ```python
-from svix import Svix, EventTypeIn
+from svix.api import Svix, EventTypeIn
 
 svix = Svix("AUTH_TOKEN")
 app = svix.application.create(EventTypeIn(
@@ -154,8 +154,7 @@ execute();
 
 ```python
 import json
-from svix import Svix
-from svix.api import EventTypeIn
+from svix.api import Svix, EventTypeIn
 
 svix = Svix("AUTH_TOKEN")
 
