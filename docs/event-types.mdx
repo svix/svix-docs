@@ -82,6 +82,18 @@ svix.getEventType()
 ```
 
 </TabItem>
+<TabItem value="kotlin">
+
+```kotlin
+import com.svix.kotlin.Svix;
+import com.svix.kotlin.models.EventTypeIn;
+
+val svix = Svix("AUTH_TOKEN");
+svix.eventType.create(
+                EventTypeIn("A user has signed up", "user.signup"));
+```
+
+</TabItem>
 <TabItem value="cli">
 
 ```shell
@@ -241,6 +253,42 @@ public class App {
         } catch(IOException e) {
             System.out.println(e.toString());
             System.exit(1);
+        }
+    }
+}
+```
+
+</TabItem>
+<TabItem value="kotlin">
+
+```kotlin
+package sviximport;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+import com.svix.kotlin.Svix;
+import com.svix.kotlin.models.EventTypeIn;
+import com.svix.kotlin.exceptions.ApiException;
+
+internal class App {
+    suspend fun main() {
+        val svix = Svix("AUTH_TOKEN")
+        try {
+            Scanner(FileReader("/Users/fcjr/Desktop/import/data.csv")).use { scanner ->
+                while (scanner.hasNextLine()) {
+                    try {
+                        val line: List<String> = scanner.nextLine().split("|")
+                        svix.eventType.create(EventTypeIn(line[1], line[0]))
+                    } catch (e: ApiException) {
+                        println(e.message)
+                        exitProcess(1)
+                    }
+                }
+            }
+        } catch (e: IOException) {
+            println(e.toString())
+            exitProcess(1)
         }
     }
 }
