@@ -1,15 +1,8 @@
 module.exports = {
   mainSidebar: [
     {
-      Introduction: [
-        "introduction",
-        "overview",
-        "installation",
-        "quickstart",
-        "event-types",
-        "app-portal",
-        "consuming-webhooks",
-      ],
+      Introduction: ["introduction", "overview", "installation", "quickstart"],
+      Basics: ["event-types", "app-portal", "consuming-webhooks"],
       Advanced: ["incoming-webhooks", "rate-limit"],
       "Manage Your Account": [
         "account/overview",
@@ -19,7 +12,7 @@ module.exports = {
       ],
     },
     {
-      Tutorials: ["tutorials/cli"],
+      Tutorials: ["tutorials/cli", "tutorials/event-type-schema"],
     },
     {
       "Additional links": [
