@@ -76,6 +76,10 @@ module.exports = {
             to: '/receiving/verifying-payloads/why',
             from: '/receiving/verifying-payloads',
           },
+          {
+            to: '/management-ui',
+            from: '/app-portal',
+          },
         ],
       },
     ],

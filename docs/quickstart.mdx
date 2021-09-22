@@ -2,13 +2,10 @@
 title: Quickstart
 ---
 
-import CodeTabs from '@theme/CodeTabs';
-import TabItem from '@theme/TabItem';
-
-
+import CodeTabs from "@theme/CodeTabs";
+import TabItem from "@theme/TabItem";
 
 This page has everything you need to start sending webhooks with Svix.
-
 
 ### Main concepts
 
@@ -17,7 +14,6 @@ In Svix you have three important entities you will be interacting with:
 - `messages`: these are the webhooks being sent. They can have contents and a few other properties.
 - `application`: this is where `messages` are sent to. Usually you want to create one application for each of your users.
 - `endpoint`: endpoints are the URLs messages will be sent to. Each application can have multiple `endpoints` and each message sent to that application will be sent to all of them (unless they are not subscribed to the sent [event type](event-types.mdx)).
-
 
 ## Getting started
 
@@ -40,7 +36,7 @@ Code example:
 import { Svix } from "svix";
 
 const svix = new Svix("AUTH_TOKEN");
-const app = await svix.application.create({name: "Application name"});
+const app = await svix.application.create({ name: "Application name" });
 ```
 
 </TabItem>
@@ -101,7 +97,6 @@ curl -X POST "https://api.svix.com/api/v1/app/" \
 </TabItem>
 </CodeTabs>
 
-
 ### Send a message
 
 We will now send a new message using the [create message API endpoint](https://api.svix.com/docs#operation/create_message_api_v1_app__app_id__msg__post). It accepts an `app_id`, which is the application's ID (or custom `uid`) from the previous section. In addition, it accepts the following fields (as part the json body):
@@ -109,7 +104,6 @@ We will now send a new message using the [create message API endpoint](https://a
 - [`eventType`](event-types.mdx): an identifier denoting the type of the event. E.g. `invoice.paid`.
 - `eventId`: an optional unique ID for the event. This is useful if you want to map each message to unique events on your system. This is also used as an idempotency key.
 - `payload`: a JSON dictionary that can hold anything. Its content will be sent as the webhook content.
-
 
 For example:
 
@@ -119,13 +113,13 @@ For example:
 ```js
 const svix = new Svix("AUTH_TOKEN");
 await svix.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
-    "eventType": "invoice.paid",
-    "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G",
-    "payload": {
-        "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql",
-        "status": "paid",
-        "attempt": 2
-    }
+  eventType: "invoice.paid",
+  eventId: "evt_Wqb1k73rXprtTm7Qdlr38G",
+  payload: {
+    id: "invoice_WF7WtCLFFtd8ubcTgboSFNql",
+    status: "paid",
+    attempt: 2,
+  },
 });
 ```
 
@@ -169,7 +163,7 @@ svixClient.Message.Create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.MessageIn{
 
 ```java
 Svix svix = new Svix("AUTH_TOKEN");
-svix.getMessage().create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", 
+svix.getMessage().create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
   new MessageIn()
     .eventType("invoice.paid")
     .eventId("evt_Wqb1k73rXprtTm7Qdlr38G")
@@ -202,13 +196,11 @@ curl -X POST "https://api.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/msg/"
 </TabItem>
 </CodeTabs>
 
-
 #### Idempotentcy
 
 As mentioned above, the `eventId` is also used as an idempotency key. This means that if you send the same request (with the same `eventId`) more than once, only one message will be created. The rest of the attempts will be ignored.
 
 This means that you can safely retry sending messages on errors (such as network errors) without worrying about duplicate messages being sent.
-
 
 ## Add webhook endpoints
 
@@ -218,7 +210,7 @@ In the example above we showed how to send messages, though these messages were 
 You can use the [Svix Play webhook debugger](https://www.svix.com/play/) and the [Svix CLI](https://github.com/svix/svix-cli) to inspect, test and debug your webhooks during development.
 :::
 
-### Using the application portal
+### Using the Appl Portal
 
 Svix offers a pre-build application portal. With [one API call](https://api.svix.com/docs#operation/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post), you can give your users access to this UI and they can then add their own endpoints themselves.
 
@@ -226,7 +218,7 @@ More on that in the [application portal docs](./management-ui.mdx).
 
 ### Using the API
 
-In addition to the application portal, you can also use our API to add endpoints to your applications. To do so, you will use the [create endpoint API](https://api.svix.com/docs#operation/create_endpoint_api_v1_app__app_id__endpoint__post).
+In addition to the App Portal, you can also use our API to add endpoints to your applications. To do so, you will use the [create endpoint API](https://api.svix.com/docs#operation/create_endpoint_api_v1_app__app_id__endpoint__post).
 
 For example:
 
@@ -236,9 +228,9 @@ For example:
 ```js
 const svix = new Svix("AUTH_TOKEN");
 await svix.endpoint.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
-    "url": "https://api.example.com/svix-webhooks/",
-    "version": 1,
-    "description": "My main endpoint",
+  url: "https://api.example.com/svix-webhooks/",
+  version: 1,
+  description: "My main endpoint",
 });
 ```
 
@@ -275,7 +267,7 @@ svixClient.Endpoint.Create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.EndpointIn{
 ```java
 Svix svix = new Svix("AUTH_TOKEN");
 svix.getEndpoint()
-    .create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", 
+    .create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
             new EndpointIn()
               .url("https://api.example.com/svix-webhooks/")
               .version(1)
