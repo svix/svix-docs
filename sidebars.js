@@ -1,7 +1,7 @@
 module.exports = {
   mainSidebar: [
     {
-      Introduction: ["introduction", "overview", "installation", "quickstart"],
+      Introduction: ["introduction", "setup", "quickstart"],
       Basics: ["event-types", "app-portal", "consuming-webhooks"],
       Advanced: ["incoming-webhooks", "rate-limit"],
       "Manage Your Account": [
