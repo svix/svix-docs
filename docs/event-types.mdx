@@ -8,7 +8,7 @@ import TabItem from "@theme/TabItem";
 Each message sent through Svix has an associated event type.
 Event types are identifiers denoting the type of the message being sent.
 
-Event types are just string, and can be anything. For example: `user.signup`, `invoice.paid` and `workflow.completed`.
+Event types are just a string, for example: `user.signup`, `invoice.paid` and `workflow.completed`.
 
 Event types are primarily used to decide which events are sent to which endpoint. By default, all messages are sent to all endpoints. Though when adding or editing endpoints, users can choose to only subscribe to some of the event types for this particular endpoint.
 

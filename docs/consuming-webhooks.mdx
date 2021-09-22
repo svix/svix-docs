@@ -14,6 +14,6 @@ We offer easy to use docs for how to safely consume webhooks which you can share
 
 ## Building your own libraries
 
-Depending on your product you may want to offer additional processing before passing the verified payload for your customers. For example, you may want to create API objects from the payload that your users can use to interact with your API.
+Depending on your product, you may want to offer additional processing before passing the verified payload for your customers. For example, you may want to create API objects from the payload that your users can use to interact with your API.
 
 In this scenario you would want to create your own `Webhook` class equivalent that uses the `Svix` class internally. This way you can get all of the verification that Svix offer, while still being able to post-process the payload before passing it to your users.
