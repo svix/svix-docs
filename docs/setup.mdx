@@ -1,13 +1,15 @@
 ---
-title: Installation
+title: Setup
 ---
 
-import CodeTabs from '@theme/CodeTabs';
-import TabItem from '@theme/TabItem';
+import CodeTabs from "@theme/CodeTabs";
+import TabItem from "@theme/TabItem";
 
+Svix offers a REST API to interact with the service, and easy to use libraries to interact with the API.
+
+Svix also has an API reference and OpenAPI (formerly Swagger) specifications at the [API documentation page](https://api.svix.com/docs) which you can always refer to the exact schemas and endpoints available in our API.
 
 When working with Svix you can either use our [REST API](https://api.svix.com/docs) directly, or using any of our libraries. In this document we'll cover how to install them for each platform.
-
 
 ## Install the libraries
 
@@ -76,11 +78,13 @@ Maven: Add this dependency to your project's POM:
 <TabItem value="cli">
 
 On macOS install via <a href="https://brew.sh/">Homebrew</a>:
+
 ```sh
 brew install svix/svix/svix
 ```
 
 On Windows install via <a href="https://scoop.sh/">Scoop</a>:
+
 ```sh
 scoop bucket add svix https://github.com/svix/scoop-svix.git
 scoop install svix
@@ -110,7 +114,7 @@ Then you can just use them as follows
 import { Svix } from "svix";
 
 const svix = new Svix("AUTH_TOKEN");
-const app = await svix.application.create({name: "Application name"});
+const app = await svix.application.create({ name: "Application name" });
 ```
 
 </TabItem>
@@ -174,4 +178,3 @@ svix application create '{ "name": "Application name" }'
 
 </TabItem>
 </CodeTabs>
-
