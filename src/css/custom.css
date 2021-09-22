@@ -7,7 +7,7 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: rgba(1, 130, 227);
+  --ifm-color-primary: rgba(1,130,227);
   --ifm-color-primary-dark: rgb(33, 175, 144);
   --ifm-color-primary-darker: rgb(31, 165, 136);
   --ifm-color-primary-darkest: rgb(26, 136, 112);
@@ -32,22 +32,18 @@
   }
 }
 
+
 /* Better sidebar { */
 .menu a:not([href]).menu__link {
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
-  color: black;
-  font-size: 0.8rem;
-  font-weight: bold;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: black;
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
-html[data-theme="dark"] .menu a:not([href]).menu__link {
-  color: grey;
+html[data-theme='dark'] .menu a:not([href]).menu__link {
+    color: grey;
 }
 /* } */
-
-img {
-  border-radius: var(--ifm-global-radius);
-  box-shadow: var(--ifm-global-shadow-lw);
-}

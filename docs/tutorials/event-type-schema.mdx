@@ -36,7 +36,7 @@ So let's add a schema to the event type:
 
 ![add-schema](../img/schema-add-schema.png)
 
-### Using the visual editor
+### Option A. Using the visual editor
 
 To get started with the visual editor, let's add some child fields. We need a field for `account_id`, `first_name`, `last_name` and `created_at`.
 
@@ -74,6 +74,16 @@ From there, click "Configure example". In the example textarea, you can change t
 
 Then click "Save" to see your changes reflected in the schema preview and the Event Catalog.
 
-### Providing a JSONSchema
+### Option B. Providing a JSONSchema
 
-If you already have
+Instead of using the visual editor, you can also choose to provide your own JSONSchema. If you already have a JSONSchema (or JSONSchema-compatible definition) defined for your events, this is likely your fastest option.
+
+When you are configuring your schema, you can switch to the "Code" tab to fill out your own JSONSchema (Draft 7) spec.
+
+![schema-add-code](../img/schema-add-code.png)
+
+After saving the raw JSONSchema, you can preview your event type to make sure that the schema matches what you expected.
+
+## Event Catalog
+
+After defining your event types and schemas, your users will be able to preview all your event types from the Event Catalog in the [App Portal](../app-portal).
