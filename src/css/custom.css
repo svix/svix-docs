@@ -47,7 +47,7 @@ html[data-theme="dark"] .menu a:not([href]).menu__link {
 }
 /* } */
 
-img {
+article img {
   border-radius: var(--ifm-global-radius);
   box-shadow: var(--ifm-global-shadow-lw);
 }
