@@ -54,6 +54,25 @@ Maven: Add this dependency to your project's POM:
 ```
 
 </TabItem>
+<TabItem value="kotlin">
+
+Gradle: Add this dependency to your project's build file:
+
+```groovy
+implementation "com.svix.kotlin:svix-kotlin:0.30.0"
+```
+
+Maven: Add this dependency to your project's POM:
+
+```xml
+<dependency>
+  <groupId>com.svix.kotlin</groupId>
+  <artifactId>svix-kotlin</artifactId>
+  <version>0.30.0</version>
+</dependency>
+```
+
+</TabItem>
 <TabItem value="cli">
 
 On macOS install via <a href="https://brew.sh/">Homebrew</a>:
@@ -130,6 +149,16 @@ Svix svix = new Svix("AUTH_TOKEN");
 ApplicationOut app = svix.getApplication().create(new ApplicationIn().name("Application name"));
 ```
 
+</TabItem>
+<TabItem value="kotlin">
+
+```kotlin
+import com.svix.kotlin.models.ApplicationIn;
+import com.svix.kotlin.Svix;
+
+val svix = Svix("AUTH_TOKEN")
+val applicationOut = svix.application.create(ApplicationIn("Application name"))
+```
 </TabItem>
 <TabItem value="cli">
 
