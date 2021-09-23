@@ -83,7 +83,9 @@ import com.svix.kotlin.models.ApplicationIn;
 import com.svix.kotlin.Svix;
 
 val svix = Svix("AUTH_TOKEN")
-val applicationOut = svix.application.create(ApplicationIn("Application name", 1000))
+val applicationOut = svix.application.create(ApplicationIn(
+    name = "Application name",
+    rateLimit = 1000))
 ```
 
 </TabItem>
