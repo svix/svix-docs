@@ -47,7 +47,7 @@ module.exports = {
       copyright: `Copyright © Svix`,
     },
     prism: {
-      additionalLanguages: ['ruby', 'php', 'java', 'groovy', 'csharp'],
+      additionalLanguages: ['ruby', 'php', 'java', 'groovy', 'csharp', 'kotlin'],
     },
   },
   presets: [
