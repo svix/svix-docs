@@ -238,7 +238,7 @@ public class App {
     public static void main(String[] args) {
         Svix svix = new Svix("AUTH_TOKEN");
 
-        try (Scanner scanner = new Scanner(new FileReader("/Users/fcjr/Desktop/import/data.csv"));) {
+        try (Scanner scanner = new Scanner(new FileReader("/path/to/data.csv"));) {
             while (scanner.hasNextLine()) {
                 try {
                     String[] line = scanner.nextLine().split("|");
