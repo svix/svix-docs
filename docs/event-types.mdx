@@ -262,34 +262,33 @@ public class App {
 <TabItem value="kotlin">
 
 ```kotlin
-package sviximport;
+package sviximport
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Scanner;
-import com.svix.kotlin.Svix;
-import com.svix.kotlin.models.EventTypeIn;
-import com.svix.kotlin.exceptions.ApiException;
+import com.svix.kotlin.Svix
+import com.svix.kotlin.models.EventTypeIn
+import com.svix.kotlin.exceptions.ApiException
+import java.io.File
+import java.io.IOException
+import kotlinx.coroutines.runBlocking
+import kotlin.system.exitProcess
 
-internal class App {
-    suspend fun main() {
-        val svix = Svix("AUTH_TOKEN")
-        try {
-            Scanner(FileReader("/Users/fcjr/Desktop/import/data.csv")).use { scanner ->
-                while (scanner.hasNextLine()) {
-                    try {
-                        val line: List<String> = scanner.nextLine().split("|")
-                        svix.eventType.create(EventTypeIn(line[1], line[0]))
-                    } catch (e: ApiException) {
-                        println(e.message)
-                        exitProcess(1)
-                    }
+fun main() = runBlocking {
+    val svix = Svix("AUTH_TOKEN")
+    try {
+        File("/path/to/data.csv").useLines { lines ->
+            lines.forEach {
+                try {
+                    val line = it.split("|")
+                    svix.eventType.create(EventTypeIn(line[1], line[0]))
+                } catch (e: ApiException) {
+                    println(e.message)
+                    exitProcess(1)
                 }
             }
-        } catch (e: IOException) {
-            println(e.toString())
-            exitProcess(1)
         }
+    } catch (e: IOException) {
+        println(e.toString())
+        exitProcess(1)
     }
 }
 ```
