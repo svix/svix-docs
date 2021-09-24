@@ -5,20 +5,33 @@ title: Event Types
 import CodeTabs from "@theme/CodeTabs";
 import TabItem from "@theme/TabItem";
 
-Each message sent through Svix has an associated event type.
-Event types are identifiers denoting the type of the message being sent.
+Each message sent through Svix has an associated event type. Event types are identifiers denoting the type of message being sent and are the primary way for webhook consumers to configure what events they are interested in receiving.
 
 Event types are just a string, for example: `user.signup`, `invoice.paid` and `workflow.completed`.
 
-Event types are primarily used to decide which events are sent to which endpoint. By default, all messages are sent to all endpoints. Though when adding or editing endpoints, users can choose to only subscribe to some of the event types for this particular endpoint.
+Webhook consumers can choose which events are sent to which endpoint. By default, all messages are sent to all endpoints. Though when adding or editing endpoints, users can choose to only subscribe to some of the event types for this particular endpoint.
 
 :::tip Bulk Create
 It's recommended to add the event types you are going to use ahead of time. You can do it using the scripts in the [bulk creating event types section](#bulk-creating-event-types).
 :::
 
+## What your users will see
+
 This is how choosing event types look like in the [pre-built application portal](app-portal.mdx):
 
-![Management UI screenshot](./img/event-types-ui.png)
+![Management UI screenshot](./img/event-type-selection.png)
+
+## Event Type Format
+
+Event types have a pattern defined a `^[a-zA-Z0-9\\-_.]+$`, meaning it can contain any of the following characters:
+
+- A through Z (uppercase or lowercase)
+- 0 through 9
+- Special characters: `-`, `_`, `.`
+
+:::tip Style guide
+We recommend you use period-delimited event type names (e.g. `<group>.<event>`). If you do, the App Portal UI will logically group them for your users and make it easier for them to subscribe an endpoint to all events in a particular group of event types.
+:::
 
 ## Using event types
 
@@ -119,6 +132,20 @@ curl -X POST "https://api.svix.com/api/v1/event-type/" \
 
 </TabItem>
 </CodeTabs>
+
+## Event Type Schema
+
+One of the best ways to help your users integrate with you is by defining schemas for your event types. Event type schemas allow your users to anticipate the shape of the message body they will receive as well as introduce guardrails for each data type.
+
+Schemas can be created using our visual schema editor, or by providing your own JSONSchema (Draft 7) spec.
+
+![schema-editor-basic](./img/schema-editor-basic.png)
+
+Once you have a schema defined, your users will be able to view the schema definition as well as an example event from the Event Catalog in the App Portal.
+
+![schema-preview](./img/schema-preview.png)
+
+To learn more about creating schemas, check out our guide on [adding your first event type schema](./tutorials/event-type-schema).
 
 ## Bulk creating event types
 

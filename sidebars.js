@@ -19,7 +19,7 @@ module.exports = {
       ],
     },
     {
-      Tutorials: ["tutorials/cli"],
+      Tutorials: ["tutorials/cli", "tutorials/event-type-schema"],
     },
     {
       "Additional links": [
