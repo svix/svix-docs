@@ -17,6 +17,7 @@
   --ifm-code-font-size: 95%;
 
   --ifm-menu-link-padding-horizontal: 1rem;
+  --docusaurus-announcement-bar-height: 0 !important;
 }
 
 .docusaurus-highlight-code-line {
