@@ -40,4 +40,12 @@ When configuring your environments, it's important to know which settings are sh
 
 ![environment specific settings](../img/env-specific-settings.png)
 
+#### App Portal White Labeling
+
 The App Portal [White Labeling](../app-portal#white-labeling) is configured separately for each environment. This allows you to experiment with how the App Portal will look in your development environment without affecting your production users.
+
+#### HTTPS Only Endpoints
+
+It is strongly recommended that all registered endpoints in production environments are secured with HTTPS. If you want to allow unsecure endpoints (HTTP) on any environment, you may do so on the "General Settings" page.
+
+As of October 1st, 2021, HTTPS Only Endpoints is enabled by default on newly created environments. If your environment was created before then, the default was disabled and your environment was left unchanged.
