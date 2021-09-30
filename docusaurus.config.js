@@ -39,7 +39,14 @@ module.exports = {
     colorMode: {
       switchConfig: {
         darkIcon: "🌙",
+        darkIconStyle: {
+          fontSize: "0.8em",
+          marginRight: "1px",
+        },
         lightIcon: "☀️",
+        lightIconStyle: {
+          fontSize: "0.85em",
+        },
       },
     },
     footer: {
