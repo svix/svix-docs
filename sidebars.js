@@ -5,7 +5,6 @@ module.exports = {
       Basics: ["event-types", "app-portal", "consuming-webhooks"],
       Advanced: ["incoming-webhooks", "rate-limit"],
       "Manage Your Account": [
-        "account/overview",
         "account/environments",
         "account/org-members",
         "account/retries",
