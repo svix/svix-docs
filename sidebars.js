@@ -3,11 +3,10 @@ module.exports = {
     {
       Introduction: ["introduction", "setup", "quickstart"],
       Basics: ["event-types", "app-portal", "consuming-webhooks"],
-      Advanced: ["incoming-webhooks", "rate-limit"],
+      Advanced: ["incoming-webhooks", "rate-limit", "retries"],
       "Manage Your Account": [
         "account/environments",
         "account/org-members",
-        "account/retries",
       ],
     },
     {
