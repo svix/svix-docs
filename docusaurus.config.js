@@ -87,6 +87,10 @@ module.exports = {
             to: "/app-portal",
             from: "/management-ui",
           },
+          {
+            to: "/retries",
+            from: "/account/retries"
+          },
         ],
       },
     ],
