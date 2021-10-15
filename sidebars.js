@@ -2,12 +2,9 @@ module.exports = {
   mainSidebar: [
     {
       Introduction: ["introduction", "setup", "quickstart"],
-      Basics: ["event-types", "app-portal", "consuming-webhooks"],
+      Basics: ["api-keys", "event-types", "app-portal", "consuming-webhooks"],
       Advanced: ["incoming-webhooks", "rate-limit", "retries"],
-      "Manage Your Account": [
-        "account/environments",
-        "account/org-members",
-      ],
+      "Manage Your Account": ["account/environments", "account/org-members"],
     },
     {
       Tutorials: ["tutorials/cli", "tutorials/event-type-schema"],
