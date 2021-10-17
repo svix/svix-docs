@@ -30,8 +30,8 @@ module.exports = {
           position: "left",
         },
         {
-          to: "mailto:contact@svix.com",
-          label: "Contact",
+          to: "/get-help",
+          label: "Support",
           position: "left",
         },
       ],
