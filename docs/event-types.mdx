@@ -110,6 +110,16 @@ svix.eventType.create(
 ```
 
 </TabItem>
+<TabItem value="ruby">
+
+```ruby
+svix = Svix::Client.new("AUTH_TOKEN")
+svix.event_type.create(Svix::EventTypeIn.new({
+        "name" => "user.signup",
+        "description" => "A user has signed up"}))
+```
+
+</TabItem>
 <TabItem value="cli">
 
 ```shell
@@ -324,6 +334,22 @@ fun main() = runBlocking {
         exitProcess(1)
     }
 }
+```
+
+</TabItem>
+<TabItem value="ruby">
+
+```ruby
+require "svix"
+require "csv"
+
+svix = Svix::Client.new("AUTH_TOKEN")
+
+CSV.foreach('data.csv', {:col_sep => "|"}) do |line|
+    event_type = svix.event_type.create(Svix::EventTypeIn.new({
+        "name" => line[0],
+        "description" => line[1]}))
+end
 ```
 
 </TabItem>

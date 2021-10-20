@@ -88,6 +88,18 @@ val applicationOut = svix.application.create(ApplicationIn(name = "Application n
 ```
 
 </TabItem>
+<TabItem value="ruby">
+
+```ruby
+require "svix"
+
+svix = Svix::Client.new("AUTH_TOKEN")
+
+application_out = svix.application.create(Svix::ApplicationIn.new({
+    "name" => "Application name"}))
+```
+
+</TabItem>
 <TabItem value="cli">
 
 ```shell
@@ -203,6 +215,22 @@ svix.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
 ```
 
 </TabItem>
+<TabItem value="ruby">
+
+```ruby
+svix = Svix::Client.new("AUTH_TOKEN")
+svix.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
+    Svix::MessageIn.new({
+        "event_type" => "invoice.paid",
+        "payload" => {
+            "id" => "invoice_WF7WtCLFFtd8ubcTgboSFNql",
+            "status" => "paid",
+            "attempt" => 2
+        },
+        "event_id" => "evt_Wqb1k73rXprtTm7Qdlr38G"}))
+```
+
+</TabItem>
 <TabItem value="cli">
 
 ```shell
@@ -313,6 +341,19 @@ val endpointOut =
             url = URI("https://api.example.com/svix-webhooks/"),
             version = 1,
             description = "My main endpoint"))
+```
+
+</TabItem>
+<TabItem value="ruby">
+
+```ruby
+svix = Svix::Client.new("AUTH_TOKEN")
+endpoint_out =
+    svix.endpoint.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
+        Svix::EndpointIn.new({
+            "url" => "https://api.example.com/svix-webhooks/",
+            "version" => 1,
+            "description" => "My main endpoint"}))
 ```
 
 </TabItem>
