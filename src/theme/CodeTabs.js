@@ -13,6 +13,7 @@ export default function CodeTabs({ children, additionalTabs=[] }) {
             { label: 'Go', value: 'go', },
             { label: 'Java', value: 'java', },
             { label: 'Kotlin', value: 'kotlin', },
+            { label: 'Ruby', value: 'ruby', },
             ...additionalTabs,
             { label: 'CLI', value: 'cli', },
             { label: 'cURL', value: 'curl', },

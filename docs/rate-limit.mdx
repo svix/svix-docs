@@ -89,6 +89,19 @@ val applicationOut = svix.application.create(ApplicationIn(
 ```
 
 </TabItem>
+<TabItem value="ruby">
+
+```ruby
+require "svix"
+
+svix = Svix::Client.new("AUTH_TOKEN")
+
+application_out = svix.application.create(Svix::ApplicationIn.new({
+    "name" => "Application name"
+    "rate_limit" => 1000}))
+```
+
+</TabItem>
 <TabItem value="cli">
 
 ```shell
