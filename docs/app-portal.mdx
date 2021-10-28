@@ -13,7 +13,7 @@ Here is what it looks like standalone, or scroll down for the embedded version:
 
 ## Giving your users access
 
-To give your users access to the [App Portal](./app-portal), just use the [dashboard access endpoint](https://api.svix.com/docs#operation/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post). Calling this endpoint with an `app_id`, returns a url you can just redirect your users to in order to log them into the App Portal. They will stay logged in for a few days or until they log out.
+To give your users access to the [App Portal](./app-portal), just use the [dashboard access endpoint](https://api.svix.com/docs#operation/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post). Calling this endpoint with an `app_id` returns a URL you can just redirect your users to in order to log them into the App Portal. They will stay logged in for a few days or until they log out.
 
 <CodeTabs>
 <TabItem value="js">
@@ -99,6 +99,8 @@ curl -X POST "https://api.svix.com/api/v1/auth/dashboard_access/app_Xzx8bQeOB1D1
 
 ## Embedding in your own dashboard
 
+### Embedding as an iframe
+
 The returned URL from the previous section can also be embedded in your own dashboard using an iframe.
 
 ![Embedded App Portal screenshot](/img/app-portal/embedded.png)
@@ -155,6 +157,12 @@ const App = () => <SvixEmbed />;
 
 ReactDOM.render(<App />, document.body);
 ```
+
+### Design Considerations
+
+When embedding the App Portal into your application, keep in mind that the App Portal is an information dense master-detail view. We recommend keeping the view at 100% width to avoid abbreviating important information for your users. If you are hoping to avoid having an embedded scrollbar, we recommend putting the view inside a full screen modal from your dashboard.
+
+![embedded iframe modal](/img/app-portal/embedded-view-modal.png)
 
 ## White labeling
 
