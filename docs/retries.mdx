@@ -18,9 +18,18 @@ Each message is attempted based on this schedule:
 - 10 hours
 - 10 hours (in addition to the previous)
 
-Your customers can also manually retry each message at any time from the application portal. Additionally, if an endpoint is removed or disabled delivery attempts to the endpoint will be disabled as well.
+If an endpoint is removed or disabled delivery attempts to the endpoint will be disabled as well.
 
 
 ## Failed delivery handling
 
 After the conclusion of the above attempts the message will be marked as `Failed` for this endpoint, and you will get a webhook of type `message.attempt.exhausted` notifying you of this error.
+
+
+## Manual retries
+
+Your customers can also use the application portal to manually retry each message at any time, or automatically retry ("Recover") all failed messages starting from a given date.
+
+Alternatively, you can use the respective APIs:
+- [Resend webhook](https://api.svix.com/docs#operation/resend_webhook_api_v1_app__app_id__msg__msg_id__endpoint__endpoint_id__resend__post) for retrying a single message.
+- [Resend failed webhooks](https://api.svix.com/docs#operation/resend_failed_webhooks_api_v1_app__app_id__endpoint__endpoint_id__recover__post) for the failed messages recovery.
