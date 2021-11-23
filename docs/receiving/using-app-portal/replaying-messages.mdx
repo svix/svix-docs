@@ -1,0 +1,34 @@
+---
+title: Replaying Messages
+---
+
+#### Why Replay
+
+- If your service has downtime
+- If your endpoint was misconfigured
+
+If you want to replay a single event, you can find the message
+from the UI and click the options menu next to any of the attempts.
+
+![resend message](/img/app-portal/resend-single.png)
+
+From there, click "resend" to have the same message send to your
+endpoint again.
+
+If you need to recover from a service outage and want to replay all
+the events since a given time, you can do so from the Endpoint page.
+On an endpoint's details page, click `Options > Recover Failed Messages`.
+
+![recover modal](/img/app-portal/replay-modal.png)
+
+From there, you can choose a time window to recover from.
+
+For a more granular recovery – for example, if you know the exact timestamp
+that you want to recover from – you can click the options menu on any message
+from the endpoint page. From there, you can click "Replay..." and choose to
+"Replay all failed messages since this time."
+
+---
+
+With all the ways to resend and recover failed messages, you can be more
+confident in your endpoints and free to experiment with new event types.

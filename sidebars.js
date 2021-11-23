@@ -24,6 +24,15 @@ module.exports = {
   consumersSidebar: [
     "receiving/introduction",
     {
+      "Using the App Portal": [
+        "receiving/using-app-portal/event-catalog",
+        "receiving/using-app-portal/adding-endpoints",
+        "receiving/using-app-portal/testing-events",
+        "receiving/using-app-portal/filtering-logs",
+        "receiving/using-app-portal/replaying-messages",
+      ],
+    },
+    {
       "Verifying Webhooks": [
         "receiving/verifying-payloads/why",
         "receiving/verifying-payloads/how",

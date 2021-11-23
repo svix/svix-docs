@@ -1,0 +1,26 @@
+---
+title: Adding Endpoints
+---
+
+In order to start listening to messages sent through Svix, you will need to configure your **endpoints**.
+
+Adding an endpoint is as simple as providing a URL that you control and a list of **event types** that you want to
+listen to.
+
+![add endpoint](/img/app-portal/add-endpoint.png)
+
+:::tip Svix Play
+
+If you don't have a URL or your service isn't quite ready to start receiving events just yet,
+just press the **use Svix Play** button to have a unique URL generated for you.
+
+You'll be able to view and inspect all incoming webhooks sent to your Svix Play URL, making it
+effortless to get started.
+:::
+
+When configuring your endpoint, make sure to take a look at the [Event Catalog](./event-catalog) to see the
+full descriptions of each endpoint as well as all the fields they send.
+
+If you don't specify any event types, by default, your endpoint will receive all events, regardless of type.
+This can be helpful for getting started and for testing, but we recommend changing this to a subset later on
+to avoid receiving unexpected messages.
