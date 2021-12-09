@@ -191,3 +191,25 @@ So for example:
 ```
 http://app.svix.com/login?primaryColor=28bb93&fontFamily=Roboto#key=eyJhcHBJZCI6ICJhcHBfMXRSdFlMN3pwWWR2NHFuWTRRZFI1azE4eXQ0IiwgInRva2VuIjogImFwcHNrX2UxOUN0Rm5hbTFoOU1Gamh5azRSMTUzNUNSd05VSWI0In0=
 ```
+
+### Advanced Styling Options
+
+If you need even more granular control over the look and feel of your App Portal, we also offer a theme configuration JSON object that you can customize to your liking. This gives you and your design team the freedom to tweak font sizes as well as the border radius of different components.
+
+Below is the default theme configuration. To make adjustments, copy a modified version of this theme into the "Custom Theme" textarea on the Organization Settings page of the Svix Dashboard.
+
+````json
+{
+  {
+  // Options: 'none' | 'sm' | 'md' | 'lg' | 'full'
+  "borderRadius": {
+    "button": "md",
+    "card": "lg",
+    "input": "md"
+  },
+  "fontSize": {
+    "base": 16 // in pixels
+  }
+}
+```
+````
