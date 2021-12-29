@@ -94,5 +94,12 @@ module.exports = {
         ],
       },
     ],
+    [
+      "@cmfcmf/docusaurus-search-local",
+      {
+        indexBlog: false,
+        indexPages: false,
+      },
+    ],
   ],
 };
