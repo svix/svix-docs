@@ -126,7 +126,7 @@ curl -X POST "https://api.svix.com/api/v1/app/" \
 We will now send a new message using the [create message API endpoint](https://api.svix.com/docs#operation/create_message_api_v1_app__app_id__msg__post). It accepts an `app_id`, which is the application's ID (or custom `uid`) from the previous section. In addition, it accepts the following fields (as part the json body):
 
 - [`eventType`](event-types.mdx): an identifier denoting the type of the event. E.g. `invoice.paid`.
-- `eventId`: an optional unique ID for the event. This is useful if you want to map each message to unique events on your system. This is also used as an idempotency key.
+- `eventId`: an optional unique ID for the event. This is useful if you want to map each message to unique events on your system.
 - `payload`: a JSON dictionary that can hold anything. Its content will be sent as the webhook content.
 
 For example:
@@ -254,9 +254,10 @@ curl -X POST "https://api.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/msg/"
 
 #### Idempotentcy
 
-As mentioned above, the `eventId` is also used as an idempotency key. This means that if you send the same request (with the same `eventId`) more than once, only one message will be created. The rest of the attempts will be ignored.
+Svix supports [idempotency](https://en.wikipedia.org/wiki/Idempotence) for safely retrying requests without accidentally performing the same operation twice. This is useful when an API call is disrupted in transit and you do not receive a response.
 
-This means that you can safely retry sending messages on errors (such as network errors) without worrying about duplicate messages being sent.
+For more information, plesae refer to the [idempotency section](./idempotency.mdx) of the docs.
+
 
 ## Add webhook endpoints
 
