@@ -23,15 +23,15 @@ Before setting up a Zapier integration, we strongly recommend configuring event 
 
 You can follow the [Your first event type schema](/tutorials/event-type-schema) tutorial and refer to the [Event Types](/tutorials/event-type-schema) docs to set this up.
 
-### Expose Integrations to your users
+### Expose integrations to your users
 
-The [Svix Integrations API](https://api.svix.com/docs#tag/Integrations) is used to manage Integrations and generate long-lived rotatable credentials to other services. This enables other services to create and manage endpoints. Each service your users connect with, including Zapier, should have a corresponding Integration. 
+The [Svix Integrations API](https://api.svix.com/docs#tag/Integrations) is used to manage integrations and generate long-lived rotatable credentials for other services. This allows other services to create and manage endpoints. Each service your users connect with, including Zapier, should have a corresponding integration. 
 
-By default, the auto-generated Zapier integration requires the Application ID and Integration Key. You will need to generate and provide both to your users. To avoid exposing these constructs to your users, you can configure OAuth2 or Session Auth with Zapier. More information on this is provided below.
+By default, the auto-generated Zapier integration package requires the Application ID and Integration Key. You will need to generate and provide both to your users. To avoid exposing these constructs to your users, you can configure OAuth2 or Session Auth with Zapier. More information on this is provided below.
 
 ### Download dependencies
 
-The integration requires Node.js v14 as that is the version used by the Zapier platform at runtime. Install the Zapier CLI globally:
+The Zapier integration package requires Node.js v14 as that is the version used by the Zapier platform at runtime. Install the Zapier CLI globally:
 
 ```
 npm install -g zapier-platform-cli
@@ -115,7 +115,7 @@ To provide a better user experience, we recommend using OAuth v2 or Session Auth
 - With OAuth2, Zapier will redirect your user to your site where you can authenticate them and send Zapier back an access token. Note that Zapier only supports Authorization Code grants.
 - With Session Auth, Zapier will provide a login form for your user to provide their username and password. Those are securely sent to your service where you'll send Zapier back a session token.
 
-With either scheme, you can send the Application ID and Integration Key back with the trigger for use by the triggers. That way, your users will interact with Svix fully transparently.
+With either scheme, you can send the Application ID and Integration Key back on authentication for use by the triggers. That way, your users will interact with Svix fully transparently.
 
 For more information, refer to [Zapier's authentication docs](https://platform.zapier.com/cli_docs/docs#authentication).
 
