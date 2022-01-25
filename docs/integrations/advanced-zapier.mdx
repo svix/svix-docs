@@ -18,18 +18,44 @@ This doc assumes you're familiar with the basics of Svix Integrations and have a
 
 If you add or change your event types, you may want to upgrade your Zapier integration to a new auto-generated integration.
 
-#### Linking the integration to your new local package
+### Upgrading to an updated auto-generated package
 
-Follow the same instructions as in [Build a Zapier Integration](./zapier) guide except instead of calling the `zapier register` command to create a new integration, use the [link command](https://platform.zapier.com/cli_docs/cli#link) to link an existing one.
+Follow the [Download the package](./zapier#download-the-package) section of the [Build a Zapier Integration](./zapier) guide to download an updated auto-generated package. Then follow the steps below to link the new package to the existing integration and deploy.
+
+#### Build and deploy
+
+After downloading and extracting the auto-generated integration package, download the package dependencies:
+
+```
+npm install
+```
+
+Then, link the new integration package to your existing Zapier integration using the Zapier CLI [link command](https://platform.zapier.com/cli_docs/cli#link):
 ```
 zapier link
 ```
 
-#### Managing integration versions
+Finally, build & deploy the integration to Zapier through the [push command](https://platform.zapier.com/cli_docs/cli#push):
+```
+zapier push
+```
 
-If you wish to version bump your integration, be sure to update your integration's `package.json` to reflect the new version number. It defaults to `1.0.0`. Review the [Zapier Platform](https://platform.zapier.com/cli_docs/docs#deploying-an-app-version) docs for more infromation on versioning.
+### Managing integration versions
 
-#### Upgrading a customized integration
+If you wish to version bump your integration, be sure to update your integration's `package.json` (shown below) to reflect the new version number. It defaults to `1.0.0`.
+
+```json
+{
+    "name": "zapier-webhook-integration-with-svix",
+    "version": "1.0.0", // <------ CHANGE ME
+    "main": "index.js",
+    // << truncated >>
+}
+```
+
+Zapier supports complex versioning use cases including migrating users during a version bump. Review the [Zapier Platform](https://platform.zapier.com/cli_docs/docs#deploying-an-app-version) docs for more information.
+
+### Upgrading a customized integration
 
 If you have customized your integration package, you will need to manually reconcile the diff.
 We strongly recommend using version control like git to track the changes and aid in merging.
