@@ -1,19 +1,21 @@
 ---
-title: Integrating with Zapier
+title: Building a Zapier Integration
 ---
 
 [Zapier](https://zapier.com/) is an online automation tool that connects apps and services.
-You can build a Zapier integration that allows your customers to connect your service to other services with Svix.
+You can build a Zapier integration that allows your customers to connect your Svix-powered webhooks to other services.
 
-The typical pattern of a Zapier integration for webhooks is to configure each event type as a trigger.
-That trigger event starts a workflow ([Zap](https://zapier.com/help/create/basics/create-zaps)) which can start subsequent action steps.
+The typical pattern of a Zapier integration that recieves webhooks is to configure each event type as a trigger.
+That trigger starts a workflow (called a [Zap](https://zapier.com/help/create/basics/create-zaps)) which can start subsequent action steps.
 
-Svix can auto-generate a Zapier integration package for your environment that follows this pattern.
-It also comes with webhook verification baked in and can be extended for custom authentication schemes with your service or additional actions/triggers.
+Svix can auto-generate a Zapier integration package for your environment that follows this pattern. It generates a trigger for each event type and a special trigger that subscribes to all event types. The integration package also comes with webhook verification by default.
 
-:::note Information
-Zapier integrations can be defined on the Zapier UI or as a JavaScript project (defined through the Zapier CLI platform). The auto-generated integration package is a Node.js package. We recommend reading through the [How to Use REST Hooks in Zapier CLI](https://platform.zapier.com/cli_tutorials/resthooks) tutorial provided by Zapier to get a basic understanding of the structure.
-:::
+This guide will walk you through the steps to setup a Zapier integration for your users. You can see the end user experience (using the default API key auth) in the video below.
+
+<div style={{position: "relative", paddingBottom: "69.23076923076923%", height: 0}}>
+    <iframe src="https://www.loom.com/embed/128a2f1c2da94a84a6c1b23bf9d16343" frameborder={"0"} webkitallowfullscreen mozallowfullscreen allowfullscreen style={{
+    position: "absolute", top: 0, left: 0, width: "100%", height: "100%"}}></iframe>
+</div>
 
 ## Prerequisites
 
@@ -21,23 +23,21 @@ Zapier integrations can be defined on the Zapier UI or as a JavaScript project (
 
 Before setting up a Zapier integration, we strongly recommend configuring event types with schemas and examples as those will be embedded in the auto-generated integration package.
 
-You can follow the [Your first event type schema](/tutorials/event-type-schema) tutorial and refer to the [Event Types](/tutorials/event-type-schema) docs to set this up.
+Follow the [Your first event type schema](/tutorials/event-type-schema) tutorial and refer to the [Event Types](/tutorials/event-type-schema) docs to set this up.
 
-### Expose integrations to your users
+### Setup Zapier CLI
 
-The [Svix Integrations API](https://api.svix.com/docs#tag/Integrations) is used to manage integrations and generate long-lived rotatable credentials for other services. This allows other services to create and manage endpoints. Each service your users connect with, including Zapier, should have a corresponding integration. 
+:::info Information
+Zapier integrations can be defined on the Zapier UI or via the Zapier CLI (as a Node/JavaScript package). This guide is based on the CLI which allows for more powerful customizations. We recommend reading through the [How to Use REST Hooks in Zapier CLI](https://platform.zapier.com/cli_tutorials/resthooks) tutorial provided by Zapier to get an understanding of the structure.
+:::
 
-By default, the auto-generated Zapier integration package requires the Application ID and Integration Key. You will need to generate and provide both to your users. To avoid exposing these constructs to your users, you can configure OAuth2 or Session Auth with Zapier. More information on this is provided below.
-
-### Download dependencies
-
-The Zapier integration package requires Node.js v14 as that is the version used by the Zapier platform at runtime. Install the Zapier CLI globally:
+The Zapier integration package requires [Node.js v14](https://nodejs.org/) as that is the version used by the Zapier platform at runtime. Install the Zapier CLI globally:
 
 ```
 npm install -g zapier-platform-cli
 ```
 
-Make a Zapier platform account and login:
+Make a [Zapier Platform](https://developer.zapier.com/) account and login:
 ```
 # Login with username and password
 zapier login
@@ -46,92 +46,124 @@ zapier login
 zapier login --sso
 ```
 
-## Create or upgrade an integration
+## Create an integration
 
-:::note Upgrades & Modifications
-If you're upgrading the integration after making customizations or adding new event types, you may need to reconcile differences between the last version deployed and the latest version downloaded. We recommend using a version control system like Git to manage the history.
-:::
+### Download the package
 
-### Download the auto-generated integration package
-
-You can download an auto-generated integration package from the [integrations page](https://dashboard.svix.com/integrations) on the dashboard shown below. The NPM package version number (in `package.json`) corresponds to the Zapier integration version which defaults to `1.0.0`.
+You can download an auto-generated integration package from the [integrations page](https://dashboard.svix.com/integrations) on the dashboard shown below.
 
 ![zapier-integration-generator](../img/zapier-integration-generator.png)
 
+### Vend integration keys
+
+To integrate Svix with Zapier REST Hooks, the Zapier integration needs access to your user's application to add a Zapier endpoint.
+Svix provides an Integrations API to vend long-lived rotatable credentials called integration keys for this purpose.
+
+On your service, add an endpoint that returns the Svix application ID and integration secret. See the [Integration section](http://api.svix.com/docs#tag/Integration) of the API docs for more information and examples in the programming languages of your choice.
+
+To demonstrate the steps and enable quick testing, we give example CLI commands in the [Try it out](#retrieve-the-integration-key-for-your-application) section below.
+
 ### Build and deploy
 
-Once you've downloaded the auto-generated integration package, download the package dependencies:
+After downloading and extracting the auto-generated integration package, download the package dependencies:
 
 ```
 npm install
 ```
 
-Create a new Zapier integration using the CLI or link an existing one to the package. If you are upgrading, this will overwrite an unreleased integration or require a version bump for a released one.
-
+Then, create a new Zapier integration using the Zapier CLI [register command](https://platform.zapier.com/cli_docs/cli#register):
 ```
-# Create a new Zapier integration
 zapier register
-
-# Link an existing Zapier integration to upgrade it
-zapier link
 ```
 
-Build & deploy the integration:
+Finally, build & deploy the integration to Zapier. Zapier generates and uploads build artifacts through a single convenient [push command](https://platform.zapier.com/cli_docs/cli#push).
 ```
 zapier push
 ```
 
-### Try it out
+### That's it!
 
-Finally, try it out! From the account where you deployed the integration, you can create a Zap and test the integration. It will not be publicly available on the Zapier website until it's released, but you can share the integration with your users.
+You're done! You have a working Zapier integration for your Svix-powered webhooks. :)
 
-#### Zap Creation Experience 
+Try it out! The next section walks through the experience of creating a Zap with a webhook trigger.
+Then read on to see how you can customize your integration and release it publicly on the Zapier website.
 
-The auto-generated Zapier integration comes with one Zapier trigger that subscribes to all event types and one Zapier trigger per event type. You can customize the Zapier integration to include additional triggers, event types, custom descriptions, or alternative authentication schemes. More information on customization is below.
+## Try it out
 
-Your users will be able to select a trigger on the following screen during Zap creation:
+You can create a Zap with a Svix-powered webhook trigger from the account where you deployed the integration. You try it out from another account by obtaining the share link on the [Zapier Platform console](https://developer.zapier.com/).
+
+
+The following video shows the user experience of creating a Zap:
+
+<div style={{position: "relative", paddingBottom: "69.23076923076923%", height: 0}}>
+    <iframe src="https://www.loom.com/embed/128a2f1c2da94a84a6c1b23bf9d16343" frameborder={"0"} webkitallowfullscreen mozallowfullscreen allowfullscreen style={{
+    position: "absolute", top: 0, left: 0, width: "100%", height: "100%"}}></iframe>
+</div>
+
+### Setup the trigger
+
+Start by going to the [Zap editor](https://zapier.com/app/editor/) and give your Zap a name.
+
+Next, configure the trigger selecting the integration (aka "app"). You can search for it by name (the same name you set when calling `zapier register`).
+
+Then, select a trigger event. This corresponds to an event type (or the all trigger for all event types) which the Zap will be triggered on.
 
 ![zap-creation-step-1](../img/zap-creation-step-1.png)
 
-After authenticating, the fields in your event type's example will be available:
+### Authenticate
+
+#### Retrieve the integration key for your application
+
+Create an application if you haven't already.
+```bash
+svix application create '{"name": "Test Application"}'
+```
+
+For the application, create an integration for Zapier.
+
+```bash
+svix integration create 'app_24AEh8cKKGSoQeqQv3aSRnnISMQ' '{"name": "Zapier Integration"}'
+```
+
+Finally, retrieve the secret key for the integration.
+
+```bash
+svix integration get-key 'app_24AEh8cKKGSoQeqQv3aSRnnISMQ' 'integ_24AExrtDwuDRT6WOXeQ6uIywX94'
+```
+
+#### Create Account
+
+Zapier will prompt you to sign in to an account for the integration. When you create a new account,  enter the application ID and integration key from the previous step.
 
 ![zap-creation-step-2](../img/zap-creation-step-2.png)
 
-## Release it live
+:::info User Authentication Experience
+By default, the auto-generated Zapier integration uses token-based auth where your users input the application ID and an integration key. You can setup OAuth or Session-based authentication schemes to mask these Svix constructs by following the guide in the [Advanced Zapier Integrations](./advanced-zapier#alternative-authentication-schemes) doc.
+:::
 
-In the [Zapier developer dashboard](https://developer.zapier.com/), you can configure publishing details like name and icon for the integration, invite users to use the integration through a link, and monitor the integration for issues.
+### Test the trigger
 
-When you're ready to publish the integration on Zapier (making it generally available), you'll need to submit it for review to Zapier. More information on this process can be found on the Zapier [lifecycle planning docs](https://platform.zapier.com/partners/lifecycle-planning). Zapier also provides [integration review guidelines](https://platform.zapier.com/partners/integration-review-guidelines) that describe the requirements for release.
+Finally, test your trigger by sending a test message.
 
-## Customize an integration
+Zapier will prompt you to test your integration. Upon attempting it, Zapier will register a new endpoint on the application and you'll see it in the App Portal. In the App Portal, send a test event for the corresponding event type to the trigger.
 
-Zapier Integrations are code, so you can customize everything about them. 
+### Setup your action
 
-### Alternative authentication schemes
+Once you've tested the trigger, Zapier will automatically populate the fields available based on the example message. If you skipped sending the test message, the fields provided in the event schema example will be shown.
 
-By default, the auto-generated Zapier integration uses the API Key authentication type. It requires users to authenticate by providing an Application ID and Integration Key. To use this scheme, you would need to create an integration on your users' behalf and return the corresponding integration key. 
+![zap-creation-step-3](../img/zap-creation-step-3.png)
 
-To provide a better user experience, we recommend using OAuth v2 or Session Auth.
-- With OAuth2, Zapier will redirect your user to your site where you can authenticate them and send Zapier back an access token. Note that Zapier only supports Authorization Code grants.
-- With Session Auth, Zapier will provide a login form for your user to provide their username and password. Those are securely sent to your service where you'll send Zapier back a session token.
+You can now setup an action that uses any of these available fields.
 
-With either scheme, you can send the Application ID and Integration Key back on authentication for use by the triggers. That way, your users will interact with Svix fully transparently.
 
-For more information, refer to [Zapier's authentication docs](https://platform.zapier.com/cli_docs/docs#authentication).
+## Next Steps
 
-### Multiple event types per trigger
+### Release it live
 
-If you wish to configure triggers with multiple event types, you can modify the `filterTypes` field on the create endpoint operation during the trigger's subscribe hook.
+You can see your integration on the [Zapier Platform](https://developer.zapier.com/). From there you can edit the icon and title, get the sharable link for your users, and view analytics.
 
-If you wish your users to specify a set of event types when creating the trigger, you can use Zapier's [input fields](https://platform.zapier.com/cli_docs/docs#input-fields) feature.
+If you wish to make the integration generally available on the Zapier website, you'll need to submit it for review to Zapier. More information on this process can be found on the Zapier [lifecycle planning docs](https://platform.zapier.com/partners/lifecycle-planning). Zapier also provides [integration review guidelines](https://platform.zapier.com/partners/integration-review-guidelines) that describe the requirements for release.
 
-### Additional trigger fields
+### Advanced Customizations
 
-By default, the auto-generated integration contains the example payload that you provided with the event type schema. Zapier supports explicitly defining the list of output fields for the trigger. If you have optional fields or multiple event types with different schemas, we recommend explicitly defining the [output fields](https://platform.zapier.com/cli_docs/docs#output-fields) on the trigger.
-
-### Adding custom actions or triggers
-
-The auto-generated Zapier integration can be extended with additional actions, triggers, creates, or other Zapier resources. More information on this is available on the [Zapier CLI platform docs](https://platform.zapier.com/cli_docs/docs).
-
-The Zapier CLI can modify your package (e.g. creating a new action from a template). More information on that is available on the [Zapier CLI Reference](https://platform.zapier.com/cli_docs/cli).
-
+You can configure additional triggers, setup authentication schemes like OAuth2 or Session-based, and much more within the Zapier platform. We recommend reading our [Advanced Zapier Integrations](./advanced-zapier) docs page and going through the extensive [Zapier CLI Platform](https://platform.zapier.com/cli_docs/docs) docs.

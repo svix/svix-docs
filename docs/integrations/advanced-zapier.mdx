@@ -1,0 +1,77 @@
+---
+title: Advanced Zapier Integrations
+---
+
+[Zapier](https://zapier.com/) is an online automation tool that connects apps and services.
+You can build a Zapier integration that allows your customers to connect your service to other services with Svix.
+
+The Svix auto-generated Zapier integration is a Node/JavaScript project meaning it's defined as code and very easy to customize.
+
+This doc gives guidance on ways to enhance your Zapier webhook integration powered by Svix.
+
+:::info Prerequisites
+Before reading this doc, we strongly recommend reading the [Build a Zapier Integration](./zapier) docs.
+This doc assumes you're familiar with the basics of Svix Integrations and have a functional API key-based Zapier webhook integration.
+:::
+
+## Upgrade an existing integration
+
+If you add or change your event types, you may want to upgrade your Zapier integration to a new auto-generated integration.
+
+#### Linking the integration to your new local package
+
+Follow the same instructions as in [Build a Zapier Integration](./zapier) guide except instead of calling the `zapier register` command to create a new integration, use the [link command](https://platform.zapier.com/cli_docs/cli#link) to link an existing one.
+```
+zapier link
+```
+
+#### Managing integration versions
+
+If you wish to version bump your integration, be sure to update your integration's `package.json` to reflect the new version number. It defaults to `1.0.0`. Review the [Zapier Platform](https://platform.zapier.com/cli_docs/docs#deploying-an-app-version) docs for more infromation on versioning.
+
+#### Upgrading a customized integration
+
+If you have customized your integration package, you will need to manually reconcile the diff.
+We strongly recommend using version control like git to track the changes and aid in merging.
+
+## Alternative authentication schemes
+
+By default, the auto-generated Zapier integration uses [custom (API key)](https://platform.zapier.com/cli_docs/docs#custom) authentication type and requires users to explicitly provide an application ID and integration key.
+The default scheme might be undesirable because it requires the the user to copy-paste credentials and doesn't connect to your existing auth flows.
+
+To provide a better user experience that hides the Svix constructs, we recommend using [OAuth2](https://platform.zapier.com/cli_docs/docs#oauth2) or [Session](https://platform.zapier.com/cli_docs/docs#session) authentication. See the [Zapier Platform authentication](https://platform.zapier.com/cli_docs/docs#authentication) docs for more information.
+- With OAuth2, Zapier will redirect your user to your site where you can authenticate them and send Zapier back an access token.
+- With Session Auth, Zapier will show a login form for your user to provide their username and password. Those are securely sent to your service where you'll send Zapier back a session token.
+
+With either authentication flow, you can make another request to your APIs to exchange the access/session token for the Svix application ID and integration key.
+An example of that API endpoint for a Flask-based service might look like the following:
+
+```
+TODO
+```
+
+#### OAuth2 Flow User Experience
+
+<div style={{position: "relative", paddingBottom: "69.23076923076923%", height: 0}}>
+    <iframe src="https://www.loom.com/embed/128a2f1c2da94a84a6c1b23bf9d16343" frameborder={"0"} webkitallowfullscreen mozallowfullscreen allowfullscreen style={{
+    position: "absolute", top: 0, left: 0, width: "100%", height: "100%"}}></iframe>
+</div>
+
+## Custom triggers
+
+### Multiple event types per trigger
+
+If you wish to configure triggers with multiple event types, you can modify the `filterTypes` field on the create endpoint operation during the trigger's subscribe hook.
+
+If you wish your users to specify a set of event types when creating the trigger, you can use Zapier's [input fields](https://platform.zapier.com/cli_docs/docs#input-fields) feature.
+
+### Additional trigger fields
+
+By default, the auto-generated integration contains the example payload that you provided with the event type schema. Zapier supports explicitly defining the list of output fields for the trigger. If you have optional fields or multiple event types with different schemas, we recommend explicitly defining the [output fields](https://platform.zapier.com/cli_docs/docs#output-fields) on the trigger.
+
+### Adding custom actions or triggers
+
+The auto-generated Zapier integration can be extended with additional actions, triggers, creates, or other Zapier resources. More information on this is available on the [Zapier CLI platform docs](https://platform.zapier.com/cli_docs/docs).
+
+The Zapier CLI can modify your package (e.g. creating a new action from a template). More information on that is available on the [Zapier CLI Reference](https://platform.zapier.com/cli_docs/cli).
+

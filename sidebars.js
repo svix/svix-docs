@@ -12,7 +12,13 @@ module.exports = {
       ],
     },
     {
-      Tutorials: ["tutorials/cli", "tutorials/event-type-schema", "integrations/zapier"],
+      Tutorials: ["tutorials/cli", "tutorials/event-type-schema"],
+    },
+    {
+      Integrations: [
+        "integrations/zapier",
+        "integrations/advanced-zapier",
+      ],
     },
     {
       "Additional links": [
