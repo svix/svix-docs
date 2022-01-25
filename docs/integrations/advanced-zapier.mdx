@@ -46,8 +46,22 @@ To provide a better user experience that hides the Svix constructs, we recommend
 With either authentication flow, you can make another request to your APIs to exchange the access/session token for the Svix application ID and integration key.
 An example of that API endpoint for a Flask-based service might look like the following:
 
-```
-TODO
+```py
+svix = Svix("AUTH_TOKEN")
+
+@app.route('/webhook/integration/')
+@auth_required
+def get_svix_integration_key():
+    app_id = ... # get your user's app id
+    integration_out = svix.integration.create(app_id, IntegrationIn(
+        name="Zapier Integration"
+    ))
+    ... # store your user's zapier integration ID
+    key_out = svix.integration.get_key(app_id, integration_out.id)
+    return jsonify({
+        "application_id": app_id,
+        "integration_key": key_out.key
+    })
 ```
 
 #### OAuth2 Flow User Experience
