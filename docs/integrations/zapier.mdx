@@ -73,7 +73,7 @@ Then, create a new Zapier integration using the Zapier CLI [register command](ht
 zapier register
 ```
 
-Finally, build & deploy the integration to Zapier. Zapier generates and uploads build artifacts through a single convenient [push command](https://platform.zapier.com/cli_docs/cli#push).
+Finally, build & deploy the integration to Zapier through the [push command](https://platform.zapier.com/cli_docs/cli#push):
 ```
 zapier push
 ```
@@ -132,15 +132,15 @@ By default, the auto-generated Zapier integration uses token-based auth where yo
 
 ### Test the trigger
 
-Finally, test your trigger by sending a test message. Zapier will prompt you to test your integration. Upon attempting it, Zapier will register a new endpoint on the application and you'll see it in the App Portal.
+Finally, test your trigger by sending a test message. Zapier will prompt you to test your integration. Upon attempting it, Zapier will register a new endpoint on the application (which will also show in the App Portal).
 
 ![zap-creation-step-3](../img/zap-creation-step-3.png)
 
-In the App Portal, send a test event for the corresponding event type to the trigger.
+In the App Portal, send a test event for the corresponding event type to the trigger's endpoint.
 
 ![zap-creation-step-3.1](../img/zap-creation-step-3.1.png)
 
-Once you've successfully tested the trigger, Zapier will automatically populate the fields available based on the example message. If you skipped sending the test message, the fields provided in the event schema example will be shown.
+In Zapier, re-run the trigger test. Once successful, Zapier will automatically populate the fields available based on the example's message. If you skipped sending the test message, the fields provided in the event schema example will be shown.
 
 ![zap-creation-step-4](../img/zap-creation-step-4.png)
 

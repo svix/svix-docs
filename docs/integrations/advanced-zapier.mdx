@@ -66,7 +66,7 @@ By default, the auto-generated Zapier integration uses [custom (API key)](https:
 The default scheme might be undesirable because it requires the the user to copy-paste credentials and doesn't connect to your existing auth flows.
 
 To provide a better user experience that hides the Svix constructs, we recommend using [OAuth2](https://platform.zapier.com/cli_docs/docs#oauth2) or [Session](https://platform.zapier.com/cli_docs/docs#session) authentication. See the [Zapier Platform authentication](https://platform.zapier.com/cli_docs/docs#authentication) docs for more information.
-- With OAuth2, Zapier will redirect your user to your site where you can authenticate them and send Zapier back an access token.
+- With OAuth2, Zapier will redirect your user to your site where you can authenticate them and send Zapier back an access token. An demonstration of this flow's user experience is shown in the video below.
 - With Session Auth, Zapier will show a login form for your user to provide their username and password. Those are securely sent to your service where you'll send Zapier back a session token.
 
 With either authentication flow, you can make another request to your APIs to exchange the access/session token for the Svix application ID and integration key.
