@@ -2,6 +2,10 @@
 title: Building a Zapier Integration
 ---
 
+import CodeTabs from '@theme/CodeTabs';
+import TabItem from '@theme/TabItem';
+
+
 [Zapier](https://zapier.com/) is an online automation tool that connects apps and services.
 You can build a Zapier integration that allows your customers to connect your Svix-powered webhooks to other services.
 
@@ -56,9 +60,123 @@ You can download an auto-generated integration package from the [integrations pa
 To integrate Svix with Zapier REST Hooks, the Zapier integration needs access to your user's application to add a Zapier endpoint.
 Svix provides an Integrations API to generate long-lived rotatable credentials called integration keys for this purpose.
 
-On your service, add an endpoint that returns the Svix application ID and integration secret. See the [Integration section](http://api.svix.com/docs#tag/Integration) of the API docs for more information and examples in the programming languages of your choice.
+On your service, return the the Svix application ID and integration secret to your user. See the [Integration section](http://api.svix.com/docs#tag/Integration) of the API docs for more information.
 
-To demonstrate the steps and enable quick testing, we give example CLI commands in the [Try it out](#retrieve-the-integration-key-for-your-application) section below.
+Code example including application creation:
+
+<CodeTabs>
+<TabItem value="js">
+
+```js
+import { Svix } from "svix";
+
+const svix = new Svix("AUTH_TOKEN");
+const app = await svix.application.create({ name: "Test Application" });
+const integ = await svix.integration.create(app.id, { name: "Zapier Integration" });
+const integKey = await svix.integration.getKey(app.id, integ.id);
+```
+
+</TabItem>
+<TabItem value="py">
+
+```python
+from svix.api import Svix, ApplicationIn, IntegrationIn
+
+svix = Svix("AUTH_TOKEN")
+app_id = svix.application.create(ApplicationIn(name="Test Application")).id
+integ_id = svix.integration.create(app_id, IntegrationIn(name="Zapier Integration")).id
+integ_key = svix.integration.get_key(app_id, integ_id).key
+```
+
+</TabItem>
+<TabItem value="go">
+
+```go
+import (
+    svix "github.com/svix/svix-libs/go"
+)
+
+svixClient := svix.New("AUTH_TOKEN", nil)
+appOut, err := svixClient.Application.Create(&svix.ApplicationIn{
+    Name: "Test Application",
+})}
+integOut, err := svixClient.Integration.Create(appOut.id, &svix.IntegrationIn{
+    Name: "Zapier Integration"
+})
+integKeyOut, err := svixClient.Integration.GetKey(appOut.id, integOut.id)
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+import com.svix.Svix;
+import com.svix.models.ApplicationIn;
+import com.svix.models.IntegrationIn;
+
+Svix svix = new Svix("AUTH_TOKEN");
+String appId = svix.getApplication().create(new ApplicationIn().name("Test Application")).id;
+String integId = svix.getIntegration().create(appId, new IntegrationIn().name("Zapier Integration")).id;
+String integKey = svix.getIntegration().getKey(appId, integId).key;
+```
+
+</TabItem>
+<TabItem value="kotlin">
+
+```kotlin
+import com.svix.kotlin.Svix;
+import com.svix.kotlin.models.ApplicationIn;
+import com.svix.kotlin.models.IntegrationIn;
+
+val svix = Svix("AUTH_TOKEN");
+val appId = svix.application.create(ApplicationIn().name("Test Application")).id
+val integId = svix.integration.create(appId, IntegrationIn().name("Zapier Integration")).id
+val integKey = svix.integration.getKey(appId, integId).key
+```
+
+</TabItem>
+<TabItem value="cli">
+
+```shell
+svix application create '{"name": "Test Application"}'
+svix integration create 'app_24D5XFE8W4VVYQ2XPdJlFKlYKrf' '{"name": "Zapier Integration"}'
+svix integration get-key 'app_24D5XFE8W4VVYQ2XPdJlFKlYKrf' 'integ_24D5mQaRudh54XvMNMmgUroNfRA'
+```
+
+</TabItem>
+<TabItem value="curl">
+
+```shell
+curl -X 'POST' \
+  'https://api.svix.com/api/v1/app/' \
+  -H 'Authorization: Bearer AUTH_TOKEN' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "name": "Test Application",
+}'
+
+curl -X 'POST' \
+  'https://api.svix.com/api/v1/app/APP_ID/integration/' \
+  -H 'Authorization: Bearer AUTH_TOKEN' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "name": "Zapier Integration"
+}'
+
+curl -X 'GET' \
+  'https://api.svix.com/api/v1/app/APP_ID/integration/INTEG_ID/key/' \
+  -H 'Authorization: Bearer AUTH_TOKEN' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json'
+
+```
+
+</TabItem>
+</CodeTabs>
+
+
 
 ### Build and deploy
 
@@ -103,22 +221,29 @@ You can create a Zap with a Svix-powered webhook trigger from the account where 
 
 #### Retrieve the integration key for your application
 
-Create an application if you haven't already.
-```bash
-svix application create '{"name": "Test Application"}'
-```
-
-For the application, create an integration for Zapier.
+Your users should use the mechanism you provide to generate integration keys, but for testing you can use the Svix CLI to obtain an application ID and integration key.
 
 ```bash
-svix integration create 'app_24AEh8cKKGSoQeqQv3aSRnnISMQ' '{"name": "Zapier Integration"}'
+$ svix application create '{"name": "Test Application"}'
+{
+  "name": "Test Application",
+  "id": "app_24D5XFE8W4VVYQ2XPdJlFKlYKrf", # <------------------- Application ID
+  "createdAt": "2022-01-25T23:12:34.055654Z",
+  "updatedAt": "2022-01-25T23:12:34.055694Z"
+}
+$ svix integration create 'app_24D5XFE8W4VVYQ2XPdJlFKlYKrf' '{"name": "Zapier Integration"}'
+{
+    "name": "Zapier Integration",
+    "id": "integ_24D5mQaRudh54XvMNMmgUroNfRA",
+    "createdAt": "2022-01-25T23:14:34.876543+00:00",
+    "updatedAt": "2022-01-25T23:14:35.019512+00:00"
+}
+$ svix integration get-key 'app_24D5XFE8W4VVYQ2XPdJlFKlYKrf' 'integ_24D5mQaRudh54XvMNMmgUroNfRA'
+{
+    "key": "testintegsk_zrHyRLxf7qMed4sv2onkoearKUgHWkK9"  # <--- Integration Key
+}
 ```
 
-Finally, retrieve the secret key for the integration.
-
-```bash
-svix integration get-key 'app_24AEh8cKKGSoQeqQv3aSRnnISMQ' 'integ_24AExrtDwuDRT6WOXeQ6uIywX94'
-```
 
 #### Create Account
 
