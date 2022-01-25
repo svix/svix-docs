@@ -94,21 +94,11 @@ Then read on to see how you can customize your integration and release it public
 
 You can create a Zap with a Svix-powered webhook trigger from the account where you deployed the integration. You try it out from another account by obtaining the share link on the [Zapier Platform console](https://developer.zapier.com/).
 
-
-The following video shows the user experience of creating a Zap:
-
-<div style={{position: "relative", paddingBottom: "69.23076923076923%", height: 0}}>
-    <iframe src="https://www.loom.com/embed/128a2f1c2da94a84a6c1b23bf9d16343" frameborder={"0"} webkitallowfullscreen mozallowfullscreen allowfullscreen style={{
-    position: "absolute", top: 0, left: 0, width: "100%", height: "100%"}}></iframe>
-</div>
-
 ### Setup the trigger
 
-Start by going to the [Zap editor](https://zapier.com/app/editor/) and give your Zap a name.
-
-Next, configure the trigger selecting the integration (aka "app"). You can search for it by name (the same name you set when calling `zapier register`).
-
-Then, select a trigger event. This corresponds to an event type (or the all trigger for all event types) which the Zap will be triggered on.
+1. Start by going to the [Zap editor](https://zapier.com/app/editor/) and give your Zap a name.
+2. Select the integration (aka "app"). You can search for it by name (the same name you set when calling `zapier register`).
+3. Select a trigger event. This corresponds to an event type (or the all trigger for all event types) which the Zap will be triggered on.
 
 ![zap-creation-step-1](../img/zap-creation-step-1.png)
 
@@ -145,18 +135,23 @@ By default, the auto-generated Zapier integration uses token-based auth where yo
 
 ### Test the trigger
 
-Finally, test your trigger by sending a test message.
-
-Zapier will prompt you to test your integration. Upon attempting it, Zapier will register a new endpoint on the application and you'll see it in the App Portal. In the App Portal, send a test event for the corresponding event type to the trigger.
-
-### Setup your action
-
-Once you've tested the trigger, Zapier will automatically populate the fields available based on the example message. If you skipped sending the test message, the fields provided in the event schema example will be shown.
+Finally, test your trigger by sending a test message. Zapier will prompt you to test your integration. Upon attempting it, Zapier will register a new endpoint on the application and you'll see it in the App Portal.
 
 ![zap-creation-step-3](../img/zap-creation-step-3.png)
 
+In the App Portal, send a test event for the corresponding event type to the trigger.
+
+![zap-creation-step-3.1](../img/zap-creation-step-3.1.png)
+
+Once you've successfully tested the trigger, Zapier will automatically populate the fields available based on the example message. If you skipped sending the test message, the fields provided in the event schema example will be shown.
+
+![zap-creation-step-4](../img/zap-creation-step-4.png)
+
+### Setup an action
+
 You can now setup an action that uses any of these available fields.
 
+![zap-creation-step-5](../img/zap-creation-step-5.png)
 
 ## Next Steps
 
