@@ -100,10 +100,10 @@ svixClient := svix.New("AUTH_TOKEN", nil)
 appOut, err := svixClient.Application.Create(&svix.ApplicationIn{
     Name: "Test Application",
 })}
-integOut, err := svixClient.Integration.Create(appOut.id, &svix.IntegrationIn{
-    Name: "Zapier Integration"
+integOut, err := svixClient.Integration.Create(appOut.Id, &svix.IntegrationIn{
+    Name: "Zapier Integration",
 })
-integKeyOut, err := svixClient.Integration.GetKey(appOut.id, integOut.id)
+integKeyOut, err := svixClient.Integration.GetKey(appOut.Id, integOut.Id)
 ```
 
 </TabItem>
