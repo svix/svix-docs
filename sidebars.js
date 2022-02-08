@@ -1,8 +1,8 @@
 module.exports = {
   mainSidebar: [
     {
-      Introduction: ["introduction", "setup", "quickstart"],
-      Basics: ["event-types", "app-portal", "api-keys", "consuming-webhooks"],
+      Introduction: ["introduction", "setup", "quickstart", "consuming-webhooks"],
+      Basics: ["event-types", "app-portal", "api-keys"],
       Advanced: ["incoming-webhooks", "idempotency", "channels", "rate-limit", "retries", "retention"],
       "Manage Your Account": ["account/environments", "account/org-members"],
     },
