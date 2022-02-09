@@ -35,7 +35,7 @@ pip install svix
 <TabItem value="go">
 
 ```shell
-go get github.com/svix/svix-libs/go
+go get github.com/svix/svix-webhooks/go
 ```
 
 </TabItem>
@@ -179,7 +179,7 @@ payload = wh.verify(payload, headers)
 
 ```go
 import (
-	svix "github.com/svix/svix-libs/go"
+	svix "github.com/svix/svix-webhooks/go"
 )
 
 secret := "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
@@ -495,7 +495,7 @@ import (
 	"log"
 	"net/http"
 
-	svix "github.com/svix/svix-libs/go"
+	svix "github.com/svix/svix-webhooks/go"
 )
 
 const secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"
@@ -541,7 +541,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	svix "github.com/svix/svix-libs/go"
+	svix "github.com/svix/svix-webhooks/go"
 )
 
 const secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw"

@@ -36,7 +36,7 @@ Channels are useful for when you have a variety of sub-categories or recipients 
 
 For example, consider Github. You may want to define webhooks for the whole organization, but only send certain events to certain endpoints based on the repository. You could just create a Svix App per repository and then manually add the endpoints to each, but it makes for a much better experience to have the webhook handling defined in one place with the same endpoints listening to multiple projects.
 
-So for example, you can have `svix`, `svix/svix-libs` and `svix/svix-docs` as channels, and then have Github send messages for both `svix` and for each repo whenever an event occurs on a specific repository. Github's customers can then create endpoints that listen to events either for the whole group, or for each repository in particular.
+So for example, you can have `svix`, `svix/svix-webhooks` and `svix/svix-docs` as channels, and then have Github send messages for both `svix` and for each repo whenever an event occurs on a specific repository. Github's customers can then create endpoints that listen to events either for the whole group, or for each repository in particular.
 
 ## Channels filtering rules
 
