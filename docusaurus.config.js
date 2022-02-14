@@ -39,6 +39,12 @@ module.exports = {
           label: "Support",
           position: "left",
         },
+        {
+          href: 'https://github.com/svix/svix-webhooks',
+          className: 'header-github-link',
+          'aria-label': 'GitHub repository',
+          position: 'right',
+        },
       ],
     },
     colorMode: {
