@@ -19,6 +19,89 @@ In Svix you have three important entities you will be interacting with:
 
 Get your authentication token (`AuthToken`) from the [Svix dashboard](https://dashboard.svix.com).
 
+**Note:** if you are using a non-EU region, you will need to set the correct server URL in the libs based on the one shown in the "API Access" page in the dashboard.
+
+<CodeTabs>
+<TabItem value="js">
+
+```js
+import { Svix } from "svix";
+
+const svix = new Svix("AUTH_TOKEN", { serverUrl: "THE_SERVER_URL" });
+```
+
+</TabItem>
+<TabItem value="py">
+
+```python
+from svix.api import Svix, ApplicationIn
+
+svix = Svix("AUTH_TOKEN", , SvixOptions(server_url="THE_SERVER_URL"))
+```
+
+</TabItem>
+<TabItem value="go">
+
+```go
+import (
+	svix "github.com/svix/svix-webhooks/go"
+)
+
+serverUrl, _ := url.Parse("THE_SERVER_URL")
+svixClient := svix.New("AUTH_TOKEN", nil)
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+import com.svix.Svix;
+
+Svix svix = new Svix("AUTH_TOKEN", new SvixOptions().serverUrl("THE_SERVER_URL"));
+```
+
+</TabItem>
+<TabItem value="kotlin">
+
+```kotlin
+import com.svix.kotlin.Svix;
+
+val svix = Svix("AUTH_TOKEN", SvixOptions("THE_SERVER_URL"))
+```
+
+</TabItem>
+<TabItem value="ruby">
+
+```ruby
+require "svix"
+
+svix = Svix::Client.new("AUTH_TOKEN", Svix::SvixOptions.new(false, "THE_SERVER_URL"))
+```
+
+</TabItem>
+<TabItem value="cli">
+
+```shell
+export SVIX_AUTH_TOKEN='AUTH_TOKEN'
+export SVIX_SERVER_URL='THE_SERVER_URL'
+svix application create '{ "name": "Application name" }'
+```
+
+</TabItem>
+<TabItem value="curl">
+
+```shell
+# Just replace the URL below
+curl -X POST "https://api.svix.com/api/v1/app/" \
+    -H  "Accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization: Bearer AUTH_TOKEN" \
+    -d '{"name": "Application name"}'
+```
+
+</TabItem>
+</CodeTabs>
+
 ## Sending messages
 
 ### Creating an application
