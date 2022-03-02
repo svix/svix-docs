@@ -48,7 +48,9 @@ import (
 )
 
 serverUrl, _ := url.Parse("THE_SERVER_URL")
-svixClient := svix.New("AUTH_TOKEN", nil)
+svixClient := svix.New("AUTH_TOKEN", &svix.SvixOptions{
+	ServerUrl: serverUrl,
+})
 ```
 
 </TabItem>
