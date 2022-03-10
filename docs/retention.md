@@ -124,6 +124,7 @@ svix.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
 <TabItem value="cli">
 
 ```shell
+export SVIX_API_URL="https://api.svix.com"
 export SVIX_AUTH_TOKEN="AUTH_TOKEN"
 svix message create app_Xzx8bQeOB1D1XEYmAJaRGoj0 '{ "eventType": "invoice.paid", "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G", "payloadRetentionPeriod": 14, "payload": { "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql", "status": "paid", "attempt": 2 } }'
 ```
