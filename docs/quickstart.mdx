@@ -216,7 +216,7 @@ We will now send a new message using the [create message API endpoint](https://a
 - `eventId`: an optional unique ID for the event. This is useful if you want to map each message to unique events on your system.
 - `payload`: a JSON dictionary that can hold anything. Its content will be sent as the webhook content.
 
-For example:
+For example, the following code sends a webhook of type `eventType`, with the contents of `payload` as the body:
 
 <CodeTabs>
 <TabItem value="js">
