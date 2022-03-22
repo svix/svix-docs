@@ -126,6 +126,15 @@ pacman -S curl
 
 Then verify webhooks using the code below. The payload is the raw (string) body of the request, and the headers are the headers passed in the request.
 
+:::caution Use the raw request body
+
+You need to use the raw request body when verifying webhooks, as the cryptographic signature is sensitive to even the slightest changes.
+You should watch out for frameworks that parse the request as JSON and then strigify it because this too will break the signature verification.
+
+See examples below for how to get the raw request body with different frameworks.
+
+:::
+
 The signature you should get from where you added the endpoint, e.g. the application portal.
 
 <CodeTabs
