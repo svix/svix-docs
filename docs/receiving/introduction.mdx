@@ -7,3 +7,11 @@ Read to following sections to learn why and how to verify webhooks sent by the S
 :::tip
 You can use the [Svix Play webhook debugger](https://www.svix.com/play/) and the [Svix CLI](https://github.com/svix/svix-cli) to inspect, test and debug your webhooks during development.
 :::
+
+## Webhooks Consumption 101
+
+Webhooks are how are how services notify each other of events. At their core they are just a `POST` request to a pre-determined endpoint. The endpoint can be whatever you want, and you can just [add them from the UI](/receiving/using-app-portal/adding-endpoints). You normally use one endpoint per service, and that endpoints listens to all of the event types. For example, if you receive webhooks from Acme Inc., you can structure your URL like: `https://www.example.com/acme/webhooks/`.
+
+The way to indicate that a webhook has been processed is by returning a `2xx` (status code `200-299`) response to the webhook message within a reasonable time-frame (15s with Svix). It's also important to disable `CSRF` protection for this endpoint if the framework you use enables them by default.
+
+Another important aspect of handling webhooks is to verify the signature and timestamp when processing them. You can learn more about it in the [why verify section](/receiving/verifying-payloads/why).
