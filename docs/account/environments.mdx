@@ -49,3 +49,12 @@ The App Portal [White Labeling](../app-portal#white-labeling) is configured sepa
 It is strongly recommended that all registered endpoints in production environments are secured with HTTPS. If you want to allow unsecure endpoints (HTTP) on any environment, you may do so on the "General Settings" page.
 
 As of October 1st, 2021, HTTPS Only Endpoints is enabled by default on newly created environments. If your environment was created before then, the default was disabled and your environment was left unchanged.
+
+
+## Environment import & export
+
+Import and export makes it very easy to clone (or sync) environments, and thus make sure that your staging and production environments are identical. It also makes it possible to save your environment settings in version control in order to make sure you keep track of changes to your environment.
+
+Export currently supports the environment settings as well as all of the event types. To import and export, all you need to do is to go to the [environment management](https://dashboard.svix.com/environments) page on the dashboard, choose the wanted environment from the list, and then click either import or export.
+
+![Import and export from an environment](../img/import-export.png)
