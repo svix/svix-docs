@@ -7,7 +7,7 @@ Svix attempts to deliver each webhook message based on a retry schedule with exp
 
 ## The schedule
 
-Each message is attempted based on this schedule:
+Each message is attempted based on the following schedule, where each period is started following the failure of the preceding attempt:
 
 - Immediately
 - 5 seconds
@@ -20,10 +20,17 @@ Each message is attempted based on this schedule:
 
 If an endpoint is removed or disabled delivery attempts to the endpoint will be disabled as well.
 
+For example, an attempt that fails three times before eventually succeeding will be delivered roughly 35 minutes and 5 seconds following the first attempt.
+
 
 ## Failed delivery handling
 
 After the conclusion of the above attempts the message will be marked as `Failed` for this endpoint, and you will get a webhook of type `message.attempt.exhausted` notifying you of this error.
+
+
+## Disabling failing endpoints
+
+If all attempts to a specific endpoint fail for a period of 5 days, the endpoint will be disabled and a webhook (`EndpointDisabledEvent`) will be sent to your account (not to the failing endpoint).
 
 
 ## Manual retries
