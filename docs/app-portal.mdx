@@ -82,6 +82,16 @@ puts dashboard.url
 ```
 
 </TabItem>
+<TabItem value="csharp">
+
+```csharp
+var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
+var dashboard = await svix.Authentication.DashboardAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0");
+// A URL that automatically logs user into the dashboard
+Console.WriteLine(dashboard.Url)
+```
+
+</TabItem>
 <TabItem value="cli">
 
 ```shell

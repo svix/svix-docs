@@ -120,6 +120,17 @@ svix.event_type.create(Svix::EventTypeIn.new({
 ```
 
 </TabItem>
+<TabItem value="csharp">
+
+```csharp
+var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
+await svix.EventType.CreateAsync(new EventTypeIn(
+    name: "user.signup",
+    description: "A user has signed up"
+))
+```
+
+</TabItem>
 <TabItem value="cli">
 
 ```shell
@@ -350,6 +361,14 @@ CSV.foreach('data.csv', {:col_sep => "|"}) do |line|
         "name" => line[0],
         "description" => line[1]}))
 end
+```
+
+</TabItem>
+<TabItem value="csharp">
+
+```csharp
+// Example TBD
+// Read the CSV and create event types
 ```
 
 </TabItem>

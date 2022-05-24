@@ -123,6 +123,23 @@ svix.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
 ```
 
 </TabItem>
+<TabItem value="csharp">
+
+```csharp
+var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
+await svix.Message.CreateAsync("app_Xzx8bQeOB1D1XEYmAJaRGoj0", new MessageIn(
+    eventType: "invoice.paid",
+    eventId: "evt_Wqb1k73rXprtTm7Qdlr38G",
+    payloadRetentionPeriod: 14,
+    payload: new {
+        id: "invoice_WF7WtCLFFtd8ubcTgboSFNql",
+        status: "paid",
+        attempt: 2,
+    },
+));
+```
+
+</TabItem>
 <TabItem value="cli">
 
 ```shell
