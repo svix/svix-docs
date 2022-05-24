@@ -82,6 +82,13 @@ gem install svix
 ```
 
 </TabItem>
+<TabItem value="csharp">
+
+```shell
+dotnet add package Svix
+```
+
+</TabItem>
 <TabItem value="cli">
 
 On macOS install via <a href="https://brew.sh/">Homebrew</a>:
@@ -184,6 +191,19 @@ svix = Svix::Client.new("AUTH_TOKEN")
 
 application_out = svix.application.create(Svix::ApplicationIn.new({
   "name" => "Application name"}))
+```
+
+</TabItem>
+<TabItem value="csharp">
+
+```csharp
+using Svix;
+using Svix.Model;
+using Svix.Models;
+
+var svix = new SvixClient("sk_IrlFPEh3VYctuyHhKTCxamGV", new SvixOptions("https://api.svix.com"));
+
+await svix.Application.CreateAsync(new ApplicationIn(name: "Application name"));
 ```
 
 </TabItem>

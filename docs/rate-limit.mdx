@@ -102,6 +102,21 @@ application_out = svix.application.create(Svix::ApplicationIn.new({
 ```
 
 </TabItem>
+<TabItem value="csharp">
+
+```csharp
+using Svix;
+using Svix.Model;
+using Svix.Models;
+
+var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
+await svix.Application.CreateAsync(new EventTypeIn(
+    name: "Application Name",
+    rateLimit: 1000
+))
+```
+
+</TabItem>
 <TabItem value="cli">
 
 ```shell

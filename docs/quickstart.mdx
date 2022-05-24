@@ -88,6 +88,15 @@ svix = Svix::Client.new("AUTH_TOKEN", Svix::SvixOptions.new(false, "THE_SERVER_U
 ```
 
 </TabItem>
+<TabItem value="csharp">
+
+```csharp
+using Svix;
+
+var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("THE_SERVER_URL"));
+```
+
+</TabItem>
 <TabItem value="cli">
 
 ```shell
@@ -189,6 +198,16 @@ svix = Svix::Client.new("AUTH_TOKEN")
 
 application_out = svix.application.create(Svix::ApplicationIn.new({
     "name" => "Application name"}))
+```
+
+</TabItem>
+<TabItem value="csharp">
+
+```csharp
+var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
+applicationOut = await svix.Application.CreateAsync(
+    new ApplicationIn(name: "Application name")
+);
 ```
 
 </TabItem>
@@ -323,6 +342,22 @@ svix.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
 ```
 
 </TabItem>
+<TabItem value="csharp">
+
+```csharp
+var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
+await svix.Message.CreateAsync("app_Xzx8bQeOB1D1XEYmAJaRGoj0", new MessageIn(
+    eventType: "invoice.paid",
+    payload: new {
+        id: "invoice_WF7WtCLFFtd8ubcTgboSFNql",
+        status: "paid",
+        attempt: 2,
+    },
+    eventId: "evt_Wqb1k73rXprtTm7Qdlr38G",
+));
+```
+
+</TabItem>
 <TabItem value="cli">
 
 ```shell
@@ -447,6 +482,18 @@ endpoint_out =
             "url" => "https://api.example.com/svix-webhooks/",
             "version" => 1,
             "description" => "My main endpoint"}))
+```
+
+</TabItem>
+<TabItem value="csharp">
+
+```csharp
+var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
+endpointOut = await svix.Endpoint.CreateAsync(new EndpointIn(
+    url: "https://api.example.com/svix-webhooks/",
+    version: 1,
+    description: "My main endpoint"
+));
 ```
 
 </TabItem>
