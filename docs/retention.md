@@ -118,6 +118,8 @@ svix.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
             "attempt" => 2
         },
         "payload_retention_period" => 14
+    })
+)
 ```
 
 </TabItem>
