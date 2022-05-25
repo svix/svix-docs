@@ -70,6 +70,24 @@ svixClient.Message.Create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.MessageIn{
 ```
 
 </TabItem>
+<TabItem value="rust">
+
+```rust
+let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+svix.message().create(MessageIn {
+    event_type: "user.created".to_string(),
+    event_id: "evt_Wqb1k73rXprtTm7Qdlr38G".to_string(),
+    payload_retention_period: 14,
+    payload: json!({
+        "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql",
+        "status": "paid",
+        "attempt": 2
+    }),
+    ..MessageIn::default()
+}).await?;
+```
+
+</TabItem>
 <TabItem value="java">
 
 ```java

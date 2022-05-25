@@ -10,6 +10,7 @@ export default function CodeTabs({ children, additionalTabs=[] }) {
           values={[
             { label: 'JavaScript', value: 'js', },
             { label: 'Python', value: 'py', },
+            { label: 'Rust', value: 'rust', },
             { label: 'Go', value: 'go', },
             { label: 'Java', value: 'java', },
             { label: 'Kotlin', value: 'kotlin', },

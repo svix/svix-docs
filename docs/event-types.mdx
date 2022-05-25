@@ -79,6 +79,20 @@ app, err := svixClient.EventType.Create(&svix.EventTypeIn{
 ```
 
 </TabItem>
+<TabItem value="rust">
+
+```rust
+use svix::api::{ApplicationIn, Svix, SvixOptions};
+
+let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let event_type = svix.event_type().create(EventTypeIn {
+    name: "user.signup".to_string(),
+    description: "A user has signed up".to_string(),
+    ..EventTypeIn::default()
+}).await?;
+```
+
+</TabItem>
 <TabItem value="java">
 
 ```java
@@ -269,6 +283,14 @@ func main() {
 		log.Fatal(err)
 	}
 }
+```
+
+</TabItem>
+<TabItem value="rust">
+
+```rust
+// Example TBD
+// Read the CSV and create event types
 ```
 
 </TabItem>

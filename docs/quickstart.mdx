@@ -61,6 +61,18 @@ svixClient := svix.New("AUTH_TOKEN", &svix.SvixOptions{
 ```
 
 </TabItem>
+<TabItem value="rust">
+
+```rust
+use svix::api::{ApplicationIn, Svix, SvixOptions};
+
+let svix = Svix::new("AUTH_TOKEN".to_string(), SvixOptions {
+    server_url: "THE_SERVER_URL".to_string(),
+    ..SvixOptions::default()
+});
+```
+
+</TabItem>
 <TabItem value="java">
 
 ```java
@@ -162,6 +174,19 @@ svixClient := svix.New("AUTH_TOKEN", nil)
 app, err := svixClient.Application.Create(&svix.ApplicationIn{
     Name: "Application name",
 })}
+```
+
+</TabItem>
+<TabItem value="rust">
+
+```rust
+use svix::api::{ApplicationIn, Svix, SvixOptions};
+
+let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let app = svix.application().create(ApplicationIn {
+    name: "Application name".to_string(),
+    ..ApplicationIn::default()
+}).await?;
 ```
 
 </TabItem>
@@ -291,6 +316,23 @@ svixClient.Message.Create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.MessageIn{
         "attempt": 2,
     },
 })
+```
+
+</TabItem>
+<TabItem value="rust">
+
+```rust
+let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+svix.message().create(MessageIn {
+    event_type: "invoice.paid".to_string(),
+    event_id: "evt_Wqb1k73rXprtTm7Qdlr38G".to_string(),
+    payload: json!({
+        "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql",
+        "status": "paid",
+        "attempt": 2
+    }),
+    ..MessageIn::default()
+}).await?;
 ```
 
 </TabItem>
@@ -443,6 +485,19 @@ svixClient.Endpoint.Create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.EndpointIn{
     Version:     1,
     Description: svix.String("My main endpoint"),
 })
+```
+
+</TabItem>
+<TabItem value="rust">
+
+```rust
+let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+svix.endpoint().create(EndpointIn {
+    url: "https://api.example.com/svix-webhooks/".to_string(),
+    version: 1,
+    description: "My main endpoint".to_string(),
+    ..EndpointIn::default()
+}).await?;
 ```
 
 </TabItem>
