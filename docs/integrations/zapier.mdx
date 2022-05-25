@@ -107,6 +107,13 @@ integKeyOut, err := svixClient.Integration.GetKey(appOut.Id, integOut.Id)
 ```
 
 </TabItem>
+<TabItem value="rust">
+
+```rust
+// TBD
+```
+
+</TabItem>
 <TabItem value="java">
 
 ```java
@@ -132,6 +139,13 @@ val svix = Svix("AUTH_TOKEN");
 val appId = svix.application.create(ApplicationIn().name("Test Application")).id
 val integId = svix.integration.create(appId, IntegrationIn().name("Zapier Integration")).id
 val integKey = svix.integration.getKey(appId, integId).key
+```
+
+</TabItem>
+<TabItem value="csharp">
+
+```csharp
+// TBD
 ```
 
 </TabItem>

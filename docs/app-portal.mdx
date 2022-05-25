@@ -52,6 +52,18 @@ fmt.Println(dashboard.Url)
 ```
 
 </TabItem>
+<TabItem value="rust">
+
+```rust
+let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let dashboard = svix.authentication().dashboard_access(
+    "app_Xzx8bQeOB1D1XEYmAJaRGoj0".to_string()
+}).await?;
+// A URL that automatically logs user into the dashboard
+println!("{}", dashboard.url);
+```
+
+</TabItem>
 <TabItem value="java">
 
 ```java
