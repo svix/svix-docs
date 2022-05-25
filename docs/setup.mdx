@@ -37,6 +37,13 @@ go get github.com/svix/svix-webhooks/go
 ```
 
 </TabItem>
+<TabItem value="rust">
+
+```toml
+svix = "0"
+```
+
+</TabItem>
 <TabItem value="java">
 
 Gradle: Add this dependency to your project's build file:
@@ -157,6 +164,19 @@ svixClient := svix.New("AUTH_TOKEN", nil)
 app, err := svixClient.Application.Create(&svix.ApplicationIn{
     Name: "Application name",
 })}
+```
+
+</TabItem>
+<TabItem value="rust">
+
+```rust
+use svix::api::{ApplicationIn, Svix, SvixOptions};
+
+let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let app = svix.application().create(ApplicationIn {
+    name: "Application name".to_string(),
+    ..ApplicationIn::default()
+}).await?;
 ```
 
 </TabItem>

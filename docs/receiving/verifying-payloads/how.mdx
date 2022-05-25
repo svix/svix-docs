@@ -38,6 +38,13 @@ go get github.com/svix/svix-webhooks/go
 ```
 
 </TabItem>
+<TabItem value="rust">
+
+```toml
+svix = "0"
+```
+
+</TabItem>
 <TabItem value="java">
 
 Gradle: Add this dependency to your project's build file:
@@ -202,6 +209,26 @@ payload := []byte(`{"test": 2432232314}`)
 wh, err := svix.NewWebhook(secret)
 err := wh.Verify(payload, headers)
 // returns nil on success, error otherwise
+```
+
+</TabItem>
+<TabItem value="rust">
+
+```rust
+use svix::webhooks::Webhook;
+
+let secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw".to_string();
+
+let mut headers = http::header::HeaderMap::new();
+headers.insert("svix-id", "msg_p5jXN8AQM9LWM0D4loKWxJek");
+headers.insert("svix-timestamp", "1614265330");
+headers.insert("svix-signature", "v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE=");
+
+let payload = b"{\"test\": 2432232314}";
+
+let wh = Webhook::new(secret)?;
+wh.verify(&payload, &headers)?;
+// returns Ok on success, Err otherwise
 ```
 
 </TabItem>
