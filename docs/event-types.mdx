@@ -57,7 +57,7 @@ const eventType = await svix.eventType.create({
 from svix.api import Svix, EventTypeIn
 
 svix = Svix("AUTH_TOKEN")
-app = svix.application.create(EventTypeIn(
+app = svix.event_type.create(EventTypeIn(
     name="user.signup",
     description="A user has signed up"
 ))
