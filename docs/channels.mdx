@@ -32,6 +32,12 @@ await svix.message.create('app_id', {
 });
 ```
 
+## When not to use it
+
+The channels are not meant as a way to filter messages across different customers, that's what applications are for. Applications provide proper isolation between messages of different customers, while channels do not.
+
+Additionally, there are limits to the number of channels messages and endpoints can be associated with. And having applications with a large number of endpoints is very inefficient and can hurt performance.
+
 ## Example use-cases
 
 Channels are useful for when you have a variety of sub-categories or recipients that expect the same types of messages but just need additional filtering.
