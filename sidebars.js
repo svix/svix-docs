@@ -43,6 +43,7 @@ module.exports = {
         "receiving/verifying-payloads/why",
         "receiving/verifying-payloads/how",
         "receiving/verifying-payloads/how-manual",
+        "receiving/additional-authentication",
         "receiving/source-ips",
       ],
       "Additional links": [

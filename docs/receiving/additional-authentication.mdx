@@ -1,0 +1,29 @@
+---
+title: Additional Authentication
+---
+
+Svix [signs all webhooks](./verifying-payloads/why.mdx) in order to ensure the security and authenticity of all of the webhooks being sent.
+
+This security mechanism is already sufficient (and better) than other methods such as [HTTP Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication), and using an authentication token. However, some systems and IT departments have varying requirements for any HTTP request hitting their services (including webhooks), so Svix has built in support for these additional authentication modes.
+
+## HTTP Basic Authentication
+
+HTTP Basic Authentication (Basic Auth), is a common way of sending a server a pair of username and password, or more often a username and auth token. While there are different ways of passing these credentials, the simplest and most common way is by including it as part of the URL.
+
+You can add it to the URL by prefixing the URL with the username and password (or token) and the @ symbol as such:
+
+```
+https://USERNAME:PASSWORD@example.com/webhook/
+```
+
+## Header based authentication
+
+Some services require specific headers to be passed in order to be processed by their load balancers or application servers. These services often require a specific authentication token passed in the `Authorization` header, but sometimes there could also be different headers and values.
+
+Svix supports setting custom headers to be sent for each endpoint both [using the API](https://api.svix.com/docs#operation/update_endpoint_headers_api_v1_app__app_id__endpoint__endpoint_id__headers__put) and using [the application portal](./using-app-portal/adding-endpoints.mdx).
+
+## Firewalls (IP blocking)
+
+Many, often larger, organizations have strict firewall rules for which IPs are allowed to send traffic to their systems. While this is not a very strong security mechanism on its own, it's often useful when used in conduction with other methods (such as webhook signatures).
+
+In order to support these organizations and their requirements, Svix only sends webhooks requests from a specific set of IPs as detailed in the [source IP addresses section](./source-ips.mdx).
