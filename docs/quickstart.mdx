@@ -580,6 +580,12 @@ curl -X POST "https://api.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/endpo
 The version number is an integer signifying the current version of the API. You can set it to `1` if you haven't started versioning your API yet.
 
 
+## Using Svix in a stateless manner
+
+You can use Svix in a completely stateless manner, without having to store any Svix identifiers (or anything else) in your own databse; you can do it by utilizing `UID`s. If you set a `UID` on an application, endpoint, or any other entity, you can use this `UID` interchangeably with its `ID` anywhere in the API.
+
+For more information, please refer to the [section about `UID`s in the overview](./overview.mdx#ids-and-uids).
+
 ## Consuming webhooks documentation
 
 Please refer to the [consuming webhooks](./consuming-webhooks.mdx) section for information you can share with your customers on how to easily consume webhooks, and how to use the application portal.

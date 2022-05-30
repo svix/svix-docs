@@ -13,6 +13,15 @@ Webhooks are called `messages`. You can use your API keys to send `messages` to 
 ![Information flow graph](img/msg-flow.svg)
 
 
+## IDs and UIDs
+
+All Svix entities have IDs as their unique identifiers. Some entities, such as applications and endpoints, support an additional unique identifier called `UID`.
+
+These `UID`s can be used interchangeably with `ID`s all throughout the API. So for example, you can send a message to a specific `ID`, or a specific `UID`, both will work.
+
+This enables you to use Svix in a completely stateless manner, without having to store the Svix identifiers (or anything) in your own database.
+
+
 ## Entities
 
 There are a variety of entities in Svix. The Svix entities are mostly hierarchical with the environment being the main isolation unit, below it there are applications which represent a target for messages, and even below there are endpoints which represent a destination to send webhooks to.
