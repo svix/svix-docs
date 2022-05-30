@@ -1,0 +1,123 @@
+---
+title: Common Usage Examples
+---
+
+import CodeTabs from "@theme/CodeTabs";
+import TabItem from "@theme/TabItem";
+
+
+This document includes examples and useful information for how to model your use-case with Svix.
+
+This list is not exhaustive and only covers some of the more common examples. Svix is used by a variety of different customers for a variety of different use-cases. If your use-case doesn't fit any of the below, please [contact us](/get-help/) and we would be happy to chat on how to best use Svix in your particular circumstances.
+
+## Preamble
+
+While different use-cases often require different solutions, there are a few Svix features that are useful in most use-cases and we will highlight them in this section.
+
+### Application and Endpoint UIDs, and message event IDs
+
+Svix enables you to use your internal `ID`s as ids for Svix entities by using the `UID` property of application and endpoints, and `eventId` of messages.
+
+This lets you use Svix in a completely stateless manner, without having to store the Svix identifiers (or anything) in your own database.
+
+For more information, please refer to the [section about `UID`s in the overview](./overview.mdx#ids-and-uids).
+
+
+### Event types
+
+Each message sent through Svix has an associated [event type](./event-types.mdx). Event types are identifiers denoting the type of message being sent and are the primary way for webhook consumers to configure what events they are interested in receiving.
+
+You can even automatically generate public documentation for your webhooks [by making your event catalog public](./event-types.mdx#publishing-your-event-catalog).
+
+
+### Application portal
+
+Svix comes with a application portal for your users that you can use out of the box. Your users can then use it to add endpoints, debug delivery, as well as inspect and replay past webhooks. The application portal can be used as a standalone page, or embedded in your own dashboard using an iframe.
+
+Most Svix customers use it in an iframe, or implement it themselves (either fully or partially) using the Svix API.
+
+For more information, please refer to the [app portal section of the docs](./app-portal.mdx).
+
+
+### Idempotency
+
+Svix supports idempotency for safely retrying requests without accidentally performing the same operation twice. This is useful when an API call is disrupted in transit and you do not receive a response.
+
+For more information, please refer to the [idempotency section of the docs](./idempotency.mdx).
+
+
+### Webhooks sent by Svix
+
+As you may expect from a webhooks service, Svix also uses webhooks to notify you of events. For example, Svix will send you a webhook when a message delivery has failed, or an endpoint has been failing for too long of a period.
+
+For more information, please refer to the [incoming webhooks section of the docs](./incoming-webhooks.mdx).
+
+
+## Example use-cases
+
+### The common use-case (probably you)
+
+#### Who is it for
+
+This use-case is the right one for you if you have different customers on your service, and each of get sent webhooks independently based on activities on their own separate accounts. This is the most common use-case and probably matches most people.
+
+One company that matches this description is Stripe. Every Stripe customer has their own account, and webhooks are sent by Stripe to a specific account. The webhooks may cover activity of many of this custom's users (e.g. whether they paid), but still only affecting this one customer. Another such example is [Clerk](https://clerk.dev), where each of their customers may subscribe for webhooks about the activity of their own account.
+
+
+#### Usage example
+
+A service matching this description should create one application for each one of their customers. The service will then send events related to this specific customer to the application, and offer the [application portal](./app-portal.mdx) to each of their customers so that they can manage their webhooks.
+
+As mentioned above, the service can utilize event types to let their customers filter which event they would like to listen to, and it can also utilize application `UID`s to [use Svix in a fully stateless manner](./overview.mdx#ids-and-uids).
+
+
+### Multiple channels use-case
+
+#### Who is it for
+
+This use-case is similar the common one, but with one small difference: your customers may take part in completely separate activities or projects.
+
+One common example for this is project management software such as Github, Jira, and Linear. Github users may be watching multiple repositories and be a member of multiple organizations. Their customers want to be able to choose which webhooks should get to which endpoints based on the project or organization.
+
+#### Usage example
+
+One easy solution is to have one different application per each project. While it's possible to do it this way, it comes with a few annoying limitations. First of all, the app portal only shows one application at a time, so managing the endpoints is annoying. But also, oftentimes you'd like to listen for events affecting multiple projects from the same endpoint, and splitting it to different applications makes this very cumbersome.
+
+Enter [channels](./channels.mdx). Channels are an extra dimension of filtering messages that is similar, but orthogonal to event types. Channels let you include in the message which channels have been affected by a particular change. For example, you can send a msg and mark it as affecting `proj_12` and `proj_35`. Endpoints can then be marked as listening to only changes affecting particular projects (channels) and the messages will be filtered accordingly.
+
+Services matching this use-case often implement their own UI for adding and editing endpoints instead of using the application portal, in order to build a nice UI for auto completing, and choosing relevant channels. They would still use the application portal for offering their customers a way to gain visibility into the webhooks being sent, just in read-only mode.
+
+
+### Partners use-case
+
+#### Who is it for
+
+This use-case is for services where the webhooks are not being ingested by the service's customers, but rather by partners that e.g. build extensions for it.
+
+Let's take Zoom for example. They have an application marketplace, and you can install different applications on your Zoom account. As a Zoom customer, you are not actually listening to webhooks yourself, but Zoom needs to send them to the applications you've installed.
+
+#### Usage example
+
+There are a few ways to achieve this, and the exact method chosen will depend on your additional requirements and your own personal preferences.
+
+The first method is to have one application per each of your customers (even though they are unaware of webhooks), and for every partner that would like to listen to webhooks add a new endpoint with this partners' URL and event type requirements (with a unique endpoint `UID` to [keep things stateless](./overview.mdx#ids-and-uids)). The nice thing about this method is that it keeps things simple and all of the webhooks for one application are sent to one place. The bad thing, however, is that if this partner ever wants to change the URL or the event type, this needs to be updated for each and every integration that they use.
+
+The second method is to have one application per one partner, and then when an event happens on a customer that a partner is interested in send a message to this partner's app (and the same for any other partner listening). This is currently done with separate API calls, but we plan on adding a way to mass send a message to multiple applications, so please [let us know](./get-help.mdx) if this is something you would be interested in.
+
+
+### The mix and match use-case
+
+#### Who is it for
+
+Some services have more complex use-cases that match more than one of the above examples. For example, your service may have both partners and end-users, and both may need to be able to listen to webhooks. Or maybe even two types of customers listening to the same events (so essentially "using" the common scenario twice).
+
+One such example is Gmail, where the user may want to connect third party add-ons (e.g. a CRM) and listen to a webhook themselves.
+
+#### Usage example
+
+One easy solution is to just have the equivalent of multiple use-cases layered on top of one another. So literally just send messages to multiple different applications that are exposed different in the your service's dashboard to different partners and customers based on their roles.
+
+
+### Other use-cases
+
+As mentioned above, this list is not exhaustive and only covers some of the more common examples. Svix is used by a variety of different customers for a variety of different use-cases. If your use-case doesn't fit any of the below, please [contact us](/get-help/) and we would be happy to chat on how to best use Svix in your particular circumstances.
