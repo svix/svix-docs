@@ -429,6 +429,8 @@ Svix supports [idempotency](https://en.wikipedia.org/wiki/Idempotence) for safel
 
 For more information, please refer to the [idempotency section](./idempotency.mdx) of the docs.
 
+Note: while the `eventId` can potentially be used to enforce short-term uniqueness (similar to idempotency), it's recommended to use the idempotency mechanism when needed rather than using on the `eventId` checks.
+
 
 ## Add webhook endpoints
 
