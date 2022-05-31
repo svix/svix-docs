@@ -4,7 +4,7 @@ module.exports = {
   url: "https://docs.svix.com",
   baseUrl: "/",
   onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "warn",
+  onBrokenMarkdownLinks: "throw",
   favicon: "img/favicon.ico",
   themeConfig: {
     navbar: {
