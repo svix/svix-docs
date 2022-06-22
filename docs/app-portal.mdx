@@ -123,6 +123,14 @@ curl -X POST "https://api.svix.com/api/v1/auth/dashboard_access/app_Xzx8bQeOB1D1
 </TabItem>
 </CodeTabs>
 
+If you want your users to be redirected to a specific page of the App Portal after login, you can add a `next` query parameter to the URL:
+
+```
+https://app.svix.com/login?next=/endpoints/abc#key=xyz
+```
+
+You should use a URL parsing library to add the query parameter (avoid editing the URL manually). Not all pages are supported.
+
 ## Embedding in your own dashboard
 
 ### Embedding as an iframe
