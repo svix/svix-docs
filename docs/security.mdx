@@ -1,0 +1,83 @@
+---
+title: Webhook Security
+---
+
+Webhooks are a very powerful tool, and when used correctly are also very secure. Svix automatically takes care of these security aspects for you, and offers easy to use library for verifying webhook integrity. For more information, please refer to the [webhook verification section](/receiving/verifying-payloads/why) of the webhook consumption docs.
+
+For more information about the security measures taken by the Svix service, please refer to the [Svix security page](https://www.svix.com/security/).
+
+:::info Optional reading ahead
+The section below is not required for the normal operation of the Svix service. It's only included here for educational purposes.
+:::
+
+## Server-side request forgery (SSRF)
+
+A server-side request forgery (SSRF) attack, is when an attacker abuses functionality on the server to read or update internal resources. In the attack, the attacker supplies or modifies a URL which the server will then make a call to. By carefully selecting the URLs, the attacker may be able to read server configuration such as AWS metadata, connect to internal services like http enabled databases or perform post requests towards internal services which are not intended to be exposed.
+
+Webhooks implementations are especially vulnerable to SSRF as they let their consumers (customers) add any URLs they want, which will be called from the internal webhook system.
+
+For more information about SSRF please refer to the [OWASP entry](https://owasp.org/www-community/attacks/Server_Side_Request_Forgery).
+
+### Preventing SSRF
+
+The main way to protect against SSRF is to prevent the webhooks from calling into internal networks and services. To achieve this you'd want to do two things: the fist would be to proxy all webhook requests through a special proxy (like [smokescreen](https://github.com/stripe/smokescreen)) that filters internal IP addresses, and the second would be to put the webhook workers (or proxy) in their own private subnet that can't access internal services.
+
+## Spoofing attacks
+
+Because of the way webhooks work, attackers can impersonate services by simply sending a fake webhook to an endpoint. Think about it: it's just an HTTP POST from an unknown source.
+
+
+### Preventing spoofing attacks
+
+There are a few ways to prevent or reduce the likelihood of spoofing attacks, though the recommended (and wholly sufficient) ways is be signing webhooks.
+
+#### Signature verification
+
+When signing the webhooks it's important to sign not only the payload, but also additional metadata such as idempotency ID and timestamp (more on those later). The signature scheme needs to use strong cryptographic primitives and used correctly. Some implementations use asymmetric signing using Ed25519 or RSA, but it's much more common (and recommended) to use `HMAC-SHA256` which is what Svix uses by default.
+
+For more information, please refer to the [webhook verification](/receiving/verifying-payloads/how-manual) docs.
+
+#### Authentication tokens
+
+Like normal HTTP requests, webhooks can authenticate using a pre-shared authentication token, HTTP Basic Auth, or any other common HTTP authentication method. This is not recommended for a variety of reasons, the first one is the danger of giving the webhook provider a token with more access than needed (as in, a token that can also make API calls) which is a common pitfall, and the other is that because of how webhooks work, the server can potentially be tricked to send the request to the wrong destination, exposing the token.
+
+
+#### IP allow list
+
+An IP allow list is an insecure mechanism when used on its own, as it's not meant for authentication. Svix supports sending from a specific set of source IPs. The reason why Svix supports it, is so that webhook consumers that have firewalls can add Svix to the allow list to ensure delivery.
+
+Relying on it however is insufficient, because depending on the cloud provider you use, you may be sharing IPs with other machines. Even if you have your own private IPs, you may accidentally release an IP address back to the cloud provider which can then be used to send malicious requests, and last but not least, this means that one customer of the service can trigger webhooks affecting another customer (because the sender will be from the same set of IP addresses) making the security insufficient.
+
+## Replay attacks
+
+A replay attack is an attack when a valid data transmission is duplicated maliciously or fraudulently.
+
+A bad actor can intercept (and potentially modify) a request before it reaches its destination, then replay it. Even if the payload is encrypted or signed and can't be edited, simply repeating a request can cause a lot of problems (e.g. duplicating a purchase event).
+
+### Preventing replay attacks
+
+#### Timestamps in the signature
+
+One way to limit the risks of replay attacks is by adding a timestamp to each webhook attempt and having the consumers verify it and ensuring it falls within a specific allowed tolerance. This method requires that the consumer has the correct time set on their machine (usually using NTP), and that the timestamp is also signed by the signature mentioned above (otherwise it can be spoofed).
+
+#### Idempotency
+
+With respect to APIs, idempotence means that you would get the same result whether you make an identical API call once or many times. If your endpoints are idempotent, any webhook requests will only be processed once, even if they are received multiple times. This can be done either implicitly (e.g. the content of the webhook is such that processing it multiple times doesn't make sense) or explicitly, which means adding a special ID for each message which the consumer can validate against.
+
+
+## Man-in-the-middle attack
+
+Man-in-the-middle (MITM) attack is a form of eavesdropping in which the attacker secretly relays and possibly alters the communications between two parties who believe they are directly communicating with each other.
+
+### Preventing man-in-the-middle attacks
+
+The most common way to avoid a MITM attack is to always use HTTPS URLs to ensure that the request is encrypted and the connection is verified.
+
+
+## What about mTLS?
+
+By default the TLS protocol only proves the identity of the server to the client, and the authentication of the client to the server is left to the application layer. TLS also offers client-to-server authentication using client-side certificates.
+
+While it solves most of the above issues, it's rarely used as it puts a massive burden on webhook consumers. The problem is that it requires provisioning of client certifications for usage with the webhook receiver, and requires the consumer to know how to handle mTLS which is not possible in most managed cloud environments.
+
+In addition, unless a specific certificate is created for each endpoint, it suffers from the same issue that the "IP allow list" solution suffers from above: different customers of the same webhook service can maliciously trigger authenticated webhooks to one another.
