@@ -3,7 +3,7 @@ module.exports = {
     {
       Introduction: ["introduction", "setup", "quickstart", "overview", "common-usage-examples", "consuming-webhooks"],
       Basics: ["event-types", "app-portal", "api-keys"],
-      Advanced: ["incoming-webhooks", "idempotency", "channels", "rate-limit", "retries", "retention"],
+      Advanced: ["incoming-webhooks", "idempotency", "channels", "rate-limit", "retries", "retention", "security"],
       "Manage Your Account": ["account/environments", "account/org-members"],
     },
     {
