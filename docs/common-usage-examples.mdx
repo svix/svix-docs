@@ -14,9 +14,9 @@ This list is not exhaustive and only covers some of the more common examples. Sv
 
 While different use-cases often require different solutions, there are a few Svix features that are useful in most use-cases and we will highlight them in this section.
 
-### Application and Endpoint UIDs, and message event IDs
+### Consumer Application and Endpoint UIDs, and message event IDs
 
-Svix enables you to use your internal `ID`s as ids for Svix entities by using the `UID` property of application and endpoints, and `eventId` of messages.
+Svix enables you to use your internal `ID`s as ids for Svix entities by using the `UID` property of consumer applications and endpoints, and `eventId` of messages.
 
 This lets you use Svix in a completely stateless manner, without having to store the Svix identifiers (or anything) in your own database.
 
@@ -30,7 +30,7 @@ Each message sent through Svix has an associated [event type](./event-types.mdx)
 You can even automatically generate public documentation for your webhooks [by making your event catalog public](./event-types.mdx#publishing-your-event-catalog).
 
 
-### Application portal
+### Consumer Application portal
 
 Svix comes with a application portal for your users that you can use out of the box. Your users can then use it to add endpoints, debug delivery, as well as inspect and replay past webhooks. The application portal can be used as a standalone page, or embedded in your own dashboard using an iframe.
 

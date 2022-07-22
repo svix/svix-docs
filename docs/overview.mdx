@@ -29,9 +29,9 @@ There are a variety of entities in Svix. The Svix entities are mostly hierarchic
 ![Entities diagram](img/entity-graph.svg)
 
 
-### Applications
+### Consumer Applications
 
-When sending messages using the Svix API you will be sending them to a specific application, which will then distribute them to the associated endpoints.
+When sending messages using the Svix API you will be sending them to a specific application (consumer), which will then distribute them to the associated endpoints.
 In most cases you would want to create one application for each of our customers, though in some cases you may want to create multiple applications per customer.
 
 Each application lies within its own security context. Each application is completely isolated from another, but also there is no isolation within an application. This means that you should assume that every message sent to an application can be viewed by all of the endpoints subscribed to that application. What does this mean in practice? Create different applications for different security contexts.
