@@ -59,7 +59,7 @@ svix.message.create(
 svixClient := svix.New("AUTH_TOKEN", nil)
 svixClient.Message.Create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.MessageIn{
     EventType:              "invoice.paid",
-    EventId:                svix.String("evt_Wqb1k73rXprtTm7Qdlr38G"),
+    EventId:                svix.NullableString("evt_Wqb1k73rXprtTm7Qdlr38G"),
     PayloadRetentionPeriod: 14,
     Payload:                map[string]interface{}{
         "id":      "invoice_WF7WtCLFFtd8ubcTgboSFNql",
