@@ -7,6 +7,7 @@ module.exports = {
   onBrokenMarkdownLinks: "throw",
   favicon: "img/favicon.ico",
   themeConfig: {
+    image: 'img/socialbanner.png',
     navbar: {
       logo: {
         alt: "Svix logo",
