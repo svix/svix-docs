@@ -25,6 +25,7 @@ Your customers can write Javascript code to edit an endpoint's Transformation, a
 ![Management UI screenshot](./img/edit-transformation.png)
 
 ### How to write a Transformation
+
 Svix expects a Transformation to declare a function named `handler`. Svix will pass a `WebhookObject` to this function as its only argument, and expects it to always return a `WebhookObject`.
 
 Here is what a `WebhookObject` looks like:
@@ -45,3 +46,18 @@ Here is what a `WebhookObject` looks like:
 - The `url` property must be a valid URL.
 
 The Transformation will only work if the `handler` function returns the modified `WebhookObject`.
+
+### An example Transformation
+
+Suppose your customer has an endpoint that they only want to redirect if a numerical value in the webhook's payload is greater than 5. They can write a Transformation like this:
+
+```js
+function handler(webhook) {
+	if (webhook.payload.value > 5) {
+		webhook.url = "https://api.myservice.com/greater-than-5"
+	}
+	return webhook
+}
+```
+
+Great, the webhook is redirected to a different URL if the `value` property of the payload is greater than 5. Otherwise, it is sent to the endpoint's defined URL.
