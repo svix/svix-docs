@@ -8,7 +8,7 @@ Transformations are a beta feature. While in beta, they are free and unlimited. 
 
 ## Enabling Transformations
 
-Transformations can be enabled at the environment-level. When you enable Transformations for an environment, your customers will be able to use Transformations on their endpoints.
+Transformations can be enabled at the environment level. When you enable Transformations for an environment, your customers will be able to use Transformations on their endpoints.
 
 To enable Transformations, navigate to the Settings page in the dashboard. Under the Environment Settings section, click General Settings, and then toggle the Enable Transformations switch. Your customers will need to reenter the Consumer App Portal for the change to take effect.
 
@@ -40,15 +40,15 @@ The Transformation will only work if the `handler` function returns the modified
 
 ### An example Transformation
 
-Suppose your customer has an endpoint that they only want to redirect if a numerical value in the webhook's payload is greater than 5. They can write a Transformation like this:
+Suppose that sometimes, your customer wants to redirect webhooks to a custom URL instead of the endpoint's defined URL. They only want to do this redirect if a custom URL is present in the webhook payload. They can write a transformation like this:
 
 ```js
 function handler(webhook) {
-	if (webhook.payload.value > 5) {
-		webhook.url = "https://api.myservice.com/greater-than-5"
+	if (webhook.payload.customUrl) {
+		webhook.url = webhook.payload.customUrl;
 	}
-	return webhook
+	return webhook;
 }
 ```
 
-Great, the webhook is redirected to a different URL if the `value` property of the payload is greater than 5. Otherwise, it is sent to the endpoint's defined URL.
+Great, the webhook is redirected to the custom URL if the `customUrl` property exists on the payload. Otherwise, it is sent to the endpoint's defined URL.
