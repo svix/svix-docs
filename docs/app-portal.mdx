@@ -229,4 +229,47 @@ http://app.svix.com/login?primaryColor=28bb93&fontFamily=Roboto#key=eyJhcHBJZCI6
 ```
 
 # Implementing your own Consumer App Portal functionality
-You can implement Consumer App Portal functionality into your own dashboard using ergonomic React Hooks provided by the `svix-react` library. This approach allows you to use your own UI structure and components. The hooks are an abstraction over the `svix` JavaScript library and help to handle concerns like paginating over large lists of data, and reloading data. To get started and see a full list of hooks, refer to the [`svix-react` NPM package](https://www.npmjs.com/package/svix-react).
+You can implement Consumer App Portal functionality into your own dashboard using ergonomic React Hooks provided by the `svix-react` library. This approach allows you to use your own UI structure and components. The hooks are an abstraction over the `svix` JavaScript library and help to handle concerns like paginating over large lists of data, and reloading data.
+
+Using the hooks requires wrapping your application or components in `<SvixProvider />`:
+```jsx
+import { SvixProvider } from 'svix-react'
+
+export default function App() {
+  return (
+    <SvixProvider token={token} appId={appId}>
+      {/** your app's components **/}
+    </SvixProvider>
+  )
+}
+```
+
+Then, you can use hooks like `useMessages`:
+
+```jsx
+import { useEndpoints } from 'svix-react'
+
+export default function ListEndpoints() {
+  const endpoints = useEndpoints()
+
+  return (
+    <div>
+      {endpoints.error && <div>An error has occurred</div>}
+      {endpoints.loading && <div>Loading...</div>}
+      <ul>
+        {endpoints.data?.map((endpoint) => (
+          <li>{endpoint.url}</li>
+        ))}
+      </ul>
+      <button disabled={!endpoints.hasPrevPage} onClick={endpoints.prevPage}>
+        Previous Page
+      </button>
+      <button disabled={!endpoints.hasNextPage} onClick={endpoints.nextPage}>
+        Next Page
+      </button>
+    </div>
+  )
+}
+```
+
+To get started and see a full list of hooks, refer to the [`svix-react` NPM package](https://www.npmjs.com/package/svix-react).
