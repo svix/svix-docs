@@ -1,0 +1,47 @@
+---
+title: How to Verify Webhooks with ngrok
+---
+
+[ngrok](https://ngrok.com) is a staple tool for many developers that creates tunnels between networks. It is often used to expose a port on localhost to the public Internet, but with ngrok Cloud Edge it can be also be used to secure traffic from the Internet to production cloud environments.
+
+In this tutorial, we will learn how to verify Svix webhook requests using ngrok both for local development and on ngrok Cloud Edge.
+
+:::info
+This tutorial assumes you have already familiar with the [Svix webhooks service](https://www.svix.com). If this is your first time using Svix,
+we recommend you first check out our [quickstart documentaion](https://docs.svix.com/overview).
+:::
+
+## Verify Svix webhooks locally with ngrok CLI
+
+### Install ngrok
+If you haven't already, [install the ngrok CLI](https://ngrok.com/download).
+
+### Create a tunnel
+
+First, create an endpoint in the Consumer App Portal, and copy the endpoint's Signing Signature. Then, run the following ngrok command on your computer's terminal, replacing SIGNATURE with the Signing Signature you just copied:
+
+```sh
+ngrok http 3000 --verify-webhook=svix --verify-webhook-secret=SIGNATURE
+```
+
+When you run the command, ngrok should generate URL that looks like `https://*.ngrok.io`. Copy that URL, and set it as the URL for the Svix endpoint you previously created in the Consumer App Portal.
+
+Assuming you are running a service on port 3000, all Svix webhooks to your endpoint will now be forwarded to that local service by ngrok. And because you configured the `--verify-webhook` and `--verify-webhook-secret` options, ngrok will only accept verified Svix webhooks.
+
+## Verify Svix Webhooks on ngrok Cloud Edge
+
+### Create a Svix endpoint
+
+Create an endpoint in the consumer application portal. You'll need the newly-created endpoint's Signing Signature later on.
+
+### Sign up for ngrok
+
+Create an account on [ngrok.com](https://ngrok.com).
+
+### Create an ngrok Edge
+
+Login to the [ngrok dashboard](https://dashboard.ngrok.com). Using the menu on the left, expand "Cloud Edge" and choose "Edges." Create an edge by clicking the "New edge" button and choose "HTTPS Edge".
+
+### Configure ngrok Edge
+
+On the Edge configuration page, find and click the "Webhooks Verification" menu item, and click "Begin Setup." Choose Svix as your webhook provider, and paste your endpoint's Signing Signature from Svix as the webhook signing key.
