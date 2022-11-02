@@ -13,6 +13,7 @@ module.exports = {
       Integrations: [
         "integrations/zapier",
         "integrations/advanced-zapier",
+        "integrations/verifying-payloads/ngrok",
       ],
     },
     {
@@ -42,7 +43,6 @@ module.exports = {
       "Verifying Webhooks": [
         "receiving/verifying-payloads/why",
         "receiving/verifying-payloads/how",
-        "receiving/verifying-payloads/ngrok",
         "receiving/verifying-payloads/how-manual",
         "receiving/additional-authentication",
         "receiving/source-ips",
