@@ -13,7 +13,7 @@ module.exports = {
       Integrations: [
         "integrations/zapier",
         "integrations/advanced-zapier",
-        "integrations/verifying-payloads/ngrok",
+        "integrations/ngrok",
       ],
     },
     {
