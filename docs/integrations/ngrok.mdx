@@ -7,7 +7,7 @@ title: Using the ngrok Intergation
 In this tutorial, we will learn how to verify Svix webhook requests using ngrok both for local development and on ngrok Cloud Edge.
 
 :::info
-This tutorial assumes you have already familiar with the [Svix webhooks service](https://www.svix.com). If this is your first time using Svix,
+This tutorial assumes you are already familiar with the [Svix webhooks service](https://www.svix.com). If this is your first time using Svix,
 we recommend you first check out our [quickstart documentaion](https://docs.svix.com/overview).
 :::
 
@@ -24,9 +24,9 @@ First, create an endpoint in the Consumer App Portal, and copy the endpoint's Si
 ngrok http 3000 --verify-webhook=svix --verify-webhook-secret=SIGNATURE
 ```
 
-When you run the command, ngrok should generate URL that looks like `https://*.ngrok.io`. Copy that URL, and set it as the URL for the Svix endpoint you previously created in the Consumer App Portal.
+When you run the command, ngrok should generate URL that looks like `https://d7f4c8296c55.ngrok.io`. Copy that URL, and set it as the URL for the Svix endpoint you previously created in the Consumer App Portal.
 
-Assuming you are running a service on port 3000, all Svix webhooks to your endpoint will now be forwarded to that local service by ngrok. And because you configured the `--verify-webhook` and `--verify-webhook-secret` options, ngrok will only accept verified Svix webhooks.
+Assuming you are running a service on port 3000, all Svix webhooks to your endpoint will now be forwarded to that local service by ngrok. And because you configured the `--verify-webhook` and `--verify-webhook-secret` options, ngrok will only forward verified Svix webhooks.
 
 ## Verify Svix Webhooks on ngrok Cloud Edge
 
