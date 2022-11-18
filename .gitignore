@@ -24,9 +24,5 @@ Session.vim
 .idea
 
 # yarn
-.yarn/
-!.yarn/patches
-!.yarn/releases
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
+/.yarn/cache
+/.yarn/install-state.gz
