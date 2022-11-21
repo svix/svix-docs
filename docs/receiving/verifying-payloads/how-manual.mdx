@@ -15,12 +15,12 @@ However, here are instructions for verifying manually for those who need it.
 
 Each webhook call includes three headers with additional information that are used for verification:
 
-* `Svix-Id`: the unique message identifier for the webhook message. This identifier is unique across all messages, but will be the same when the same webhook is being resent (e.g. due to a previous failure).
-* `Svix-Timestamp`: timestamp in [seconds since epoch](https://en.wikipedia.org/wiki/Unix_time).
-* `Svix-Signature`: the [Base64](https://en.wikipedia.org/wiki/Base64) encoded list of signatures (space delimited).
+* `svix-id`: the unique message identifier for the webhook message. This identifier is unique across all messages, but will be the same when the same webhook is being resent (e.g. due to a previous failure).
+* `svix-timestamp`: timestamp in [seconds since epoch](https://en.wikipedia.org/wiki/Unix_time).
+* `svix-signature`: the [Base64](https://en.wikipedia.org/wiki/Base64) encoded list of signatures (space delimited).
 
 :::info
-Business tier customers can have the headers white-labeled to use the `Webhook-` prefix instead of the `Svix-` prefix used above. The Svix libraries support both.
+Business tier customers can have the headers white-labeled to use the `webhook-` prefix instead of the `svix-` prefix used above. The Svix libraries support both.
 :::
 
 ### Constructing the signed content
@@ -57,9 +57,9 @@ const signature = crypto
 console.log(signature);
 ```
 
-This generated signature should match one of the ones sent in the `Svix-Signature` header.
+This generated signature should match one of the ones sent in the `svix-signature` header.
 
-The `Svix-Signature` header is composed of a list of space delimited signatures and their corresponding version identifiers. The signature list is most commonly of length one. Though there could be any number of signatures. For example:
+The `svix-signature` header is composed of a list of space delimited signatures and their corresponding version identifiers. The signature list is most commonly of length one. Though there could be any number of signatures. For example:
 
 ```
 v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE= v1,bm9ldHUjKzFob2VudXRob2VodWUzMjRvdWVvdW9ldQo= v2,MzJsNDk4MzI0K2VvdSMjMTEjQEBAQDEyMzMzMzEyMwo=
@@ -71,4 +71,4 @@ Please note that to compare the signatures it's recommended to use a constant-ti
 
 ### Verify timestamp
 
-As mentioned above, Svix also sends the timestamp of the attempt in the `Svix-Timestamp` header. You should compare this timestamp against your system timestamp and make sure it's within your tolerance in order to prevent timestamp attacks.
+As mentioned above, Svix also sends the timestamp of the attempt in the `svix-timestamp` header. You should compare this timestamp against your system timestamp and make sure it's within your tolerance in order to prevent timestamp attacks.
