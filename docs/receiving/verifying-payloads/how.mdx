@@ -610,6 +610,37 @@ func main() {
 }
 ```
 
+### Rust (axum)
+
+Add the `webhook_in` route below to an axum router.
+
+```rust
+use axum::{body::Bytes, http::StatusCode};
+use hyper::HeaderMap;
+
+pub const SECRET: &'static str = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
+
+pub async fn webhook_in(
+    headers: HeaderMap,
+    body: Bytes,
+) -> StatusCode {
+    let wh = svix::webhooks::Webhook::new(SECRET);
+    if let Err(_) = wh {
+        return StatusCode::INTERNAL_SERVER_ERROR;
+    }
+
+    if let Err(_) = wh.verify(body, headers) {
+        return StatusCode::BAD_REQUEST;
+    }
+
+    // Do something with the message...
+
+    StatusCode::NO_CONTENT
+}
+
+
+```
+
 ### Ruby (Ruby on Rails)
 
 Once you've setup your project add a route to your `config/routes.rb` file at the top of the `Rails.application.routes.draw` block:
