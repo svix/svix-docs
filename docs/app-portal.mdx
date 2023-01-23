@@ -180,16 +180,14 @@ import { AppPortal } from "svix-react";
 import "svix-react/style.css";
 
 const SvixEmbed = () => {
-  const svixAppId = "app_x"; // this might vary from customer to customer
-
   const [appPortal, setAppPortal] = React.useState(null);
   const svixAppPortal = React.useEffect(() => {
     // Prerequisite: You'll need an endpoint that returns the App Portal
-    // magic URL (https://api.svix.com/docs#tag/Authentication/operation/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post)
-    fetch(`/your-backend-service/svix/${svixAppId}/app-portal`, { method: "POST" })
+    // magic URL (https://api.svix.com/docs#tag/Authentication/operation/get_app_portal_access_api_v1_auth_app_portal_access__app_id___post)
+    fetch(`/your-backend-service/svix/app-portal`, { method: "POST" })
       .then((res) => res.json())
       .then((result) => setAppPortal(result));
-  }, [svixAppId]);
+  }, []);
 
   return <AppPortal url={appPortal?.url} />;
 };
