@@ -463,7 +463,7 @@ const svix = new Svix("AUTH_TOKEN");
 const eventType = await svix.eventType.create({
   name: "user.signup",
   description: "A user has signed up",
-  featureFlag: "user-signups",
+  featureFlag: "beta-feature-a",
 });
 ```
 
@@ -477,7 +477,7 @@ svix = Svix("AUTH_TOKEN")
 app = svix.event_type.create(EventTypeIn(
     name="user.signup",
     description="A user has signed up",
-    feature_flag="user-signups"
+    feature_flag="beta-feature-a"
 ))
 ```
 
@@ -493,7 +493,7 @@ svixClient := svix.New("AUTH_TOKEN", nil)
 app, err := svixClient.EventType.Create(&svix.EventTypeIn{
     Name: "user.signup",
     Description: "A user has signed up",
-    FeatureFlag: svix.NullableStrig("user-signups"),
+    FeatureFlag: svix.NullableStrig("beta-feature-a"),
 })}
 ```
 
@@ -507,7 +507,7 @@ let svix = Svix::new("AUTH_TOKEN".to_string(), None);
 let event_type = svix.event_type().create(EventTypeIn {
     name: "user.signup".to_string(),
     description: "A user has signed up".to_string(),
-    feature_flag: Some("user-signups".to_string()),
+    feature_flag: Some("beta-feature-a".to_string()),
     ..EventTypeIn::default()
 }).await?;
 ```
@@ -525,7 +525,7 @@ svix.getEventType()
   .create(new EventTypeIn()
     .name("user.signup")
     .description("A user has signed up")
-    .featureFlag("user-signups")
+    .featureFlag("beta-feature-a")
   );
 ```
 
@@ -541,7 +541,7 @@ svix.eventType.create(
                 EventTypeIn(
                     name = "user.signup",
                     description = "A user has signed up",
-                    featureFlag = "user-signups",
+                    featureFlag = "beta-feature-a",
                 ));
 ```
 
@@ -553,7 +553,7 @@ svix = Svix::Client.new("AUTH_TOKEN")
 svix.event_type.create(Svix::EventTypeIn.new({
         "name" => "user.signup",
         "description" => "A user has signed up",
-        "feature_flag": "user-signups"}))
+        "feature_flag": "beta-feature-a"}))
 ```
 
 </TabItem>
@@ -564,7 +564,7 @@ var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"))
 await svix.EventType.CreateAsync(new EventTypeIn(
     name: "user.signup",
     description: "A user has signed up",
-    featureFlag: "user-signups"
+    featureFlag: "beta-feature-a"
 ))
 ```
 
@@ -573,7 +573,7 @@ await svix.EventType.CreateAsync(new EventTypeIn(
 
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
-svix event-type create '{ "name": "user.signup", "description": "A user has signed up", "featureFlag": "user-signups" }'
+svix event-type create '{ "name": "user.signup", "description": "A user has signed up", "featureFlag": "beta-feature-a" }'
 ```
 
 </TabItem>
@@ -586,7 +586,7 @@ curl -X POST "https://api.svix.com/api/v1/event-type/" \
     -H  "Accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: Bearer ${SVIX_AUTH_TOKEN}" \
-    -d '{ "name": "user.signup", "description": "A user has signed up", "featureFlag": "user-signups" }'
+    -d '{ "name": "user.signup", "description": "A user has signed up", "featureFlag": "beta-feature-a" }'
 ```
 
 </TabItem>
@@ -600,7 +600,7 @@ If a user tries to retrieve this newly created event type they will get a not-fo
 ```js
 const svix = new Svix("AUTH_TOKEN");
 const dashboard = await svix.authentication.appPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
-    featureFlags: ["user-signups"]
+    featureFlags: ["beta-feature-a"]
 });
 // A URL that automatically logs user into the dashboard
 console.log(dashboard.url);
@@ -612,7 +612,7 @@ console.log(dashboard.url);
 ```python
 svix = Svix("AUTH_TOKEN")
 dashboard = svix.authentication.app_portal_access("app_Xzx8bQeOB1D1XEYmAJaRGoj0", AppPortalAccessIn(
-    feature_flags=["user-signups"]
+    feature_flags=["beta-feature-a"]
 ))
 # A URL that automatically logs user into the dashboard
 print(dashboard.url)
@@ -624,7 +624,7 @@ print(dashboard.url)
 ```go
 svixClient := svix.New("AUTH_TOKEN", nil)
 dashboard, _ := svixClient.Authentication.AppPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.AppPortalAccessIn{
-    FeatureFlags: []string{"user-signups"}
+    FeatureFlags: []string{"beta-feature-a"}
 })
 // A URL that automatically logs user into the dashboard
 fmt.Println(dashboard.Url)
@@ -638,7 +638,7 @@ let svix = Svix::new("AUTH_TOKEN".to_string(), None);
 let dashboard = svix.authentication().app_portal_access(
     "app_Xzx8bQeOB1D1XEYmAJaRGoj0".to_string(),
     AppPortalAccessIn { 
-        feature_flags: Some(vec!["user-signups".to_string()]),
+        feature_flags: Some(vec!["beta-feature-a".to_string()]),
         .. Default::default() 
     }
 }).await?;
@@ -652,7 +652,7 @@ println!("{}", dashboard.url);
 ```java
 Svix svix = new Svix("AUTH_TOKEN");
 AppPortalAccessOut dashboard = svix.getAuthentication().appPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0", new AppPortalAccessIn()
-    .featureFlags(new String[]{"user-signups"})
+    .featureFlags(new String[]{"beta-feature-a"})
 );
 // A URL that automatically logs user into the dashboard
 System.out.println(dashboard.getUrl());
@@ -664,7 +664,7 @@ System.out.println(dashboard.getUrl());
 ```kotlin
 val svix = Svix("AUTH_TOKEN")
 val dashboard = svix.authentication.appPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0", AppPortalAccessIn()
-    .featureFlags(arrayOf("user-signups"))
+    .featureFlags(arrayOf("beta-feature-a"))
 )
 // A URL that automatically logs user into the dashboard
 println(dashboard.url)
@@ -676,7 +676,7 @@ println(dashboard.url)
 ```ruby
 svix = Svix::Client.new("AUTH_TOKEN")
 dashboard = svix.authentication.app_portal_access("app_Xzx8bQeOB1D1XEYmAJaRGoj0", Svix::AppPortalAccessIn.new({
-    "feature_flags": ["user-signups"]
+    "feature_flags": ["beta-feature-a"]
 }))
 # A URL that automatically logs user into the dashboard
 puts dashboard.url
@@ -688,7 +688,7 @@ puts dashboard.url
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
 var dashboard = await svix.Authentication.AppPortalAccessAsync("app_Xzx8bQeOB1D1XEYmAJaRGoj0", new AppPortalAccessIn{
-    featureFlags: new string[] {"user-signups"}
+    featureFlags: new string[] {"beta-feature-a"}
 });
 // A URL that automatically logs user into the dashboard
 Console.WriteLine(dashboard.Url)
@@ -700,7 +700,7 @@ Console.WriteLine(dashboard.Url)
 ```shell
 export SVIX_AUTH_TOKEN="AUTH_TOKEN"
 svix authentication app-portal app_Xzx8bQeOB1D1XEYmAJaRGoj0 '{
-    "featureFlags": ["user-signups"]
+    "featureFlags": ["beta-feature-a"]
 }'
 ```
 
@@ -712,7 +712,7 @@ curl -X POST "https://api.svix.com/api/v1/auth/app-portal-access/app_Xzx8bQeOB1D
     -H  "Accept: application/json" \
     -H  "Authorization:  Bearer AUTH_TOKEN" \
     -H 'Content-Type: application/json' \
-    -d '{"featureFlags": ["user-signups"]}'
+    -d '{"featureFlags": ["beta-feature-a"]}'
 ```
 
 </TabItem>
