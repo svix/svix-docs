@@ -592,7 +592,235 @@ curl -X POST "https://api.svix.com/api/v1/event-type/" \
 </TabItem>
 </CodeTabs>
 
-:::caution
+If a user tries to retrieve this newly created event type they will get a not-found error. To give them access you need to give them an access token that explicity allows them to see event types with the feature flag set during creation.
+
+<CodeTabs>
+<TabItem value="js">
+
+```js
+const svix = new Svix("AUTH_TOKEN");
+const dashboard = await svix.authentication.appPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
+    featureFlags: ["user-signups"]
+});
+// A URL that automatically logs user into the dashboard
+console.log(dashboard.url);
+```
+
+</TabItem>
+<TabItem value="py">
+
+```python
+svix = Svix("AUTH_TOKEN")
+dashboard = svix.authentication.app_portal_access("app_Xzx8bQeOB1D1XEYmAJaRGoj0", AppPortalAccessIn(
+    feature_flags=["user-signups"]
+))
+# A URL that automatically logs user into the dashboard
+print(dashboard.url)
+```
+
+</TabItem>
+<TabItem value="go">
+
+```go
+svixClient := svix.New("AUTH_TOKEN", nil)
+dashboard, _ := svixClient.Authentication.AppPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.AppPortalAccessIn{
+    FeatureFlags: []string{"user-signups"}
+})
+// A URL that automatically logs user into the dashboard
+fmt.Println(dashboard.Url)
+```
+
+</TabItem>
+<TabItem value="rust">
+
+```rust
+let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let dashboard = svix.authentication().app_portal_access(
+    "app_Xzx8bQeOB1D1XEYmAJaRGoj0".to_string(),
+    AppPortalAccessIn { 
+        feature_flags: Some(vec!["user-signups".to_string()]),
+        .. Default::default() 
+    }
+}).await?;
+// A URL that automatically logs user into the dashboard
+println!("{}", dashboard.url);
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+Svix svix = new Svix("AUTH_TOKEN");
+AppPortalAccessOut dashboard = svix.getAuthentication().appPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0", new AppPortalAccessIn()
+    .featureFlags(new String[]{"user-signups"})
+);
+// A URL that automatically logs user into the dashboard
+System.out.println(dashboard.getUrl());
+```
+
+</TabItem>
+<TabItem value="kotlin">
+
+```kotlin
+val svix = Svix("AUTH_TOKEN")
+val dashboard = svix.authentication.appPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0", AppPortalAccessIn()
+    .featureFlags(arrayOf("user-signups"))
+)
+// A URL that automatically logs user into the dashboard
+println(dashboard.url)
+```
+
+</TabItem>
+<TabItem value="ruby">
+
+```ruby
+svix = Svix::Client.new("AUTH_TOKEN")
+dashboard = svix.authentication.app_portal_access("app_Xzx8bQeOB1D1XEYmAJaRGoj0", Svix::AppPortalAccessIn.new({
+    "feature_flags": ["user-signups"]
+}))
+# A URL that automatically logs user into the dashboard
+puts dashboard.url
+```
+
+</TabItem>
+<TabItem value="csharp">
+
+```csharp
+var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
+var dashboard = await svix.Authentication.AppPortalAccessAsync("app_Xzx8bQeOB1D1XEYmAJaRGoj0", new AppPortalAccessIn{
+    featureFlags: new string[] {"user-signups"}
+});
+// A URL that automatically logs user into the dashboard
+Console.WriteLine(dashboard.Url)
+```
+
+</TabItem>
+<TabItem value="cli">
+
+```shell
+export SVIX_AUTH_TOKEN="AUTH_TOKEN"
+svix authentication app-portal app_Xzx8bQeOB1D1XEYmAJaRGoj0 '{
+    "featureFlags": ["user-signups"]
+}'
+```
+
+</TabItem>
+<TabItem value="curl">
+
+```shell
+curl -X POST "https://api.svix.com/api/v1/auth/app-portal-access/app_Xzx8bQeOB1D1XEYmAJaRGoj0/" \
+    -H  "Accept: application/json" \
+    -H  "Authorization:  Bearer AUTH_TOKEN" \
+    -H 'Content-Type: application/json' \
+    -d '{"featureFlags": ["user-signups"]}'
+```
+
+</TabItem>
+</CodeTabs>
+
+A user with this newly minted dashboard access token will be able to see this new event type.
+
+Once you're ready to release this new event type to all of your users simply remove the feature flag from it.
+
+<CodeTabs>
+<TabItem value="js">
+
+```js
+const svix = new Svix("AUTH_TOKEN");
+await svix.eventType.update("user.signup", { featureFlag: null });
+```
+
+</TabItem>
+<TabItem value="py">
+
+```python
+svix = Svix("AUTH_TOKEN")
+svix.event_type.update("user.signup", EventTypeUpdate(feature_flag=None))
+```
+
+</TabItem>
+<TabItem value="go">
+
+```go
+svixClient := svix.New("AUTH_TOKEN", nil)
+eventTypeOut, _ := svixClient.EventType.Update("user.signup", &svix.EventTypeUpdate{ FeatureFlag: nil })
+```
+
+</TabItem>
+<TabItem value="rust">
+
+```rust
+let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let event_type_out = svix.event_type().update(
+    "user.signup".to_string(),
+    EventTypeUpdate { 
+        feature_flag: None,
+        .. Default::default() 
+    }
+}).await?;
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+Svix svix = new Svix("AUTH_TOKEN");
+EventTypeOut eventTypeOut = svix.getEventType().update("user.signup", new EventTypeUpdate()
+    .featureFlag(null)
+);
+```
+
+</TabItem>
+<TabItem value="kotlin">
+
+```kotlin
+val svix = Svix("AUTH_TOKEN")
+val eventTypeOut = svix.eventType.update("user.signup", EventTypeUpdate().featureFlag(null))
+```
+
+</TabItem>
+<TabItem value="ruby">
+
+```ruby
+svix = Svix::Client.new("AUTH_TOKEN")
+event_type_out = svix.event_type.update("user.signup", Svix::EventTypeUpdate.new({
+    "feature_flag": nil
+}))
+```
+
+</TabItem>
+<TabItem value="csharp">
+
+```csharp
+var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
+var eventTypeOut = await svix.EventType.Update("user.signup", new EventTypeUpdate{
+    featureFlag: null
+});
+```
+
+</TabItem>
+<TabItem value="cli">
+
+```shell
+export SVIX_AUTH_TOKEN="AUTH_TOKEN"
+svix event-type update user.signup '{"featureFlag": null}'
+```
+
+</TabItem>
+<TabItem value="curl">
+
+```shell
+curl -X POST "https://api.svix.com/api/v1/event-type/user.signup/" \
+    -H  "Accept: application/json" \
+    -H  "Authorization:  Bearer AUTH_TOKEN" \
+    -H 'Content-Type: application/json' \
+    -d '{"featureFlag": null}'
+```
+
+</TabItem>
+</CodeTabs>
+
+:::info Important
 Keep in mind that endpoints with no event type filtering will receive all messages regardless of feature flags. Also, users with knowledge of a feature flag-gated event type can subscribe to that event type regardless of feature flags.
 Feature flags only impact event types' visibility in the catalog and the API, not their deliverability.
 :::

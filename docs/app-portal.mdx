@@ -17,17 +17,14 @@ For more information on how to use the app portal please refer to the [receiving
 
 ## Giving your users access
 
-To give your users access to the [App Portal](./app-portal), just use the [dashboard access endpoint](https://api.svix.com/docs#operation/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post). Calling this endpoint with an `app_id` returns a URL you can just redirect your users to in order to log them into the App Portal. They will stay logged in for a few days or until they log out.
+To give your users access to the [App Portal](./app-portal), just use the [dashboard access endpoint](https://api.svix.com/docs#tag/Authentication/operation/get_app_portal_access_api_v1_auth_app_portal_access__app_id___post). Calling this endpoint with an `app_id` returns a URL you can just redirect your users to in order to log them into the App Portal. They will stay logged in for a few days or until they log out.
 
 <CodeTabs>
 <TabItem value="js">
 
 ```js
 const svix = new Svix("AUTH_TOKEN");
-const dashboard = await svix.authentication.appPortalAccess(
-  "app_Xzx8bQeOB1D1XEYmAJaRGoj0",
-  {featureFlags: []}
-);
+const dashboard = await svix.authentication.appPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {});
 // A URL that automatically logs user into the dashboard
 console.log(dashboard.url);
 ```
@@ -37,9 +34,7 @@ console.log(dashboard.url);
 
 ```python
 svix = Svix("AUTH_TOKEN")
-dashboard = svix.authentication.app_portal_access("app_Xzx8bQeOB1D1XEYmAJaRGoj0", AppPortalAccessIn{
-    feature_flags=[]
-})
+dashboard = svix.authentication.app_portal_access("app_Xzx8bQeOB1D1XEYmAJaRGoj0", AppPortalAccessIn())
 # A URL that automatically logs user into the dashboard
 print(dashboard.url)
 ```
@@ -49,9 +44,7 @@ print(dashboard.url)
 
 ```go
 svixClient := svix.New("AUTH_TOKEN", nil)
-dashboard, _ := svixClient.Authentication.AppPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.AppPortalAccessIn{
-    FeatureFlags: []string{}
-})
+dashboard, _ := svixClient.Authentication.AppPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.AppPortalAccessIn{})
 // A URL that automatically logs user into the dashboard
 fmt.Println(dashboard.Url)
 ```
@@ -63,9 +56,7 @@ fmt.Println(dashboard.Url)
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
 let dashboard = svix.authentication().app_portal_access(
     "app_Xzx8bQeOB1D1XEYmAJaRGoj0".to_string(),
-    AppPortalAccessIn {
-        feature_flags: Some(vec![])
-    }
+    AppPortalAccessIn { .. Default::default() }
 }).await?;
 // A URL that automatically logs user into the dashboard
 println!("{}", dashboard.url);
@@ -76,9 +67,7 @@ println!("{}", dashboard.url);
 
 ```java
 Svix svix = new Svix("AUTH_TOKEN");
-DashboardAccessOut dashboard = svix.getAuthentication().appPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0", new AppPortalAccessIn()
-    .featureFlags(new String[]{})
-);
+AppPortalAccessOut dashboard = svix.getAuthentication().appPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0", new AppPortalAccessIn());
 // A URL that automatically logs user into the dashboard
 System.out.println(dashboard.getUrl());
 ```
@@ -88,9 +77,7 @@ System.out.println(dashboard.getUrl());
 
 ```kotlin
 val svix = Svix("AUTH_TOKEN")
-val dashboard = svix.authentication.appPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0", AppPortalAccessIn()
-    .featureFlags(arrayOf())
-)
+val dashboard = svix.authentication.appPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0", AppPortalAccessIn())
 // A URL that automatically logs user into the dashboard
 println(dashboard.url)
 ```
@@ -100,9 +87,7 @@ println(dashboard.url)
 
 ```ruby
 svix = Svix::Client.new("AUTH_TOKEN")
-dashboard = svix.authentication.dashboard_access("app_Xzx8bQeOB1D1XEYmAJaRGoj0", Svix::AppPortalAccessIn::new({
-    "feature_flags": []
-}))
+dashboard = svix.authentication.app_portal_access("app_Xzx8bQeOB1D1XEYmAJaRGoj0", Svix::AppPortalAccessIn.new({}))
 # A URL that automatically logs user into the dashboard
 puts dashboard.url
 ```
@@ -112,9 +97,7 @@ puts dashboard.url
 
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
-var dashboard = await svix.Authentication.AppPortalAccessAsync("app_Xzx8bQeOB1D1XEYmAJaRGoj0", new AppPortalAccessIn{
-    featureFlags: new string[] {}
-});
+var dashboard = await svix.Authentication.AppPortalAccessAsync("app_Xzx8bQeOB1D1XEYmAJaRGoj0", new AppPortalAccessIn{});
 // A URL that automatically logs user into the dashboard
 Console.WriteLine(dashboard.Url)
 ```
@@ -124,20 +107,18 @@ Console.WriteLine(dashboard.Url)
 
 ```shell
 export SVIX_AUTH_TOKEN="AUTH_TOKEN"
-svix authentication app-portal-access app_Xzx8bQeOB1D1XEYmAJaRGoj0 '{"featureFlags": []}'
+svix authentication app-portal app_Xzx8bQeOB1D1XEYmAJaRGoj0
 ```
 
 </TabItem>
 <TabItem value="curl">
 
 ```shell
-curl -X POST "https://api.svix.com/api/v1/auth/dashboard_access/app_Xzx8bQeOB1D1XEYmAJaRGoj0/" \
+curl -X POST "https://api.svix.com/api/v1/auth/app-portal-access/app_Xzx8bQeOB1D1XEYmAJaRGoj0/" \
     -H  "Accept: application/json" \
     -H  "Authorization:  Bearer AUTH_TOKEN" \
     -H 'Content-Type: application/json' \
-    -d '{
-        "featureFlags": []
-    }'
+    -d '{}'
 ```
 
 </TabItem>
@@ -189,7 +170,7 @@ npm install svix-react
 yarn add svix-react
 ```
 
-The npm package is lightweight and provides some basic styling and a loading indicator out of the box. To use it, simply provide the magic link from the [`get_dashboard_access` endpoint](https://api.svix.com/docs#operation/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post).
+The npm package is lightweight and provides some basic styling and a loading indicator out of the box. To use it, simply provide the magic link from the [`app_portal_access` endpoint](https://api.svix.com/docs#tag/Authentication/operation/get_app_portal_access_api_v1_auth_app_portal_access__app_id___post).
 
 ```js
 import React from "react";
@@ -204,7 +185,7 @@ const SvixEmbed = () => {
   const [appPortal, setAppPortal] = React.useState(null);
   const svixAppPortal = React.useEffect(() => {
     // Prerequisite: You'll need an endpoint that returns the App Portal
-    // magic URL (https://api.svix.com/docs#operation/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post)
+    // magic URL (https://api.svix.com/docs#tag/Authentication/operation/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post)
     fetch(`/your-backend-service/svix/${svixAppId}/app-portal`, { method: "POST" })
       .then((res) => res.json())
       .then((result) => setAppPortal(result));
