@@ -442,3 +442,157 @@ Enabling this setting will cause your event types to be statically served on **s
 ### What it looks like
 
 ![event-catalog-published](./img/event-catalog-published.png)
+
+## Event type feature flags
+
+When introducing new features in your application it can be useful to only expose them to a select set of users.
+
+Event types can be hidden from users by setting a feature flag on them. If a feature flag is set on an event type users won't see the event type in the Event Catalog and the API, unless they have an authorization token that explicitly allows them.
+
+A feature flag is an arbitrary string that you can set at event type creation time. You can also remove or add back the feature flag by updating an existing event type. Feature flags follow the same naming rules as the event type name itself: `^[a-zA-Z0-9\\-_.]+$`.
+
+Here's how you can create an event type with a feature flag:
+
+<CodeTabs>
+<TabItem value="js">
+
+```js
+import { Svix } from "svix";
+
+const svix = new Svix("AUTH_TOKEN");
+const eventType = await svix.eventType.create({
+  name: "user.signup",
+  description: "A user has signed up",
+  featureFlag: "user-signups",
+});
+```
+
+</TabItem>
+<TabItem value="py">
+
+```python
+from svix.api import Svix, EventTypeIn
+
+svix = Svix("AUTH_TOKEN")
+app = svix.event_type.create(EventTypeIn(
+    name="user.signup",
+    description="A user has signed up",
+    feature_flag="user-signups"
+))
+```
+
+</TabItem>
+<TabItem value="go">
+
+```go
+import (
+	svix "github.com/svix/svix-webhooks/go"
+)
+
+svixClient := svix.New("AUTH_TOKEN", nil)
+app, err := svixClient.EventType.Create(&svix.EventTypeIn{
+    Name: "user.signup",
+    Description: "A user has signed up",
+    FeatureFlag: svix.NullableStrig("user-signups"),
+})}
+```
+
+</TabItem>
+<TabItem value="rust">
+
+```rust
+use svix::api::{ApplicationIn, Svix, SvixOptions};
+
+let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let event_type = svix.event_type().create(EventTypeIn {
+    name: "user.signup".to_string(),
+    description: "A user has signed up".to_string(),
+    feature_flag: Some("user-signups".to_string()),
+    ..EventTypeIn::default()
+}).await?;
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+import com.svix.Svix;
+import com.svix.models.EventTypeIn;
+
+
+Svix svix = new Svix("AUTH_TOKEN");
+svix.getEventType()
+  .create(new EventTypeIn()
+    .name("user.signup")
+    .description("A user has signed up")
+    .featureFlag("user-signups")
+  );
+```
+
+</TabItem>
+<TabItem value="kotlin">
+
+```kotlin
+import com.svix.kotlin.Svix;
+import com.svix.kotlin.models.EventTypeIn;
+
+val svix = Svix("AUTH_TOKEN");
+svix.eventType.create(
+                EventTypeIn(
+                    name = "user.signup",
+                    description = "A user has signed up",
+                    featureFlag = "user-signups",
+                ));
+```
+
+</TabItem>
+<TabItem value="ruby">
+
+```ruby
+svix = Svix::Client.new("AUTH_TOKEN")
+svix.event_type.create(Svix::EventTypeIn.new({
+        "name" => "user.signup",
+        "description" => "A user has signed up",
+        "feature_flag": "user-signups"}))
+```
+
+</TabItem>
+<TabItem value="csharp">
+
+```csharp
+var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
+await svix.EventType.CreateAsync(new EventTypeIn(
+    name: "user.signup",
+    description: "A user has signed up",
+    featureFlag: "user-signups"
+))
+```
+
+</TabItem>
+<TabItem value="cli">
+
+```shell
+export SVIX_AUTH_TOKEN='AUTH_TOKEN'
+svix event-type create '{ "name": "user.signup", "description": "A user has signed up", "featureFlag": "user-signups" }'
+```
+
+</TabItem>
+<TabItem value="curl">
+
+```shell
+export SVIX_AUTH_TOKEN='AUTH_TOKEN'
+
+curl -X POST "https://api.svix.com/api/v1/event-type/" \
+    -H  "Accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization: Bearer ${SVIX_AUTH_TOKEN}" \
+    -d '{ "name": "user.signup", "description": "A user has signed up", "featureFlag": "user-signups" }'
+```
+
+</TabItem>
+</CodeTabs>
+
+:::caution
+Keep in mind that endpoints with no event type filtering will receive all messages regardless of feature flags. Also, users with knowledge of a feature flag-gated event type can subscribe to that event type regardless of feature flags.
+Feature flags only impact event types' visibility in the catalog and the API, not their deliverability.
+:::

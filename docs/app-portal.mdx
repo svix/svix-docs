@@ -24,8 +24,9 @@ To give your users access to the [App Portal](./app-portal), just use the [dashb
 
 ```js
 const svix = new Svix("AUTH_TOKEN");
-const dashboard = await svix.authentication.dashboardAccess(
-  "app_Xzx8bQeOB1D1XEYmAJaRGoj0"
+const dashboard = await svix.authentication.appPortalAccess(
+  "app_Xzx8bQeOB1D1XEYmAJaRGoj0",
+  {featureFlags: []}
 );
 // A URL that automatically logs user into the dashboard
 console.log(dashboard.url);
@@ -36,7 +37,9 @@ console.log(dashboard.url);
 
 ```python
 svix = Svix("AUTH_TOKEN")
-dashboard = svix.authentication.dashboard_access("app_Xzx8bQeOB1D1XEYmAJaRGoj0")
+dashboard = svix.authentication.app_portal_access("app_Xzx8bQeOB1D1XEYmAJaRGoj0", AppPortalAccessIn{
+    feature_flags=[]
+})
 # A URL that automatically logs user into the dashboard
 print(dashboard.url)
 ```
@@ -46,7 +49,9 @@ print(dashboard.url)
 
 ```go
 svixClient := svix.New("AUTH_TOKEN", nil)
-dashboard, _ := svixClient.Authentication.DashboardAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0")
+dashboard, _ := svixClient.Authentication.AppPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.AppPortalAccessIn{
+    FeatureFlags: []string{}
+})
 // A URL that automatically logs user into the dashboard
 fmt.Println(dashboard.Url)
 ```
@@ -56,8 +61,11 @@ fmt.Println(dashboard.Url)
 
 ```rust
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
-let dashboard = svix.authentication().dashboard_access(
-    "app_Xzx8bQeOB1D1XEYmAJaRGoj0".to_string()
+let dashboard = svix.authentication().app_portal_access(
+    "app_Xzx8bQeOB1D1XEYmAJaRGoj0".to_string(),
+    AppPortalAccessIn {
+        feature_flags: Some(vec![])
+    }
 }).await?;
 // A URL that automatically logs user into the dashboard
 println!("{}", dashboard.url);
@@ -68,7 +76,9 @@ println!("{}", dashboard.url);
 
 ```java
 Svix svix = new Svix("AUTH_TOKEN");
-DashboardAccessOut dashboard = svix.getAuthentication().dashboardAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0");
+DashboardAccessOut dashboard = svix.getAuthentication().appPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0", new AppPortalAccessIn()
+    .featureFlags(new String[]{})
+);
 // A URL that automatically logs user into the dashboard
 System.out.println(dashboard.getUrl());
 ```
@@ -78,7 +88,9 @@ System.out.println(dashboard.getUrl());
 
 ```kotlin
 val svix = Svix("AUTH_TOKEN")
-val dashboard = svix.authentication.dashboardAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0")
+val dashboard = svix.authentication.appPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0", AppPortalAccessIn()
+    .featureFlags(arrayOf())
+)
 // A URL that automatically logs user into the dashboard
 println(dashboard.url)
 ```
@@ -88,7 +100,9 @@ println(dashboard.url)
 
 ```ruby
 svix = Svix::Client.new("AUTH_TOKEN")
-dashboard = svix.authentication.dashboard_access("app_Xzx8bQeOB1D1XEYmAJaRGoj0")
+dashboard = svix.authentication.dashboard_access("app_Xzx8bQeOB1D1XEYmAJaRGoj0", Svix::AppPortalAccessIn::new({
+    "feature_flags": []
+}))
 # A URL that automatically logs user into the dashboard
 puts dashboard.url
 ```
@@ -98,7 +112,9 @@ puts dashboard.url
 
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
-var dashboard = await svix.Authentication.DashboardAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0");
+var dashboard = await svix.Authentication.AppPortalAccessAsync("app_Xzx8bQeOB1D1XEYmAJaRGoj0", new AppPortalAccessIn{
+    featureFlags: new string[] {}
+});
 // A URL that automatically logs user into the dashboard
 Console.WriteLine(dashboard.Url)
 ```
@@ -108,7 +124,7 @@ Console.WriteLine(dashboard.Url)
 
 ```shell
 export SVIX_AUTH_TOKEN="AUTH_TOKEN"
-svix authentication dashboard app_Xzx8bQeOB1D1XEYmAJaRGoj0
+svix authentication app-portal-access app_Xzx8bQeOB1D1XEYmAJaRGoj0 '{"featureFlags": []}'
 ```
 
 </TabItem>
@@ -117,7 +133,11 @@ svix authentication dashboard app_Xzx8bQeOB1D1XEYmAJaRGoj0
 ```shell
 curl -X POST "https://api.svix.com/api/v1/auth/dashboard_access/app_Xzx8bQeOB1D1XEYmAJaRGoj0/" \
     -H  "Accept: application/json" \
-    -H  "Authorization:  Bearer AUTH_TOKEN"
+    -H  "Authorization:  Bearer AUTH_TOKEN" \
+    -H 'Content-Type: application/json' \
+    -d '{
+        "featureFlags": []
+    }'
 ```
 
 </TabItem>
@@ -130,6 +150,12 @@ https://app.svix.com/login?next=/endpoints/abc#key=xyz
 ```
 
 You should use a URL parsing library to add the query parameter (avoid editing the URL manually). Not all pages are supported.
+
+### Feature flags
+
+You may have noticed the empty set of "feature flags" being passed in the examples above. Feature flags can be used to restrict what event types your users will see in the Event Catalog and the API.
+
+To learn more refer to the [Event Types](./event-types.mdx#event-type-feature-flags) documentation.
 
 ## Embedding in your own dashboard
 
