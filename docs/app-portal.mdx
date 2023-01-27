@@ -17,7 +17,11 @@ For more information on how to use the app portal please refer to the [receiving
 
 ## Giving your users access
 
-To give your users access to the [App Portal](./app-portal), just use the [dashboard access endpoint](https://api.svix.com/docs#tag/Authentication/operation/get_app_portal_access_api_v1_auth_app_portal_access__app_id___post). Calling this endpoint with an `app_id` returns a URL you can just redirect your users to in order to log them into the App Portal. They will stay logged in for a few days or until they log out.
+:::tip
+App portal access is based on short-lived sessions using special magic links. You customers don't need a Svix account, and they don't even need to know that Svix exists.
+:::
+
+To give your users access to the [App Portal](./app-portal), just use the [app portal access endpoint](https://api.svix.com/docs#tag/Authentication/operation/get_app_portal_access_api_v1_auth_app_portal_access__app_id___post). Calling this endpoint with an `app_id` returns a URL you can just redirect your users to in order to log them into the App Portal. They will stay logged in for a few days or until they log out.
 
 <CodeTabs>
 <TabItem value="js">
