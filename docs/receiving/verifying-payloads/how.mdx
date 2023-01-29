@@ -519,6 +519,55 @@ app.post('/webhook', bodyParser.raw({type: 'application/json'}), (req, res) => {
 });
 ```
 
+### Node.js (NestJS)
+
+Initialize the application with the `rawBody` flag set to true. See the (NestJS docs)[https://docs.nestjs.com/faq/raw-body#raw-body] for details.
+
+```js
+// main.ts
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+
+async function bootstrap() {
+  const app = await NestFactory.create(
+    AppModule,
+    { rawBody: true } // add rawBody flag
+  );
+  await app.listen(3000);
+}
+bootstrap();
+
+```js
+
+```js
+// webhook.controller.ts
+import { Controller, Post, RawBodyRequest, Req } from '@nestjs/common';
+import { Request } from 'express';
+import { Webhook } from 'svix';
+
+@Controller('webhook')
+class WebhookController {
+  @Post()
+  webhook(@Req() request: RawBodyRequest<Request>) {
+    const secret = 'whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw';
+    const wh = new Webhook(secret);
+
+    const payload = request.rawBody.toString('utf8');
+    const headers = request.headers;
+
+    let msg;
+    try {
+      msg = wh.verify(payload, headers);
+    } catch (err) {
+      // handle error
+    }
+
+    // Do something with the message...
+  }
+}
+
+```
+
 ### Go (Standard lib)
 
 ```go
