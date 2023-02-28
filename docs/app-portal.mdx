@@ -164,6 +164,8 @@ To add this to your application, just pass the URL you received in the previous 
 
 We have also included some basic styling to make the iframe to look nicer, though that can be omitted or modified depending on your needs.
 
+**Important**: the `allow` directive above is required for clipboard actions to work, though they may still fail if you've blocked them with the [Permissions Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy) header.
+
 ### Embedding in a React application
 
 We also provide the [`svix-react`](https://www.npmjs.com/package/svix-react) package that you can use to easily embed the App Portal. To use it, simply run:
