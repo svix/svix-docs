@@ -44,6 +44,15 @@ svix.application.update('some-user', ApplicationIn(/* ... */))
 
 It's recommended to create an application (using the API) for each of their customers when they sign up to your service. You can however also create it "lazily", and only do it when they enable webhooks.
 
+Alternatively, you can create an application the first time you send a message to it. When sending a message you can, optionally, send an `application` property along with it. If the application does not exist yet it will be created; if it does then the `application` property will be ignored.
+
+```javascript
+svix.message.create('some-user', {
+    application: ApplicationIn(/* ... */),
+    payload: {/* ... */},
+})
+```
+
 
 ### Endpoints
 
