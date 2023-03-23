@@ -35,6 +35,7 @@ Svix expects a Transformation to declare a function named `handler`. Svix will p
 - `method`, a string representing the HTTP method the webhook will be sent with. It is always `"POST"` by default, and its only valid values are `"POST"` or `"PUT"`
 - `url`, a string representing the endpoint's URL. It can be changed to any valid URL.
 - `payload`, which contains the webhook's payload as a JSON object. It can be changed as needed.
+- `cancel`, a Boolean which controls whether or not to cancel the dispatch of a webhook. This value defaults to `false`. Note that canceled messages appear as successful dispatches.
 
 The Transformation will only work if the `handler` function returns the modified `WebhookObject`.
 
