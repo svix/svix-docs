@@ -34,22 +34,108 @@ http://localhost:8080/webhook/
 
 ## Advanced usage
 
+### Programmatic Use of the Public API
+
+To automatically test webhooks in your test suite, it is possible to use the public API to record dispatched webhooks and to see the history for a given token.
+
+You will need an echo token to start. These tokens are freely generated and are simply used to distinguish active sessions. These tokens are the same as you would see when visiting the Svix Play [web application](https://play.svix.com). Such a token may be easily generated programmatically with a POST request to the following route:
+
+```
+https://api.play.svix.com/api/v1/token/generate/
+```
+
+Next, send any number of events to the following route with any HTTP method:
+
+```
+https://api.play.svix.com/api/v1/in/{your token here}/
+```
+
+This route can take the query parameters `force_status_code`, `echo_body`, and `endpoint_signing_key`.
+
+Next, you'll want to analyze the record of events for this token using the `/history/` route as follows:
+
+```
+https://api.play.svix.com/api/v1/history/{your token here}/
+```
+
+The output of this route will look something like this:
+
+```
+{
+  "iterator": "2Nmzzn6O30LTlFwegZYjrIEuRPL",
+  "data": [
+    {
+      "id": "2Nmzzn6O30LTlFwegZYjrIEuRPL",
+      "url": "/api/v1/in/e_DCFOA2693TG8wtcRLDaD8aFOm3J/",
+      "method": "GET",
+      "created_at": "2023-03-31T17:38:29.921531707Z",
+      "body": "",
+      "headers": {
+        "accept": "*/*",
+        "user-agent": "curl/7.81.0"
+      },
+      "response": {
+        "status_code": 204,
+        "headers": {},
+        "body": ""
+      },
+      "ip": null
+    }
+  ]
+}
+```
+
+
+This route allows one query parameter, `iterator`. Given the `id` of one of the events sent, the history route will only return events that were received after that ID.
+
+For ease of use, the JSON object returned by the `/history/` route includes an `iterator` field which is set to the ID of the last received request, or the same iterator as given if no additonal requests since then have been recorded.
+
+For example, if your URL was:
+
+```
+https://api.play.svix.com/api/v1/history/e_94XdF-OwN3EaTKty4izJDWRAH3V/
+```
+
+You can change it to the following URL in order to only display events that were received after the request with ID `2Nvo8F66yxe0cT7lrVmsbUg97He`:
+
+```
+https://api.play.svix.com/api/v1/history/e_94XdF-OwN3EaTKty4izJDWRAH3V/?iterator=2Nvo8F66yxe0cT7lrVmsbUg97He
+```
+
 ### Custom response codes
 
 Under normal usage, Svix Play (in echo mode) automatically returns successful responses to every request with the HTTP response code `200 OK`.
 
 However, in some cases you may want to check how your webhook system responds to failures. For example, does auto-retry work? Are errors properly handled?
 
-To enable that, Svix Play supports returning custom error codes by appending the status code to the URL.
+To enable that, Svix Play supports returning custom error codes by using the `force_status_code` query parameter when using our public API.
 
-For example, if you URL was:
+For example, if your URL was:
 
 ```
-https://play.svix.com/in/e_94XdF-OwN3EaTKty4izJDWRAH3V/
+https://api.play.svix.com/api/v1/in/e_94XdF-OwN3EaTKty4izJDWRAH3V/
 ```
 
 You can change it to the following URL in order to make it always return `404 Not Found`:
 
 ```
-https://play.svix.com/in/e_94XdF-OwN3EaTKty4izJDWRAH3V/404/
+https://api.play.svix.com/api/v1/in/e_94XdF-OwN3EaTKty4izJDWRAH3V/?force_status_code=404
+```
+
+### Echo Request Bodies
+
+Under normal usage, Svix Play will return an empty body to every request towards an `/in/` route.
+
+If you wish to have the request body echoed back instead, set the `echo_body` query parameter to `true` when using our public API.
+
+For example, if your URL was:
+
+```
+https://api.play.svix.com/api/v1/in/e_94XdF-OwN3EaTKty4izJDWRAH3V/
+```
+
+You can change it to the following URL to make it respond with the same body it was given.
+
+```
+https://api.play.svix.com/api/v1/in/e_94XdF-OwN3EaTKty4izJDWRAH3V/?echo_body=true
 ```
