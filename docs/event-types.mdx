@@ -432,15 +432,15 @@ done < data.csv
 </TabItem>
 </CodeTabs>
 
-### Import from OpenAPI specification
-Another easy way to bulk create or update your event types is by using the OpenAPI specification for your API, if you have one. 
+### Upload OpenAPI specification
+Another easy way to create or update event types is by using the OpenAPI specification for your API, if you have one. 
 
 You can upload your spec JSON file in the dashboard, and we'll read the [`webhooks`](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#fixed-fields) field (`x-webhooks` in OpenAPI 3.0) 
-and suggest event types ([and their JSON schemas](http://localhost:3000/tutorials/event-type-schema#option-b-providing-a-jsonschema)) based on the `body` of your webhook requests.
+and suggest event types ([and their JSON schemas](/event-types#event-type-schema)) based on the `body` of your webhook requests.
 
 ![event-type-openapi](./img/event-type-openapi.png)
 
-You can also add `x-svix-eventTypeId` custom propery as part of your webhook Path Item, and we'll automatically use it to set the Svix event type name. 
+You can also add a `x-svix-eventTypeId` property as part of your webhook [Path Item](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#path-item-object), and we'll automatically use it to set the Svix event type name. 
 
 ```json
 "webhooks": {
