@@ -433,15 +433,20 @@ done < data.csv
 </CodeTabs>
 
 ### Upload OpenAPI specification
-Another easy way to create or update event types is by using the OpenAPI specification for your API, if you have one. 
+If you already have an OpenAPI specification, you can create event types by uploading your API file to Svix. 
+This is an easy way to reuse the existing schemas defined in your API to keep your event types up to date.
 
-You can upload your spec JSON file in the dashboard, and we'll read the [`webhooks`](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#fixed-fields) field (`x-webhooks` in OpenAPI 3.0) 
-and suggest event types ([and their JSON schemas](/event-types#event-type-schema)) based on the `body` of your webhook requests.
+When you upload your OpenAPI JSON file in the dashboard, we'll read the [`webhooks`](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#fixed-fields) field (or `x-webhooks` for OpenAPI 3.0) 
+and give you the option to create event types ([with their schemas](/event-types#event-type-schema)) based on the `body` of your webhooks.
 
 ![event-type-openapi](./img/event-type-openapi.png)
 
-You can also add a `x-svix-eventTypeId` property as part of your webhook [Path Item](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#path-item-object), and we'll automatically use it to set the Svix event type name. 
+If you use choose the name of an already existing event type, it will be updated with the new values. 
 
+To automate this process even further, you can also (optionally) add a `x-svix-eventTypeId` property as part of your spec, and we'll automatically use it to set the Svix event type name. 
+This is useful to have a predictable mapping of API events to Svix event types.
+
+Here's an example of how to include the x-svix-eventTypeId property in your OpenAPI file:
 ```json
 "webhooks": {
   "EndpointDisabledEvent": {
@@ -456,7 +461,7 @@ You can also add a `x-svix-eventTypeId` property as part of your webhook [Path I
             }
           }
         }
-      },
+      }
     } 
   }
 }
