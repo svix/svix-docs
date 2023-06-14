@@ -437,7 +437,7 @@ done < data.csv
 If you already have an OpenAPI specification, you can create event types by uploading your API file to Svix. 
 This is an easy way to reuse the existing schemas defined in your API to keep your event types up to date.
 
-When you upload your OpenAPI JSON file in the dashboard, we'll read the [`webhooks`](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#fixed-fields) field (or `x-webhooks` for OpenAPI 3.0) 
+When you upload your OpenAPI JSON file in the dashboard, we'll read the [`webhooks`](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#fixed-fields) field (or `x-webhooks` for OpenAPI 3.0)
 and give you the option to create event types ([with their schemas](/event-types#event-type-schema)) based on the `body` of your webhooks.
 
 ![event-type-openapi](./img/event-type-openapi.png)
