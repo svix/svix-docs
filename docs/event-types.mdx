@@ -299,7 +299,6 @@ func main() {
 ```rust
 use std::{error::Error, fs::File};
 use svix::api::{EventTypeIn, Svix};
-use tokio::runtime::Builder;
 
 async fn execute() -> Result<(), Box<dyn Error>> {
     let svix = Svix::new(
@@ -329,10 +328,9 @@ async fn execute() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn main() {
-    let rt = Builder::new_current_thread().enable_all().build().unwrap();
-
-    rt.block_on(execute());
+#[tokio::main]
+async fn main() {
+    execute().await.unwrap();
 }
 ```
 
