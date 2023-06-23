@@ -298,34 +298,39 @@ func main() {
 
 ```rust
 use std::{error::Error, fs::File};
-use svix::api::{Svix, EventTypeIn};
+use svix::api::{EventTypeIn, Svix};
 use tokio::runtime::Builder;
 
 async fn execute() -> Result<(), Box<dyn Error>> {
-    let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+    let svix = Svix::new(
+        "testsk_nZUt5v1TfS-TXc0nfKq1EuDH6Vf09kPj.eu".to_string(),
+        None,
+    );
 
     let mut reader = csv::ReaderBuilder::new()
         .delimiter(b'|')
-        .from_reader(File::open("./data.csv")?);
+        .from_reader(File::open("src/data.csv")?);
 
     for result in reader.records() {
         let record = result?;
-        
-        svix.event_type().create(EventTypeIn { 
-            name: record[0].to_string(), 
-            description: record[1].to_string(), 
-            ..EventTypeIn::default()
-        }, None).await?;
+
+        svix.event_type()
+            .create(
+                EventTypeIn {
+                    name: record[0].to_string(),
+                    description: record[1].to_string(),
+                    ..EventTypeIn::default()
+                },
+                None,
+            )
+            .await?;
     }
 
     Ok(())
 }
 
 fn main() {
-    let rt = Builder::new_current_thread()
-        .enable_all()
-        .build()
-        .unwrap();
+    let rt = Builder::new_current_thread().enable_all().build().unwrap();
 
     rt.block_on(execute());
 }
