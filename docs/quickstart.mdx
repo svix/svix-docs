@@ -328,10 +328,10 @@ curl -X POST "https://api.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/msg/"
 
 #### Including the event type in the payload
 
-Webhook consumers often consume to multiple event types using the same endpoint. To enable them to be able to differentiate different events, it's common practice to include the event type in the webhook's payload.
+Webhook consumers often consume multiple event types using the same endpoint. To enable them to be able to differentiate different events, it's common practice to include the event type in the webhook's payload.
 Svix, however, doesn't automatically inject the event type into the payload, in order to give our customers full control over the content and structure of the payloads they send.
 
-Most commonly people include the event type in the payload as a top-level key called `type`, `event_type`, or `eventType`, but it's up to you how you wan tto call it.
+Most commonly people include the event type in the payload as a top-level key called `type`, `event_type`, or `eventType`, but it's up to you how you want to call it.
 
 #### Idempotentcy
 
