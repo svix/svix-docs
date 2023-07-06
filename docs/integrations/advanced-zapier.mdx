@@ -63,7 +63,7 @@ We strongly recommend using version control like git to track the changes and ai
 ## Alternative authentication schemes
 
 By default, the auto-generated Zapier integration uses [custom (API key)](https://platform.zapier.com/cli_docs/docs#custom) authentication type and requires users to explicitly provide an application ID and integration key.
-The default scheme might be undesirable because it requires the the user to copy-paste credentials and doesn't connect to your existing auth flows.
+The default scheme might be undesirable because it requires the user to copy-paste credentials and doesn't connect to your existing auth flows.
 
 To provide a better user experience that hides the Svix constructs, we recommend using [OAuth2](https://platform.zapier.com/cli_docs/docs#oauth2) or [Session](https://platform.zapier.com/cli_docs/docs#session) authentication. See the [Zapier Platform authentication](https://platform.zapier.com/cli_docs/docs#authentication) docs for more information.
 - With OAuth2, Zapier will redirect your user to your site where you can authenticate them and send Zapier back an access token. An demonstration of this flow's user experience is shown in the video below.
@@ -114,4 +114,3 @@ By default, the auto-generated integration contains the example payload that you
 The auto-generated Zapier integration can be extended with additional actions, triggers, creates, or other Zapier resources. More information on this is available on the [Zapier CLI platform docs](https://platform.zapier.com/cli_docs/docs).
 
 The Zapier CLI can modify your package (e.g. creating a new action from a template). More information on that is available on the [Zapier CLI Reference](https://platform.zapier.com/cli_docs/cli).
-

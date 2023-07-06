@@ -70,7 +70,7 @@ Messages are the webhooks being sent. They can have a content, event type, and a
 A message sent to an application will be sent to all of its endpoints (based on aforementioned filtering rules).
 When an application has no endpoints, or when no endpoints match a message, the sent message is just saved to the database but is not actually sent to a customer.
 
-If a message delivery fails, it will be attempted multiple times until either it succeeds, or it attempts have been exhausted. Please refer to the [retry schedule](retries.mdx) for more information.
+If a message delivery fails, it will be attempted multiple times until either it succeeds, or its attempts have been exhausted. Please refer to the [retry schedule](retries.mdx) for more information.
 
 Messages can have an associated `eventId`. The `eventId` is used to map a message from Svix to one in your system so you can easily map a message to the reason why you sent it.
 

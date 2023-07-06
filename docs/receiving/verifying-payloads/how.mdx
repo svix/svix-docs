@@ -135,7 +135,7 @@ Then verify webhooks using the code below. The payload is the raw (string) body 
 :::caution Use the raw request body
 
 You need to use the raw request body when verifying webhooks, as the cryptographic signature is sensitive to even the slightest changes.
-You should watch out for frameworks that parse the request as JSON and then strigify it because this too will break the signature verification.
+You should watch out for frameworks that parse the request as JSON and then stringify it because this too will break the signature verification.
 
 See examples below for how to get the raw request body with different frameworks.
 
@@ -692,7 +692,7 @@ pub async fn webhook_in(
 
 ### Ruby (Ruby on Rails)
 
-Once you've setup your project add a route to your `config/routes.rb` file at the top of the `Rails.application.routes.draw` block:
+Once you've set up your project add a route to your `config/routes.rb` file at the top of the `Rails.application.routes.draw` block:
 
 ```rb
 Rails.application.routes.draw do
