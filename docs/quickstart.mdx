@@ -333,7 +333,7 @@ Svix, however, doesn't automatically inject the event type into the payload, in 
 
 Most commonly people include the event type in the payload as a top-level key called `type`, `event_type`, or `eventType`, but it's up to you how you want to call it.
 
-#### Idempotentcy
+#### Idempotency
 
 Svix supports [idempotency](https://en.wikipedia.org/wiki/Idempotence) for safely retrying requests without accidentally performing the same operation twice. This is useful when an API call is disrupted in transit and you do not receive a response.
 
@@ -350,10 +350,10 @@ In the example above we showed how to send messages, though these messages were 
 You can use the [Svix Play webhook debugger](https://www.svix.com/play/) and the [Svix CLI](https://github.com/svix/svix-cli) to inspect, test and debug your webhooks during development.
 :::
 
-### Using the Appl Portal
+### Using the Application Portal
 
 Svix offers a pre-build application portal. With [one API call](https://api.svix.com/docs#operation/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post), you can give your users access to this UI and they can then add their own endpoints themselves.
-App portal access is based on short-lived sessions using special magic links. You customers don't need a Svix account, and they don't even need to know that Svix exists.
+App portal access is based on short-lived sessions using special magic links. Your customers don't need a Svix account, and they don't even need to know that Svix exists.
 
 More on that in the [application portal docs](./app-portal.mdx).
 
@@ -512,7 +512,7 @@ For more information please refer to the [common usage examples section](./commo
 
 Starting from version 0.64.0, the libs automatically infer the correct server URL from the authentication token (for tokens created in August 2022 onwards).
 
-If you are using old tokens, or a non-standard server URL, you may need to set the URL explicitly in the library based on your chosen enivornment and as shown in the "API Access" page in the dashboard.
+If you are using old tokens, or a non-standard server URL, you may need to set the URL explicitly in the library based on your chosen environment and as shown in the "API Access" page in the dashboard.
 
 <CodeTabs>
 <TabItem value="js">
