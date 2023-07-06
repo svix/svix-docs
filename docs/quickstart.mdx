@@ -78,10 +78,16 @@ app, err := svixClient.Application.Create(&svix.ApplicationIn{
 use svix::api::{ApplicationIn, Svix, SvixOptions};
 
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
-let app = svix.application().create(ApplicationIn {
-    name: "Application name".to_string(),
-    ..ApplicationIn::default()
-}).await?;
+let app = svix
+    .application()
+    .create(
+        ApplicationIn {
+            name: "Application name".to_string(),
+            ..ApplicationIn::default()
+        },
+        None,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -221,19 +227,23 @@ svixClient.Message.Create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.MessageIn{
 
 ```rust
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
-svix.message().create("app_Xzx8bQeOB1D1XEYmAJaRGoj0".to_string(),
-    MessageIn {
-        event_type: "invoice.paid".to_string(),
-        event_id: "evt_Wqb1k73rXprtTm7Qdlr38G".to_string(),
-        payload: json!({
-            "type": "invoice.paid",
-            "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql",
-            "status": "paid",
-            "attempt": 2
-        }),
-        ..MessageIn::default()
-    }
-).await?;
+svix.message()
+    .create(
+        "app_Xzx8bQeOB1D1XEYmAJaRGoj0".to_string(),
+        MessageIn {
+            event_type: "invoice.paid".to_string(),
+            event_id: Some("evt_Wqb1k73rXprtTm7Qdlr38G".to_string()),
+            payload: json!({
+                "type": "invoice.paid",
+                "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql",
+                "status": "paid",
+                "attempt": 2
+            }),
+            ..MessageIn::default()
+        },
+        None,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -407,12 +417,18 @@ svixClient.Endpoint.Create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.EndpointIn{
 
 ```rust
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
-svix.endpoint().create(EndpointIn {
-    url: "https://api.example.com/svix-webhooks/".to_string(),
-    version: 1,
-    description: "My main endpoint".to_string(),
-    ..EndpointIn::default()
-}).await?;
+svix.endpoint()
+    .create(
+        "app_Xzx8bQeOB1D1XEYmAJaRGoj0".to_string(),
+        EndpointIn {
+            url: "https://api.example.com/svix-webhooks/".to_string(),
+            version: 1,
+            description: Some("My main endpoint".to_string()),
+            ..EndpointIn::default()
+        },
+        None,
+    )
+    .await?;
 ```
 
 </TabItem>

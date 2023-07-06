@@ -70,11 +70,17 @@ app, err := svixClient.Application.Create(&svix.ApplicationIn{
 use svix::api::{ApplicationIn, Svix, SvixOptions};
 
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
-let app = svix.application().create(ApplicationIn {
-    name: "Application name".to_string(),
-    rate_limit: 1000,
-    ..ApplicationIn::default()
-}).await?;
+let app = svix
+    .application()
+    .create(
+        ApplicationIn {
+            name: "Application name".to_string(),
+            rate_limit: Some(1000),
+            ..ApplicationIn::default()
+        },
+        None,
+    )
+    .await?;
 ```
 
 </TabItem>
