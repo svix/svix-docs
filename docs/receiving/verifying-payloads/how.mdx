@@ -222,11 +222,14 @@ let secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw".to_string();
 let mut headers = http::header::HeaderMap::new();
 headers.insert("svix-id", "msg_p5jXN8AQM9LWM0D4loKWxJek");
 headers.insert("svix-timestamp", "1614265330");
-headers.insert("svix-signature", "v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE=");
+headers.insert(
+    "svix-signature",
+    "v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE=",
+);
 
 let payload = b"{\"test\": 2432232314}";
 
-let wh = Webhook::new(secret)?;
+let wh = Webhook::new(&secret)?;
 wh.verify(&payload, &headers)?;
 // returns Ok on success, Err otherwise
 ```
@@ -669,10 +672,7 @@ use hyper::HeaderMap;
 
 pub const SECRET: &'static str = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
 
-pub async fn webhook_in(
-    headers: HeaderMap,
-    body: Bytes,
-) -> StatusCode {
+pub async fn webhook_in(headers: HeaderMap, body: Bytes) -> StatusCode {
     let wh = svix::webhooks::Webhook::new(SECRET);
     if let Err(_) = wh {
         return StatusCode::INTERNAL_SERVER_ERROR;
@@ -686,8 +686,6 @@ pub async fn webhook_in(
 
     StatusCode::NO_CONTENT
 }
-
-
 ```
 
 ### Ruby (Ruby on Rails)

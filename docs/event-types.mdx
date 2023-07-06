@@ -82,14 +82,18 @@ app, err := svixClient.EventType.Create(&svix.EventTypeIn{
 <TabItem value="rust">
 
 ```rust
-use svix::api::{ApplicationIn, Svix, SvixOptions};
-
-let svix = Svix::new("AUTH_TOKEN".to_string(), None);
-let event_type = svix.event_type().create(EventTypeIn {
-    name: "user.signup".to_string(),
-    description: "A user has signed up".to_string(),
-    ..EventTypeIn::default()
-}).await?;
+ let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+ let event_type = svix
+     .event_type()
+     .create(
+         EventTypeIn {
+             name: "user.signup".to_string(),
+             description: "A user has signed up".to_str
+             ..EventTypeIn::default()
+         },
+         None,
+     )
+     .await?;
 ```
 
 </TabItem>
@@ -301,10 +305,7 @@ use std::{error::Error, fs::File};
 use svix::api::{EventTypeIn, Svix};
 
 async fn execute() -> Result<(), Box<dyn Error>> {
-    let svix = Svix::new(
-        "AUTH_TOKEN".to_string(),
-        None,
-    );
+    let svix = Svix::new("AUTH_TOKEN".to_string(), None);
 
     let mut reader = csv::ReaderBuilder::new()
         .delimiter(b'|')
@@ -592,12 +593,18 @@ app, err := svixClient.EventType.Create(&svix.EventTypeIn{
 use svix::api::{ApplicationIn, Svix, SvixOptions};
 
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
-let event_type = svix.event_type().create(EventTypeIn {
-    name: "user.signup".to_string(),
-    description: "A user has signed up".to_string(),
-    feature_flag: Some("beta-feature-a".to_string()),
-    ..EventTypeIn::default()
-}).await?;
+let event_type = svix
+    .event_type()
+    .create(
+        EventTypeIn {
+            name: "user.signup".to_string(),
+            description: "A user has signed up".to_string(),
+            feature_flag: Some("beta-feature-a".to_string()),
+            ..EventTypeIn::default()
+        },
+        None,
+    )
+    .await?;
 ```
 
 </TabItem>
@@ -723,13 +730,17 @@ fmt.Println(dashboard.Url)
 
 ```rust
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
-let dashboard = svix.authentication().app_portal_access(
-    "app_Xzx8bQeOB1D1XEYmAJaRGoj0".to_string(),
-    AppPortalAccessIn { 
-        feature_flags: Some(vec!["beta-feature-a".to_string()]),
-        .. Default::default() 
-    }
-}).await?;
+let dashboard = svix
+    .authentication()
+    .app_portal_access(
+        "app_Xzx8bQeOB1D1XEYmAJaRGoj0".to_string(),
+        AppPortalAccessIn {
+            feature_flags: Some(vec!["beta-feature-a".to_string()]),
+            ..Default::default()
+        },
+        None,
+    )
+    .await?;
 // A URL that automatically logs user into the dashboard
 println!("{}", dashboard.url);
 ```
@@ -839,13 +850,17 @@ eventTypeOut, _ := svixClient.EventType.Update("user.signup", &svix.EventTypeUpd
 
 ```rust
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
-let event_type_out = svix.event_type().update(
-    "user.signup".to_string(),
-    EventTypeUpdate { 
-        feature_flag: None,
-        .. Default::default() 
-    }
-}).await?;
+let event_type_out = svix
+    .event_type()
+    .update(
+        "user.signup".to_string(),
+        EventTypeUpdate {
+            feature_flag: None,
+            ..Default::default()
+        },
+        None,
+    )
+    .await?;
 ```
 
 </TabItem>

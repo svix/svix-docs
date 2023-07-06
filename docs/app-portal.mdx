@@ -58,10 +58,14 @@ fmt.Println(dashboard.Url)
 
 ```rust
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
-let dashboard = svix.authentication().app_portal_access(
-    "app_Xzx8bQeOB1D1XEYmAJaRGoj0".to_string(),
-    AppPortalAccessIn { .. Default::default() }
-}).await?;
+let dashboard = svix
+    .authentication()
+    .app_portal_access(
+        "app_Xzx8bQeOB1D1XEYmAJaRGoj0".to_string(),
+        AppPortalAccessIn::default(),
+        None,
+    )
+    .await?;
 // A URL that automatically logs user into the dashboard
 println!("{}", dashboard.url);
 ```
