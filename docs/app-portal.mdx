@@ -236,11 +236,12 @@ The supported parameters are:
 - `primaryColor` - the primary color of the UI. Format: `RRGGBB`, e.g. `28bb93`.
 - `icon` - a URL to an image file. E.g. `https://www.example.com/logo.png` (remember to URL-encode it!).
 - `fontFamily` - one of the fonts listed in the dashboard (see previous section). E.g. `Roboto`.
+- `darkMode` - when set to `true`, dark mode will be turned on by default when the app portal is opened.
 
 So for example:
 
 ```
-http://app.svix.com/login?primaryColor=28bb93&fontFamily=Roboto#key=eyJhcHBJZCI6ICJhcHBfMXRSdFlMN3pwWWR2NHFuWTRRZFI1azE4eXQ0IiwgInRva2VuIjogImFwcHNrX2UxOUN0Rm5hbTFoOU1Gamh5azRSMTUzNUNSd05VSWI0In0=
+http://app.svix.com/login?primaryColor=28bb93&darkMode=true&fontFamily=Roboto#key=eyJhcHBJZCI6ICJhcHBfMXRSdFlMN3pwWWR2NHFuWTRRZFI1azE4eXQ0IiwgInRva2VuIjogImFwcHNrX2UxOUN0Rm5hbTFoOU1Gamh5azRSMTUzNUNSd05VSWI0In0=
 ```
 
 ## Implementing your own Consumer App Portal functionality
