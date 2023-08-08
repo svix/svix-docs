@@ -56,7 +56,7 @@ Great, the webhook is redirected to the custom URL if the `customUrl` property e
 
 ## Transformation Templates
 
-Transformation templates are a new Svix feature that lets you provide your customers pre-made integrations to connect your webhooks to other services. ..... 
+Transformation templates are a new Svix feature that lets you provide your customers pre-made integrations to connect your webhooks to other services.
 
 ### How to use Transformation Templates
 
@@ -67,8 +67,8 @@ Transformation templates are enabled when [enabling transformations](#enabling-t
 To create a template, you need to provide the following details:
 
 - `name`, `description` and `logo url` - Describe the integration to your customers.
-- `Instructions` and `Learn more link` - Explain how to use and customize the template.
-- `Event Types` - Specify which events are going to be supported out-of-the-box by the integration.
+- `Instructions` and `Learn more link` - Explain how to use and customize the template. Your customers may need to set a specific endpoint when using the template. This is a good place to let them know how to get that endpoint.
+- `Event Types` - Specify which events are going to be supported out-of-the-box by the integration. 
 - `Transformation Code` - This is the glue code that will turn incoming webhook events into useful payloads for your integration. For example, if you are building a transformation template that sends Slack messages every time a new invoice is created, the transformation 
 will read `invoice.created` events and return a payload that works for Slack, like:
 ```js
@@ -105,7 +105,7 @@ function handler(webhook) {
 
 Your customers will be able to customize the transformation code and the event types they listen to. Your definition should act as a (working!) starting point they can use. 
 
-### In the App Portal
+### Transformation Templates in App Portal
 
 After creating at least one transformation template, your customers will see a new tab when creating an endpoint where they will be able to choose a template from the ones you created. 
 
