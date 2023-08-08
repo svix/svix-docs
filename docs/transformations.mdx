@@ -69,10 +69,10 @@ To create a template, you need to provide the following details:
 - `name`, `description` and `logo url` - Describe the integration to your customers.
 - `Instructions` and `Learn more link` - Explain how to use and customize the template. Your customers may need to set a specific endpoint when using the template. This is a good place to let them know how to get that endpoint.
 - `Event Types` - Specify which events are going to be supported out-of-the-box by the integration. 
-- `Transformation Code` - This is the glue code that will turn incoming webhook events into useful payloads for your integration. For example, if you are building a transformation template that sends Slack messages every time a new invoice is created, the transformation 
-will read `invoice.created` events and return a payload that works for Slack, like:
+- `Transformation Code` - This is the glue code that will turn incoming webhook events into useful payloads for your integration. For example, if you are building a transformation template that sends Slack messages 
+every time a new invoice is created, the transformation will read `invoice.created` events and return a payload that works for Slack, like:
 ```js
-{ "text": `An invoice of $${webhook.payload.amount} has been created.` }
+webhook.payload = { "text": `An invoice of $${webhook.payload.amount} has been created.` }
 ```
 
 The transformation code needs to account for all event types you choose to support. You can define different behaviors for each event type by switching on the `webhook.eventType` field. 
