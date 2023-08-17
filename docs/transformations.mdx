@@ -84,9 +84,9 @@ For example, this transformation will create a different message depending on if
  * @param webhook the webhook object
  * @param webhook.method destination method. Allowed values: "POST", "PUT"
  * @param webhook.url current destination address
- * @param.webhook.eventType current webhook Event Type
+ * @param webhook.eventType current webhook Event Type
  * @param webhook.payload JSON payload
- * @param.webhook.cancel whether to cancel dispatch of the given webhook
+ * @param webhook.cancel whether to cancel dispatch of the given webhook
  */
 function handler(webhook) {
   if (webhook.eventType === "invoice.created") {
