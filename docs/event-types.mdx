@@ -476,18 +476,15 @@ and give you the option to create event types ([with their schemas](/event-types
 
 ![event-type-openapi](./img/event-type-openapi.png)
 
-If you use choose the name of an already existing event type, it will be updated with the new values. 
+The event description, schema and examples will be used to create the Svix event type, using the `path id` as the event type name.
+If you use choose the name of an already existing event type, it will be updated with the new values.
 
-To further automate this, you can (optionally) add a `x-event-type` property as part of your spec, and we'll use it as the Svix event type name. 
-This is useful to have a predictable mapping of API events to Svix event types.
-
-Here's an example of how to include the `x-event-type` property in your OpenAPI file:
+Here's an example of how an `endpoint.disabled` event type should look like in your OpenAPI file:
 ```json
 "webhooks": {
-  "EndpointDisabledEvent": {
+  "endpoint.disabled": {
     "post": {
       "description": "...",
-      "x-event-type": "endpoint.disabled",
       "requestBody": {
         "content": {
           "application/json": {
