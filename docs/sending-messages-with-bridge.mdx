@@ -1,0 +1,50 @@
+---
+title: Sending Messages with Bridge
+---
+
+import EventTypeTabs from '@theme/EventTypeTags';
+import TabItem from '@theme/TabItem';
+
+
+If you have messages moving through queues that you'd like to send as webhooks, [Svix Bridge] can help.
+
+Bridge is an agent that can read from a queue, transform the message with a JavaScript function, then forward to Svix for delivery.
+With a small amount of configuration, you can start consuming events, reshaping, and sending webhooks in minutes.
+
+For example, reading from RabbitMQ, modifying the payload in JS, then sending to Svix might look like this:
+
+```yaml
+senders:
+  - name: 'send-from-rabbitmq-example'
+    input:
+      type: 'rabbitmq'
+      uri: '${RABBITMQ_URI}'
+      queue_name: '${QUEUE_NAME}'
+
+    transformation: |
+      function handler(input) {
+        return {
+          appId: input.key,
+          message: {
+            eventType: input.event_type,
+            payload: input.data
+          }
+        };
+      }
+
+    output:
+      type: 'svix'
+      token: '${SVIX_TOKEN}'
+```
+
+In this example, we're subscribing to messages from a queue, making the payload conform to the expected shape,
+including the required fields:
+
+- `appId`
+- `message.eventType`
+- `message.payload`
+
+
+Check out the the project on [GitHub][Svix Bridge] for more on how to get started with Bridge.
+
+[Svix Bridge]: https://github.com/svix/svix-webhooks/tree/main/bridge

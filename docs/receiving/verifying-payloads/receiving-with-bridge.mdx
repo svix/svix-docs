@@ -1,0 +1,50 @@
+---
+title: Receiving Webhooks with Bridge
+---
+
+import CodeTabs from '@theme/CodeTabs';
+import TabItem from '@theme/TabItem';
+
+
+[Svix Bridge] is useful in cases where you want to consume webhooks and write the payloads to a message queue.
+
+Since Bridge can act as an HTTP server, you can configure it as an Endpoint in Svix.
+Bridge can even verify webhooks when configured with an `endpoint_secret`.
+
+For example, receiving webhooks from Svix, lightly reshaping the payload, then publishing to RabbitMQ might be
+configured like this:
+
+```yaml
+receivers:
+  - name: 'events-from-acme'
+    input:
+      type: 'svix-webhook'
+      path_id: 'acme'
+      endpoint_secret: '${ENDPOINT_SECRET}'
+
+    transformation: |
+      function handler(input) {
+        let event_type = input.eventType;
+        delete input.eventType;
+        // The `payload` field is what will be published to the queue.
+        return { payload: { event_type, ...input } };
+      }
+
+    output:
+      type: 'rabbitmq'
+      uri: '${RABBITMQ_URI}'
+      exchange: ''
+      routing_key: 'acme'
+```
+
+The `path_id` defined here represents the trailing path segment for the route this receiver will match.
+The route for this example would be `/webhook/acme` and sending a `POST` request here with a valid JSON body will result
+in a new message published to the `acme` queue.
+
+This is to say, if you're running Bridge at `https://my-bridge.example.com`, the full URL you'd register as a Svix
+Endpoint would be `https://my-bridge.example.com/webhook/acme`.
+See [Adding Endpoints](../using-app-portal/adding-endpoints.mdx) for more on how to do this in the App Portal.
+
+Check out the the project on [GitHub][Svix Bridge] for more on how to get started with Bridge.
+
+[Svix Bridge]: https://github.com/svix/svix-webhooks/tree/main/bridge

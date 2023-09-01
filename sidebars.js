@@ -3,7 +3,7 @@ module.exports = {
     {
       Introduction: ["introduction", "setup", "quickstart", "overview", "common-usage-examples", "consuming-webhooks"],
       Basics: ["event-types", "app-portal", "api-keys"],
-      Advanced: ["incoming-webhooks", "idempotency", "channels", "rate-limit", "retries", "retention", "transformations", "security"],
+      Advanced: ["incoming-webhooks", "sending-messages-with-bridge", "idempotency", "channels", "rate-limit", "retries", "retention", "transformations", "security"],
       "Manage Your Account": ["account/environments", "account/org-members"],
     },
     {
@@ -43,6 +43,7 @@ module.exports = {
       "Verifying Webhooks": [
         "receiving/verifying-payloads/why",
         "receiving/verifying-payloads/how",
+        "receiving/verifying-payloads/receiving-with-bridge",
         "receiving/verifying-payloads/how-manual",
         "receiving/additional-authentication",
         "receiving/source-ips",
