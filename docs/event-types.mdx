@@ -468,7 +468,9 @@ done < data.csv
 
 ### Upload OpenAPI specification
 
-If you already have an OpenAPI specification, you can automatically create event types by uploading your API file to Svix. 
+#### From the UI
+
+If you already have an OpenAPI specification, you can automatically create event types by uploading your API file to Svix.
 This is an easy way to reuse the existing schemas defined in your API to keep your event types up to date.
 
 When you upload your OpenAPI JSON file in the dashboard, we'll read the [`webhooks`](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#fixed-fields) field (or `x-webhooks` for OpenAPI 3.0)
@@ -494,10 +496,144 @@ Here's an example of how an `endpoint.disabled` event type should look like in y
           }
         }
       }
-    } 
+    }
   }
 }
 ```
+
+#### Using the API
+
+The API includes an endpoint which helps keep your [event-types in sync with a JSON OpenAPI Spec](https://api.svix.com/docs#tag/Event-Type/operation/v1.event-type.import-openapi).
+Event types and their schemas are generated from `webhooks` or `x-webhooks` top-level key of the spec, just like with the UI importer.
+
+When the event type already exists, it'll be updated with the latest description and schema, otherwise a new event type will be created.
+
+
+<CodeTabs>
+
+<TabItem value="js">
+
+```js
+
+const spec = readMySpec();
+await svix.eventType.importOpenApi({ spec });
+
+```
+
+</TabItem>
+
+<TabItem value="py">
+
+```python
+
+spec = read_my_spec()
+svix.event_type.import_openapi(EventTypeImportOpenApiIn(spec=spec))
+
+```
+
+</TabItem>
+
+
+<TabItem value="rust">
+
+```rust
+
+let spec = read_my_spec()?;
+let _ = svix
+    .event_type()
+    .import_openapi(EventTypeImportOpenApiIn { spec }, None)
+    .await?;
+
+```
+
+</TabItem>
+
+<TabItem value="go">
+
+```go
+
+spec := readMySpec()
+svixClient.EventType.ImportOpenApi(context.Background(), svix.EventTypeImportOpenApiIn{
+    Spec: spec,
+})
+
+```
+
+</TabItem>
+
+<TabItem value="java">
+
+```java
+
+Map<String, Object> spec = MySpecReader.readMySpec();
+svix.getEventType().importOpenApi(new EventTypeImportOpenApiIn().spec(spec));
+
+```
+
+</TabItem>
+
+<TabItem value="kotlin">
+
+```kotlin
+
+var spec = read_my_spec()
+var eventTypeImportOpenApiOut = await svix.EventType.ImportOpenapiAsync(
+    new EventTypeImportOpenApiIn{spec: spec}
+)
+
+```
+
+</TabItem>
+
+<TabItem value="ruby">
+
+```ruby
+
+spec = read_my_spec()
+event_type_import_open_api_out = svix.event_type.import_openapi(Svix::EventTypeImportOpenApiIn.new(spec))
+
+```
+
+</TabItem>
+
+<TabItem value="csharp">
+
+```csharp
+
+var spec = readMySpec()
+var eventTypeImportOpenApiOut = await svix.EventType.ImportOpenapiAsync(
+    new EventTypeImportOpenApiIn{
+        spec: spec
+    }
+)
+
+```
+
+</TabItem>
+
+<TabItem value="cli">
+
+```shell
+```
+
+</TabItem>
+
+<TabItem value="curl">
+
+```shell
+
+export SVIX_AUTH_TOKEN='AUTH_TOKEN'
+
+curl -X POST "https://api.svix.com/api/v1/event-type/import/openapi/" \
+-H  "Accept: application/json" \
+-H  "Content-Type: application/json" \
+-H  "Authorization: Bearer ${SVIX_AUTH_TOKEN}" \
+-d '{"spec":' $(cat path/to/openapi.json) '}'
+
+```
+
+</TabItem>
+</CodeTabs>
 
 ## Publishing your Event Catalog
 
