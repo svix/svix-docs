@@ -515,7 +515,7 @@ When the event type already exists, it'll be updated with the latest description
 
 ```js
 
-const spec = readMySpec();
+const spec = loadOpenapiFromFile("openapi.json");
 await svix.eventType.importOpenApi({ spec });
 
 ```
@@ -526,7 +526,7 @@ await svix.eventType.importOpenApi({ spec });
 
 ```python
 
-spec = read_my_spec()
+spec = load_openapi_from_file("openapi.json")
 svix.event_type.import_openapi(EventTypeImportOpenApiIn(spec=spec))
 
 ```
@@ -538,7 +538,7 @@ svix.event_type.import_openapi(EventTypeImportOpenApiIn(spec=spec))
 
 ```rust
 
-let spec = read_my_spec()?;
+let spec = load_openapi_from_file("openapi.json")?;
 let _ = svix
     .event_type()
     .import_openapi(EventTypeImportOpenApiIn { spec }, None)
@@ -552,7 +552,7 @@ let _ = svix
 
 ```go
 
-spec := readMySpec()
+spec := loadOpenapiFromFile("openapi.json")
 svixClient.EventType.ImportOpenApi(context.Background(), svix.EventTypeImportOpenApiIn{
     Spec: spec,
 })
@@ -565,7 +565,7 @@ svixClient.EventType.ImportOpenApi(context.Background(), svix.EventTypeImportOpe
 
 ```java
 
-Map<String, Object> spec = MySpecReader.readMySpec();
+Map<String, Object> spec = MySpecReader.loadOpenapiFromFile("openapi.json");
 svix.getEventType().importOpenApi(new EventTypeImportOpenApiIn().spec(spec));
 
 ```
@@ -576,7 +576,7 @@ svix.getEventType().importOpenApi(new EventTypeImportOpenApiIn().spec(spec));
 
 ```kotlin
 
-var spec = read_my_spec()
+var spec = load_openapi_from_file("openapi.json")
 var eventTypeImportOpenApiOut = await svix.EventType.ImportOpenapiAsync(
     new EventTypeImportOpenApiIn{spec: spec}
 )
@@ -589,7 +589,7 @@ var eventTypeImportOpenApiOut = await svix.EventType.ImportOpenapiAsync(
 
 ```ruby
 
-spec = read_my_spec()
+spec = load_openapi_from_file("openapi.json")
 event_type_import_open_api_out = svix.event_type.import_openapi(Svix::EventTypeImportOpenApiIn.new(spec))
 
 ```
@@ -600,7 +600,7 @@ event_type_import_open_api_out = svix.event_type.import_openapi(Svix::EventTypeI
 
 ```csharp
 
-var spec = readMySpec()
+var spec = loadOpenapiFromFile("openapi.json")
 var eventTypeImportOpenApiOut = await svix.EventType.ImportOpenapiAsync(
     new EventTypeImportOpenApiIn{
         spec: spec
@@ -614,6 +614,7 @@ var eventTypeImportOpenApiOut = await svix.EventType.ImportOpenapiAsync(
 <TabItem value="cli">
 
 ```shell
+# TBD
 ```
 
 </TabItem>
