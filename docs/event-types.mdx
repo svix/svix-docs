@@ -5,7 +5,10 @@ title: Event Types
 import CodeTabs from "@theme/CodeTabs";
 import TabItem from "@theme/TabItem";
 
-Each message sent through Svix has an associated event type. Event types are identifiers denoting the type of message being sent and are the primary way for webhook consumers to configure what events they are interested in receiving.
+Each message sent through Svix has an associated event type.
+Event types are identifiers denoting the type of message being sent.
+Because they are the primary way for webhook consumers to configure what events they are interested in receiving, we highly recommend including an event catalog that describes each event type and provides sample payloads in your documentation.
+To make it easy for webhook consumers to find and subscribe to the right events, Svix automatically generates an event catalog. See more about [publishing your event catalog here](#publishing-your-event-catalog).
 
 Event types are just a string, for example: `user.signup`, `invoice.paid` and `workflow.completed`.
 
