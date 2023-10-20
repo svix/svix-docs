@@ -1,0 +1,47 @@
+---
+title: Documentation
+---
+
+Once you’re ready to release your webhook feature, you’ll need to add documentation. At Svix we consider our documentation as part of the product. We put a lot of effort into making sure our documentation makes it as easy as possible for our users to send webhooks reliably at scale.
+
+Therefore, we've also put effort into helping our users write their webhook documentation. Currently we do this in two ways:
+
+1. Documentation Generator
+2. Event Catalog
+
+## Documentation Generator
+
+It's always hard to start writing from a blank page. To get you a head start, we've written a template with all the components of thorough webhook documentation.
+
+The generator takes the template and incorporates some dynamic elements based on your specific configuration (product name, event types, etc.).
+Here is the basic outline of the template:
+
+1. Introduction to Webhooks
+2. Webhook events
+3. Adding an Endpoint
+    * Testing Your Endpoint
+4. Webhook Signature Verification
+    * How to Verify Using Svix Libraries
+5. Retries
+    * Retry schedule
+    * Disabling Failed Endpoints
+    * Manual retries
+6. Troubleshooting Tips
+    * Not Using the raw payload body
+    * Missing the secret key
+    * Sending the wrong response codes
+    * Responses Timing Out
+7. Failure Recovery
+    * Re-enable a disabled endpoint
+    * Recovering/Resending Failed Messages
+8. IP Whitelist
+
+You can find the documentation generator at [https://dashboard.svix.com/documentation/generator](https://dashboard.svix.com/documentation/generator) once you are logged in to the Dashboard.
+
+## Event Catalog
+
+An important component of webhook documentation is an event catalog. This is where webhook consumers can go to find the event types that they want to subscribe to. We recommend having descriptions and sample payloads for each event. To make this simple, we automatically generate an event catalog based on your event types.
+
+For instrucstions on how to publish your Event Catalog or how to host it on your own domain, go here: [https://docs.svix.com/event-types#publishing-your-event-catalog](https://docs.svix.com/event-types#publishing-your-event-catalog).
+
+You can enable your event catalog here: [https://dashboard.svix.com/settings/organization/catalog](https://dashboard.svix.com/settings/organization/catalog).
