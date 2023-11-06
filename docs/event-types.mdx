@@ -75,7 +75,7 @@ import (
 )
 
 svixClient := svix.New("AUTH_TOKEN", nil)
-app, err := svixClient.EventType.Create(&svix.EventTypeIn{
+app, err := svixClient.EventType.Create(ctx, &svix.EventTypeIn{
     Name: "user.signup",
     Description: "A user has signed up",
 })}
@@ -286,7 +286,7 @@ func main() {
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		line := strings.Split(scanner.Text(), "|")
-		_, err = svixClient.EventType.Create(&svix.EventTypeIn{
+		_, err = svixClient.EventType.Create(ctx, &svix.EventTypeIn{
 			Name:        line[0],
 			Description: line[1],
 		})
@@ -716,7 +716,7 @@ import (
 )
 
 svixClient := svix.New("AUTH_TOKEN", nil)
-app, err := svixClient.EventType.Create(&svix.EventTypeIn{
+app, err := svixClient.EventType.Create(ctx, &svix.EventTypeIn{
     Name: "user.signup",
     Description: "A user has signed up",
     FeatureFlag: svix.NullableStrig("beta-feature-a"),
@@ -855,7 +855,7 @@ print(dashboard.url)
 
 ```go
 svixClient := svix.New("AUTH_TOKEN", nil)
-dashboard, _ := svixClient.Authentication.AppPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.AppPortalAccessIn{
+dashboard, _ := svixClient.Authentication.AppPortalAccess(ctx, "app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.AppPortalAccessIn{
     FeatureFlags: []string{"beta-feature-a"}
 })
 // A URL that automatically logs user into the dashboard
@@ -979,7 +979,7 @@ svix.event_type.update("user.signup", EventTypeUpdate(feature_flag=None))
 
 ```go
 svixClient := svix.New("AUTH_TOKEN", nil)
-eventTypeOut, _ := svixClient.EventType.Update("user.signup", &svix.EventTypeUpdate{ FeatureFlag: nil })
+eventTypeOut, _ := svixClient.EventType.Update(ctx, "user.signup", &svix.EventTypeUpdate{ FeatureFlag: nil })
 ```
 
 </TabItem>

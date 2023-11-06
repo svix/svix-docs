@@ -161,7 +161,7 @@ import (
 )
 
 svixClient := svix.New("AUTH_TOKEN", nil)
-app, err := svixClient.Application.Create(&svix.ApplicationIn{
+app, err := svixClient.Application.Create(ctx, &svix.ApplicationIn{
     Name: "Application name",
 })}
 ```

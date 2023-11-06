@@ -97,13 +97,13 @@ import (
 )
 
 svixClient := svix.New("AUTH_TOKEN", nil)
-appOut, err := svixClient.Application.Create(&svix.ApplicationIn{
+appOut, err := svixClient.Application.Create(ctx, &svix.ApplicationIn{
     Name: "Test Application",
 })}
-integOut, err := svixClient.Integration.Create(appOut.Id, &svix.IntegrationIn{
+integOut, err := svixClient.Integration.Create(ctx, appOut.Id, &svix.IntegrationIn{
     Name: "Zapier Integration",
 })
-integKeyOut, err := svixClient.Integration.GetKey(appOut.Id, integOut.Id)
+integKeyOut, err := svixClient.Integration.GetKey(ctx, appOut.Id, integOut.Id)
 ```
 
 </TabItem>
