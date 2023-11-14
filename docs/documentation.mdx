@@ -2,46 +2,28 @@
 title: Documentation
 ---
 
-Once you’re ready to release your webhook feature, you’ll need to add documentation. At Svix we consider our documentation as part of the product. We put a lot of effort into making sure our documentation makes it as easy as possible for our users to send webhooks reliably at scale.
+Once you’re ready to release your webhook feature, you’ll need to add documentation.
+At Svix we consider our documentation as part of the product.
+We put a lot of effort into making sure our documentation makes it as easy as possible for our users to send webhooks reliably at scale.
 
-Therefore, we've also put effort into helping our users write their webhook documentation. Currently we do this in two ways:
+We've reviewed several webhook services (e.g. Zoom, GitHub, Cloudinary) in a [blog series](https://www.svix.com/blog/tag/documentation/) if you're interested in seeing some examples.
+We also provide a documentation template at [https://dashboard.svix.com/documentation/generator](https://dashboard.svix.com/documentation/generator).
 
-1. Documentation Generator
-2. Event Catalog
+Aside from the basics of how to create a webhook, the best webhook docs we see do 5 things well:
 
-## Documentation Generator
+1. Explain why and how to verify webhook signatures (with code samples!).
+2. Provide a comprehensive Event Catalog with detailed explanations and sample payloads of each event type.
+3. Fully explain their retry policy including which status codes will trigger retries, and the actual retry schedule.
+4. Give general troubleshooting tips for initial setup and recovering from endpoint failures.
+5. Give guidance on how to test endpoints.
 
-It's always hard to start writing from a blank page. To get you a head start, we've written a template with all the components of thorough webhook documentation.
+These 5 things will help your users get setup without a hassle as well as quickly recover from endpoint failures.
 
-The generator takes the template and incorporates some dynamic elements based on your specific configuration (product name, event types, etc.).
-Here is the basic outline of the template:
+We've also created a lot of tools and content to help you write great webhook docs.
+Many users simply link to these materials while others use them as a starting point and customize to their specific use cases:
 
-1. Introduction to Webhooks
-2. Webhook events
-3. Adding an Endpoint
-    * Testing Your Endpoint
-4. Webhook Signature Verification
-    * How to Verify Using Svix Libraries
-5. Retries
-    * Retry schedule
-    * Disabling Failed Endpoints
-    * Manual retries
-6. Troubleshooting Tips
-    * Not Using the raw payload body
-    * Missing the secret key
-    * Sending the wrong response codes
-    * Responses Timing Out
-7. Failure Recovery
-    * Re-enable a disabled endpoint
-    * Recovering/Resending Failed Messages
-8. IP Whitelist
-
-You can find the documentation generator at [https://dashboard.svix.com/documentation/generator](https://dashboard.svix.com/documentation/generator) once you are logged in to the Dashboard.
-
-## Event Catalog
-
-An important component of webhook documentation is an event catalog. This is where webhook consumers can go to find the event types that they want to subscribe to. We recommend having descriptions and sample payloads for each event. To make this simple, we automatically generate an event catalog based on your event types.
-
-For instrucstions on how to publish your Event Catalog or how to host it on your own domain, go here: [https://docs.svix.com/event-types#publishing-your-event-catalog](https://docs.svix.com/event-types#publishing-your-event-catalog).
-
-You can enable your event catalog here: [https://dashboard.svix.com/settings/organization/catalog](https://dashboard.svix.com/settings/organization/catalog).
+- Our [webhook verification docs](https://docs.svix.com/receiving/verifying-payloads/why).
+- [Embeddable Event Catalog](https://docs.svix.com/event-types#publishing-your-event-catalog).
+- [Documentation Template & Generator](https://dashboard.svix.com/documentation/generator).
+- [Svix Play](https://www.svix.com/play/): Webhook Tester/Endpoint Generator.
+- Blog post on [writing great webhook docs](https://www.svix.com/blog/documenting-webhooks/).
