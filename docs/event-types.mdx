@@ -636,6 +636,19 @@ curl -X POST "https://api.svix.com/api/v1/event-type/import/openapi/" \
 </TabItem>
 </CodeTabs>
 
+#### Using the Github Action
+
+Svix also provides a [Github Action](https://github.com/svix/svix-event-type-import-action) to upload your OpenAPI spec and automatically create or update your event types as part of your CI/CD pipeline.
+
+```yaml
+- name: Upload Event Types to Svix
+  uses: svix/svix-event-type-import-action@v1.0.0
+  with:
+    openapi-file: 'path/to/your/openapi-spec.yml' # can be a .json too
+    svix-api-key: ${{ secrets.SVIX_API_KEY }}
+```
+
+
 ## Publishing your Event Catalog
 
 By default, your event types are only accessible to users from within an authenticated session on the Application Portal.
