@@ -112,28 +112,61 @@ After creating at least one transformation template, your customers will see a n
 
 ![Adding an Endpoint using a Transformation Template](./img/transformation-templates-endpoint.png)
 
-### Slack integration portal
+### Slack integration portal (beta)
 
 Another way of using transformation templates is by using the Slack integration portal. 
-This is a way for your users to receive events as Slack messages in a few clicks, without thinking about webhooks at all.
+It is a way for your users to receive events as Slack messages in a few clicks, without thinking about webhooks at all.
 
-To use the Slack integration portal, create a Slack transformation template, use the transformation code to define
+To use the Slack integration portal, create a Slack transformation template and use the transformation code to define
 how you want to format the Slack message for each of your event types.
 
-To use the portal, get the App Portal URL and add the `mode=slack-button` query parameter (like `app.svix.com/login?mode=slack-button#key=<login-key>`).
+Get the App Portal URL and add the `mode=slack-button` query parameter (like `app.svix.com/login?mode=slack-button#key=<login-key>`).
 
-Add a button to your site, you can call it something like 'Configure Slack'. When the button is clicked, redirect the user to the Slack portal URL.
+Add a button to your site and when the button is clicked, redirect the user to the Slack portal URL.
 
-[[Screenshot]]
+![Authorize Slack](img/slack-portal-connect.png)
 
-[[screenshot]]
+![Configure Slack connection](img/slack-portal.png)
 
 The Slack integration portal can be used in a popup, to avoid taking the user away from your site, and make it quick and easy to use.
 
-```
-code for the popup
+```js
+export const getPopupWindowFeatures = () => {
+  // Recommended parameters for the popup window
+  const features = {
+    popup: "yes",
+    width: 600,
+    height: 700,
+    top: "auto",
+    left: "auto",
+    toolbar: "no",
+    menubar: "no",
+  };
+
+  return Object.entries(features)
+    .reduce((str, [key, value]) => {
+      if (value === "auto") {
+        if (key === "top") {
+          const v = Math.round(window.innerHeight / 2 - features.height / 2);
+          str += `top=${v},`;
+        } else if (key === "left") {
+          const v = Math.round(window.innerWidth / 2 - features.width / 2);
+          str += `left=${v},`;
+        }
+        return str;
+      }
+
+      str += `${key}=${value},`;
+      return str;
+    }, "")
+    .slice(0, -1);
+};
 ```
 
-In the portal, your users can enable and disable the connection, and choose which events they want to receive. If you're using a popup, it will automatically close
+```jsx
+<button onClick={() => window.open(appPortalUrl, "slack-portal", getPopupWindowFeatures())}>Configure Slack</button>
+```
+
+In the portal, your users can enable/disable the connection and choose which events they want to receive. The popup will automatically close
 once they've completed the setup.
 
