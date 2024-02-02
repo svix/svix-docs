@@ -732,7 +732,7 @@ svixClient := svix.New("AUTH_TOKEN", nil)
 app, err := svixClient.EventType.Create(ctx, &svix.EventTypeIn{
     Name: "user.signup",
     Description: "A user has signed up",
-    FeatureFlag: svix.NullableStrig("beta-feature-a"),
+    FeatureFlag: svix.NullableString("beta-feature-a"),
 })}
 ```
 
@@ -837,7 +837,7 @@ curl -X POST "https://api.svix.com/api/v1/event-type/" \
 </TabItem>
 </CodeTabs>
 
-If a user tries to retrieve this newly created event type they will get a not-found error. To give them access you need to give them an access token that explicity allows them to see event types with the feature flag set during creation.
+If a user tries to retrieve this newly created event type they will get a not-found error. To give them access you need to give them an access token that explicitly allows them to see event types with the feature flag set during creation.
 
 <CodeTabs>
 <TabItem value="js">

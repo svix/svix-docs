@@ -384,7 +384,7 @@ def webhook_handler(request):
     except WebhookVerificationError as e:
         return HttpResponse(status=400)
 
-    # Do someting with the message...
+    # Do something with the message...
 
     return HttpResponse(status=204)
 ```
@@ -409,7 +409,7 @@ def webhook_handler():
     except WebhookVerificationError as e:
         return ('', 400)
 
-    # Do someting with the message...
+    # Do something with the message...
 
     return ('', 204)
 ```
@@ -435,7 +435,7 @@ async def webhook_handler(request: Request, response: Response):
         response.status_code = status.HTTP_400_BAD_REQUEST
         return
 
-    # Do someting with the message...
+    # Do something with the message...
 ```
 
 ### Node.js (Next.js)
