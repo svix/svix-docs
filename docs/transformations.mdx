@@ -65,7 +65,7 @@ Transformation templates are enabled when [enabling transformations](#enabling-t
 To create a template, you need to provide the following details:
 
 - `name`, `description` and `logo url` - Describe the integration to your customers.
-- `type` - Choose from a set of services that provide easy webhook integrations, or choose `Custom` to build your own integration. We currently support Slack and Discord.
+- `type` - Choose from a set of services that provide easy webhook integrations, or choose `Custom` to build your own integration. We currently support Slack, Discord, and many more services.
 - `Instructions` and `Learn more link` - Only visible for `Custom` templates. Explain how to use and customize the template. Your customers may need to set a specific endpoint when using the template. This is a good place to let them know how to get that endpoint.
 - `Event Types` - Specify which events are going to be supported out-of-the-box by the integration. 
 - `Transformation Code` - This is the glue code that will turn incoming webhook events into useful payloads for your integration. For example, if you are building a transformation template that sends Slack messages 
@@ -111,3 +111,62 @@ If you are using the Slack built-in integration, structure your JSON payload acc
 After creating at least one transformation template, your customers will see a new tab when creating an endpoint where they will be able to choose a template from the ones you created. 
 
 ![Adding an Endpoint using a Transformation Template](./img/transformation-templates-endpoint.png)
+
+### Slack integration portal (beta)
+
+Another way of using transformation templates is by using the Slack integration portal. 
+It is a way for your users to receive events as Slack messages in a few clicks, without thinking about webhooks at all.
+
+To use the Slack integration portal, create a Slack transformation template and use the transformation code to define
+how you want to format the Slack message for each of your event types.
+
+Get the App Portal URL and add the `mode=slack-button` query parameter (like `app.svix.com/login?mode=slack-button#key=<login-key>`).
+
+Add a button to your site and when the button is clicked, redirect the user to the Slack portal URL.
+
+![Authorize Slack](img/slack-portal-connect.png)
+
+![Configure Slack connection](img/slack-portal.png)
+
+The Slack integration portal can be used in a popup, to avoid taking the user away from your site, and make it quick and easy to use.
+
+```js
+export const getPopupWindowFeatures = () => {
+  // Recommended parameters for the popup window
+  const features = {
+    popup: "yes",
+    width: 600,
+    height: 700,
+    top: "auto",
+    left: "auto",
+    toolbar: "no",
+    menubar: "no",
+  };
+
+  return Object.entries(features)
+    .reduce((str, [key, value]) => {
+      if (value === "auto") {
+        if (key === "top") {
+          const v = Math.round(window.innerHeight / 2 - features.height / 2);
+          str += `top=${v},`;
+        } else if (key === "left") {
+          const v = Math.round(window.innerWidth / 2 - features.width / 2);
+          str += `left=${v},`;
+        }
+        return str;
+      }
+
+      str += `${key}=${value},`;
+      return str;
+    }, "")
+    .slice(0, -1);
+};
+```
+
+```jsx
+<button onClick={() => window.open(appPortalUrl, "slack-portal", getPopupWindowFeatures())}>Configure Slack</button>
+```
+
+In the portal, your users can enable/disable the connection and choose which events they want to receive. The popup will automatically close
+once they've completed the setup.
+
