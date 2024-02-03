@@ -2,34 +2,35 @@
 title: Source IP Addresses
 ---
 
+import sourceIps from "/static/webhook-ips.json";
+
 In case your webhook receiving endpoint is behind a firewall or NAT, you may need to allow traffic from Svix's IP addresses.
 
-This is the full list of IP addresses that webhooks may originate from grouped by the region of the sender:
+This is the full list of IP addresses that webhooks may originate from grouped by the region of the sender. The list is also available as a JSON file: [webhooks-ips.json](pathname:///webhook-ips.json).
 
 ## US
 
-```
-44.228.126.217
-50.112.21.217
-52.24.126.164
-54.148.139.208
-```
+<pre>
+<code>
+{sourceIps["us"].join("\n")}
+</code>
+</pre>
 
 ## EU
 
-```
-52.215.16.239
-54.216.8.72
-63.33.109.123
-```
+<pre>
+<code>
+{sourceIps["eu"].join("\n")}
+</code>
+</pre>
 
 ## India (Private Beta)
 
-```
-13.126.41.108
-15.207.218.84
-65.2.133.31
-```
+<pre>
+<code>
+{sourceIps["in"].join("\n")}
+</code>
+</pre>
 
 :::info Important
 Static source IPs are not guaranteed for all pricing tiers, please refer to [the pricing page](https://www.svix.com/pricing/) for more information.
