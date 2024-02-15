@@ -209,11 +209,15 @@ ReactDOM.render(<App />, document.body);
 
 You can optionally use the `fullSize` prop (`<AppPortal fullSize />`) so that App Portal will automatically grow to fit its contents.
 
+### Example integration
+
+The [`svix-example`](https://github.com/svix/svix-example) repo contains an example implementation of the App Portal in a React application, using NextJS. In the webhooks Dashboard [page](https://github.com/svix/svix-example/blob/main/src/pages/dashboard/webhooks.tsx), you can see how to get the App Portal login URL and use it to render the App Portal in an iframe.
+
 ### Design Considerations
 
 When embedding the App Portal into your application, keep in mind that the App Portal is an information dense master-detail view. We recommend keeping the view at 100% width to avoid abbreviating important information for your users. If you are hoping to avoid having an embedded scrollbar, we recommend putting the view inside a full screen modal from your dashboard, or using the `fullSize` prop so that the App Portal sizes itself based on its content.
 
-![embedded iframe modal](/img/app-portal/embedded-view-modal.png)
+![embedded iframe screen](/img/app-portal/embedded-view-screen.png)
 
 ## White labeling
 

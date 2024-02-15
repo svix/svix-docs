@@ -440,6 +440,8 @@ async def webhook_handler(request: Request, response: Response):
 
 ### Node.js (Next.js)
 
+The [`svix-example`](https://github.com/svix/svix-example) repo contains an [example](https://github.com/svix/svix-example/blob/main/src/pages/api/consumer/webhooks.ts) of how to verify and use webhooks in a Next.js application.
+
 ```js
 import { Webhook } from "svix";
 import { buffer } from "micro";
@@ -469,6 +471,7 @@ export default async function handler(req, res) {
     res.json({});
 }
 ```
+
 
 ### Node.js (Netlify Functions)
 
