@@ -17,6 +17,6 @@ Your secret API key can be used to make any API call on behalf of your account. 
 
 ## Rotating keys
 
-If an API key is compromised, rotate the key in the Dashboard to block it and generate a new one.
+Svix support creating multiple API keys per environment. This gives you a lot of flexibility when rotating keys. For example, you can create a new key, replace all instances of the old key, and then expire the old key for a zero downtime key rotation.
 
-When you rotate an API key, the old key will be blocked immediately, so any systems currently using that key will experience downtime. This behavior will change in a future release.
+When expiring keys, you can also define when you would like the key to expire. Either immediately, or at a later point in time.
