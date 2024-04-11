@@ -484,17 +484,30 @@ and give you the option to create event types ([with their schemas](/event-types
 The event description, schema and examples will be used to create the Svix event type, using the `path id` as the event type name.
 If you use choose the name of an already existing event type, it will be updated with the new values.
 
-Here's an example of how an `endpoint.disabled` event type should look like in your OpenAPI file:
+Here's an example of how a `pet.new` event type should look like in your OpenAPI file:
 ```json
 "webhooks": {
-  "endpoint.disabled": {
+  "pet.new": {
     "post": {
+      "operationId": "pet.new",
       "description": "...",
       "requestBody": {
         "content": {
           "application/json": {
             "schema": {
-              ...
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "tag": {
+                  "type": "integer"
+                }
+              }
+            },
+            "example": {
+              "name": "Buddy",
+              "tag": 1234
             }
           }
         }
