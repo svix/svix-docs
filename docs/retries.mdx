@@ -23,6 +23,11 @@ If an endpoint is removed or disabled delivery attempts to the endpoint will be 
 For example, an attempt that fails three times before eventually succeeding will be delivered roughly 35 minutes and 5 seconds following the first attempt.
 
 
+## Indicating successful delivery
+
+The way to indicate that a webhook has been processed is by returning a `2xx` (status code `200-299`) response to the webhook message within a reasonable time-frame (15s with Svix). Any other status code, including `3xx` redirects are treated as failures.
+
+
 ## Failed delivery handling
 
 After the conclusion of the above attempts the message will be marked as `Failed` for this endpoint, and you will get a webhook of type `message.attempt.exhausted` notifying you of this error.
