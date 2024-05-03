@@ -5,7 +5,7 @@ module.exports = {
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "throw",
-  favicon: "img/favicon.ico",
+  favicon: "img/favicon-96x96.png",
   themeConfig: {
     image: 'img/socialbanner.png',
     navbar: {
