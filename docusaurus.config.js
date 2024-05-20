@@ -56,6 +56,11 @@ module.exports = {
       additionalLanguages: ["ruby", "php", "java", "groovy", "csharp", "rust", "kotlin"],
     },
   },
+  scripts: [
+    {
+      src: '/scripts/reo.js',
+    }
+  ],
   presets: [
     [
       "@docusaurus/preset-classic",
