@@ -32,9 +32,8 @@ Svix now supports Mutual TLS (mTLS), per endpoint. At this time this feature is 
 - `PUT $SVIX_ROOT/api/v1/app/APP/endpoint/ENDPOINT/mtls` to set the configuration options.
 - `DELETE $SVIX_ROOT/api/v1/app/APP/endpoint/ENDPOINT/mtls` to clear any previously set configuration.
 
-The `PUT` body consists of two keys:
+The `PUT` body consists of one key:
 - `identity` (required) a PEM encoded private key and X509 certificate used by the webhook sender to authenticate itself.
-- `serverCaCert` (optional) a CA cert to use for validating the webhook receiver's cert.
 
 
 Example:
@@ -49,5 +48,3 @@ curl -sS -H "Authorization: Bearer $TOKEN" \
 	-d '{"identity":'"$CLIENT_PEM"'}' \
 	$SVIX_ROOT/api/v1/app/my-app/endpoint/my-endpoint/mtls
 ```
-
-When `serverCaCert` is unset, the standard system CA certificates are used to verify the webhook receiver.
