@@ -28,7 +28,7 @@ Professional tier customers can have the headers white-labeled to use the `webho
 The content to sign is composed by concatenating the id, timestamp and payload, separated by the full-stop character (`.`). In code, it will look something like:
 
 ```javascript
-signedContent = "${svix_id}.${svix_timestamp}.${body}"
+const signedContent = `${svix_id}.${svix_timestamp}.${body}`;
 ```
 
 Where `body` is the raw body of the request. The signature is sensitive to any changes, so even a small change in the body will cause the signature to be completely different. This means that you should *not* change the body in any way before verifying.
@@ -45,15 +45,16 @@ For example, this is how you can calculate the signature in Node.js:
 ```javascript
 const crypto = require('crypto');
 
-signedContent = `${svix_id}.${svix_timestamp}.${body}`
-const secret = "whsec_5WbX5kEWLlfzsGNjH64I8lOOqUB6e8FH";
+const signedContent = `${svix_id}.${svix_timestamp}.${body}`;
+const secret = 'whsec_5WbX5kEWLlfzsGNjH64I8lOOqUB6e8FH';
 
 // Need to base64 decode the secret
-const secretBytes = new Buffer(secret.split('_')[1], "base64");
+const secretBytes = Buffer.from(secret.split('_')[1], 'base64');
 const signature = crypto
   .createHmac('sha256', secretBytes)
   .update(signedContent)
   .digest('base64');
+
 console.log(signature);
 ```
 
