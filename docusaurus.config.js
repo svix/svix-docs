@@ -110,4 +110,9 @@ module.exports = {
       },
     ],
   ],
+  scripts: [{
+    src: "/js/r2b2.js",
+    async: true,
+    defer: true,
+  }]
 };
