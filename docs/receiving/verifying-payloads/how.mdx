@@ -567,7 +567,7 @@ app.post('/webhook', bodyParser.raw({type: 'application/json'}), (req, res) => {
 // routes/webhooks.ts
 import { FastifyInstance } from "fastify";
 import { Webhook } from "svix";
-  
+
 export async function routes(fastify: FastifyInstance) {
     fastify.post('/webhooks', {
         handler: async (request, reply) => {
@@ -584,7 +584,7 @@ export async function routes(fastify: FastifyInstance) {
 
             // If there are no Svix headers, error out
             if (!svix_id || !svix_timestamp || !svix_signature) {
-                return new Response("Error occured -- no svix headers", {
+                return new Response("Error occurred -- no svix headers", {
                     status: 400,
                 });
             }
