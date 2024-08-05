@@ -46,10 +46,10 @@ For example, this is how you can calculate the signature in Node.js:
 const crypto = require('crypto');
 
 const signedContent = `${svix_id}.${svix_timestamp}.${body}`;
-const secret = 'whsec_5WbX5kEWLlfzsGNjH64I8lOOqUB6e8FH';
+const secret = "whsec_5WbX5kEWLlfzsGNjH64I8lOOqUB6e8FH";
 
 // Need to base64 decode the secret
-const secretBytes = Buffer.from(secret.split('_')[1], 'base64');
+const secretBytes = Buffer.from(secret.split('_')[1], "base64");
 const signature = crypto
   .createHmac('sha256', secretBytes)
   .update(signedContent)
