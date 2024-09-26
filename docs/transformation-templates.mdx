@@ -106,19 +106,24 @@ For example, if you send a `user.created` webhook, and want to write a transform
 ```js
 function handler(webhook) {
   /**
-  *  Example payload is { 
-  *    user: { firstname: 'John', lastname: 'Doe', email: 'john.doe@example.com' }
-  *  }   
-  *  webhook.method is "POST" 
-  */  
-  webhook.url = "https://api.hubapi.com/crm/v3/objects/contacts"
+   * Example payload is:
+   * {
+   *   user: {
+   *     firstname: 'John',
+   *     lastname: 'Doe',
+   *     email: 'john.doe@example.com'
+   *   }
+   * }
+   * webhook.method is "POST"
+   */  
+  webhook.url = "https://api.hubapi.com/crm/v3/objects/contacts";
   webhook.payload = {
     properties: {
       email: webhook.payload.email,
       firstname: webhook.payload.user.firstname,
       lastname: webhook.payload.user.lastname,
     }
-  }
+  };
 
   return webhook
 }
