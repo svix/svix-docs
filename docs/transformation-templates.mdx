@@ -114,9 +114,8 @@ function handler(webhook) {
    *     email: 'john.doe@example.com'
    *   }
    * }
-   * webhook.method is "POST"
    */  
-  webhook.url = "https://api.hubapi.com/crm/v3/objects/contacts";
+  webhook.url = "https://api.hubapi.com/crm/v3/objects/contacts"; // The method is already POST
   webhook.payload = {
     properties: {
       email: webhook.payload.email,
