@@ -46,6 +46,12 @@ module.exports = {
           'aria-label': 'GitHub repository',
           position: 'right',
         },
+        {
+          to: "https://www.svix.com/signup/",
+          label: "Get Started",
+          className: "cta",
+          position: "left"
+        }
       ],
     },
     footer: {
