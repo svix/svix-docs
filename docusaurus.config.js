@@ -46,6 +46,12 @@ module.exports = {
           'aria-label': 'GitHub repository',
           position: 'right',
         },
+        {
+          type: "html",
+          value: "<span>Get Started</span>",
+          className: "cta",
+          position: "left"
+        }
       ],
     },
     footer: {
