@@ -47,8 +47,8 @@ module.exports = {
           position: 'right',
         },
         {
-          type: "html",
-          value: "<span>Get Started</span>",
+          to: "https://www.svix.com/signup/",
+          label: "Get Started",
           className: "cta",
           position: "left"
         }
