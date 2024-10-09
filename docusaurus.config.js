@@ -100,6 +100,10 @@ module.exports = {
             to: "/retries",
             from: "/account/retries"
           },
+          {
+            to: "/connectors",
+            from: "/transformation-templates",
+          }
         ],
       },
     ],
