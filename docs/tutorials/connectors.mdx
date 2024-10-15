@@ -1,17 +1,16 @@
 ---
-title: Configuring the Slack connector
+title: Configuring the Slack Connector
 ---
 
 :::info Prerequisites
-This guide assumes your familiar with the basics of [event types](../event-types), the [App Portal](../app-portal) and [Connectors](../connectors).
+This guide assumes your familiar with the basics of [event types](../event-types), the [App Portal](../app-portal) and [Connectors](../transformation-templates).
 :::
 
 [Connectors](https://docs.svix.com/connectors) make it easy for your customers to link your webhooks to popular services like Slack, Hubspot, or Microsoft Teams in just a few clicks—no code or new backend infrastructure required.
 
 With the Slack connector, you can offer your users an easy-to-use way of integrating your webhooks with Slack.
 
-[[[WITH CONNECTOR, WITHOUT CONNECTOR]]]
-
+![Connectors diagram](../img/tutorials/slack-connectors/with-without-connectors.svg)
 
 ## Creating a Slack connector
 
@@ -23,7 +22,7 @@ With the Slack connector, you can offer your users an easy-to-use way of integra
 
 4. Write the transformation code. This is the code that will be used to transform the webhook payload into a format that the Slack Incoming Webhooks API uses.
 
-## Writing the connector transformation
+## Writing the transformation
 
 Transformations allow the modification of certain webhook properties in-flight using Javascript code. The transformation is the key component that makes your connector work.
 
@@ -111,7 +110,7 @@ function handler(webhook) {
 
 Your customers will be able to modify the transformation code if they want to, but, ideally, if your connector is useful enough and works without any modifications, they won't need to change it. 
 
-## Testing the Slack connector
+## Testing the connector
 
 Now that you've created your Slack connector, you can test it out in the App Portal.
 
@@ -141,5 +140,5 @@ And that's it! In just a few clicks, your users will be able to connect their Sl
 
 The only thing we did was write the transformation, select the event types the connector supports, and Svix did the rest.
 
-Learn more about connectors [in the docs](../connectors).
+Learn more about connectors [in the docs](../transformation-templates).
 
