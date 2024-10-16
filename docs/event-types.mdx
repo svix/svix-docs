@@ -490,7 +490,7 @@ Here's an example of how a `pet.new` event type should look like in your OpenAPI
   "pet.new": {
     "post": {
       "operationId": "pet.new",
-      "description": "...",
+      "description": "A new pet has been added",
       "requestBody": {
         "content": {
           "application/json": {
@@ -516,6 +516,23 @@ Here's an example of how a `pet.new` event type should look like in your OpenAPI
   }
 }
 ```
+
+You can also add the `x-svix-feature-flag` and `x-svix-group-name` fields to set the [feature flag](#event-type-feature-flags) and group name on the event type.
+```json
+"webhooks": {
+  "pet.new": {
+    "post": {
+      "operationId": "pet.new",
+      "x-svix-feature-flag": "beta-feature-a",
+      "x-svix-group-name": "group-name-1",
+      "requestBody": {
+        ...
+      }
+    }
+  }
+}
+```
+
 
 #### Using the API
 
