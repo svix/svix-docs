@@ -7,7 +7,7 @@ module.exports = {
       "Manage Your Account": ["account/environments", "account/org-members"],
     },
     {
-      Tutorials: ["tutorials/cli", "tutorials/event-type-schema"],
+      Tutorials: ["tutorials/cli", "tutorials/event-type-schema", "tutorials/connectors"],
     },
     {
       Integrations: [
