@@ -594,10 +594,10 @@ export async function routes(fastify: FastifyInstance) {
 
             try {
                 msg = wh.verify(JSON.stringify(payload), {
-                "svix-id": svix_id,
-                "svix-timestamp": svix_timestamp,
-                "svix-signature": svix_signature,
-            });
+                    "svix-id": svix_id,
+                    "svix-timestamp": svix_timestamp,
+                    "svix-signature": svix_signature,
+                });
             } catch (err: any) {
                 return reply.code(400).send(`Webhook Error: ${err.message}`)
             }
@@ -697,7 +697,7 @@ func main() {
 
 		// Do something with the message...
 
-        w.WriteHeader(http.StatusNoContent)
+		w.WriteHeader(http.StatusNoContent)
 
 	})
 	http.ListenAndServe(":8080", nil)
