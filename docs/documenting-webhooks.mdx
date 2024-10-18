@@ -2,29 +2,41 @@
 title: Documenting Your Webhooks
 ---
 
-Once you're ready to release your webhook feature, you'll need to add documentation.
+Once you're ready to launch your webhook feature, you'll need to add documentation.
 At Svix we consider our documentation as part of the product.
 We put a lot of effort into making sure our documentation makes it as easy as possible for our customers to send webhooks reliably at scale.
 By extension, this includes helping our customers write great docs too.
 
-We've reviewed several webhook services (e.g. Zoom, GitHub, Cloudinary) in a [blog series](https://www.svix.com/blog/tag/documentation/) if you're interested in seeing some examples.
+There are 5 main resources we provide to help your webhook docs be great:
+
+1. Our [webhook verification docs](https://docs.svix.com/receiving/verifying-payloads/how).
+
+This is the most common resource Svix users cite in their docs.
+It's an extensive explainer on how to use Svix libraries to verify webhook signatures.
+Some users will reference this to write their own version while other link to it directly (e.g. [Clerk](https://clerk.com/docs/integrations/webhooks/overview) and [incident.io](https://help.incident.io/en/articles/6984344-webhooks)).
+
+2. [Embeddable event catalog](https://docs.svix.com/event-types#publishing-your-event-catalog).
+
+It's very helpful for users to have a comprehensive list of available events they can subscribe to.
+Since you've created all of your event types in Svix, we can generate a comprehensive catalog with schemas and examples for you.
+
+You can find the event catalog settings in your dashboard at [https://dashboard.svix.com/settings/organization/catalog](https://dashboard.svix.com/settings/organization/catalog)
+
+3. [Svix Play](https://www.svix.com/play/).
+
+Svix Play is a webhook tester and debugger.
+It provides an endpoint URL that users can send test events to in order to examine payloads, headers, etc. and get a general sense of how your webhooks work without needing to deploy their own endpoint.
+
+4. Blog posts on [writing great webhook docs](https://www.svix.com/blog/documenting-webhooks/).
+
+This blog post details the specific elements that great webhook docs need to have with some examples from Shopify, Stripe, and Svix's own documentation.
+
+We also reviewed several webhook services (e.g. Zoom, GitHub, Cloudinary) in a [blog series](https://www.svix.com/blog/tag/documentation/) if you're interested in seeing more examples.
+
+5. [Documentation template & generator](https://dashboard.svix.com/documentation/generator).
+
 We also provide a documentation generator at [https://dashboard.svix.com/documentation/generator](https://dashboard.svix.com/documentation/generator).
+This is a full template that you can copy/paste directly or edit as you see fit.
 
-Aside from the basics of how to create a webhook, the best webhook docs we see do 5 things well:
-
-1. Explain why and how to verify webhook signatures (with code samples!).
-2. Provide a comprehensive Event Catalog with detailed explanations and sample payloads of each event type.
-3. Fully explain their retry policy including which status codes will trigger retries, and the actual retry schedule.
-4. Give general troubleshooting tips for initial setup and recovering from endpoint failures.
-5. Give guidance on how to test endpoints.
-
-These 5 things will help your customers get setup without a hassle as well as quickly recover from endpoint failures.
-
-We've also created a lot of tools and content to help you write great webhook docs.
-Many customers simply link to these materials while others use them as a starting point and customize to their specific use cases:
-
-- Our [webhook verification docs](https://docs.svix.com/receiving/verifying-payloads/why).
-- [Embeddable event catalog](https://docs.svix.com/event-types#publishing-your-event-catalog).
-- [Documentation template & generator](https://dashboard.svix.com/documentation/generator).
-- [Svix Play](https://www.svix.com/play/): Webhook tester and debugger.
-- Blog post on [writing great webhook docs](https://www.svix.com/blog/documenting-webhooks/).
+If you use these resources to craft your webhook docs, we're sure your users will love your webhooks.
+If you'd like us to take a look at your docs before or after your launch, just reach out and we'd be happy to take a look.
