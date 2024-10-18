@@ -1,0 +1,144 @@
+---
+title: Configuring the Slack Connector
+---
+
+:::info Prerequisites
+This guide assumes your familiar with the basics of [event types](../event-types), the [App Portal](../app-portal) and [Connectors](../transformation-templates).
+:::
+
+[Connectors](https://docs.svix.com/connectors) make it easy for your customers to link your webhooks to popular services like Slack, Hubspot, or Microsoft Teams in just a few clicks—no code or new backend infrastructure required.
+
+With the Slack connector, you can offer your users an easy-to-use way of integrating your webhooks with Slack, with almost no engineering effort on your part.
+
+![Connectors diagram](../img/tutorials/slack-connectors/with-without-connectors.svg)
+
+## Creating a Slack connector
+
+1. Go to the [Connectors page](https://dashboard.svix.com/connectors) and click on "Configure Connector".
+
+2. Add a description. This will be displayed to your users in the App Portal. 
+
+3. Select the event types this connector will support. You can choose specific event types that make sense for Slack, or select all of them.
+
+4. Write the transformation code. This is the code that will be used to transform the webhook payload into a format that the Slack Incoming Webhooks API uses.
+
+## Writing the transformation
+
+Transformations allow the modification of certain webhook properties in-flight using Javascript code. The transformation is the key component that makes your connector work.
+
+For the Slack connector, the transformation should make sure the webhook payload is formatted for the [Slack Incoming Webhooks API](https://api.slack.com/messaging/webhooks#posting_with_webhooks), for each of the event types you support (step 3).
+
+For example, let's say you have two event types, `invoice.created` and `invoice.paid`, with the following schemas:
+
+```json
+{
+  "invoice.created": {
+    "type": "object",
+    "properties": {
+      "amount": {
+        "type": "number"
+      },
+      "name": {
+        "type": "string"
+      }
+    }
+  },
+  "invoice.paid": {
+    "type": "object",
+    "properties": {
+      "invoice_id": {
+        "type": "string"
+      },
+      "amount": {
+        "type": "number"
+      }
+    }
+  }
+}
+```
+
+Your transformation should `switch` on the `webhook.eventType` to determine how to use the payload and transform it for the Slack API.
+
+```js
+/**
+ * @param webhook the webhook object
+ * @param webhook.method destination method. Allowed values: "POST", "PUT"
+ * @param webhook.url current destination address
+ * @param webhook.eventType current webhook Event Type
+ * @param webhook.payload JSON payload
+ * @param webhook.cancel whether to cancel dispatch of the given webhook
+ */
+function handler(webhook) {
+  switch (webhook.eventType) {
+    case "invoice.created":
+      webhook.payload = { 
+        text: `New invoice created: ${webhook.payload.amount}`
+      };
+      break;
+    case "invoice.paid":
+      // You can also use advanced formatting options (see https://api.slack.com/messaging/webhooks#advanced_message_formatting)
+      webhook.payload = {
+        text: `Invoice paid: ${webhook.payload.invoice_id}`,
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: `Invoice paid: ${webhook.payload.invoice_id}`
+            }
+          },
+          {
+            type: "actions",
+            elements: [
+              {
+                type: "button",
+                text: {
+                  type: "plain_text",
+                  text: "View in dashboard"
+                },
+                url: `https://dashboard.invoices.com/invoices/${webhook.payload.invoice_id}`
+              }
+            ]
+          }
+        ]
+      };
+      break;
+  }
+  return webhook;
+}
+```
+
+:::info
+Make sure your transformation works for the selected event types without any modifications, so your customers can use the connector in a few clicks. They will still be able to modify it if they want to.
+:::
+
+## Testing the connector
+
+Now that you've created your Slack connector, you can test it out in the App Portal.
+
+[Create a sample application](https://docs.svix.com/quickstart#creating-a-consumer-application) and use the 'Preview App Portal' button in the Svix Dashboard. 
+
+In the App Portal, the new connector will be visible when creating a new endpoint.
+
+![Slack connector in App Portal](../img/tutorials/slack-connectors/new-endpoint.png)
+
+When creating an endpoint, your connector should work without any further changes, so just click create and test it!
+
+![Testing](../img/tutorials/slack-connectors/testing.png)
+
+After sending a test event, we should see the message directly in Slack:
+
+![Slack message](../img/tutorials/slack-connectors/slack-notification.png)
+
+And the message using advanced formatting:
+
+![Slack message advanced](../img/tutorials/slack-connectors/advanced-formatting.png)
+
+And that's it! In just a few clicks, your users will be able to connect their Slack account and start receiving notifications from your webhook events. 
+
+## Wrapping up
+
+All we needed to do to setup the connector was select the event types we wanted to support and write the transformation. Svix takes care of the rest, so you can provide a one-click connection to Slack for your users.
+
+Setting up connectors for the other supported services is just as easy. Check out the [Connectors docs](../transformation-templates) to learn more.
+
