@@ -1,22 +1,22 @@
 ---
-title: Transformation Templates
+title: Connectors
 ---
 
 
-Transformation templates is a Svix feature that lets you provide your customers with pre-made integrations to connect your webhooks to other services.
+Connectors is a Svix feature that lets you provide your customers with pre-made integrations to connect your webhooks to other services.
 
-### How to use Transformation Templates
+### How to use Connectors
 
-Transformation templates are enabled when [enabling transformations](#enabling-transformations). After enabling Transformations, you will see a new dashboard section where you will be able to create new templates.
+Connectors are enabled when [enabling transformations](#enabling-transformations). After enabling Transformations, you will see a new dashboard section where you will be able to create new connectors.
 
-![Transformation Templates list](./img/transformation-templates-list.png)
+![Connectors list](./img/connectors-list.png)
 
-To create a template, you need to provide the following details:
+To configure a connector, you need to provide the following details:
 
 - `Type`: Choose from a set of services that provide easy webhook integrations, or choose `Custom` to build your own integration. We currently support Slack, Discord, and many more services, listed below.
 - `Description`: Describe the integration to your customers.
 - `Event Types`: Specify which events are going to be supported out-of-the-box by the integration. 
-- `Transformation Code`: This is the glue code that will turn incoming webhook events into useful payloads for your integration. For example, if you are building a transformation template that sends Slack messages 
+- `Transformation Code`: This is the glue code that will turn incoming webhook events into useful payloads for your integration. For example, if you are building a connector that sends Slack messages 
 every time a new invoice is created, the transformation will read `invoice.created` events and return a payload that works for Slack, like:
 ```js
 webhook.payload = { "text": `An invoice of $${webhook.payload.amount} has been created.` }
@@ -53,11 +53,11 @@ function handler(webhook) {
 Your customers will be able to customize the transformation code and the event types they listen to. Your definition should act as a working starting point they can use. 
 
 
-### Transformation Templates in the App Portal
+### Connectors in the App Portal
 
-After creating at least one transformation template, your customers will be able to choose it when creating an endpoint. 
+After creating at least one connector, your customers will be able to choose it when creating an endpoint. 
 
-![Adding an Endpoint using a Transformation Template](./img/transformation-templates-endpoint.png)
+![Adding an Endpoint using a Connector](./img/connectors-endpoint.png)
 
 ## Connection types
 
@@ -67,7 +67,7 @@ The Slack built-in integration lets you send messages to Slack channels via webh
 
 The transformation code should format the webhook payload according to [Slack's Incoming Webhook API](https://api.slack.com/messaging/webhooks#posting_with_webhooks).
 
-![Connect to Slack](img/transformation-templates/connect-to-slack.png)
+![Connect to Slack](img/connectors/connect-to-slack.png)
 
 ### Discord
 
@@ -75,7 +75,7 @@ The Discord built-in integration lets you send messages to Discord channels via 
 
 The transformation code should format the webhook payload according to [Discord's Execute Webhook API](https://discord.com/developers/docs/resources/webhook#execute-webhook).
 
-![Connect to Discord](img/transformation-templates/connect-to-discord.png)
+![Connect to Discord](img/connectors/connect-to-discord.png)
 
 ### Microsoft Teams
 
@@ -83,7 +83,7 @@ The Microsoft Teams integration will show your users instructions on how to get 
 
 The transformation code should format the webhook payload according to [Microsoft Teams' Incoming Webhook API](https://learn.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/connectors-using?#send-adaptive-cards-using-an-incoming-webhook).
 
-![Connect to Microsoft Teams](img/transformation-templates/connect-to-teams.png)
+![Connect to Microsoft Teams](img/connectors/connect-to-teams.png)
 
 ### Hubspot
 
@@ -97,11 +97,11 @@ The integration will request access to the following [OAuth scopes](https://deve
 - `crm.objects.quotes.write`
 - `crm.objects.marketing_events.write`
 
-![Connect to Hubspot](img/transformation-templates/connect-to-hubspot.png)
+![Connect to Hubspot](img/connectors/connect-to-hubspot.png)
 
 The transformation code should set the webhook URL to the Hubspot API endpoint (depending on the object) and format the payload appropriately to create the object in Hubspot.
 
-For example, if you send a `user.created` webhook, and want to write a transformation template that creates a contact in Hubspot, the transformation code could look like this:
+For example, if you send a `user.created` webhook, and want to write a connector that creates a contact in Hubspot, the transformation code could look like this:
 
 ```js
 function handler(webhook) {
@@ -133,17 +133,17 @@ function handler(webhook) {
 
 In case you don't find a built-in integration for the service you want to connect to, you can create a custom integration. You can provide your own integration name and icon, and write instructions for your users on how to use it. 
 
-![Custom Integration](./img/transformation-templates/custom-integration.png)
+![Custom Integration](./img/connectors/custom-integration.png)
 
 If you have a request for a built-in integration not listed above, [contact us](https://www.svix.com/contact/).
 
 
 ## Slack integration portal (beta)
 
-Another way of using transformation templates is by using the Slack integration portal. 
+Another way of using connectors is by using the Slack integration portal. 
 It is a way for your users to receive events as Slack messages in a few clicks, without thinking about webhooks at all.
 
-To use the Slack integration portal, create a Slack transformation template and use the transformation code to define
+To use the Slack integration portal, create a Slack connector and use the transformation code to define
 how you want to format the Slack message for each of your event types.
 
 Get the App Portal URL and add the `mode=slack-button` query parameter (like `app.svix.com/login?mode=slack-button#key=<login-key>`).
