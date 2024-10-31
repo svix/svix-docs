@@ -14,6 +14,8 @@ Here are some sample text and examples of each section to help you get started:
 
 The introduction to your webhook docs should give a brief explanation of what webhooks are and how to set them up.
 
+Here's an example you can just copy and put in your docs:
+
 ```text title="The Intro"
 Webhooks are how services notify each other of events.
 
@@ -32,7 +34,7 @@ Another important aspect of handling webhooks is to verify the signature and tim
 You can learn more about it in the signature verification section.
 ```
 
-Here is an example from Brex: [https://developer.brex.com/docs/webhooks/](https://developer.brex.com/docs/webhooks/)
+Here is an example from one of our customers, Brex: [https://developer.brex.com/docs/webhooks/](https://developer.brex.com/docs/webhooks/)
 
 **Events and Event Types**
 
@@ -46,6 +48,8 @@ You can also preview your own event catalog in your Svix dashboard once you're a
 **How to Add an Endpoint**
 
 After understanding what events they want to listen for, your users will need to specify an endpoint where they can receive the webhooks.
+
+Copy/pastable example:
 
 ```text title="Adding an Endpoint"
 In order to start listening to messages, you will need to configure your endpoints.
@@ -67,6 +71,8 @@ Once a user specifies an endpoint, they'll want to test it to make sure its work
 
 The simplest way to do this is to send test messages to the endpoint under the "Testing" tab.
 
+Copy/pastable example:
+
 ```text title="Testing Endpoints"
 Once you've added an endpoint, you'll want to make sure its working.
 
@@ -83,6 +89,8 @@ The endpoint rejects a webhook thinking its fraudulent when in reality, they sim
 We'll discuss common reasons for failed signature verification in the troubleshooting section.
 
 Here our goal is to clearly explain how and why to verify signatures and provide code samples that users can simply copy/paste to get a working endpoint.
+
+Copy/pastable example:
 
 ```text title="Verifying Signatures"
 Webhook signatures let you verify that webhook messages are actually sent by us and not a malicious actor.
@@ -121,6 +129,8 @@ We also have some customers who simply link to our [webhook verification docs](h
 Retries are one of the core features of Svix that make webhooks more reliable.
 You want to let your users know under what conditions failed messages will be retried and when.
 
+Copy/pastable example:
+
 ```text title="Retry Schedule"
 Retries
 
@@ -154,6 +164,8 @@ Lob does a great job of explaining and showing the retry schedule in their [webh
 
 Adding tips on troubleshooting failing endpoints and how to recover from endpoint failures helps users get unstuck to minimize frustrations when setting up webhooks.
 
+Copy/pastable example:
+
 ```text title="Troubleshooting Tips"
 There are some common reasons why your webhook endpoint is failing:
 
@@ -178,6 +190,8 @@ We will consider any message that fails to send a response within {timeout durat
 We suggest having your endpoint simply receive the message and add it to a queue to be processed asynchronously so you can respond promptly and avoiding getting timed out.
 ```
 
+Copy/pastable example for Failure Recovery:
+
 ```text title="Failure Recovery"
 Re-enable a disabled endpoint
 
@@ -191,11 +205,12 @@ If you want to replay a single event, you can find the message from the UI and c
 
 From there, click "resend" to have the same message send to your endpoint again.
 
-If you need to recover from a service outage and want to replay all the events since a given time, you can do so from the Endpoint page. On an endpoint's details page, click  \`Options > Recover Failed Messages\`.
+If you need to recover from a service outage and want to replay all the events since a given time, you can do so from the Endpoint page. On an endpoint's details page, click  "Options > Recover Failed Messages".
 
 From there, you can choose a time window to recover from.
 
 For a more granular recovery - for example, if you know the exact timestamp that you want to recover from - you can click the options menu on any message from the endpoint page.
+
 From there, you can click "Replay..." and choose to "Replay all failed messages since this time."
 ```
 
