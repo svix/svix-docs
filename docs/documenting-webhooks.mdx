@@ -3,40 +3,200 @@ title: Documenting Your Webhooks
 ---
 
 Once you're ready to launch your webhook feature, you'll need to add documentation.
-At Svix we consider our documentation as part of the product.
-We put a lot of effort into making sure our documentation makes it as easy as possible for our customers to send webhooks reliably at scale.
-By extension, this includes helping our customers write great docs too.
+At Svix we put a lot of effort into making it as easy as possible for our customers to send webhooks reliably at scale.
+By extension, this includes helping our customers write great docs.
 
-There are 5 main resources we provide to help your webhook docs be great:
+We recommend having 7 sections in your webhook docs: an intro, an explanation of available events and event types, instructions on how to add an endpoint, how to test endpoints, why and how to verify signatures, an explanation of the retry mechanism, and troubleshooting/failure recovery tips.
 
-1. Our [webhook verification docs](https://docs.svix.com/receiving/verifying-payloads/how).
+Here are some sample text and examples of each section to help you get started:
 
-This is the most common resource Svix users cite in their docs.
-It's an extensive explainer on how to use Svix libraries to verify webhook signatures.
-Some users will reference this to write their own version while other link to it directly (e.g. [Clerk](https://clerk.com/docs/integrations/webhooks/overview) and [incident.io](https://help.incident.io/en/articles/6984344-webhooks)).
+**The Intro**
 
-2. [Embeddable event catalog](https://docs.svix.com/event-types#publishing-your-event-catalog).
+The introduction to your webhook docs should give a brief explanation of what webhooks are and how to set them up.
 
-It's very helpful for users to have a comprehensive list of available events they can subscribe to.
-Since you've created all of your event types in Svix, we can generate a comprehensive catalog with schemas and examples for you.
+```text title="The Intro"
+Webhooks are how services notify each other of events.
 
-You can find the event catalog settings in your dashboard at [https://dashboard.svix.com/settings/organization/catalog](https://dashboard.svix.com/settings/organization/catalog)
+At their core they are just a POST request to a pre-determined endpoint.
+The endpoint can be whatever you want, and you can just add them from the UI.
+You normally use one endpoint per service, and that endpoint listens to all of the event types.
 
-3. [Svix Play](https://www.svix.com/play/).
+For example, if you receive webhooks from Acme Inc., you can structure your URL like: https://www.example.com/acme/webhooks/.
 
-Svix Play is a webhook tester and debugger.
-It provides an endpoint URL that users can send test events to in order to examine payloads, headers, etc. and get a general sense of how your webhooks work without needing to deploy their own endpoint.
+The way to indicate that a webhook has been processed is by returning a 2xx (status code 200-299) response to the webhook message within a reasonable time-frame (15s).
 
-4. Blog posts on [writing great webhook docs](https://www.svix.com/blog/documenting-webhooks/).
+It's also important to disable CSRF protection for this endpoint if the framework you use enables them by default.
 
-This blog post details the specific elements that great webhook docs need to have with some examples from Shopify, Stripe, and Svix's own documentation.
+Another important aspect of handling webhooks is to verify the signature and timestamp when processing them.
 
-We also reviewed several webhook services (e.g. Zoom, GitHub, Cloudinary) in a [blog series](https://www.svix.com/blog/tag/documentation/) if you're interested in seeing more examples.
+You can learn more about it in the signature verification section.
+```
 
-5. [Documentation template & generator](https://dashboard.svix.com/documentation/generator).
+Here is an example from Brex: [https://developer.brex.com/docs/webhooks/](https://developer.brex.com/docs/webhooks/)
 
-We also provide a documentation generator at [https://dashboard.svix.com/documentation/generator](https://dashboard.svix.com/documentation/generator).
-This is a full template that you can copy/paste directly or edit as you see fit.
+**Events and Event Types**
 
-If you use these resources to craft your webhook docs, we're sure your users will love your webhooks.
-If you'd like us to take a look at your docs before or after your launch, just reach out and we'd be happy to take a look.
+The core value of webhooks is to notify users when events happen, so its extremely important to document what events are available and provide schemas and payload examples.
+
+We make this very simple with our [Event Catalog](https://docs.svix.com/event-types#publishing-your-event-catalog) feature.
+
+You can take a look at [Move.ai's docs](https://developers.move.ai/docs/getting-started#webhooks) for an example of the event catalog.
+You can also preview your own event catalog in your Svix dashboard once you're added Event Types.
+
+**How to Add an Endpoint**
+
+After understanding what events they want to listen for, your users will need to specify an endpoint where they can receive the webhooks.
+
+```text title="Adding an Endpoint"
+In order to start listening to messages, you will need to configure your endpoints.
+
+Adding an endpoint is as simple as providing a URL that you control and selecting the event types that you want to listen to.
+
+If you don't specify any event types, by default, your endpoint will receive all events, regardless of type.
+
+This can be helpful for getting started and for testing, but we recommend changing this to a subset later on to avoid receiving extraneous messages.
+
+If your endpoint isn't quite ready to start receiving events, you can press the "with Svix Play" button to have a unique URL generated for you.
+
+You'll be able to view and inspect webhooks sent to your Svix Play URL, making it effortless to get started.
+```
+
+**How to Test Endpoints**
+
+Once a user specifies an endpoint, they'll want to test it to make sure its working correctly.
+
+The simplest way to do this is to send test messages to the endpoint under the "Testing" tab.
+
+```text title="Testing Endpoints"
+Once you've added an endpoint, you'll want to make sure its working.
+
+The "Testing" tab lets you send test events to your endpoint.
+
+After sending an example event, you can click into the message to view the message payload, all of the message attempts, and whether it succeeded or failed.
+```
+
+**Signature Verification**
+
+One of the most common ways that webhooks fail is a faulty signature verification mechanism.
+The endpoint rejects a webhook thinking its fraudulent when in reality, they simply did the verification incorrectly.
+
+We'll discuss common reasons for failed signature verification in the troubleshooting section.
+
+Here our goal is to clearly explain how and why to verify signatures and provide code samples that users can simply copy/paste to get a working endpoint.
+
+```text title="Verifying Signatures"
+Webhook signatures let you verify that webhook messages are actually sent by us and not a malicious actor.
+
+For a more detailed explanation, check out this article on [why you should verify webhooks](https://docs.svix.com/receiving/verifying-payloads/why).
+
+Our webhook partner Svix offers a set of useful libraries that make verifying webhooks very simple. Here is a an example using Javascript:
+```
+
+Javascript sample:
+
+```javascript text title="Javascript Code Sample"
+import { Webhook } from "svix";
+
+const secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
+
+// These were all sent from the server
+const headers = {
+"svix-id": "msg_p5jXN8AQM9LWM0D4loKWxJek",
+"svix-timestamp": "1614265330",
+"svix-signature": "v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE=",
+};
+const payload = '{"test": 2432232314}';
+
+const wh = new Webhook(secret);
+// Throws on error, returns the verified content on success
+const payload = wh.verify(payload, headers);
+
+For more instructions and examples of how to verify signatures, check out their [webhook verification documentation](https://docs.svix.com/receiving/verifying-payloads/how).
+```
+
+We also have some customers who simply link to our [webhook verification docs](https://docs.svix.com/receiving/verifying-payloads/how) directly (e.g. [Clerk](https://clerk.com/docs/integrations/webhooks/overview) and [incident.io](https://help.incident.io/en/articles/6984344-webhooks)) as they have code samples in 10 different languages.
+
+**Retries**
+
+Retries are one of the core features of Svix that make webhooks more reliable.
+You want to let your users know under what conditions failed messages will be retried and when.
+
+```text title="Retry Schedule"
+Retries
+
+We attempts to deliver each webhook message based on a retry schedule with exponential backoff.
+
+The schedule
+
+Each message is attempted based on the following schedule, where each period is started following the failure of the preceding attempt:
+
+-   Immediately
+-   5 seconds
+-   5 minutes
+-   30 minutes
+-   2 hours
+-   5 hours
+-   10 hours
+-   10 hours (in addition to the previous)
+
+If an endpoint is removed or disabled delivery attempts to the endpoint will be disabled as well.
+
+For example, an attempt that fails three times before eventually succeeding will be delivered roughly 35 minutes and 5 seconds following the first attempt.
+
+Manual retries
+
+You can also use the application portal to manually retry each message at any time, or automatically retry ("Recover") all failed messages starting from a given date.
+```
+
+Lob does a great job of explaining and showing the retry schedule in their [webhook docs](https://help.lob.com/print-and-mail/getting-data-and-results/using-webhooks#retry-policy-7).
+
+**Troubleshooting & Failure Recovery**
+
+Adding tips on troubleshooting failing endpoints and how to recover from endpoint failures helps usere get unstuck to minimize frustrations when setting up webhooks.
+
+```text title="Troubleshooting Tips"
+There are some common reasons why your webhook endpoint is failing:
+
+Not using the raw payload body
+
+This is the most common issue. When generating the signed content, we use the raw string body of the message payload.
+
+If you convert JSON payloads into strings using methods like stringify, different implementations may produce different string representations of the JSON object, which can lead to discrepancies when verifying the signature. It's crucial to verify the payload exactly as it was sent, byte-for-byte or string-for-string, to ensure accurate verification.
+
+Missing the secret key
+
+From time to time we see people simple using the wrong secret key. Remember that keys are unique to endpoints.
+
+Sending the wrong response codes
+
+When we receive a response with a 2xx status code, we interpret that as a successful delivery even if you indicate a failure in the response payload. Make sure to use the right response status codes so we know when message are supposed to succeed vs fail.
+
+Responses timing out
+
+We will consider any message that fails to send a response within {timeout duration} a failed message. If your endpoint is also processing complicated workflows, it may timeout and result in failed messages.
+
+We suggest having your endpoint simply receive the message and add it to a queue to be processed asynchronously so you can respond promptly and avoiding getting timed out.
+```
+
+```text title="Failure Recovery"
+Re-enable a disabled endpoint
+
+If all attempts to a specific endpoint fail for a period of 5 days, the endpoint will be disabled. To re-enable a disabled endpoint, go to the webhook dashboard, find the endpoint from the list and select "Enable Endpoint".
+
+Recovering/Resending failed messages
+
+If your service has downtime or if your endpoint was misconfigured, you probably want to recover any messages that failed during the downtime.
+
+If you want to replay a single event, you can find the message from the UI and click the options menu next to any of the attempts.
+
+From there, click "resend" to have the same message send to your endpoint again.
+
+If you need to recover from a service outage and want to replay all the events since a given time, you can do so from the Endpoint page. On an endpoint's details page, click  \`Options > Recover Failed Messages\`.
+
+From there, you can choose a time window to recover from.
+
+For a more granular recovery - for example, if you know the exact timestamp that you want to recover from - you can click the options menu on any message from the endpoint page.
+From there, you can click "Replay..." and choose to "Replay all failed messages since this time."
+```
+
+If you'd like us to take a look at your docs before or after your launch, just reach out and review them.
