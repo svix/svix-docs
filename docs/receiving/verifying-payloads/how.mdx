@@ -537,13 +537,17 @@ export const handler = async ({body, headers}) => {
 
 ### Node.js (Express)
 
+**Note:** When integrating this example into a larger codebase, you will have to
+make sure not to apply the `express.json()` middleware to the webhook route,
+because the payload has to be passed to `wh.verify` without any prior parsing.
+
 ```js
 import { Webhook } from "svix";
 import bodyParser from "body-parser";
 
 const secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
 
-app.post('/webhook', bodyParser.raw({type: 'application/json'}), (req, res) => {
+app.post('/webhook', bodyParser.raw({ type: 'application/json' }), (req, res) => {
     const payload = req.body;
     const headers = req.headers;
 
@@ -559,55 +563,6 @@ app.post('/webhook', bodyParser.raw({type: 'application/json'}), (req, res) => {
 
     res.json({});
 });
-```
-
-### Node.js (Fastify)
-
-```js
-// routes/webhooks.ts
-import { FastifyInstance } from "fastify";
-import { Webhook } from "svix";
-
-export async function routes(fastify: FastifyInstance) {
-    fastify.post('/webhooks', {
-        handler: async (request, reply) => {
-            const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET as string;
-
-            // Get the headers and body
-            const headers = request.headers;
-            const payload = request.body;
-
-            // Get the Svix headers for verification
-            const svix_id = headers["svix-id"] as string;
-            const svix_timestamp = headers["svix-timestamp"] as string;
-            const svix_signature = headers["svix-signature"] as string;
-
-            // If there are no Svix headers, error out
-            if (!svix_id || !svix_timestamp || !svix_signature) {
-                return new Response("Error occurred -- no svix headers", {
-                    status: 400,
-                });
-            }
-
-            const wh = new Webhook(WEBHOOK_SECRET);
-            let msg;
-
-            try {
-                msg = wh.verify(JSON.stringify(payload), {
-                    "svix-id": svix_id,
-                    "svix-timestamp": svix_timestamp,
-                    "svix-signature": svix_signature,
-                });
-            } catch (err: any) {
-                return reply.code(400).send(`Webhook Error: ${err.message}`)
-            }
-
-            // Do something with the message...
-
-            return reply.send({ received: true })
-        },
-    })
-}
 ```
 
 ### Node.js (NestJS)
