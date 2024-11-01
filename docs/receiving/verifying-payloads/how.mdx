@@ -537,6 +537,10 @@ export const handler = async ({body, headers}) => {
 
 ### Node.js (Express)
 
+**Note:** When integrating this example into a larger codebase, you will have to
+make sure not to apply the `express.json()` middleware to the webhook route,
+because the payload has to be passed to `wh.verify` without any prior parsing.
+
 ```js
 import { Webhook } from "svix";
 import bodyParser from "body-parser";
