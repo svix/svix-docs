@@ -49,7 +49,7 @@ You can also preview your own event catalog in your Svix dashboard once you're a
 
 After understanding what events they want to listen for, your users will need to specify an endpoint where they can receive the webhooks.
 
-Copy/pastable example:
+Sample text:
 
 ```text title="Adding an Endpoint"
 In order to start listening to messages, you will need to configure your endpoints.
@@ -71,7 +71,7 @@ Once a user specifies an endpoint, they'll want to test it to make sure its work
 
 The simplest way to do this is to send test messages to the endpoint under the "Testing" tab.
 
-Copy/pastable example:
+Sample text:
 
 ```text title="Testing Endpoints"
 Once you've added an endpoint, you'll want to make sure its working.
@@ -90,7 +90,7 @@ We'll discuss common reasons for failed signature verification in the troublesho
 
 Here our goal is to clearly explain how and why to verify signatures and provide code samples that users can simply copy/paste to get a working endpoint.
 
-Copy/pastable example:
+Sample text:
 
 ```text title="Verifying Signatures"
 Webhook signatures let you verify that webhook messages are actually sent by us and not a malicious actor.
@@ -129,7 +129,7 @@ We also have some customers who simply link to our [webhook verification docs](h
 Retries are one of the core features of Svix that make webhooks more reliable.
 You want to let your users know under what conditions failed messages will be retried and when.
 
-Copy/pastable example:
+Sample text:
 
 ```text title="Retry Schedule"
 Retries
@@ -164,7 +164,7 @@ Lob does a great job of explaining and showing the retry schedule in their [webh
 
 Adding tips on troubleshooting failing endpoints and how to recover from endpoint failures helps users get unstuck to minimize frustrations when setting up webhooks.
 
-Copy/pastable example:
+Sample text:
 
 ```text title="Troubleshooting Tips"
 There are some common reasons why your webhook endpoint is failing:
@@ -190,7 +190,7 @@ We will consider any message that fails to send a response within {timeout durat
 We suggest having your endpoint simply receive the message and add it to a queue to be processed asynchronously so you can respond promptly and avoiding getting timed out.
 ```
 
-Copy/pastable example for Failure Recovery:
+Sample text for Failure Recovery:
 
 ```text title="Failure Recovery"
 Re-enable a disabled endpoint
