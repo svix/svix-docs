@@ -721,7 +721,7 @@ pub async fn webhook_in(headers: HeaderMap, body: Bytes) -> StatusCode {
         return StatusCode::INTERNAL_SERVER_ERROR;
     }
 
-    if let Err(_) = wh.verify(body, headers) {
+    if let Err(_) = wh.verify(&body, &headers) {
         return StatusCode::BAD_REQUEST;
     }
 
