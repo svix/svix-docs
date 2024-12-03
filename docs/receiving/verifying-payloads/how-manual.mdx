@@ -73,3 +73,20 @@ Please note that to compare the signatures it's recommended to use a constant-ti
 ### Verify timestamp
 
 As mentioned above, Svix also sends the timestamp of the attempt in the `svix-timestamp` header. You should compare this timestamp against your system timestamp and make sure it's within your tolerance in order to prevent timestamp attacks.
+
+
+### Example signatures
+
+Here is an example you can use to verify you implemented everything correctly. Please note that this may fail verification due to the timestamp being old.
+
+```javascript
+secret = 'whsec_plJ3nmyCDGBKInavdOK15jsl';
+payload = '{"event_type":"ping","data":{"success":true}}';
+msg_id = 'msg_loFOjxBNrRLzqYUf';
+timestamp = '1731705121';
+
+// Would generate the following signature:
+signature = 'whsec_plJ3nmyCDGBKInavdOK15jsl';
+```
+
+Additionally, you can use the [webhook simulation tool](https://www.standardwebhooks.com/simulate) to generate as many examples as you need.
