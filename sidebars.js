@@ -40,6 +40,9 @@ module.exports = {
       ],
     },
     {
+      "Using Ingest":  ["receiving/receiving-with-ingest"]
+    },
+    {
       "Verifying Webhooks": [
         "receiving/verifying-payloads/why",
         "receiving/verifying-payloads/how",
