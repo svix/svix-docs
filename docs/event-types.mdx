@@ -197,7 +197,194 @@ Additionally, since the payload is fully controlled by our customers (you), it's
 
 We do however love schemas and think they are super important, so we plan on adding an automatic SDK generator that will have type checked and validated schemas for you client side, so that bad schemas will fail at compile time, not run time!
 
-## Bulk creating event types
+
+## Import event types from an OpenAPI specification
+
+The [OpenAPI specification](https://www.openapis.org/) is a formal standard for describing HTTP APIs. Some people write these by hand, and some automatically generate these from the web framework of their choice.
+
+If you already have an OpenAPI specification, you can upload it to Svix which will automatically create event types for you based on the [`webhooks`](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#fixed-fields) section (or `x-webhooks` for OpenAPI 3.0).
+
+In addition to the standard features supported by the OpenAPI spec, Svix also supports a couple of extensions: `x-svix-feature-flag` and `x-svix-group-name` which let you set the [feature flag](#event-type-feature-flags) and group name on the event type respectively as follows:
+
+```json
+"webhooks": {
+  "pet.new": {
+    "post": {
+      "operationId": "pet.new",
+      "x-svix-feature-flag": "beta-feature-a",
+      "x-svix-group-name": "group-name-1",
+      "requestBody": {
+        ...
+      }
+    }
+  }
+}
+```
+
+If your API spec has a `webhooks` section (or `x-webhooks`) you can continue to the next sections to learn how to upload it. If you need help with adding the `webhooks` section to your OpenAPI spec, please refer to the [Generating an OpenAPI spec section](#generating-an-openapi-spec).
+
+
+
+### From the dashboard
+
+Your first option for uploading your OpenAPI spec is by uploading it from the Svix dashboard. Once uploaded you'll be faced with this preview which will give you the opportunity to review the added event types before saving them.
+
+
+![event-type-openapi](./img/event-type-openapi.png)
+
+The event description, schema and examples will be used to create the Svix event type, using the `path id` as the event type name.
+If you use choose the name of an already existing event type, it will be updated with the new values.
+
+### Using the API
+
+The API includes an endpoint which helps keep your [event-types in sync with a JSON OpenAPI Spec](https://api.svix.com/docs#tag/Event-Type/operation/v1.event-type.import-openapi).
+Event types and their schemas are generated from `webhooks` or `x-webhooks` top-level key of the spec, just like with the UI importer.
+
+When the event type already exists, it'll be updated with the latest description and schema, otherwise a new event type will be created.
+
+
+<CodeTabs>
+
+<TabItem value="js">
+
+```js
+
+const spec = loadOpenapiFromFile("openapi.json");
+await svix.eventType.importOpenApi({ spec });
+
+```
+
+</TabItem>
+
+<TabItem value="py">
+
+```python
+
+spec = load_openapi_from_file("openapi.json")
+svix.event_type.import_openapi(EventTypeImportOpenApiIn(spec=spec))
+
+```
+
+</TabItem>
+
+
+<TabItem value="rust">
+
+```rust
+
+let spec = load_openapi_from_file("openapi.json")?;
+let _ = svix
+    .event_type()
+    .import_openapi(EventTypeImportOpenApiIn { spec }, None)
+    .await?;
+
+```
+
+</TabItem>
+
+<TabItem value="go">
+
+```go
+
+spec := loadOpenapiFromFile("openapi.json")
+svixClient.EventType.ImportOpenApi(context.Background(), svix.EventTypeImportOpenApiIn{
+    Spec: spec,
+})
+
+```
+
+</TabItem>
+
+<TabItem value="java">
+
+```java
+
+Map<String, Object> spec = MySpecReader.loadOpenapiFromFile("openapi.json");
+svix.getEventType().importOpenApi(new EventTypeImportOpenApiIn().spec(spec));
+
+```
+
+</TabItem>
+
+<TabItem value="kotlin">
+
+```kotlin
+
+var spec = load_openapi_from_file("openapi.json")
+var eventTypeImportOpenApiOut = await svix.EventType.ImportOpenapiAsync(
+    new EventTypeImportOpenApiIn{spec: spec}
+)
+
+```
+
+</TabItem>
+
+<TabItem value="ruby">
+
+```ruby
+
+spec = load_openapi_from_file("openapi.json")
+event_type_import_open_api_out = svix.event_type.import_openapi(Svix::EventTypeImportOpenApiIn.new(spec))
+
+```
+
+</TabItem>
+
+<TabItem value="csharp">
+
+```csharp
+
+var spec = loadOpenapiFromFile("openapi.json")
+var eventTypeImportOpenApiOut = await svix.EventType.ImportOpenapiAsync(
+    new EventTypeImportOpenApiIn{
+        spec: spec
+    }
+)
+
+```
+
+</TabItem>
+
+<TabItem value="cli">
+
+```shell
+# TBD
+```
+
+</TabItem>
+
+<TabItem value="curl">
+
+```shell
+
+export SVIX_AUTH_TOKEN='AUTH_TOKEN'
+
+curl -X POST "https://api.svix.com/api/v1/event-type/import/openapi/" \
+-H  "Accept: application/json" \
+-H  "Content-Type: application/json" \
+-H  "Authorization: Bearer ${SVIX_AUTH_TOKEN}" \
+-d '{"spec":' $(cat path/to/openapi.json) '}'
+
+```
+
+</TabItem>
+</CodeTabs>
+
+### Using the Github Action
+
+Svix also provides a [Github Action](https://github.com/svix/svix-event-type-import-action) to upload your OpenAPI spec and automatically create or update your event types as part of your CI/CD pipeline.
+
+```yaml
+- name: Upload Event Types to Svix
+  uses: svix/svix-event-type-import-action@v1.0.0
+  with:
+    openapi-file: 'path/to/your/openapi-spec.yml' # can be a .json too
+    svix-api-key: ${{ secrets.SVIX_API_KEY }}
+```
+
+
+
+## Bulk creating event types from code
 
 The easiest way to bulk-create event types is by just writing a simple script to load a [pipe delimited `CSV`](https://en.wikipedia.org/wiki/Comma-separated_values) file or a `JSON` file with the event types and make the API requests.
 
@@ -468,219 +655,6 @@ done < data.csv
 
 </TabItem>
 </CodeTabs>
-
-### Upload OpenAPI specification
-
-#### From the UI
-
-If you already have an OpenAPI specification, you can automatically create event types by uploading your API file to Svix.
-This is an easy way to reuse the existing schemas defined in your API to keep your event types up to date.
-
-When you upload your OpenAPI JSON file in the dashboard, we'll read the [`webhooks`](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#fixed-fields) field (or `x-webhooks` for OpenAPI 3.0)
-and give you the option to create event types ([with their schemas](/event-types#event-type-schema)) based on the `body` of your webhooks.
-
-![event-type-openapi](./img/event-type-openapi.png)
-
-The event description, schema and examples will be used to create the Svix event type, using the `path id` as the event type name.
-If you use choose the name of an already existing event type, it will be updated with the new values.
-
-Here's an example of how a `pet.new` event type should look like in your OpenAPI file:
-```json
-"webhooks": {
-  "pet.new": {
-    "post": {
-      "operationId": "pet.new",
-      "description": "A new pet has been added",
-      "requestBody": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string"
-                },
-                "tag": {
-                  "type": "integer"
-                }
-              }
-            },
-            "example": {
-              "name": "Buddy",
-              "tag": 1234
-            }
-          }
-        }
-      }
-    }
-  }
-}
-```
-
-You can also add the `x-svix-feature-flag` and `x-svix-group-name` fields to set the [feature flag](#event-type-feature-flags) and group name on the event type.
-```json
-"webhooks": {
-  "pet.new": {
-    "post": {
-      "operationId": "pet.new",
-      "x-svix-feature-flag": "beta-feature-a",
-      "x-svix-group-name": "group-name-1",
-      "requestBody": {
-        ...
-      }
-    }
-  }
-}
-```
-
-
-#### Using the API
-
-The API includes an endpoint which helps keep your [event-types in sync with a JSON OpenAPI Spec](https://api.svix.com/docs#tag/Event-Type/operation/v1.event-type.import-openapi).
-Event types and their schemas are generated from `webhooks` or `x-webhooks` top-level key of the spec, just like with the UI importer.
-
-When the event type already exists, it'll be updated with the latest description and schema, otherwise a new event type will be created.
-
-
-<CodeTabs>
-
-<TabItem value="js">
-
-```js
-
-const spec = loadOpenapiFromFile("openapi.json");
-await svix.eventType.importOpenApi({ spec });
-
-```
-
-</TabItem>
-
-<TabItem value="py">
-
-```python
-
-spec = load_openapi_from_file("openapi.json")
-svix.event_type.import_openapi(EventTypeImportOpenApiIn(spec=spec))
-
-```
-
-</TabItem>
-
-
-<TabItem value="rust">
-
-```rust
-
-let spec = load_openapi_from_file("openapi.json")?;
-let _ = svix
-    .event_type()
-    .import_openapi(EventTypeImportOpenApiIn { spec }, None)
-    .await?;
-
-```
-
-</TabItem>
-
-<TabItem value="go">
-
-```go
-
-spec := loadOpenapiFromFile("openapi.json")
-svixClient.EventType.ImportOpenApi(context.Background(), svix.EventTypeImportOpenApiIn{
-    Spec: spec,
-})
-
-```
-
-</TabItem>
-
-<TabItem value="java">
-
-```java
-
-Map<String, Object> spec = MySpecReader.loadOpenapiFromFile("openapi.json");
-svix.getEventType().importOpenApi(new EventTypeImportOpenApiIn().spec(spec));
-
-```
-
-</TabItem>
-
-<TabItem value="kotlin">
-
-```kotlin
-
-var spec = load_openapi_from_file("openapi.json")
-var eventTypeImportOpenApiOut = await svix.EventType.ImportOpenapiAsync(
-    new EventTypeImportOpenApiIn{spec: spec}
-)
-
-```
-
-</TabItem>
-
-<TabItem value="ruby">
-
-```ruby
-
-spec = load_openapi_from_file("openapi.json")
-event_type_import_open_api_out = svix.event_type.import_openapi(Svix::EventTypeImportOpenApiIn.new(spec))
-
-```
-
-</TabItem>
-
-<TabItem value="csharp">
-
-```csharp
-
-var spec = loadOpenapiFromFile("openapi.json")
-var eventTypeImportOpenApiOut = await svix.EventType.ImportOpenapiAsync(
-    new EventTypeImportOpenApiIn{
-        spec: spec
-    }
-)
-
-```
-
-</TabItem>
-
-<TabItem value="cli">
-
-```shell
-# TBD
-```
-
-</TabItem>
-
-<TabItem value="curl">
-
-```shell
-
-export SVIX_AUTH_TOKEN='AUTH_TOKEN'
-
-curl -X POST "https://api.svix.com/api/v1/event-type/import/openapi/" \
--H  "Accept: application/json" \
--H  "Content-Type: application/json" \
--H  "Authorization: Bearer ${SVIX_AUTH_TOKEN}" \
--d '{"spec":' $(cat path/to/openapi.json) '}'
-
-```
-
-</TabItem>
-</CodeTabs>
-
-#### Using the Github Action
-
-Svix also provides a [Github Action](https://github.com/svix/svix-event-type-import-action) to upload your OpenAPI spec and automatically create or update your event types as part of your CI/CD pipeline.
-
-```yaml
-- name: Upload Event Types to Svix
-  uses: svix/svix-event-type-import-action@v1.0.0
-  with:
-    openapi-file: 'path/to/your/openapi-spec.yml' # can be a .json too
-    svix-api-key: ${{ secrets.SVIX_API_KEY }}
-```
-
 
 ## Publishing your Event Catalog
 
@@ -1107,3 +1081,98 @@ curl -X POST "https://api.svix.com/api/v1/event-type/user.signup/" \
 Keep in mind that endpoints with no event type filtering will receive all messages regardless of feature flags. Also, users with knowledge of a feature flag-gated event type can subscribe to that event type regardless of feature flags.
 Feature flags only impact event types' visibility in the catalog and the API, not their deliverability.
 :::
+
+## Appendix
+
+### Generating an OpenAPI spec
+
+While most web frameworks support generating OpenAPI specs, not all of them support generating the new `webhooks` section (added in OpenAPI 3.1).
+
+If your framework of choice already support webhooks you are probably good to go, just make sure that it generates it correctly. Here's an example of how a `pet.new` event type should look like in your OpenAPI file:
+
+```json
+"webhooks": {
+  "pet.new": {
+    "post": {
+      "operationId": "pet.new",
+      "description": "A new pet has been added",
+      "x-svix-feature-flag": "beta-feature-a",  // Optional field
+      "x-svix-group-name": "group-name-1",  // Optional field
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "tag": {
+                  "type": "integer"
+                }
+              }
+            },
+            "example": {
+              "name": "Buddy",
+              "tag": 1234
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+If your framework doesn't support generating a `webhooks` section, or if your webhooks section is not generated correctly, you can resort to generating the section yourself using a simple post-processing script that adds the `webhooks` section to your spec.
+
+One alternative is to write the section manually and then have code to inject it into the OpenAPI spec. A better alternative is to use your web framework's auto-generation to do some of the heavy lifting for you.
+
+You can make your web framework generate the types for you by creating a dummy model that includes all of your submodels. Here is a Python example:
+
+```python
+class PetNewEvent(pydantic.BaseModel):
+    """A new pet has been added"""
+
+    event_type = "pet.new"
+    foo: str
+    bar: str
+
+...
+
+class WebhookTypes(BaseModel):
+    """All of the webhook types that we support"""
+
+    a1: PetNewEvent
+    a2: PetChangedEvent
+    a3: PetDeletedEvent
+```
+
+This will generate the schemas for all of your event types. Once you have those, you can write a script to generate the `webhooks` for you, or you can generate it manually. The result should look something like this:
+
+
+```json
+"webhooks": {
+  "pet.new": {
+    "post": {
+      "operationId": "pet.new",
+      "description": "A new pet has been added",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PetNewEvent"
+            },
+            "example": {
+              "event_type": "pet.new",
+              "foo": "Example 1",
+              "bar": "Example 2",
+            }
+          }
+        }
+      }
+    }
+  }
+  // ...
+}
+```
