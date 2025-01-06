@@ -8,7 +8,6 @@ Polling Endpoints are a way for your users to get a stream of events by polling 
 
 Polling Endpoints can be enabled at the environment level in the [Svix Dashboard](https://dashboard.svix.com/settings/organization/general-settings). 
 
-
 ![Enable Polling Endpoints](./img/polling-endpoint-setting.png)
 
 
@@ -18,12 +17,11 @@ When you enable Polling Endpoints, your users will be able to create them in the
 ![Polling Endpoint Create](./img/polling-endpoint-create.png)
 
 ## Usage
-Like with webhook endpoints, polling endpoints support filtering messages by [event types](/event-types) and [channels](/channels).
+Like with webhook endpoints, Polling Endpoints support filtering messages by [event types](/event-types) and [channels](/channels).
 
-In the App Portal, event consumers will be able to generate (and rotate) API keys for the polling endpoint, 
-and get a unique URL to iterate through the full list of events since the endpoint was created.
+In the App Portal, event consumers will get a unique URL and an API key to iterate through the full list of events sent to their [Svix Application](/overview#consumer-applications) since the endpoint was created.
 
-When consumers create a polling endpoint, they will get a unique URL like `https://api.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q`
+When creating a Polling Endpoint, consumers will get a unique URL like `https://api.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q`
 
 When first calling the endpoint, it will return an empty array and an iterator.
 
@@ -35,7 +33,7 @@ When first calling the endpoint, it will return an empty array and an iterator.
 }
 ```
 
-Then, using the iterator in the next call, they can get all messages sent to their [Svix Application](/overview#consumer-applications) since the endpoint was created.
+Then, using the iterator in the next call, they can iterate through the events and poll for new ones.
 
 ```bash
 curl \
@@ -47,6 +45,5 @@ curl \
 
 Messages will be returned in the order they were sent to Svix.
 
-Polling endpoints can be used in parallel with regular Svix webhooks, and you don't need to make any changes to how you [create messages](/quickstart#send-a-message).
-
+Polling Endpoints can be used in parallel with regular Svix webhooks, and you don't need to make any changes to how you [create messages](/quickstart#send-a-message).
 
