@@ -3,7 +3,7 @@ module.exports = {
     {
       Introduction: ["introduction", "setup", "quickstart", "overview", "common-usage-examples", "consuming-webhooks"],
       Basics: ["event-types", "app-portal", "api-keys", "documenting-webhooks"],
-      Advanced: ["incoming-webhooks", "sending-messages-with-bridge", "idempotency", "channels", "rate-limit", "retries", "retention", "transformations", "connectors", "security"],
+      Advanced: ["incoming-webhooks", "sending-messages-with-bridge", "idempotency", "channels", "rate-limit", "retries", "retention", "transformations", "polling-endpoints", "connectors", "security"],
       "Manage Your Account": ["account/environments", "account/org-members"],
     },
     {
@@ -40,7 +40,7 @@ module.exports = {
       ],
     },
     {
-      "Using Ingest":  ["receiving/receiving-with-ingest"]
+      "Using Ingest": ["receiving/receiving-with-ingest"]
     },
     {
       "Verifying Webhooks": [
