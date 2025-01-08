@@ -36,7 +36,11 @@ module.exports = {
         "receiving/using-app-portal/adding-endpoints",
         "receiving/using-app-portal/testing-events",
         "receiving/using-app-portal/filtering-logs",
-        "receiving/using-app-portal/replaying-messages",
+        "receiving/using-app-portal/replaying-messages"
+      ],
+    },
+    {
+      "Using Polling Endpoints": [
         "receiving/using-app-portal/polling-endpoints",
       ],
     },

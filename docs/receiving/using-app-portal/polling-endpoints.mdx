@@ -15,11 +15,11 @@ As with [regular webhook endpoints](/receiving/using-app-portal/adding-endpoints
 
 Once you've created a Polling Endpoint, you'll get a unique URL like `https://api.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q`.
 
-You can call this endpoint directly once you have an API key (see [API Keys](/receiving/using-app-portal/polling-endpoints#api-keys)).
+You can call this endpoint directly once you have an [API key](/receiving/using-app-portal/polling-endpoints#api-keys).
 
 ```bash
 curl \
-  -X GET "https://api.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q" \
+  "https://api.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q" \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json' \
   -H 'Authorization: Bearer sk_poll_*****.eu'
@@ -45,20 +45,49 @@ curl \
   -H 'Authorization: Bearer sk_poll_*****.eu'
 ```
 
+An example response might look like this:
+
+```json
+{
+  "data": [
+    {
+      "id": "ev_1234567890",
+      "type": "invoice.created",
+      "created_at": 1715289600
+    },
+    {
+      "id": "ev_1234567891",
+      "type": "invoice.updated",
+      "created_at": 1715289601
+    }
+  ],
+  "iterator": "aHR0cHM6Ly9hcGkuc3ZpeC5jb20vYXBpL3YxL2FwcC9hcHBfMm1HNkRnVWE=",
+  "done": false
+}
+```
+
 ### API Keys
 
 To call the Polling Endpoint, you'll need to create an endpoint-specific API key.
 
 
-<div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginBottom: '2rem' }}>
+<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginBottom: '2rem' }}>
+<div style={{ width: '35%' }}>
   <img
     src={require('../../img/polling-endpoint-details-create-key.png').default}
     alt="Polling Endpoint Create API Key"
-    style={{ width: '50%', objectFit: 'contain' }}
+    style={{ objectFit: 'contain', boxShadow: '0 0' }}
   />
 </div>
+  <div style={{ width: '60%' }}>
+  <img
+    src={require('../../img/polling-endpoint-create-key.png').default}
+    alt="Polling Endpoint Create API Key"
+    style={{ objectFit: 'contain', boxShadow: '0 0' }}
+  />
+  </div>
+</div>
 
-![Polling Endpoint API Key](../../img/polling-endpoint-create-key.png)
 
 API keys are scoped exclusively to the endpoint they were created for, and they can be expired or rotated at any time.
 
