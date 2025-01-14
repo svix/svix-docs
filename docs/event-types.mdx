@@ -15,7 +15,7 @@ Event types are just a string, for example: `user.signup`, `invoice.paid` and `w
 Webhook consumers can choose which events are sent to which endpoint. By default, all messages are sent to all endpoints. Though when adding or editing endpoints, users can choose to only subscribe to some of the event types for this particular endpoint.
 
 :::tip Bulk Create
-It's recommended to add the event types you are going to use ahead of time. You can do it using the scripts in the [bulk creating event types section](#bulk-creating-event-types).
+It's recommended to add the event types you are going to use ahead of time. You can do it by [importing them from an OpenAPI spec](#import-event-types-from-an-openapi-specification) or [bulk creating them from code](#bulk-creating-event-types-from-code).
 :::
 
 ## What your users will see
