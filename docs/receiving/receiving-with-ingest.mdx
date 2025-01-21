@@ -27,7 +27,9 @@ webhook providers. Supported values for a `Source`'s `type` include:
 - `resend`
 - `safebase`
 - `sardine`
+- `segment`
 - `shopify`
+- `slack`
 - `stripe`
 - `stych`
 - `svix` (that's us!)
@@ -45,7 +47,11 @@ Let us know if your webhook provider isn't yet supported so we can add it!
 
 ## Create a Source
 
-Creating a `Source` can be done from either the API:
+Creating a `Source` from the [Ingest Dashboard]:
+
+![screenshot of the Ingest Dashboard showing the overview tab for a Source named "demo"](../../static/img/ingest/source-edit.png)
+
+or through the API:
 
 ```shell
 curl https://api.svix.com/ingest/api/v1/source \
@@ -63,18 +69,13 @@ curl https://api.svix.com/ingest/api/v1/source \
 EOF
 ```
 
-or from the [Ingest Dashboard]:
-
-![screenshot of the Ingest Dashboard showing the overview tab for a Source named "demo"](../../static/img/ingest/source-edit.png)
-
-
 ## Tell your provider where to send webhooks
+
+The Ingest URL is also listed on the [Ingest Dashboard] for each `Source`.
 
 The `IngestSourceOut` response from the API will include an `ingestUrl` which is
 the endpoint you give to your provider, telling them where to send their
 webhooks.
-
-The Ingest URL is also listed on the [Ingest Dashboard] for each `Source`.
 
 For GitHub, as is used in this example, this is referred to as the
 _"Payload URL"_.
@@ -101,6 +102,10 @@ recover messages.
 The last portion of the Ingest URL is a `Token` which can be
 invalidated and rotated:
 
+![screenshot of the Ingest Dashboard showing the overview tab for a Source named "demo"](../../static/img/ingest/url-token-rotate.png)
+
+or through the API:
+
 ```shell
 curl https://api.svix.com/ingest/api/v1/source/src_xxxxx/token/rotate \
   -H "Authorization: Bearer $SVIX_TOKEN" \
@@ -112,10 +117,6 @@ curl https://api.svix.com/ingest/api/v1/source/src_xxxxx/token/rotate \
 old and new `Token`s are honored by Ingest. During this period it's important
 that you reconfigure your provider with the new Ingest URL in order to have a
 seamless transition.
-
-:::note
-Token rotation for Sources can only be configured via the API.
-:::
 
 
 ## Transformations Support
