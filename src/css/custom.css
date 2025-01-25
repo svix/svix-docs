@@ -81,8 +81,15 @@ html[data-theme=dark] .header-github-link:before {
   justify-content: center;
   border-radius: 0.375rem;
   border-style: solid;
-  margin-left: 1rem;
+  border-color: #2C70FF;
   background-color: #2C70FF;
+  margin-left: 1rem;
+  color: #ffffff;
+}
+
+.cta:hover {
+  background-color: #1e4baa;
+  border-color: #1e4baa;
   color: #ffffff;
 }
 /* } */
