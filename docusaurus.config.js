@@ -108,10 +108,8 @@ module.exports = {
       },
     ],
     [
-      "@cmfcmf/docusaurus-search-local",
+      require.resolve('docusaurus-lunr-search'),
       {
-        indexBlog: false,
-        indexPages: false,
       },
     ],
   ],
@@ -119,5 +117,12 @@ module.exports = {
     src: "/js/r2b2.js",
     async: true,
     defer: true,
-  }]
+  }],
+  markdown: {
+    mdx1Compat: {
+      comments: false,
+      admonitions: false,
+      headingIds: false,
+    },
+  }
 };
