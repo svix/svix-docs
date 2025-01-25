@@ -108,10 +108,8 @@ module.exports = {
       },
     ],
     [
-      "@cmfcmf/docusaurus-search-local",
+      require.resolve('docusaurus-lunr-search'),
       {
-        indexBlog: false,
-        indexPages: false,
       },
     ],
   ],

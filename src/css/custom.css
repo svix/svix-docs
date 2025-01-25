@@ -33,11 +33,6 @@
   }
 }
 
-/* Fix search box not fitting inside the navbar */
-nav .aa-DetachedSearchButton {
-  height: 36px !important;
-}
-
 /* Better sidebar { */
 .menu a:not([href]).menu__link {
   margin-top: 1.5rem;
