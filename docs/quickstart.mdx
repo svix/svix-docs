@@ -163,7 +163,7 @@ curl -X POST "https://api.svix.com/api/v1/app/" \
 We will now send a new message using the [create message API endpoint](https://api.svix.com/docs#operation/create_message_api_v1_app__app_id__msg__post). It accepts an `app_id`, which is the application's ID (or custom `uid`) from the previous section. In addition, it accepts the following fields (as part the json body):
 
 - [`eventType`](event-types.mdx): an identifier denoting the type of the event. E.g. `invoice.paid`.
-- `eventId`: an optional unique ID for the event. This is useful if you want to map each message to unique events on your system.
+- `eventId`: an optional unique ID for the event (unique per app). This is useful if you want to map each message to unique events on your system.
 - `payload`: a JSON dictionary that can hold anything. Its content will be sent as the webhook content.
 
 For example, the following code sends a webhook of type `eventType`, with the contents of `payload` as the body:
