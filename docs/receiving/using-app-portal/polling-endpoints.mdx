@@ -20,7 +20,6 @@ You can call this endpoint directly once you have an [API key](/receiving/using-
 ```bash
 curl \
   "https://api.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q" \
-  -H 'Content-Type: application/json' \
   -H 'Accept: application/json' \
   -H 'Authorization: Bearer sk_poll_*****.eu'
 ```
@@ -40,7 +39,6 @@ Then, using the iterator in the next call, you can iterate through the events an
 ```bash
 curl \
   -X GET "https://api.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q?iterator=eyJv..." \
-  -H 'Content-Type: application/json' \
   -H 'Accept: application/json' \
   -H 'Authorization: Bearer sk_poll_*****.eu'
 ```
