@@ -14,7 +14,7 @@ Event types are just a string, for example: `user.signup`, `invoice.paid` and `w
 
 Webhook consumers can choose which events are sent to which endpoint. By default, all messages are sent to all endpoints. Though when adding or editing endpoints, users can choose to only subscribe to some of the event types for this particular endpoint.
 
-:::tip Bulk Create
+:::tip[Bulk Create]
 It's recommended to add the event types you are going to use ahead of time. You can do it by [importing them from an OpenAPI spec](#import-event-types-from-an-openapi-specification) or [bulk creating them from code](#bulk-creating-event-types-from-code).
 :::
 
@@ -32,7 +32,7 @@ Event types have a pattern defined a `^[a-zA-Z0-9\\-_.]+$`, meaning it can conta
 - 0 through 9
 - Special characters: `-`, `_`, `.`
 
-:::tip Style guide
+:::tip[Style guide]
 We recommend you use period-delimited event type names (e.g. `<group>.<event>`). If you do, the App Portal UI will logically group them for your users and make it easier for them to subscribe an endpoint to all events in a particular group of event types.
 :::
 
@@ -1077,7 +1077,7 @@ curl -X POST "https://api.svix.com/api/v1/event-type/user.signup/" \
 </TabItem>
 </CodeTabs>
 
-:::info Important
+:::info[Important]
 Keep in mind that endpoints with no event type filtering will receive all messages regardless of feature flags. Also, users with knowledge of a feature flag-gated event type can subscribe to that event type regardless of feature flags.
 Feature flags only impact event types' visibility in the catalog and the API, not their deliverability.
 :::
