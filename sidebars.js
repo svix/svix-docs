@@ -17,8 +17,10 @@ module.exports = {
       ],
     },
     {
+      "Svix Play": ["play"]
+    },
+    {
       "Additional links": [
-        "play",
         "get-help",
         {
           type: "link",

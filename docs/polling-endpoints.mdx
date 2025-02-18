@@ -4,6 +4,14 @@ title: Polling Endpoints
 
 Polling Endpoints are a way for your users to get a stream of events by polling instead of listening to webhooks.
 
+## When is polling better?
+
+There are a few examples where polling for events works better than webhooks.
+
+One example is when testing webhooks locally. It's much easier to poll for events than exposing a public HTTP endpoint (even with tools like [Svix Play](/play) or [ngrok](/integrations/ngrok)).
+
+Another example is when your users don't care about getting events in real-time and prefer getting them all at once at the end of a day. One place where this use-case comes up, is when your users need to store all events for compliance reasons. In that case batching and saving them all at once is easier and more cost efficient for them.
+
 ## Enabling Polling Endpoints
 
 Polling Endpoints can be enabled at the environment level in the [Svix Dashboard](https://dashboard.svix.com/settings/organization/general-settings). 
