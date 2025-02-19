@@ -34,6 +34,8 @@ webhook providers. Supported values for a `Source`'s `type` include:
 - `stych`
 - `svix` (that's us!)
 - `zoom`
+- `adobeSign`
+- `docusign`
 
 Additionally there's the option to configure a `Source` as `genericWebhook` to
 skip performing signature verification. This is useful for providers that have
@@ -50,24 +52,6 @@ Let us know if your webhook provider isn't yet supported so we can add it!
 Creating a `Source` from the [Ingest Dashboard]:
 
 ![screenshot of the Ingest Dashboard showing the overview tab for a Source named "demo"](../../static/img/ingest/source-edit.png)
-
-or through the API:
-
-```shell
-curl https://api.svix.com/ingest/api/v1/source \
-  -H "Authorization: Bearer $SVIX_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d @- << EOF
-{
-  "name": "demo",
-  "uid": "demo",
-  "type": "github",
-  "config": {
-    "secret": "<the signing secret>"
-  }
-}
-EOF
-```
 
 ## Tell your provider where to send webhooks
 
@@ -104,48 +88,10 @@ invalidated and rotated:
 
 ![screenshot of the Ingest Dashboard showing the overview tab for a Source named "demo"](../../static/img/ingest/url-token-rotate.png)
 
-or through the API:
-
-```shell
-curl https://api.svix.com/ingest/api/v1/source/src_xxxxx/token/rotate \
-  -H "Authorization: Bearer $SVIX_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{}'
-```
-
 `Token`s that are rotated stay usable for 24 hours. During this time both the
 old and new `Token`s are honored by Ingest. During this period it's important
 that you reconfigure your provider with the new Ingest URL in order to have a
 seamless transition.
-
-
-## Transformations Support
-
-A Javascript Transformation can optionally be configured per Source. This allows
-for reshaping of the payload prior to the message being forwarded to any of the
-configured Endpoints.
-
-```shell
-curl https://api.svix.com/ingest/api/v1/source \
-  -H "Authorization: Bearer $SVIX_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d @- << EOF
-{
-  "name": "demo-transformed",
-  "uid": "demo-with-transformation",
-  "type": "github",
-  "config": {
-    "secret": "<the signing secret>"
-  },
-  "transformation": "function handler(input) { return { ...input, transformedByIngest: true }; }",
-  "transformationEnabled": true
-}
-EOF
-```
-
-:::note
-Transformations for Sources can only be configured via the API.
-:::
 
 [Svix Ingest]: https://svix.com/ingest
 [Ingest Dashboard]: https://dashboard.svix.com/ingest
