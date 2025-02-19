@@ -6,7 +6,7 @@ title: FIFO Endpoints
 
 FIFO endpoints let your webhook consumers receive webhooks in strict FIFO ordering (first in first out), unlike regular webhooks, which are delivered independently and order is on a best effort basis.
 
-Svix supports sending webhooks to both FIFO and regular enpoints, with no code changes required on your end. 
+Svix supports sending webhooks to both FIFO and regular endpoints, with no code changes required on your end. 
 
 :::info[Why not make all webhooks FIFO?]
 Ensuring strict FIFO ordering comes with some tradeoffs. Since every call to the receiver endpoint is blocked until the previous one is successful, throughput is limited compared to regular webhook endpoints. 
