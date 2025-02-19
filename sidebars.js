@@ -3,7 +3,16 @@ module.exports = {
     {
       Introduction: ["introduction", "setup", "quickstart", "overview", "common-usage-examples", "consuming-webhooks"],
       Basics: ["event-types", "app-portal", "api-keys", "documenting-webhooks"],
-      Advanced: ["incoming-webhooks", "sending-messages-with-bridge", "idempotency", "channels", "rate-limit", "retries", "retention", "transformations",
+      Advanced: [
+        "incoming-webhooks",
+        "sending-messages-with-bridge",
+        "idempotency",
+        "channels",
+        "rate-limit",
+        "retries",
+        "retention",
+        "transformations",
+        "connectors",
         {
           type: 'category',
           label: 'Advanced Endpoint Types',
@@ -17,7 +26,8 @@ module.exports = {
           ]
         }
         ,
-        "connectors", "security"],
+        "security"
+      ],
       "Manage Your Account": ["account/environments", "account/org-members"],
     },
     {
