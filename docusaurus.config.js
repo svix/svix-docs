@@ -103,6 +103,10 @@ module.exports = {
           {
             to: "/connectors",
             from: "/transformation-templates",
+          },
+          {
+            to: "/advanced-endpoints/polling-endpoints",
+            from: "/polling-endpoints",
           }
         ],
       },
