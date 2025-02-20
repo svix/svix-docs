@@ -28,7 +28,7 @@ Your customers can write Javascript code to edit an endpoint's Transformation, a
 
 Svix expects a Transformation to declare a function named `handler`. Svix will pass a `WebhookObject` to this function as its only argument, and expects the function to always return a `WebhookObject`.
 
-`WebhookObject` is a JSON object containing 3 properties:
+`WebhookObject` is a JSON object containing 4 properties:
 
 - `method`, a string representing the HTTP method the webhook will be sent with. It is always `"POST"` by default, and its only valid values are `"POST"` or `"PUT"`
 - `url`, a string representing the endpoint's URL. It can be changed to any valid URL.
