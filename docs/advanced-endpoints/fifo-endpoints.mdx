@@ -31,3 +31,55 @@ Because of the strict ordering, Svix has to wait for a successful acknowledgemen
 The batching parameters can be configured in the [App Portal](/app-portal) for each endpoint. 
 
 ![FIFO Endpoint Batching](../img/fifo-endpoint-batching.png)
+
+## Transformations
+[Transformations](/transformations) are also supported on FIFO endpoints. For FIFO endpoints, transformations are applied to each batch of messages.
+
+### How to write a FIFO endpoint transformation
+Svix expects a Transformation to declare a function named `handler`. Svix will pass a `InputObject` to this function as its only argument, and expects the function to always return an `OutObject`.
+
+`InputObject` is a JSON object containing one property:
+
+- `events`, an array of objects containing `payload` and `eventType` properties. There is one element in the array for each message in the batch.
+
+`OutObject` is a JSON object containing one property:
+
+- `requestBody`, a string with the raw request body to be sent to the endpoint.
+
+### An example Transformation
+
+You can write a transformation that transforms certain messages in the batch and forwards them. 
+
+```js
+function handler(input) {
+  const events = input.events.map((evt) => {
+    if (evt.eventType === "user.created") {
+      return {
+        ...evt.payload,
+        name: evt.payload.firstName + " " + evt.payload.lastName
+      }
+    }
+  });
+
+  return {
+    requestBody: JSON.stringify({ data: events })
+  }
+}
+```
+
+Or you can write transformations that collect messages and returns a summarized response. 
+
+```js
+function handler(input) {
+  const total = input.events.reduce((acc, evt) => {
+    if (evt.eventType === "invoice.created") {
+      return acc + evt.payload.amount;
+    }
+    return acc;
+  }, 0);
+
+  return {
+    requestBody: JSON.stringify({ total })
+  }
+}
+```
