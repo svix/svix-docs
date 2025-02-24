@@ -121,7 +121,13 @@ module.exports = {
     src: "/js/r2b2.js",
     async: true,
     defer: true,
-  }],
+  },
+  {
+    src: "/js/segment.js",
+    async: true,
+    defer: true,
+  }
+  ],
   markdown: {
     mdx1Compat: {
       comments: false,
