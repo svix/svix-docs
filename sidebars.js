@@ -24,9 +24,9 @@ module.exports = {
             'advanced-endpoints/polling-endpoints',
             'advanced-endpoints/fifo-endpoints',
           ]
-        }
-        ,
-        "security"
+        },
+        "endpoint-authentication",
+        "security",
       ],
       "Manage Your Account": ["account/environments", "account/org-members"],
     },
