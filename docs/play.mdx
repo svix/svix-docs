@@ -4,13 +4,13 @@ title: Svix Play - webhook debugger
 
 You can use the [Svix Play webhook playground and debugger](https://www.svix.com/play/) to easily inspect, test and debug operational webhooks.
 
-It's a very useful tool for anyone developing webhooks - for both senders and consumers. More so, it's available to everyone for free, not just users of Svix!
+It's a very useful tool for anyone developing webhooks - for both senders and consumers. More so, it's available to everyone for free, not just users of Svix. No signup required!
 
-## Echo mode (normal)
+## How to use
 
-To use echo mode, just open the [Svix Play homepage](https://www.svix.com/play/) and click on the Svix Play URL.
+To use Svix Play, just go to [play.svix.com](https://play.svix.com)
 
-You'd then be redirected to the main Svix Play page, where you can copy your unique webhook URL and start sending it requests. Every request sent to this URL will respond with a successful `200 OK` response, and will be visible in the UI for you to inspect.
+You'll be redirected to the main Svix Play page, where you can copy your unique webhook URL and start sending it requests. Every request sent to this URL will respond with a successful `200 OK` response, and will be visible in the UI for you to inspect.
 
 This is how it looks like:
 
@@ -33,6 +33,45 @@ http://localhost:8080/webhook/
 ```
 
 ## Advanced usage
+
+### Custom response codes
+
+Under normal usage, Svix Play (in echo mode) automatically returns successful responses to every request with the HTTP response code `200 OK`.
+
+However, in some cases you may want to check how your webhook system responds to failures. For example, does auto-retry work? Are errors properly handled?
+
+To enable that, Svix Play supports returning custom error codes by using the `force_status_code` query parameter when using our public API.
+
+For example, if your URL was:
+
+```
+https://api.play.svix.com/api/v1/in/e_94XdF-OwN3EaTKty4izJDWRAH3V/
+```
+
+You can change it to the following URL in order to make it always return `404 Not Found`:
+
+```
+https://api.play.svix.com/api/v1/in/e_94XdF-OwN3EaTKty4izJDWRAH3V/?force_status_code=404
+```
+
+### Echo Request Bodies
+
+Under normal usage, Svix Play will return an empty body to every request towards an `/in/` route.
+
+If you wish to have the request body echoed back instead, set the `echo_body` query parameter to `true` when using our public API.
+
+For example, if your URL was:
+
+```
+https://api.play.svix.com/api/v1/in/e_94XdF-OwN3EaTKty4izJDWRAH3V/
+```
+
+You can change it to the following URL to make it respond with the same body it was given.
+
+```
+https://api.play.svix.com/api/v1/in/e_94XdF-OwN3EaTKty4izJDWRAH3V/?echo_body=true
+```
+
 
 ### Programmatic Use of the Public API
 
@@ -102,40 +141,3 @@ You can change it to the following URL in order to only display events that were
 https://api.play.svix.com/api/v1/history/e_94XdF-OwN3EaTKty4izJDWRAH3V/?iterator=2Nvo8F66yxe0cT7lrVmsbUg97He
 ```
 
-### Custom response codes
-
-Under normal usage, Svix Play (in echo mode) automatically returns successful responses to every request with the HTTP response code `200 OK`.
-
-However, in some cases you may want to check how your webhook system responds to failures. For example, does auto-retry work? Are errors properly handled?
-
-To enable that, Svix Play supports returning custom error codes by using the `force_status_code` query parameter when using our public API.
-
-For example, if your URL was:
-
-```
-https://api.play.svix.com/api/v1/in/e_94XdF-OwN3EaTKty4izJDWRAH3V/
-```
-
-You can change it to the following URL in order to make it always return `404 Not Found`:
-
-```
-https://api.play.svix.com/api/v1/in/e_94XdF-OwN3EaTKty4izJDWRAH3V/?force_status_code=404
-```
-
-### Echo Request Bodies
-
-Under normal usage, Svix Play will return an empty body to every request towards an `/in/` route.
-
-If you wish to have the request body echoed back instead, set the `echo_body` query parameter to `true` when using our public API.
-
-For example, if your URL was:
-
-```
-https://api.play.svix.com/api/v1/in/e_94XdF-OwN3EaTKty4izJDWRAH3V/
-```
-
-You can change it to the following URL to make it respond with the same body it was given.
-
-```
-https://api.play.svix.com/api/v1/in/e_94XdF-OwN3EaTKty4izJDWRAH3V/?echo_body=true
-```
