@@ -41,6 +41,9 @@ module.exports = {
       ],
     },
     {
+      "Using Ingest": ["receiving/receiving-with-ingest"]
+    },
+    {
       "Svix Play": ["play"]
     },
     {
@@ -69,9 +72,6 @@ module.exports = {
       "Using Polling Endpoints": [
         "receiving/using-app-portal/polling-endpoints",
       ],
-    },
-    {
-      "Using Ingest": ["receiving/receiving-with-ingest"]
     },
     {
       "Verifying Webhooks": [
