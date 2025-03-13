@@ -18,19 +18,19 @@ Read more about [how FIFO endpoints work](https://www.svix.com/blog/fifo-ordered
 ## Enabling FIFO Endpoints
 FIFO Endpoints can be enabled at the environment level in the [Svix Dashboard](https://dashboard.svix.com/settings/organization/general-settings) by enabling **Advanced Endpoint Types**.
 
-![Enable FIFO Endpoints](../img/advanced-endpoints-setting.png)
+![Enable FIFO Endpoints](../img/advanced-endpoints/advanced-endpoints-setting.png)
 
 
 When you enable FIFO Endpoints, your users will be able to create them in the [App Portal](/app-portal).
 
-![Polling Endpoint Create](../img/fifo-endpoint-create.png)
+![Polling Endpoint Create](../img/advanced-endpoints/fifo-endpoint-create.png)
 
 ## Message Batching
 Because of the strict ordering, Svix has to wait for a successful acknowledgement of delivery before sending any other messages. To address throughput constraints FIFO endpoints deliver webhooks in configurable batch sizes.
 
 The batching parameters can be configured in the [App Portal](/app-portal) for each endpoint. 
 
-![FIFO Endpoint Batching](../img/fifo-endpoint-batching.png)
+![FIFO Endpoint Batching](../img/advanced-endpoints/fifo-endpoint-batching.png)
 
 ## Transformations
 [Transformations](/transformations) are also supported on FIFO endpoints. For FIFO endpoints, transformations are applied to each batch of messages.
