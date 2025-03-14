@@ -23,6 +23,7 @@ module.exports = {
           items: [
             'advanced-endpoints/polling-endpoints',
             'advanced-endpoints/fifo-endpoints',
+            'advanced-endpoints/object-storage',
           ]
         },
         "endpoint-authentication",
