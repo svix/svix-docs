@@ -490,7 +490,7 @@ export async function POST(req: Request) {
   const sivx = new Webhook(webhookSecret);
 
   let msg;
-  
+
   try {
     msg = sivx.verify(body, {
       "svix-id": svix_id,
@@ -612,6 +612,32 @@ class WebhookController {
   }
 }
 
+```
+
+### Node.js (Nuxt)
+
+```js
+import { Webhook } from "svix";
+
+const secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
+
+export default defineEventHandler((event) => {
+  const headers = getRequestHeaders(event);
+
+  const wh = new Webhook(secret);
+
+  let msg;
+
+  try {
+      msg = wh.verify(payload, headers);
+  } catch (err) {
+      setResponseStatus(event, 400);
+      return "";
+  }
+
+  // Do something with the message...
+  return "OK";
+})
 ```
 
 ### Go (Standard lib)
