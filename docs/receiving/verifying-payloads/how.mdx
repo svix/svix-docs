@@ -632,7 +632,7 @@ export default defineEventHandler((event) => {
       msg = wh.verify(payload, headers);
   } catch (err) {
       setResponseStatus(event, 400);
-      return "";
+      return "Bad Request";
   }
 
   // Do something with the message...
