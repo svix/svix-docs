@@ -621,8 +621,9 @@ import { Webhook } from "svix";
 
 const secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
 
-export default defineEventHandler((event) => {
+export default defineEventHandler(async (event) => {
   const headers = getRequestHeaders(event);
+  const payload = await readBody(event);
 
   const wh = new Webhook(secret);
 
