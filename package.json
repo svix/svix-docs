@@ -45,5 +45,5 @@
   "resolutions": {
     "loader-utils@npm:^2.0.0": "2.0.4"
   },
-  "packageManager": "yarn@3.3.0"
+  "packageManager": "yarn@4.6.0"
 }
