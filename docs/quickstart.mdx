@@ -12,7 +12,7 @@ This page has everything you need to start sending webhooks with Svix.
 In Svix you have three important entities you will be interacting with:
 
 - [`messages`](overview.mdx#messages): these are the webhooks being sent. They can have contents and a few other properties.
-- [`application`](overview.mdx#applications) (consumer application): this is where `messages` are sent to. Usually you want to create one application for each user on your platform.
+- [`application`](overview.mdx#consumer-applications) (consumer application): this is where `messages` are sent to. Usually you want to create one application for each user on your platform.
 - [`endpoint`](overview.mdx#endpoints): endpoints are the URLs messages will be sent to. Each application can have multiple `endpoints` and each message sent to that application will be sent to all of them (unless they are not subscribed to the sent [event type](event-types.mdx)).
 
 For more information, please refer to the [Overview section](overview.mdx).
