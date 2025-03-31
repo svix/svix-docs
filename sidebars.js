@@ -6,6 +6,7 @@ module.exports = {
       "Delivery Information": [
         "incoming-webhooks",
         "retries",
+        "opentelemetry-streaming",
       ],
       "Advanced Functionality": [
         "idempotency",
