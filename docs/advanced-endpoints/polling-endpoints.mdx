@@ -52,4 +52,56 @@ curl \
 
 Messages will be returned in the order they were sent to Svix.
 
+### Polling with a Server-tracked Iterator
+
+By polling with a **Consumer ID**,  the server will track the client's progress as it iterates through the stream of
+messages.
+
+> Consumer IDs are arbitrary strings used by a client to self-identify.
+>
+> Note that Consumer IDs should be _unique per client_ and should not be shared. Put another way, Consumer IDs track
+> exclusive sequential access through the stream of messages.
+> Shared concurrent access through a given Consumer ID will result in errors as mutual clients drift in their positions
+> in the stream.
+
+Usage is the same, and still relies on sending the `iterator` parameter to move forward through the stream.
+Server tracking of the client's iterator is opt-in by adding a trailing `/consumer/CONSUMER_ID` to the Polling Endpoint
+URL.
+
+```bash
+curl \
+  "https://api.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q/consumer/MY-CONSUMER-ID?iterator=eyJv..." \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer sk_poll_*****.eu'
+```
+
+The big difference is the server "remembers" the last `iterator` used to make a request for the given Consumer ID
+such that subsequent requests _without a `iterator`_ will resume using that last seen value.
+This is useful for situations where a process may be interrupted and lose its place while polling.
+
+In summation, when using Consumer IDs you need to provide an `iterator` in order to move forward, but you don't have to
+worry about losing progress or starting over if you lose an iterator for any reason.
+Poll the stream using the Consumer ID, omitting the `iterator` parameter, and you'll pick up where you left off.
+At that stage, use the provided `iterator` given in the response to start moving forward again.
+
+### Updating a Server-tracked Iterator with Seek
+
+The `iterator` persisted on the server side can be adjusted with the `seek` endpoint.
+
+```bash
+curl \
+  "https://api.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q/consumer/MY-CONSUMER-ID/seek" \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer sk_poll_*****.eu' \
+  -d '{"after": "2025-01-17T00:00:00.0Z"}'
+```
+
+Note that after performing a `seek`, active clients sending a now-out-of-sequence `iterator` may see errors.
+In this situation, omitting the `iterator` parameter (as if making a new "initial" request) will allow such clients
+to pick up from the position tracked by the server. Subsequent requests should then use the iterator value returned
+in each response body.
+
+---
+
 Polling Endpoints can be used in parallel with regular Svix webhooks, and you don't need to make any changes to how you [create messages](/quickstart#send-a-message).

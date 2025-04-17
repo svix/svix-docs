@@ -8,6 +8,9 @@ import TabItem from '@theme/TabItem';
 
 [Svix Bridge] is useful in cases where you want to consume webhooks and write the payloads to a message queue.
 
+
+## Using the Built-in HTTP Server
+
 Since Bridge can act as an HTTP server, you can configure it as an Endpoint in Svix.
 Bridge can even verify webhooks when configured with an `endpoint_secret`.
 
@@ -44,6 +47,50 @@ in a new message published to the `acme` queue.
 This is to say, if you're running Bridge at `https://my-bridge.example.com`, the full URL you'd register as a Svix
 Endpoint would be `https://my-bridge.example.com/webhook/acme`.
 See [Adding Endpoints](../using-app-portal/adding-endpoints.mdx) for more on how to do this in the App Portal.
+
+
+## Using A Polling Endpoint
+
+Bridge can consume messages sent to [Ingest](/receiving/receiving-with-ingest) or any Svix Application with a
+[Polling Endpoint](/advanced-endpoints/polling-endpoints) configured as a destination.
+
+This is a great option if you don't want to run a public-internet-facing HTTP server to receive webhooks.
+Since Bridge initiates requests from within your environment, you don't need to open any ports in your firewall!
+
+```yaml
+receivers:
+  - name: "msg-poller-to-rabbitmq-example"
+    input:
+      type: "svix-message-poller"
+      # The consumer id should be unique per the app & sink.
+      # This is used to track Bridge's position in the stream so it can resume where it left off
+      # after restarting, etc.
+      consumer_id: "my-consumer"
+      # The app id, and sink id can be found in the URL for the corresponding Polling Endpoint.
+      # Eg:
+      # https://api.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q
+      #                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^^^
+      app_id: "app_XXXX"
+      sink_id: "poll_XXXX"
+      # The token can be seen in the UI for the corresponding Polling Endpoint.
+      token: "${POLLING_ENDPOINT_TOKEN}"
+
+    transformation: |
+      function handler(input) {
+        let event_type = input.eventType;
+        delete input.eventType;
+        // The `payload` field is what will be published to the queue.
+        return { payload: { event_type, ...input } };
+      }
+
+    output:
+      type: "rabbitmq"
+      uri: "${QUEUE_URI}"
+      exchange: ""
+      routing_key: "my_queue"
+```
+
+---
 
 Check out the the project on [GitHub][Svix Bridge] for more on how to get started with Bridge.
 
