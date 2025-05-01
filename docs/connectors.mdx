@@ -65,7 +65,7 @@ After creating at least one connector, your customers will be able to choose it 
 
 ## Connection types
 
-### <ConnectorLogo name="slack" /> Slack
+### <ConnectorLogo name="slack" /> Slack \{#slack}
 
 The Slack built-in integration lets you send messages to Slack channels via webhooks. It shows a 'Connect to Slack' button that lets your users get a Slack incoming webhook URL using OAuth in a few clicks, without leaving your site.
 
@@ -97,7 +97,7 @@ function handler(webhook) {
 
 
 
-### <ConnectorLogo name="discord" /> Discord
+### <ConnectorLogo name="discord" /> Discord \{#discord}
 
 The Discord built-in integration lets you send messages to Discord channels via webhooks. It shows a 'Connect to Discord' button that lets your users get a Discord incoming webhook URL using OAuth in a few clicks, without leaving your site.
 
@@ -133,7 +133,7 @@ function handler(webhook) {
 }
 ```
 
-### <ConnectorLogo name="microsoft-teams" /> Microsoft Teams
+### <ConnectorLogo name="microsoft-teams" /> Microsoft Teams \{#teams}
 
 The Microsoft Teams integration will show your users instructions on how to get a Teams webhook URL. 
 
@@ -181,7 +181,7 @@ function handler(webhook) {
 }
 ```
 
-### <ConnectorLogo name="hubspot" /> Hubspot
+### <ConnectorLogo name="hubspot" /> Hubspot \{#hubspot}
 
 The Hubspot integration lets you connect webhooks directly to the [Hubspot API](https://developers.hubspot.com/docs/api/overview). It shows a 'Connect to Hubspot' button that lets your users get a Hubspot access token that can be used to connect to the Hubspot API.
 
@@ -224,15 +224,7 @@ function handler(webhook) {
 }
 ```
 
-### <ConnectorLogo name="windmill" /> Windmill
-
-The Windmill connector lets your users get a [Windmill](https://windmill.dev) webhook URL in a few clicks from the App Portal. It supports [Windmill Cloud](https://app.windmill.dev) as well as self-hosted Windmill instances.
-
-![Connect to Windmill](img/connectors/connect-to-windmill.png)
-
-Since Windmill webhooks support arbitrary payloads, it does not require any custom transformation code.
-
-### <ConnectorLogo name="sendgrid" /> Sendgrid
+### <ConnectorLogo name="sendgrid" /> Sendgrid \{#sendgrid}
 
 The SendGrid connector lets your users send events as emails using SendGrid. Users enter their SendGrid API key in the [App Portal](/app-portal).
 
@@ -277,7 +269,7 @@ function handler(webhook) {
 }
 ```
 
-### <ConnectorLogo name="resend" /> Resend
+### <ConnectorLogo name="resend" /> Resend \{#resend}
 
 The Resend connector lets your users send events as emails using Resend. Users enter their Resend API key in the [App Portal](/app-portal).
 
@@ -310,7 +302,7 @@ function handler(webhook) {
 }
 ```
 
-### <ConnectorLogo name="loops" /> Loops
+### <ConnectorLogo name="loops" /> Loops \{#loops}
 
 The Loops connector lets your users send events to Loops to trigger email automations. Users enter their Loops API key in the [App Portal](/app-portal).
 
@@ -343,6 +335,27 @@ function handler(webhook) {
   return webhook;
 }
 ```
+
+### <ConnectorLogo name="windmill" /> Windmill \{#windmill}
+
+The Windmill connector lets your users get a [Windmill](https://windmill.dev) webhook URL in a few clicks from the App Portal. It supports [Windmill Cloud](https://app.windmill.dev) as well as self-hosted Windmill instances.
+
+![Connect to Windmill](img/connectors/connect-to-windmill.png)
+
+Since Windmill webhooks support arbitrary payloads, it does not require any custom transformation code.
+
+### <ConnectorLogo name="inngest" /> Inngest \{#inngest}
+
+The Inngest connector lets your users send events to Inngest to trigger serverless functions. Users enter their Inngest API key in the [App Portal](/app-portal).
+
+Since Inngest webhooks support arbitrary payloads, it does not require any custom transformation code.
+
+### <ConnectorLogo name="zapier" /> Zapier \{#zapier}
+
+The Zapier connector lets your users send events to Zapier to trigger automations. It shows instructions on how to get a Zapier webhook URL.
+
+Since Zapier Webhooks support arbitrary payloads, it does not require any custom transformation code.
+
 
 ### Custom Integration
 
