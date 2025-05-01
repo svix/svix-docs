@@ -2,6 +2,7 @@
 title: Connectors
 ---
 
+import ConnectorLogo from "@site/src/components/ConnectorLogo";
 
 Connectors is a Svix feature that lets you provide your customers with pre-made integrations to connect your webhooks to other services.
 
@@ -36,14 +37,17 @@ For example, this transformation will create a different message depending on if
  * @param webhook.cancel whether to cancel dispatch of the given webhook
  */
 function handler(webhook) {
-  if (webhook.eventType === "invoice.created") {
-    webhook.payload = {
-      text: `${webhook.payload.name} created an invoice for $${webhook.payload.amount}`
-    }         
-  } else if (webhook.eventType === "invoice.deleted") {
-    webhook.payload = {
-      text: `${webhook.payload.name} deleted an invoice`
-    }    
+  switch (webhook.eventType) {
+    case "invoice.created":
+      webhook.payload = {
+        text: `${webhook.payload.name} created an invoice for $${webhook.payload.amount}`
+      };
+      break;
+    case "invoice.deleted":
+      webhook.payload = {
+        text: `${webhook.payload.name} deleted an invoice`
+      };
+      break;
   }
 
   return webhook
@@ -61,23 +65,75 @@ After creating at least one connector, your customers will be able to choose it 
 
 ## Connection types
 
-### Slack
+### <ConnectorLogo name="slack" /> Slack
 
 The Slack built-in integration lets you send messages to Slack channels via webhooks. It shows a 'Connect to Slack' button that lets your users get a Slack incoming webhook URL using OAuth in a few clicks, without leaving your site.
 
-The transformation code should format the webhook payload according to [Slack's Incoming Webhook API](https://api.slack.com/messaging/webhooks#posting_with_webhooks).
-
 ![Connect to Slack](img/connectors/connect-to-slack.png)
 
-### Discord
+The transformation code should format the webhook payload according to [Slack's Incoming Webhook API](https://api.slack.com/messaging/webhooks#posting_with_webhooks).
+
+Here's an example transformation:
+
+```js
+function handler(webhook) {
+  /**
+   * Example payload is:
+   * {
+   *   amount: 99.99,
+   *   customer_name: "John Doe",
+   *   invoice_id: "inv_123"
+   * }
+   * 
+   * See https://api.slack.com/messaging/webhooks#posting_with_webhooks
+   */
+  webhook.payload = {
+    text: `💰 New invoice for $${webhook.payload.amount} from ${webhook.payload.customer_name}`
+  };
+
+  return webhook;
+}
+```
+
+
+
+### <ConnectorLogo name="discord" /> Discord
 
 The Discord built-in integration lets you send messages to Discord channels via webhooks. It shows a 'Connect to Discord' button that lets your users get a Discord incoming webhook URL using OAuth in a few clicks, without leaving your site.
 
-The transformation code should format the webhook payload according to [Discord's Execute Webhook API](https://discord.com/developers/docs/resources/webhook#execute-webhook).
-
 ![Connect to Discord](img/connectors/connect-to-discord.png)
 
-### Microsoft Teams
+The transformation code should format the webhook payload according to [Discord's Execute Webhook API](https://discord.com/developers/docs/resources/webhook#execute-webhook).
+
+Here's an example transformation:
+
+```js
+function handler(webhook) {
+  /**
+   * Example payload is:
+   * {
+   *   user: {
+   *     email: "john@example.com",
+   *     name: "John Doe"
+   *   },
+   *   cancellation_reason: "Too expensive"
+   * }
+   * 
+   * See https://discord.com/developers/docs/resources/webhook#execute-webhook
+   */
+  webhook.payload = {
+    embeds: [{
+      title: "❌ Subscription Cancelled",
+      description: `User ${webhook.payload.user.email} cancelled their subscription`,
+      color: 0xff0000
+    }]
+  };
+
+  return webhook;
+}
+```
+
+### <ConnectorLogo name="microsoft-teams" /> Microsoft Teams
 
 The Microsoft Teams integration will show your users instructions on how to get a Teams webhook URL. 
 
@@ -85,7 +141,47 @@ The transformation code should format the webhook payload according to [Microsof
 
 ![Connect to Microsoft Teams](img/connectors/connect-to-teams.png)
 
-### Hubspot
+Here's an example transformation for a support ticket created event:
+
+```js
+function handler(webhook) {
+  /**
+   * Example payload is:
+   * {
+   *   ticket_id: "TICKET-123",
+   *   customer_name: "John Doe",
+   *   priority: "high",
+   *   description: "Can't access my account"
+   * }
+   * 
+   * See https://learn.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/connectors-using?#send-adaptive-cards-using-an-incoming-webhook
+   */
+  webhook.payload = {
+    type: "message",
+    attachments: [{
+      contentType: "application/vnd.microsoft.card.adaptive",
+      content: {
+        type: "AdaptiveCard",
+        body: [
+          {
+            type: "TextBlock",
+            text: "🆘 New Support Ticket",
+            weight: "Bolder"
+          },
+          {
+            type: "TextBlock",
+            text: `Ticket #${webhook.payload.ticket_id} from ${webhook.payload.customer_name}`
+          }
+        ]
+      }
+    }]
+  };
+
+  return webhook;
+}
+```
+
+### <ConnectorLogo name="hubspot" /> Hubspot
 
 The Hubspot integration lets you connect webhooks directly to the [Hubspot API](https://developers.hubspot.com/docs/api/overview). It shows a 'Connect to Hubspot' button that lets your users get a Hubspot access token that can be used to connect to the Hubspot API.
 
@@ -128,13 +224,125 @@ function handler(webhook) {
 }
 ```
 
-### Windmill
+### <ConnectorLogo name="windmill" /> Windmill
 
 The Windmill connector lets your users get a [Windmill](https://windmill.dev) webhook URL in a few clicks from the App Portal. It supports [Windmill Cloud](https://app.windmill.dev) as well as self-hosted Windmill instances.
 
 ![Connect to Windmill](img/connectors/connect-to-windmill.png)
 
 Since Windmill webhooks support arbitrary payloads, it does not require any custom transformation code.
+
+### <ConnectorLogo name="sendgrid" /> Sendgrid
+
+The SendGrid connector lets your users send events as emails using SendGrid. Users enter their SendGrid API key in the [App Portal](/app-portal).
+
+The transformation code should format the webhook payload according to [SendGrid's Mail Send API](https://www.twilio.com/docs/sendgrid/api-reference/mail-send/mail-send).
+
+Here's an example transformation for a user signup event:
+
+```js
+function handler(webhook) {
+  /**
+   * Example payload is:
+   * {
+   *   user: {
+   *     email: "john@example.com",
+   *     name: "John Doe"
+   *   }
+   * }
+   * 
+   * See https://www.twilio.com/docs/sendgrid/api-reference/mail-send/mail-send
+   */
+  webhook.payload = {
+    personalizations: [
+      {
+        to: [{ email: webhook.payload.user.email }]
+      }
+    ],
+    from: {
+      email: "notifications@yourdomain.com",
+      name: "Your App"
+    },
+    subject: "Welcome to Your App!",
+    content: [
+      {
+        type: "text/html",
+        value: `<h1>Welcome ${webhook.payload.user.name}!</h1>
+                <p>Thank you for signing up to our service.</p>`
+      }
+    ]
+  };
+
+  return webhook;
+}
+```
+
+### <ConnectorLogo name="resend" /> Resend
+
+The Resend connector lets your users send events as emails using Resend. Users enter their Resend API key in the [App Portal](/app-portal).
+
+The transformation code should format the webhook payload according to [Resend's Email API](https://resend.com/docs/api-reference/emails/send-email).
+
+Here's an example transformation for a user signup event:
+
+```js
+function handler(webhook) {
+  /**
+   * Example payload is:
+   * {
+   *   user: {
+   *     email: "john@example.com",
+   *     name: "John Doe"
+   *   }
+   * }
+   * 
+   * See https://resend.com/docs/api-reference/emails/send-email
+   */
+  webhook.payload = {
+    from: "Your App <notifications@yourdomain.com>",
+    to: [webhook.payload.user.email],
+    subject: "Welcome to Your App!",
+    html: `<h1>Welcome ${webhook.payload.user.name}!</h1>
+           <p>Thank you for signing up to our service.</p>`
+  };
+
+  return webhook;
+}
+```
+
+### <ConnectorLogo name="loops" /> Loops
+
+The Loops connector lets your users send events to Loops to trigger email automations. Users enter their Loops API key in the [App Portal](/app-portal).
+
+The transformation code should format the webhook payload according to [Loops' Send Event API](https://loops.so/docs/api-reference/send-event).
+
+Here's an example transformation for a user signup event:
+
+```js
+function handler(webhook) {
+  /**
+   * Example payload is:
+   * {
+   *   user: {
+   *     email: "john@example.com",
+   *     id: "user123"
+   *   }
+   * }
+   * 
+   * See https://loops.so/docs/api-reference/send-event
+   */
+  webhook.payload = {
+    email: webhook.payload.user.email,
+    userId: webhook.payload.user.id,
+    eventName: "user_signup",
+    eventProperties: {
+      source: "webhook"
+    }
+  };
+
+  return webhook;
+}
+```
 
 ### Custom Integration
 
@@ -143,63 +351,3 @@ In case you don't find a built-in integration for the service you want to connec
 ![Custom Integration](./img/connectors/custom-integration.png)
 
 If you have a request for a built-in integration not listed above, [contact us](https://www.svix.com/contact/).
-
-
-## Slack integration portal (beta)
-
-Another way of using connectors is by using the Slack integration portal. 
-It is a way for your users to receive events as Slack messages in a few clicks, without thinking about webhooks at all.
-
-To use the Slack integration portal, create a Slack connector and use the transformation code to define
-how you want to format the Slack message for each of your event types.
-
-Get the App Portal URL and add the `mode=slack-button` query parameter (like `app.svix.com/login?mode=slack-button#key=<login-key>`).
-
-Add a button to your site and when the button is clicked, redirect the user to the Slack portal URL.
-
-![Authorize Slack](img/slack-portal-connect.png)
-
-![Configure Slack connection](img/slack-portal.png)
-
-The Slack integration portal can be used in a popup, to avoid taking the user away from your site, and make it quick and easy to use.
-
-```js
-export const getPopupWindowFeatures = () => {
-  // Recommended parameters for the popup window
-  const features = {
-    popup: "yes",
-    width: 600,
-    height: 700,
-    top: "auto",
-    left: "auto",
-    toolbar: "no",
-    menubar: "no",
-  };
-
-  return Object.entries(features)
-    .reduce((str, [key, value]) => {
-      if (value === "auto") {
-        if (key === "top") {
-          const v = Math.round(window.innerHeight / 2 - features.height / 2);
-          str += `top=${v},`;
-        } else if (key === "left") {
-          const v = Math.round(window.innerWidth / 2 - features.width / 2);
-          str += `left=${v},`;
-        }
-        return str;
-      }
-
-      str += `${key}=${value},`;
-      return str;
-    }, "")
-    .slice(0, -1);
-};
-```
-
-```jsx
-<button onClick={() => window.open(appPortalUrl, "slack-portal", getPopupWindowFeatures())}>Configure Slack</button>
-```
-
-In the portal, your users can enable/disable the connection and choose which events they want to receive. The popup will automatically close
-once they've completed the setup.
-
