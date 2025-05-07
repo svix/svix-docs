@@ -2,6 +2,7 @@ import React from 'react';
 
 const svgLogos = {
     closeio: require('../../docs/img/connectors/logos/closeio-icon.svg'),
+    customerio: require('../../docs/img/connectors/logos/customerio-icon.svg'),
     discord: require('../../docs/img/connectors/logos/discord-icon.svg'),
     hubspot: require('../../docs/img/connectors/logos/hubspot-icon.svg'),
     loops: require('../../docs/img/connectors/logos/loops-icon.svg'),
