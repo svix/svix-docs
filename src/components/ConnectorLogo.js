@@ -1,14 +1,17 @@
 import React from 'react';
 
 const svgLogos = {
-    slack: require('../../docs/img/connectors/logos/slack-icon.svg'),
+    closecrm: require('../../docs/img/connectors/logos/closecrm-icon.svg'),
+    customerio: require('../../docs/img/connectors/logos/customerio-icon.svg'),
     discord: require('../../docs/img/connectors/logos/discord-icon.svg'),
-    'microsoft-teams': require('../../docs/img/connectors/logos/microsoft-teams-icon.svg'),
     hubspot: require('../../docs/img/connectors/logos/hubspot-icon.svg'),
-    windmill: require('../../docs/img/connectors/logos/windmill-icon.svg'),
-    sendgrid: require('../../docs/img/connectors/logos/sendgrid-icon.svg'),
-    resend: require('../../docs/img/connectors/logos/resend-icon.svg'),
     loops: require('../../docs/img/connectors/logos/loops-icon.svg'),
+    'microsoft-teams': require('../../docs/img/connectors/logos/microsoft-teams-icon.svg'),
+    resend: require('../../docs/img/connectors/logos/resend-icon.svg'),
+    sendgrid: require('../../docs/img/connectors/logos/sendgrid-icon.svg'),
+    segment: require('../../docs/img/connectors/logos/segment-icon.svg'),
+    slack: require('../../docs/img/connectors/logos/slack-icon.svg'),
+    windmill: require('../../docs/img/connectors/logos/windmill-icon.svg'),
     zapier: require('../../docs/img/connectors/logos/zapier-icon.svg'),
 };
 
