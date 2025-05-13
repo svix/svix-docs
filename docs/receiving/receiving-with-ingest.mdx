@@ -53,6 +53,170 @@ Creating a `Source` from the [Ingest Dashboard]:
 
 ![screenshot of the Ingest Dashboard showing the overview tab for a Source named "demo"](../../static/img/ingest/source-edit.png)
 
+<CodeTabs>
+  <TabItem value="js">
+  
+  ```javascript
+  const svix = new Svix("AUTH_TOKEN");
+  const ingestSourceOut = await svix.ingest.source.create({
+    name: "myGithubWebhook",
+    uid: "unique-identifier",
+    type: "github",
+    config: {
+        secret: "SECRET"
+    },
+  });
+  ```
+
+  </TabItem>
+  <TabItem value="py">
+  
+  ```python
+  svix = Svix("AUTH_TOKEN")
+  ingest_source_out = svix.ingest.source.create(IngestSourceIn(
+    name="myGithubWebhook",
+    uid="unique-identifier",
+    type="github",
+    config=GithubConfig(
+        secret="SECRET"
+    ),
+  ))
+  ```
+
+  </TabItem>
+  <TabItem value="go">
+  
+  ```go
+  svixClient := svix.New("AUTH_TOKEN", nil)
+  ingestSourceOut, err := svixClient.Ingest.Source.Create(
+    ctx,
+    &IngestSourceIn{
+        Name: "myGithubWebhook",
+        Uid: "unique-identifier",
+        Type: IngestSourceInTypeGithub,
+        Config: GithubConfig{
+            Secret: "SECRET",
+        },
+    },
+  )
+  ```
+
+  </TabItem>
+  <TabItem value="kotlin">
+  
+  ```kotlin
+  val svix = Svix("AUTH_TOKEN")
+  val ingestSourceOut = svix.ingest.source.create(IngestSourceIn(
+    name = "myGithubWebhook",
+    uid = "unique-identifier",
+    config = IngestSourceInConfig.Github(GithubConfig(
+        secret = "SECRET"
+    )),
+  ))
+  ```
+
+  </TabItem>
+  <TabItem value="java">
+  
+  ```java
+  Svix svix = new Svix("AUTH_TOKEN");
+  IngestSourceOut ingestSourceOut = svix
+    .getIngest()
+    .getSource()
+    .create(new IngestSourceIn()
+        .name("myGithubWebhook")
+        .uid("unique-identifier")
+        .config(new IngestSourceInConfig.Github(new GithubConfig()
+          .secret("SECRET")
+        ))
+    );
+  ```
+
+  </TabItem>
+  <TabItem value="ruby">
+  
+  ```ruby
+  svix = Svix::Client.new("AUTH_TOKEN")
+  ingest_source_out = svix.ingest.source.create(Svix::IngestSourceIn.new({
+    "name": "myGithubWebhook",
+    "uid": "unique-identifier",
+    "config": Svix::IngestSourceInConfig::Github.new({
+      "secret": "SECRET"
+    })
+}))
+  ```
+
+  </TabItem>
+  <TabItem value="rust">
+  
+  ```rust
+  let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+  let ingest_source_out = svix.ingest().source().create(
+      IngestSourceIn {
+          name: "myGithubWebhook".to_owned(),
+          uid: Some("unique-identifier".to_owned()),
+          config: IngestSourceInConfig::Github(GithubConfig {
+              secret: "SECRET".to_owned(),
+              ..Default::default()
+          }),
+          ..Default::default()
+      },
+      None,
+  ).await?;
+  ```
+
+  </TabItem>
+  <TabItem value="csharp">
+  
+  ```csharp
+  var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
+  var ingestSourceOut = await svix.Ingest.Source.CreateAsync(
+    new IngestSourceIn{
+        Name = "myGithubWebhook",
+        Uid = "unique-identifier",
+        Config = IngestSourceInConfig.Github(new GithubConfig {
+            Secret = "SECRET",
+        }),
+    }
+  );
+  ```
+
+  </TabItem>
+  <TabItem value="cli">
+  
+  ```shell
+  svix ingest source create '{
+    "name": "myGithubWebhook",
+    "uid": "unique-identifier",
+    "type": "github",
+    "config": {
+        "secret": "SECRET"
+    }
+  }'
+  ```
+
+  </TabItem>
+  <TabItem value="curl">
+  
+  ```shell
+  curl -X 'POST' \
+    'https://api.eu.svix.com/ingest/api/v1/source' \
+    -H 'Authorization: Bearer AUTH_TOKEN' \
+    -H 'Accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -d '{
+        "name": "myGithubWebhook",
+        "uid": "unique-identifier",
+        "type": "github",
+        "config": {
+            "secret": "SECRET"
+        }
+    }'
+  ```
+
+  </TabItem>
+</CodeTabs>
+
 ## Tell your provider where to send webhooks
 
 The Ingest URL is also listed on the [Ingest Dashboard] for each `Source`.
