@@ -8,7 +8,11 @@ In case your webhook receiving endpoint is behind a firewall or NAT, you may nee
 
 This is the full list of IP addresses that webhooks may originate from grouped by the region of the sender. The list is also available as a JSON file: [webhooks-ips.json](pathname:///webhook-ips.json).
 
-## US
+## Regions
+
+The list of IP addresses below is grouped by the respective Svix region. The region where webhooks are sent from is the same as the region of respective environment. This means that all webhooks in the EU region will use the EU IP addresses below, all webhooks in the US region will use the US IP addressed below, and the same for every other region.
+
+### US
 
 <pre>
 <code>
@@ -16,15 +20,7 @@ This is the full list of IP addresses that webhooks may originate from grouped b
 </code>
 </pre>
 
-## US (Private region)
-
-<pre>
-<code>
-{sourceIps["us-east"].join("\n")}
-</code>
-</pre>
-
-## EU
+### EU
 
 <pre>
 <code>
@@ -32,7 +28,31 @@ This is the full list of IP addresses that webhooks may originate from grouped b
 </code>
 </pre>
 
-## India (Private Beta)
+### US (Private region)
+
+<pre>
+<code>
+{sourceIps["us-east"].join("\n")}
+</code>
+</pre>
+
+### Australia (Private region)
+
+<pre>
+<code>
+{sourceIps["au"].join("\n")}
+</code>
+</pre>
+
+### Canada (Private region)
+
+<pre>
+<code>
+{sourceIps["ca"].join("\n")}
+</code>
+</pre>
+
+### India (Private region)
 
 <pre>
 <code>
@@ -43,3 +63,10 @@ This is the full list of IP addresses that webhooks may originate from grouped b
 :::info[Important]
 Static source IPs are not guaranteed for all pricing tiers, please refer to [the pricing page](https://www.svix.com/pricing/) for more information.
 :::
+
+## Webhook User Agent
+
+Some systems may require to identify the User-Agent used by Svix in addition to the IP addresses. Requests from the Svix service, as well as self-hosted instances, may use different user-agent strings depending on the exact plan and configuration.
+
+However, every webhook coming from the Svix hosted service (using the IP addresses above), will also include `sender-9YMgn` in order to enable easy identification of requests coming from the hosted service.
+
