@@ -66,7 +66,6 @@ Static source IPs are not guaranteed for all pricing tiers, please refer to [the
 
 ## Webhook User Agent
 
-Some systems may require to identify the User-Agent used by Svix in addition to the IP addresses. Requests from the Svix service, as well as self-hosted instances, may use different user-agent strings depending on the exact plan and configuration.
+Some systems may require to identify the User-Agent used by Svix in addition to the IP addresses. Requests from the Svix service, as well as self-hosted instances, may use different user-agent strings depending on the exact plan and configuration (usually `Svix-Webhooks/{server-version}` or `Webhooks/{server-version}`).
 
 However, every webhook coming from the Svix hosted service (using the IP addresses above), will also include `sender-9YMgn` in order to enable easy identification of requests coming from the hosted service.
-
