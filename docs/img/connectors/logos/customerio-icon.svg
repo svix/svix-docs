@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1000 1000">
+  <style>
+    #light-icon {
+      display: inline;
+    }
+    #dark-icon {
+      display: none;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #light-icon {
+        display: none;
+      }
+      #dark-icon {
+        display: inline;
+      }
+    }
+  </style>
+  <g id="light-icon">
+    <g clip-path="url(#SvgjsClipPath1191)">
+      <rect width="1000" height="1000" fill="#0b353b"></rect>
+      <g transform="translate(500, 500) scale(2.5) translate(-113, -113)">
+        <path d="M70.8125 113L113 155.188L70.8125 197.375H28.625V155.188L70.8125 113Z" fill="#E4FFCE"></path>
+        <path d="M70.8125 113L113 70.8125L70.8125 28.625H28.625V70.8125L70.8125 113Z" fill="#E4FFCE"></path>
+        <path d="M197.375 70.8125L155.188 28.625H113V70.8125L155.188 113L113 155.188V197.375H155.188L197.375 155.188V70.8125Z" fill="#E4FFCE"></path>
+      </g>
+    </g>
+    <defs>
+      <clipPath id="SvgjsClipPath1191">
+        <rect width="1000" height="1000" x="0" y="0" rx="150" ry="150"></rect>
+      </clipPath>
+    </defs>
+  </g>
+</svg>

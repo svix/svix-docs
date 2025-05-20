@@ -224,6 +224,123 @@ function handler(webhook) {
 }
 ```
 
+### <ConnectorLogo name="closecrm" /> Close CRM \{#closecrm}
+
+The Close CRM connector lets your users connect their webhooks to the Close CRM API. Users enter their Close CRM API key in the [App Portal](/app-portal).
+
+This example uses [Close CRM's Contact API](https://developer.close.com/resources/contacts/), formatting the payload to create a contact in Close CRM:
+
+```js
+function handler(webhook) {
+  /**
+   * Example payload is:
+   * {
+   *   user: {
+   *     email: "john@example.com",
+   *     name: "John Doe",
+   *     phone: "+1234567890"
+   *   }
+   * }
+   * 
+   * See https://developer.close.com/resources/contacts/
+   */
+  webhook.url = "https://api.close.com/api/v1/contact/";
+  webhook.payload = {
+    lead_id:"lead_QyNaWw4fdSwxl5Mc5daMFf3Y27PpIcH0awPbC9l7uyo",
+    name: webhook.payload.user.name,
+    emails: [webhook.payload.user.email],
+    phones: [webhook.payload.user.phone]
+  };
+
+  return webhook;
+}
+```
+
+### <ConnectorLogo name="segment" /> Segment \{#segment}
+
+The Segment connector lets your users send events to Segment's API. Users enter their Segment Write Key in the [App Portal](/app-portal).
+
+This example uses [Segment's Track API](https://segment.com/docs/connections/sources/catalog/libraries/server/http-api/#track), formatting the payload appropriately:
+
+```js
+function handler(webhook) {
+  /**
+   * Example payload is:
+   * {
+   *   user: {
+   *     id: "user123",
+   *     email: "john@example.com",
+   *     name: "John Doe"
+   *   },
+   *   event: "subscription_created",
+   *   properties: {
+   *     plan: "premium",
+   *     price: 99.99
+   *   }
+   * }
+   * 
+   * See https://segment.com/docs/connections/sources/catalog/libraries/server/http-api/#track
+   */
+  webhook.url = "https://api.segment.io/v1/track";
+  webhook.payload = {
+    userId: webhook.payload.user.id,
+    event: webhook.payload.event,
+    properties: {
+      ...webhook.payload.properties,
+      email: webhook.payload.user.email,
+      name: webhook.payload.user.name
+    },
+    timestamp: new Date().toISOString()
+  };
+
+  return webhook;
+}
+```
+
+### <ConnectorLogo name="customerio" /> Customer.io \{#customerio}
+
+The Customer.io connector lets your users send events to Customer.io's Track API. Users enter their Customer.io Site ID and API Key in the [App Portal](/app-portal).
+
+This example uses [Customer.io's Track API](https://docs.customer.io/integrations/api/track/), formatting the payload appropriately:
+
+```js
+function handler(webhook) {
+  /**
+   * Example payload is:
+   * {
+   *   user: {
+   *     id: "user123",
+   *     email: "john@example.com",
+   *     name: "John Doe"
+   *   },
+   *   event: "subscription_created",
+   *   properties: {
+   *     plan: "premium",
+   *     price: 99.99
+   *   }
+   * }
+   * 
+   * See https://docs.customer.io/integrations/api/track/
+   */
+  webhook.url = "https://track.customer.io/api/v2/entity";
+  webhook.payload = {
+    type: "person",
+    identifiers: {
+      id: webhook.payload.user.id
+    },
+    action: webhook.payload.event,
+    name: webhook.payload.event,
+    attributes: {
+      ...webhook.payload.properties,
+      email: webhook.payload.user.email,
+      name: webhook.payload.user.name
+    }
+  };
+
+  return webhook;
+}
+```
+
 ### <ConnectorLogo name="sendgrid" /> Sendgrid \{#sendgrid}
 
 The SendGrid connector lets your users send events as emails using SendGrid. Users enter their SendGrid API key in the [App Portal](/app-portal).
