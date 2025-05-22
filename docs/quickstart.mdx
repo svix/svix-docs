@@ -9,13 +9,17 @@ Learn how to send your first webhook using Svix.
 
 ## How Svix works
 
-In a typical Svix integration, you send Svix the webhook messages you would like to send, and Svix takes care of the rest. Svix manages the deliverability, retries, scaling, security, the event subscriptions, and more.
+Svix acts as your webhook sending infrastructure and enables your customers to subscribe to events to power their integrations and workflow automations. You send Svix webhook messages using a single API call, and Svix then ensures reliable, low latency delivery to your customers' endpoints, handling retries, scaling, security, observability, and much more.
+
+Additionally, Svix offers a [white-labeled embeddable portal](app-portal.mdx), allowing your customers to self-manage their own webhook endpoints, subscriptions, rate limits, and more.
+
+### Core concepts
 
 Svix is composed of three core building blocks: `applications`, `endpoints`, and `messages`.
 
 [`Messages`](overview.mdx#messages) are the webhook messages being sent. They are most commonly JSON but Svix supports a variety of additional formats.
 
-[`Applications`](overview.mdx#consumer-applications) (aka consumer applications) are where messages are sent to. You would usually have one application for each one of your customers, which depending on your product would mean you will have dozens, hundreds of thousands, or more applications in your account.
+[`Applications`](overview.mdx#consumer-applications) (aka consumer applications) are where messages are sent to. You would usually have one application for each one of your customers , which depending on your product would mean you will have dozens, hundreds of thousands, or more applications in your account. Applications are isolated between one another, ensuring that your customers only have access to their subscriptions and data.
 
 Most people create an application programmatically when a new customer is created on their platform. However, you can alternatively create the application when a customer enables webhooks, or have Svix create these automatically for you (more on that later).
 
@@ -25,9 +29,9 @@ Endpoints are usually managed directly by your customers using the Consumer Appl
 
 ### Information flow
 
-Messages are created in your backend. They are usually created among other business logic, when the even occurs. They are then either sent to Svix directly, or are first sent to an internal event system which then sends to Svix.
+Messages are created in your backend. They are usually created among other business logic, when the event occurs. They are then either sent to Svix directly, or are first sent to an internal event system (SQS, GCP Pub/Sub, Kafka, etc.) which then sends to Svix.
 
-A message is sent to a specific consumer application and then fans-out to all of the endpoints configuration for that application.
+A message is sent to a specific consumer application and then Svix fans them out to all of the endpoints configured for that application.
 
 ![Information flow graph](img/msg-flow.svg)
 
@@ -161,7 +165,7 @@ brew install curl
 
 As [mentioned above](#how-svix-works), consumer applications are where webhooks are sent to, and each one of your customers should have their own application.
 
-Every entity on Svix supports setting a `uid` (user defined ID) which can then be used interchangeably with the Svix IDs throughout the APIs. This means that you can use your own identifiers in Svix, and you don't need to store any Svix identifiers on your end. Most people user their internal customer identifiers as the Svix `uid`s.
+Every entity on Svix supports setting a `uid` (user defined ID) which can then be used interchangeably with the Svix IDs throughout the APIs. This means that you can use your own identifiers in Svix, and you don't need to store any Svix identifiers on your end. Most people use their internal customer identifiers as the Svix `uid`s.
 
 In this example, we'll show how to create an application with the `example-customer-123` UID using the [create application API endpoint](https://api.svix.com/docs#operation/create_application_api_v1_app__post), though in practice you will set it to whatever unique identifier you use in your database.
 
@@ -788,4 +792,4 @@ curl -X POST "https://api.us.svix.com/api/v1/app/" \
 
 ## Closing words
 
-That's it! There are only three API calls you should really care about. Creating applications (i.e users), sending messages, and giving your users access to the App Portal. All of them are covered here.
+That's it! There are only three API calls you should really care about. Creating applications (i.e. users), sending messages, and giving your users access to the App Portal. All of them are covered here.
