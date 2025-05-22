@@ -1,7 +1,7 @@
 module.exports = {
   mainSidebar: [
     {
-      Introduction: ["introduction", "setup", "quickstart", "overview", "common-usage-examples", "consuming-webhooks"],
+      Introduction: ["introduction", "quickstart", "overview", "common-usage-examples", "consuming-webhooks"],
       Basics: ["event-types", "app-portal", "api-keys", "documenting-webhooks"],
       "Delivery Information": [
         "incoming-webhooks",

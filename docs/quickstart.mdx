@@ -27,6 +27,122 @@ The Svix libraries automatically infer the correct server URL from the authentic
 If you are self-hosting the server, you will need to explicitly set the server URL yourself. Please refer to the [custom server URL](#custom-server-url) section below.
 :::
 
+## Installing the Svix SDK (optional)
+
+<CodeTabs>
+<TabItem value="js">
+
+```js
+npm install svix
+// Or
+yarn add svix
+```
+
+</TabItem>
+<TabItem value="py">
+
+```shell
+pip install svix
+```
+
+</TabItem>
+<TabItem value="go">
+
+```shell
+go get github.com/svix/svix-webhooks/go
+```
+
+</TabItem>
+<TabItem value="rust">
+
+```toml
+cargo add svix
+```
+
+</TabItem>
+<TabItem value="java">
+
+Gradle: Add this dependency to your project's build file:
+
+```groovy
+implementation "com.svix:svix:0.x.y"
+```
+
+Maven: Add this dependency to your project's POM:
+
+```xml
+<dependency>
+  <groupId>com.svix</groupId>
+  <artifactId>svix</artifactId>
+  <version>0.x.y</version>
+</dependency>
+```
+
+</TabItem>
+<TabItem value="kotlin">
+
+Gradle: Add this dependency to your project's build file:
+
+```groovy
+implementation "com.svix.kotlin:svix-kotlin:0.x.y"
+```
+
+Maven: Add this dependency to your project's POM:
+
+```xml
+<dependency>
+  <groupId>com.svix.kotlin</groupId>
+  <artifactId>svix-kotlin</artifactId>
+  <version>0.x.y</version>
+</dependency>
+```
+
+</TabItem>
+<TabItem value="ruby">
+
+```sh
+gem install svix
+```
+
+</TabItem>
+<TabItem value="csharp">
+
+```shell
+dotnet add package Svix
+```
+
+</TabItem>
+<TabItem value="cli">
+
+On macOS install via <a href="https://brew.sh/">Homebrew</a>:
+
+```sh
+brew install svix/svix/svix-cli
+```
+
+On Windows install via <a href="https://scoop.sh/">Scoop</a>:
+
+```sh
+scoop bucket add svix https://github.com/svix/scoop-svix.git
+scoop install svix
+```
+
+For other platforms, such as linux, checkout the <a href="https://github.com/svix/svix-cli#installation">CLI docs</a> on Github.
+
+</TabItem>
+<TabItem value="curl">
+
+```shell
+# Install cURL. E.g. on arch linux:
+pacman -S curl
+# Or on macOS
+brew install curl
+```
+
+</TabItem>
+</CodeTabs>
+
+
 ## Sending messages
 
 ### Creating a consumer application
