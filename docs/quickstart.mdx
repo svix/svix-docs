@@ -145,11 +145,17 @@ brew install curl
 
 ### Creating a consumer application
 
-Each of your users needs an associated consumer application. The easiest way is to create a new application whenever a user signs up. In this section we will use the [create application API endpoint](https://api.svix.com/docs#operation/create_application_api_v1_app__post) to create an application.
+Each of your users needs an associated consumer application. The easiest way is to create a new application whenever a user signs up, though you can also create it when your customers enable webhooks, or have Svix create these automatically (more on that later).
+
+Multi-tenant
 
 You would need the application's ID when sending messages. You can either save the ID returned when creating the application, or set your own unique id (e.g. your user's username or internal database id) in the optional `uid` field and use that instead.
 
-Code example:
+You can use Svix in a completely stateless manner, without having to store any Svix identifiers (or anything else) in your own database; you can do it by utilizing `UID`s. If you set a `UID` on an application, endpoint, or any other entity, you can use this `UID` interchangeably with its `ID` anywhere in the API.
+
+For more information, please refer to the [section about `UID`s in the overview](./overview.mdx#ids-and-uids).
+
+Here is how to create an application using the [create application API endpoint](https://api.svix.com/docs#operation/create_application_api_v1_app__post):
 
 <CodeTabs>
 <TabItem value="js">
@@ -158,7 +164,10 @@ Code example:
 import { Svix } from "svix";
 
 const svix = new Svix("AUTH_TOKEN");
-const app = await svix.application.create({ name: "Application name" });
+const app = await svix.application.create({
+  name: "Application name",
+  uid: "example-customer-123"
+});
 ```
 
 </TabItem>
@@ -168,7 +177,10 @@ const app = await svix.application.create({ name: "Application name" });
 from svix.api import Svix, ApplicationIn
 
 svix = Svix("AUTH_TOKEN")
-app = svix.application.create(ApplicationIn(name="Application name"))
+app = svix.application.create(ApplicationIn(
+    name="Application name",
+    uid="example-customer-123"
+))
 ```
 
 </TabItem>
@@ -182,6 +194,7 @@ import (
 svixClient := svix.New("AUTH_TOKEN", nil)
 app, err := svixClient.Application.Create(ctx, &svix.ApplicationIn{
     Name: "Application name",
+    Uid:  "example-customer-123",
 })
 ```
 
@@ -197,6 +210,7 @@ let app = svix
     .create(
         ApplicationIn {
             name: "Application name".to_string(),
+            uid: Some("example-customer-123".to_string()),
             ..ApplicationIn::default()
         },
         None,
@@ -213,19 +227,23 @@ import com.svix.models.ApplicationOut;
 import com.svix.Svix;
 
 Svix svix = new Svix("AUTH_TOKEN");
-ApplicationOut app = svix.getApplication().create(new ApplicationIn().name("Application name"));
+ApplicationOut app = svix.getApplication().create(
+    new ApplicationIn().name("Application name").uid("example-customer-123")
+);
 ```
 
 </TabItem>
 <TabItem value="kotlin">
 
 ```kotlin
-import com.svix.kotlin.models.ApplicationIn;
-import com.svix.kotlin.models.ApplicationOut;
-import com.svix.kotlin.Svix;
+import com.svix.kotlin.models.ApplicationIn
+import com.svix.kotlin.models.ApplicationOut
+import com.svix.kotlin.Svix
 
 val svix = Svix("AUTH_TOKEN")
-val applicationOut = svix.application.create(ApplicationIn(name = "Application name"))
+val applicationOut = svix.application.create(
+    ApplicationIn(name = "Application name", uid = "example-customer-123")
+)
 ```
 
 </TabItem>
@@ -237,7 +255,9 @@ require "svix"
 svix = Svix::Client.new("AUTH_TOKEN")
 
 application_out = svix.application.create(Svix::ApplicationIn.new({
-    "name" => "Application name"}))
+    "name" => "Application name",
+    "uid" => "example-customer-123"
+}))
 ```
 
 </TabItem>
@@ -246,7 +266,7 @@ application_out = svix.application.create(Svix::ApplicationIn.new({
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
 applicationOut = await svix.Application.CreateAsync(
-    new ApplicationIn(name: "Application name")
+    new ApplicationIn(name: "Application name", uid: "example-customer-123")
 );
 ```
 
@@ -255,7 +275,7 @@ applicationOut = await svix.Application.CreateAsync(
 
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
-svix application create '{ "name": "Application name" }'
+svix application create '{ "name": "Application name", "uid": "example-customer-123" }'
 ```
 
 </TabItem>
@@ -267,11 +287,12 @@ curl -X POST "https://api.us.svix.com/api/v1/app/" \
     -H  "Accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: Bearer AUTH_TOKEN" \
-    -d '{"name": "Application name"}'
+    -d '{"name": "Application name", "uid": "example-customer-123"}'
 ```
 
 </TabItem>
 </CodeTabs>
+
 
 ### Send a message
 
@@ -624,12 +645,6 @@ curl -X POST "https://api.us.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/en
 
 The version number is an integer signifying the current version of the API. You can set it to `1` if you haven't started versioning your API yet.
 
-
-## Using Svix in a stateless manner
-
-You can use Svix in a completely stateless manner, without having to store any Svix identifiers (or anything else) in your own database; you can do it by utilizing `UID`s. If you set a `UID` on an application, endpoint, or any other entity, you can use this `UID` interchangeably with its `ID` anywhere in the API.
-
-For more information, please refer to the [section about `UID`s in the overview](./overview.mdx#ids-and-uids).
 
 ## Consuming webhooks documentation
 
