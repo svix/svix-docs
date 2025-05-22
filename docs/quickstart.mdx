@@ -17,10 +17,14 @@ In Svix you have three important entities you will be interacting with:
 
 For more information, please refer to the [Overview section](overview.mdx).
 
-## Getting started
+## Getting an API key
 
 Get your authentication token (`AuthToken`) from the [Svix dashboard](https://dashboard.svix.com).
 
+To interact with the Svix service, you'll need an API key.
+You can create one on the [API Access page](https://dashboard.svix.com/api-access) in the Svix dashboard.
+
+![API Access page](./img/api-access-page.png)
 
 ## Installing the Svix SDK (optional)
 
@@ -136,7 +140,6 @@ brew install curl
 
 </TabItem>
 </CodeTabs>
-
 
 ## Sending messages
 
@@ -259,6 +262,7 @@ svix application create '{ "name": "Application name" }'
 <TabItem value="curl">
 
 ```shell
+# Change URL based on your selected region
 curl -X POST "https://api.us.svix.com/api/v1/app/" \
     -H  "Accept: application/json" \
     -H  "Content-Type: application/json" \
@@ -438,6 +442,7 @@ svix message create app_Xzx8bQeOB1D1XEYmAJaRGoj0 '{ "eventType": "invoice.paid",
 <TabItem value="curl">
 
 ```shell
+# Change URL based on your selected region
 curl -X POST "https://api.us.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/msg/" \
     -H  "Accept: application/json" \
     -H  "Content-Type: application/json" \
@@ -606,6 +611,7 @@ svix endpoint create app_Xzx8bQeOB1D1XEYmAJaRGoj0 '{ "url": "https://api.example
 <TabItem value="curl">
 
 ```shell
+# Change URL based on your selected region
 curl -X POST "https://api.us.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/endpoint/" \
     -H  "Accept: application/json" \
     -H  "Content-Type: application/json" \
