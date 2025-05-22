@@ -537,7 +537,6 @@ Here is an example creating an endpoint using the [create endpoint API](https://
 const svix = new Svix("AUTH_TOKEN");
 await svix.endpoint.create("example-customer-123", {
   url: "https://api.example.com/svix-webhooks/",
-  version: 1,
   description: "My main endpoint",
 });
 ```
@@ -551,7 +550,6 @@ svix.endpoint.create(
     "example-customer-123",
     EndpointIn(
         url="https://api.example.com/svix-webhooks/",
-        version=1,
         description="My main endpoint",
     )
 )
@@ -579,7 +577,6 @@ svix.endpoint()
         "example-customer-123".to_string(),
         EndpointIn {
             url: "https://api.example.com/svix-webhooks/".to_string(),
-            version: 1,
             description: Some("My main endpoint".to_string()),
             ..EndpointIn::default()
         },
@@ -597,7 +594,6 @@ svix.getEndpoint()
     .create("example-customer-123",
             new EndpointIn()
               .url("https://api.example.com/svix-webhooks/")
-              .version(1)
               .description("My main endpoint"));
 ```
 
@@ -610,7 +606,6 @@ val endpointOut =
     svix.endpoint.create("example-customer-123",
         EndpointIn(
             url = URI("https://api.example.com/svix-webhooks/"),
-            version = 1,
             description = "My main endpoint"))
 ```
 
@@ -623,7 +618,6 @@ endpoint_out =
     svix.endpoint.create("example-customer-123",
         Svix::EndpointIn.new({
             "url" => "https://api.example.com/svix-webhooks/",
-            "version" => 1,
             "description" => "My main endpoint"}))
 ```
 
@@ -634,7 +628,6 @@ endpoint_out =
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
 endpointOut = await svix.Endpoint.CreateAsync(new EndpointIn(
     url: "https://api.example.com/svix-webhooks/",
-    version: 1,
     description: "My main endpoint"
 ));
 ```
@@ -644,7 +637,7 @@ endpointOut = await svix.Endpoint.CreateAsync(new EndpointIn(
 
 ```shell
 export SVIX_AUTH_TOKEN="AUTH_TOKEN"
-svix endpoint create example-customer-123 '{ "url": "https://api.example.com/svix-webhooks/", "version": 1, "description": "My main endpoint" }'
+svix endpoint create example-customer-123 '{ "url": "https://api.example.com/svix-webhooks/", "description": "My main endpoint" }'
 ```
 
 </TabItem>
@@ -656,13 +649,14 @@ curl -X POST "https://api.us.svix.com/api/v1/app/example-customer-123/endpoint/"
     -H  "Accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: Bearer AUTH_TOKEN" \
-    -d '{"url": "https://api.example.com/svix-webhooks/", "version": 1, "description": "My main endpoint"}'
+    -d '{"url": "https://api.example.com/svix-webhooks/", "description": "My main endpoint"}'
 ```
 
 </TabItem>
 </CodeTabs>
 
-The version number is an integer signifying the current version of the API. You can set it to `1` if you haven't started versioning your API yet.
+Additionally, you can expose the API to your customers by creating equivalent API endpoints in your API, and making calls to the Svix API internally. For more on this, please reference the [exposing the API to your customers tutorial](./tutorials/api-webhook-management.md).
+
 
 ## Further reading
 

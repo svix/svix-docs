@@ -39,6 +39,7 @@ module.exports = {
     {
       Tutorials: [
         "tutorials/cli",
+        "tutorials/api-webhook-management",
         "tutorials/event-type-schema",
         "tutorials/connectors",
         "sending-messages-with-bridge",
