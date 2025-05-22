@@ -149,7 +149,7 @@ svix.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
 <TabItem value="csharp">
 
 ```csharp
-var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
+var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
 await svix.Message.CreateAsync("app_Xzx8bQeOB1D1XEYmAJaRGoj0", new MessageIn(
     eventType: "invoice.paid",
     eventId: "evt_Wqb1k73rXprtTm7Qdlr38G",
@@ -174,7 +174,7 @@ svix message create app_Xzx8bQeOB1D1XEYmAJaRGoj0 '{ "eventType": "invoice.paid",
 <TabItem value="curl">
 
 ```shell
-curl -X POST "https://api.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/msg/" \
+curl -X POST "https://api.us.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/msg/" \
     -H  "Accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: Bearer AUTH_TOKEN" \

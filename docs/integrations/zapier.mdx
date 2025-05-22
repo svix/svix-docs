@@ -162,7 +162,7 @@ svix integration get-key 'app_24D5XFE8W4VVYQ2XPdJlFKlYKrf' 'integ_24D5mQaRudh54X
 
 ```shell
 curl -X 'POST' \
-  'https://api.svix.com/api/v1/app/' \
+  'https://api.us.svix.com/api/v1/app/' \
   -H 'Authorization: Bearer AUTH_TOKEN' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
@@ -171,7 +171,7 @@ curl -X 'POST' \
 }'
 
 curl -X 'POST' \
-  'https://api.svix.com/api/v1/app/APP_ID/integration/' \
+  'https://api.us.svix.com/api/v1/app/APP_ID/integration/' \
   -H 'Authorization: Bearer AUTH_TOKEN' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
@@ -180,7 +180,7 @@ curl -X 'POST' \
 }'
 
 curl -X 'GET' \
-  'https://api.svix.com/api/v1/app/APP_ID/integration/INTEG_ID/key/' \
+  'https://api.us.svix.com/api/v1/app/APP_ID/integration/INTEG_ID/key/' \
   -H 'Authorization: Bearer AUTH_TOKEN' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json'
