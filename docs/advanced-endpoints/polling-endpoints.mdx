@@ -29,7 +29,7 @@ Like with webhook endpoints, Polling Endpoints support filtering messages by [ev
 
 In the App Portal, event consumers will get a unique URL and an API key to iterate through the full list of events sent to their [Svix Application](/overview#consumer-applications) since the endpoint was created.
 
-When creating a Polling Endpoint, consumers will get a unique URL like `https://api.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q`
+When creating a Polling Endpoint, consumers will get a unique URL like `https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q`
 
 When first calling the endpoint, it will return an empty array and an iterator.
 
@@ -45,7 +45,7 @@ Then, using the iterator in the next call, they can iterate through the events a
 
 ```bash
 curl \
-  "https://api.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q?iterator=eyJv..." \
+  "https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q?iterator=eyJv..." \
   -H 'Accept: application/json' \
   -H 'Authorization: Bearer sk_poll_*****.eu'
 ```
@@ -70,7 +70,7 @@ URL.
 
 ```bash
 curl \
-  "https://api.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q/consumer/MY-CONSUMER-ID?iterator=eyJv..." \
+  "https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q/consumer/MY-CONSUMER-ID?iterator=eyJv..." \
   -H 'Accept: application/json' \
   -H 'Authorization: Bearer sk_poll_*****.eu'
 ```
@@ -90,7 +90,7 @@ The `iterator` persisted on the server side can be adjusted with the `seek` endp
 
 ```bash
 curl \
-  "https://api.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q/consumer/MY-CONSUMER-ID/seek" \
+  "https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q/consumer/MY-CONSUMER-ID/seek" \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer sk_poll_*****.eu' \

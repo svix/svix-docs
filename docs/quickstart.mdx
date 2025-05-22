@@ -5,37 +5,169 @@ title: Quickstart
 import CodeTabs from "@theme/CodeTabs";
 import TabItem from "@theme/TabItem";
 
-This page has everything you need to start sending webhooks with Svix.
+Learn how to send your first webhook using Svix.
 
-### Main concepts
+## How Svix works
 
-In Svix you have three important entities you will be interacting with:
+Svix acts as your webhook sending infrastructure and enables your customers to subscribe to events to power their integrations and workflow automations. You send Svix webhook messages using a single API call, and Svix then ensures reliable, low latency delivery to your customers' endpoints, handling retries, scaling, security, observability, and much more.
 
-- [`messages`](overview.mdx#messages): these are the webhooks being sent. They can have contents and a few other properties.
-- [`application`](overview.mdx#consumer-applications) (consumer application): this is where `messages` are sent to. Usually you want to create one application for each user on your platform.
-- [`endpoint`](overview.mdx#endpoints): endpoints are the URLs messages will be sent to. Each application can have multiple `endpoints` and each message sent to that application will be sent to all of them (unless they are not subscribed to the sent [event type](event-types.mdx)).
+Additionally, Svix offers a [white-labeled embeddable portal](app-portal.mdx), allowing your customers to self-manage their own webhook endpoints, subscriptions, rate limits, and more.
 
-For more information, please refer to the [Overview section](overview.mdx).
+### Core concepts
 
-## Getting started
+Svix is composed of three core building blocks: `applications`, `endpoints`, and `messages`.
+
+[`Messages`](overview.mdx#messages) are the webhook messages being sent. They are most commonly JSON but Svix supports a variety of additional formats.
+
+[`Applications`](overview.mdx#consumer-applications) (aka consumer applications) are where messages are sent to. You would usually have one application for each one of your customers , which depending on your product would mean you will have dozens, hundreds of thousands, or more applications in your account. Applications are isolated between one another, ensuring that your customers only have access to their subscriptions and data.
+
+Most people create an application programmatically when a new customer is created on their platform. However, you can alternatively create the application when a customer enables webhooks, or have Svix create these automatically for you (more on that later).
+
+[`Endpoints`](overview.mdx#endpoints) are essentially the URLs messages will be sent to. Each application can have multiple `endpoints` and each message sent to that application will be sent to all of them (based on the [event type](event-types.mdx) and other filtering rules).
+
+Endpoints are usually managed directly by your customers using the Consumer Application Portal (more on that below).
+
+### Information flow
+
+Messages are created in your backend. They are usually created among other business logic, when the event occurs. They are then either sent to Svix directly, or are first sent to an internal event system (SQS, GCP Pub/Sub, Kafka, etc.) which then sends to Svix.
+
+A message is sent to a specific consumer application and then Svix fans them out to all of the endpoints configured for that application.
+
+![Information flow graph](img/msg-flow.svg)
+
+## Prerequisites
+
+### Create an API key
 
 Get your authentication token (`AuthToken`) from the [Svix dashboard](https://dashboard.svix.com).
 
-:::info[Automatic environment detection]
-The Svix libraries automatically infer the correct server URL from the authentication token when using the hosted Svix server. No action needed.
+To interact with the Svix service, you'll need an API key.
+You can create one on the [API Access page](https://dashboard.svix.com/api-access) in the Svix dashboard.
 
-If you are self-hosting the server, you will need to explicitly set the server URL yourself. Please refer to the [custom server URL](#custom-server-url) section below.
-:::
+![API Access page](./img/api-access-page.png)
 
-## Sending messages
+### Install the Svix SDK (optional)
 
-### Creating a consumer application
+<CodeTabs>
+<TabItem value="js">
 
-Each of your users needs an associated consumer application. The easiest way is to create a new application whenever a user signs up. In this section we will use the [create application API endpoint](https://api.svix.com/docs#operation/create_application_api_v1_app__post) to create an application.
+```js
+npm install svix
+// Or
+yarn add svix
+```
 
-You would need the application's ID when sending messages. You can either save the ID returned when creating the application, or set your own unique id (e.g. your user's username or internal database id) in the optional `uid` field and use that instead.
+</TabItem>
+<TabItem value="py">
 
-Code example:
+```shell
+pip install svix
+```
+
+</TabItem>
+<TabItem value="go">
+
+```shell
+go get github.com/svix/svix-webhooks/go
+```
+
+</TabItem>
+<TabItem value="rust">
+
+```toml
+cargo add svix
+```
+
+</TabItem>
+<TabItem value="java">
+
+Gradle: Add this dependency to your project's build file:
+
+```groovy
+implementation "com.svix:svix:0.x.y"
+```
+
+Maven: Add this dependency to your project's POM:
+
+```xml
+<dependency>
+  <groupId>com.svix</groupId>
+  <artifactId>svix</artifactId>
+  <version>0.x.y</version>
+</dependency>
+```
+
+</TabItem>
+<TabItem value="kotlin">
+
+Gradle: Add this dependency to your project's build file:
+
+```groovy
+implementation "com.svix.kotlin:svix-kotlin:0.x.y"
+```
+
+Maven: Add this dependency to your project's POM:
+
+```xml
+<dependency>
+  <groupId>com.svix.kotlin</groupId>
+  <artifactId>svix-kotlin</artifactId>
+  <version>0.x.y</version>
+</dependency>
+```
+
+</TabItem>
+<TabItem value="ruby">
+
+```sh
+gem install svix
+```
+
+</TabItem>
+<TabItem value="csharp">
+
+```shell
+dotnet add package Svix
+```
+
+</TabItem>
+<TabItem value="cli">
+
+On macOS install via <a href="https://brew.sh/">Homebrew</a>:
+
+```sh
+brew install svix/svix/svix-cli
+```
+
+On Windows install via <a href="https://scoop.sh/">Scoop</a>:
+
+```sh
+scoop bucket add svix https://github.com/svix/scoop-svix.git
+scoop install svix
+```
+
+For other platforms, such as linux, checkout the <a href="https://github.com/svix/svix-cli#installation">CLI docs</a> on Github.
+
+</TabItem>
+<TabItem value="curl">
+
+```shell
+# Install cURL. E.g. on arch linux:
+pacman -S curl
+# Or on macOS
+brew install curl
+```
+
+</TabItem>
+</CodeTabs>
+
+## Create a consumer application
+
+As [mentioned above](#how-svix-works), consumer applications are where webhooks are sent to, and each one of your customers should have their own application.
+
+Every entity on Svix supports setting a `uid` (user defined ID) which can then be used interchangeably with the Svix IDs throughout the APIs. This means that you can use your own identifiers in Svix, and you don't need to store any Svix identifiers on your end. Most people use their internal customer identifiers as the Svix `uid`s.
+
+In this example, we'll show how to create an application with the `example-customer-123` UID using the [create application API endpoint](https://api.svix.com/docs#operation/create_application_api_v1_app__post), though in practice you will set it to whatever unique identifier you use in your database.
 
 <CodeTabs>
 <TabItem value="js">
@@ -44,7 +176,10 @@ Code example:
 import { Svix } from "svix";
 
 const svix = new Svix("AUTH_TOKEN");
-const app = await svix.application.create({ name: "Application name" });
+const app = await svix.application.create({
+  name: "Application name",
+  uid: "example-customer-123"
+});
 ```
 
 </TabItem>
@@ -54,7 +189,10 @@ const app = await svix.application.create({ name: "Application name" });
 from svix.api import Svix, ApplicationIn
 
 svix = Svix("AUTH_TOKEN")
-app = svix.application.create(ApplicationIn(name="Application name"))
+app = svix.application.create(ApplicationIn(
+    name="Application name",
+    uid="example-customer-123"
+))
 ```
 
 </TabItem>
@@ -68,6 +206,7 @@ import (
 svixClient := svix.New("AUTH_TOKEN", nil)
 app, err := svixClient.Application.Create(ctx, &svix.ApplicationIn{
     Name: "Application name",
+    Uid:  "example-customer-123",
 })
 ```
 
@@ -83,6 +222,7 @@ let app = svix
     .create(
         ApplicationIn {
             name: "Application name".to_string(),
+            uid: Some("example-customer-123".to_string()),
             ..ApplicationIn::default()
         },
         None,
@@ -99,19 +239,23 @@ import com.svix.models.ApplicationOut;
 import com.svix.Svix;
 
 Svix svix = new Svix("AUTH_TOKEN");
-ApplicationOut app = svix.getApplication().create(new ApplicationIn().name("Application name"));
+ApplicationOut app = svix.getApplication().create(
+    new ApplicationIn().name("Application name").uid("example-customer-123")
+);
 ```
 
 </TabItem>
 <TabItem value="kotlin">
 
 ```kotlin
-import com.svix.kotlin.models.ApplicationIn;
-import com.svix.kotlin.models.ApplicationOut;
-import com.svix.kotlin.Svix;
+import com.svix.kotlin.models.ApplicationIn
+import com.svix.kotlin.models.ApplicationOut
+import com.svix.kotlin.Svix
 
 val svix = Svix("AUTH_TOKEN")
-val applicationOut = svix.application.create(ApplicationIn(name = "Application name"))
+val applicationOut = svix.application.create(
+    ApplicationIn(name = "Application name", uid = "example-customer-123")
+)
 ```
 
 </TabItem>
@@ -123,16 +267,18 @@ require "svix"
 svix = Svix::Client.new("AUTH_TOKEN")
 
 application_out = svix.application.create(Svix::ApplicationIn.new({
-    "name" => "Application name"}))
+    "name" => "Application name",
+    "uid" => "example-customer-123"
+}))
 ```
 
 </TabItem>
 <TabItem value="csharp">
 
 ```csharp
-var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
+var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
 applicationOut = await svix.Application.CreateAsync(
-    new ApplicationIn(name: "Application name")
+    new ApplicationIn(name: "Application name", uid: "example-customer-123")
 );
 ```
 
@@ -141,39 +287,44 @@ applicationOut = await svix.Application.CreateAsync(
 
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
-svix application create '{ "name": "Application name" }'
+svix application create '{ "name": "Application name", "uid": "example-customer-123" }'
 ```
 
 </TabItem>
 <TabItem value="curl">
 
 ```shell
-curl -X POST "https://api.svix.com/api/v1/app/" \
+# Change URL based on your selected region
+curl -X POST "https://api.us.svix.com/api/v1/app/" \
     -H  "Accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: Bearer AUTH_TOKEN" \
-    -d '{"name": "Application name"}'
+    -d '{"name": "Application name", "uid": "example-customer-123"}'
 ```
 
 </TabItem>
 </CodeTabs>
 
-### Send a message
 
-We will now send a new message using the [create message API endpoint](https://api.svix.com/docs#operation/create_message_api_v1_app__app_id__msg__post). It accepts an `app_id`, which is the application's ID (or custom `uid`) from the previous section. In addition, it accepts the following fields (as part the json body):
+## Send a message
 
-- [`eventType`](event-types.mdx): an identifier denoting the type of the event. E.g. `invoice.paid`.
+When you send a message in Svix you have to specify who you want to send it to, which means choosing a specific application (one of your customers).
+
+In addition to the application, people also set the following properties when sending messages:
+
+- `eventType`: an identifier denoting the type of the event. You can read more about event types in [the event type docs](event-types.mdx), but for this example we'll just use `invoice.paid` as the type.
 - `eventId`: an optional unique ID for the event (unique per app). This is useful if you want to map each message to unique events on your system.
-- `payload`: a JSON dictionary that can hold anything. Its content will be sent as the webhook content.
+- `payload`: a JSON dictionary that can hold anything. Its content will be sent as the webhook content (Svix also supports sending non-JSON payloads).
 
-For example, the following code sends a webhook of type `eventType`, with the contents of `payload` as the body:
+
+This example uses the [create message API](https://api.svix.com/docs#operation/create_message_api_v1_app__app_id__msg__post) and the application we created in the previous step (`uid = example-customer-123`):
 
 <CodeTabs>
 <TabItem value="js">
 
 ```js
 const svix = new Svix("AUTH_TOKEN");
-await svix.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
+await svix.message.create("example-customer-123", {
   eventType: "invoice.paid",
   eventId: "evt_Wqb1k73rXprtTm7Qdlr38G",
   payload: {
@@ -191,7 +342,7 @@ await svix.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
 ```python
 svix = Svix("AUTH_TOKEN")
 svix.message.create(
-    "app_Xzx8bQeOB1D1XEYmAJaRGoj0",
+    "example-customer-123",
     MessageIn(
         event_type="invoice.paid",
         event_id="evt_Wqb1k73rXprtTm7Qdlr38G",
@@ -211,7 +362,7 @@ svix.message.create(
 ```go
 svixClient := svix.New("AUTH_TOKEN", nil)
 eventId = "evt_Wqb1k73rXprtTm7Qdlr38G"
-svixClient.Message.Create(ctx, "app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.MessageIn{
+svixClient.Message.Create(ctx, "example-customer-123", &svix.MessageIn{
     EventType: "invoice.paid",
     EventId: *svix.NullableString(&eventId),
     Payload: map[string]interface{}{
@@ -230,7 +381,7 @@ svixClient.Message.Create(ctx, "app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.MessageIn{
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
 svix.message()
     .create(
-        "app_Xzx8bQeOB1D1XEYmAJaRGoj0".to_string(),
+        "example-customer-123".to_string(),
         MessageIn {
             event_type: "invoice.paid".to_string(),
             event_id: Some("evt_Wqb1k73rXprtTm7Qdlr38G".to_string()),
@@ -252,7 +403,7 @@ svix.message()
 
 ```java
 Svix svix = new Svix("AUTH_TOKEN");
-svix.getMessage().create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
+svix.getMessage().create("example-customer-123",
   new MessageIn()
     .eventType("invoice.paid")
     .eventId("evt_Wqb1k73rXprtTm7Qdlr38G")
@@ -269,7 +420,7 @@ svix.getMessage().create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
 
 ```kotlin
 val svix = Svix("AUTH_TOKEN")
-svix.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
+svix.message.create("example-customer-123",
         MessageIn(
             eventType = "invoice.paid",
             payload = mapOf<String, Any>(
@@ -286,7 +437,7 @@ svix.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
 
 ```ruby
 svix = Svix::Client.new("AUTH_TOKEN")
-svix.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
+svix.message.create("example-customer-123",
     Svix::MessageIn.new({
         "event_type" => "invoice.paid",
         "payload" => {
@@ -302,8 +453,8 @@ svix.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
 <TabItem value="csharp">
 
 ```csharp
-var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
-await svix.Message.CreateAsync("app_Xzx8bQeOB1D1XEYmAJaRGoj0", new MessageIn(
+var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
+await svix.Message.CreateAsync("example-customer-123", new MessageIn(
     eventType: "invoice.paid",
     payload: new {
         type = "invoice.paid",
@@ -320,14 +471,15 @@ await svix.Message.CreateAsync("app_Xzx8bQeOB1D1XEYmAJaRGoj0", new MessageIn(
 
 ```shell
 export SVIX_AUTH_TOKEN="AUTH_TOKEN"
-svix message create app_Xzx8bQeOB1D1XEYmAJaRGoj0 '{ "eventType": "invoice.paid", "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G", "payload": { "type": "event.type", "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql", "status": "paid", "attempt": 2 } }'
+svix message create example-customer-123 '{ "eventType": "invoice.paid", "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G", "payload": { "type": "event.type", "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql", "status": "paid", "attempt": 2 } }'
 ```
 
 </TabItem>
 <TabItem value="curl">
 
 ```shell
-curl -X POST "https://api.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/msg/" \
+# Change URL based on your selected region
+curl -X POST "https://api.us.svix.com/api/v1/app/example-customer-123/msg/" \
     -H  "Accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: Bearer AUTH_TOKEN" \
@@ -353,7 +505,7 @@ For more information, please refer to the [idempotency section](./idempotency.md
 Note: while the `eventId` can potentially be used to enforce short-term uniqueness (similar to idempotency), it's recommended to use the idempotency mechanism when needed rather than relying on `eventId` checks.
 
 
-## Add webhook endpoints
+## Subscribe your customers to webhooks
 
 In the example above we showed how to send messages, though these messages were not sent to any specific URLs. In order for them to be sent, we need to add endpoints. This is what this section is about.
 
@@ -363,23 +515,27 @@ You can use the [Svix Play webhook debugger](https://www.svix.com/play/) and the
 
 ### Using the Application Portal
 
-Svix offers a pre-build application portal. With [one API call](https://api.svix.com/docs#operation/get_dashboard_access_api_v1_auth_dashboard_access__app_id___post), you can give your users access to this UI and they can then add their own endpoints themselves.
+Svix offers a pre-built application portal. With one API call, you can give your users access to this UI and they can then add their own endpoints themselves. The UI can be embedded in your own dashboard and customized to match your dashboard's look-and-feel.
+
 App portal access is based on short-lived sessions using special magic links. Your customers don't need a Svix account, and they don't even need to know that Svix exists.
 
-More on that in the [application portal docs](./app-portal.mdx).
+You can read more about the app portal in the [application portal docs](./app-portal.mdx).
+
+![embedded iframe screen](/img/app-portal/embedded-view-screen.png)
+
 
 ### Using the API
 
-In addition to the App Portal, you can also use our API to add endpoints to your applications. To do so, you will use the [create endpoint API](https://api.svix.com/docs#operation/create_endpoint_api_v1_app__app_id__endpoint__post).
+The app portal is built using the Svix SDKs, which means that everything you can do in the app portal you can also do using the Svix API. This includes creating endpoints.
 
-For example:
+Here is an example creating an endpoint using the [create endpoint API](https://api.svix.com/docs#operation/create_endpoint_api_v1_app__app_id__endpoint__post), and the application we created above (`uid = example-customer-123`):
 
 <CodeTabs>
 <TabItem value="js">
 
 ```js
 const svix = new Svix("AUTH_TOKEN");
-await svix.endpoint.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
+await svix.endpoint.create("example-customer-123", {
   url: "https://api.example.com/svix-webhooks/",
   version: 1,
   description: "My main endpoint",
@@ -392,7 +548,7 @@ await svix.endpoint.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
 ```python
 svix = Svix("AUTH_TOKEN")
 svix.endpoint.create(
-    "app_Xzx8bQeOB1D1XEYmAJaRGoj0",
+    "example-customer-123",
     EndpointIn(
         url="https://api.example.com/svix-webhooks/",
         version=1,
@@ -406,7 +562,7 @@ svix.endpoint.create(
 
 ```go
 svixClient := svix.New("AUTH_TOKEN", nil)
-svixClient.Endpoint.Create(ctx, "app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.EndpointIn{
+svixClient.Endpoint.Create(ctx, "example-customer-123", &svix.EndpointIn{
     Url:         "https://api.example.com/svix-webhooks/",
     Version:     1,
     Description: svix.String("My main endpoint"),
@@ -420,7 +576,7 @@ svixClient.Endpoint.Create(ctx, "app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.EndpointIn
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
 svix.endpoint()
     .create(
-        "app_Xzx8bQeOB1D1XEYmAJaRGoj0".to_string(),
+        "example-customer-123".to_string(),
         EndpointIn {
             url: "https://api.example.com/svix-webhooks/".to_string(),
             version: 1,
@@ -438,7 +594,7 @@ svix.endpoint()
 ```java
 Svix svix = new Svix("AUTH_TOKEN");
 svix.getEndpoint()
-    .create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
+    .create("example-customer-123",
             new EndpointIn()
               .url("https://api.example.com/svix-webhooks/")
               .version(1)
@@ -451,7 +607,7 @@ svix.getEndpoint()
 ```kotlin
 val svix = Svix("AUTH_TOKEN")
 val endpointOut =
-    svix.endpoint.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
+    svix.endpoint.create("example-customer-123",
         EndpointIn(
             url = URI("https://api.example.com/svix-webhooks/"),
             version = 1,
@@ -464,7 +620,7 @@ val endpointOut =
 ```ruby
 svix = Svix::Client.new("AUTH_TOKEN")
 endpoint_out =
-    svix.endpoint.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
+    svix.endpoint.create("example-customer-123",
         Svix::EndpointIn.new({
             "url" => "https://api.example.com/svix-webhooks/",
             "version" => 1,
@@ -475,7 +631,7 @@ endpoint_out =
 <TabItem value="csharp">
 
 ```csharp
-var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
+var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
 endpointOut = await svix.Endpoint.CreateAsync(new EndpointIn(
     url: "https://api.example.com/svix-webhooks/",
     version: 1,
@@ -488,14 +644,15 @@ endpointOut = await svix.Endpoint.CreateAsync(new EndpointIn(
 
 ```shell
 export SVIX_AUTH_TOKEN="AUTH_TOKEN"
-svix endpoint create app_Xzx8bQeOB1D1XEYmAJaRGoj0 '{ "url": "https://api.example.com/svix-webhooks/", "version": 1, "description": "My main endpoint" }'
+svix endpoint create example-customer-123 '{ "url": "https://api.example.com/svix-webhooks/", "version": 1, "description": "My main endpoint" }'
 ```
 
 </TabItem>
 <TabItem value="curl">
 
 ```shell
-curl -X POST "https://api.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/endpoint/" \
+# Change URL based on your selected region
+curl -X POST "https://api.us.svix.com/api/v1/app/example-customer-123/endpoint/" \
     -H  "Accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: Bearer AUTH_TOKEN" \
@@ -507,29 +664,24 @@ curl -X POST "https://api.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/endpo
 
 The version number is an integer signifying the current version of the API. You can set it to `1` if you haven't started versioning your API yet.
 
+## Further reading
 
-## Using Svix in a stateless manner
-
-You can use Svix in a completely stateless manner, without having to store any Svix identifiers (or anything else) in your own database; you can do it by utilizing `UID`s. If you set a `UID` on an application, endpoint, or any other entity, you can use this `UID` interchangeably with its `ID` anywhere in the API.
-
-For more information, please refer to the [section about `UID`s in the overview](./overview.mdx#ids-and-uids).
-
-## Consuming webhooks documentation
+### Consuming webhooks documentation
 
 Please refer to the [consuming webhooks](./consuming-webhooks.mdx) section for information you can share with your customers on how to easily consume webhooks, and how to use the application portal.
 
 
-## Common Usage Examples
+### Common Usage Examples
 
 The above should give you everything you need to know in order to get started with Svix. However, we've gathered examples of some of the more common ways people use the Svix API in order to make it even easier for you to get started and follow the best practices.
 
 For more information please refer to the [common usage examples section](./common-usage-examples.mdx).
 
-## Custom server URL
+### Custom server URL
 
-Starting from version 0.64.0, the libs automatically infer the correct server URL from the authentication token (for tokens created from August 2022 onwards).
+The Svix libraries automatically infer the correct server URL from the authentication token, so setting a server URL is not necessary unless you are self-hosting the Svix server (open-source or Enterprise self-hosting).
 
-If you are using old tokens, or a non-standard server URL, you may need to set the URL explicitly in the library based on your chosen environment and as shown in the "API Access" page in the dashboard.
+This is how you override the server URL in each of the libraries:
 
 <CodeTabs>
 <TabItem value="js">
@@ -628,7 +780,7 @@ svix application create '{ "name": "Application name" }'
 
 ```shell
 # Just replace the URL below
-curl -X POST "https://api.svix.com/api/v1/app/" \
+curl -X POST "https://api.us.svix.com/api/v1/app/" \
     -H  "Accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: Bearer AUTH_TOKEN" \
@@ -640,4 +792,4 @@ curl -X POST "https://api.svix.com/api/v1/app/" \
 
 ## Closing words
 
-That's it! There are only three API calls you should really care about. Creating applications (i.e users), sending messages, and giving your users access to the App Portal. All of them are covered here.
+That's it! There are only three API calls you should really care about. Creating applications (i.e. users), sending messages, and giving your users access to the App Portal. All of them are covered here.

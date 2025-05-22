@@ -1,16 +1,12 @@
 ---
-title: Overview
+title: Entities Overview
 ---
 
-This section provides an overview of the main concepts of Svix and how to use them.
+This section provides an overview of the common Svix entities.
 
-## Information flow
+The Svix entities are mostly hierarchical with the environment being the main isolation unit, below it there are applications which represent a target for messages, and even below there are endpoints which represent a destination to send webhooks to.
 
-In Svix you can create multiple `environments`. Each `environment` is completely isolated from others. It has different data, different settings, and different API keys, among others.
-
-Webhooks are called `messages`. You can use your API keys to send `messages` to `applications`. Each `application` can have multiple `endpoints`. A `message` sent to a specific application is sent to all of the relevant `endpoints` (filtered by `event type` and `channel`).
-
-![Information flow graph](img/msg-flow.svg)
+![Entities diagram](img/entity-graph.svg)
 
 
 ## IDs and UIDs
@@ -22,14 +18,8 @@ These `UID`s can be used interchangeably with `ID`s all throughout the API. So f
 This enables you to use Svix in a completely stateless manner, without having to store the Svix identifiers (or anything) in your own database.
 
 
-## Entities
 
-There are a variety of entities in Svix. The Svix entities are mostly hierarchical with the environment being the main isolation unit, below it there are applications which represent a target for messages, and even below there are endpoints which represent a destination to send webhooks to.
-
-![Entities diagram](img/entity-graph.svg)
-
-
-### Consumer Applications
+## Consumer Applications
 
 When sending messages using the Svix API you will be sending them to a specific application (consumer), which will then distribute them to the associated endpoints.
 In most cases you would want to create one application for each of our customers, though in some cases you may want to create multiple applications per customer.
@@ -54,7 +44,7 @@ svix.message.create('some-user', {
 ```
 
 
-### Endpoints
+## Endpoints
 
 Endpoints represent a target for messages sent to a specific application. You can have multiple endpoints per application, and every message sent to the application will be sent to all of them. Endpoints can have filters applied to them which will prevent them from receiving specific messages. The most common such filter is [event type](event-types.mdx), where an endpoint can choose to only subscribe to a limited set of events.
 
@@ -63,7 +53,7 @@ Endpoints can be created by you using [the create endpoint API](https://api.svix
 Like with applications, you can define a `uid` for an endpoint which can then be used interchangeably in the API with the endpoint's `id`.
 
 
-### Messages
+## Messages
 
 Messages are the webhooks being sent. They can have a content, event type, and a few other properties.
 
@@ -75,12 +65,12 @@ If a message delivery fails, it will be attempted multiple times until either it
 Messages can have an associated `eventId`. The `eventId` is used to map a message from Svix to one in your system so you can easily map a message to the reason why you sent it.
 
 
-### Attempts
+## Attempts
 
 Attempts represent an attempt that has been made to send a message to an endpoint. Attempts also record the response content of the attempt, the response HTTP status code, as well as other properties. Each attempt to send a message is recorded in an attempt entity which can then be queried (there can be multiple when there are failures).
 
 
-### Event Types
+## Event Types
 
 Event types are identifiers on messages that describe the message being sent and implies its associated schema. Each message has exactly one event type, and endpoints can listen to all, or a subset of the created event types.
 
@@ -89,7 +79,7 @@ Event types schemas are used for things like "send example webhook" in the appli
 You will need to create event types for them to be shown in the application portal and used by endpoints.
 
 
-### Environments
+## Environments
 
 Environments are completely isolated Svix environments that have their own API keys, data, and settings. You can think of Svix environments are completely separate accounts.
 

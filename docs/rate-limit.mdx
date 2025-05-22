@@ -129,7 +129,7 @@ using Svix;
 using Svix.Model;
 using Svix.Models;
 
-var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
+var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
 await svix.Application.CreateAsync(new EventTypeIn(
     name: "Application Name",
     rateLimit: 1000
@@ -148,7 +148,7 @@ svix application create '{ "name": "Application name", "rateLimit": 1000 }'
 <TabItem value="curl">
 
 ```shell
-curl -X POST "https://api.svix.com/api/v1/app/" \
+curl -X POST "https://api.us.svix.com/api/v1/app/" \
     -H  "Accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: Bearer AUTH_TOKEN" \

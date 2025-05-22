@@ -164,7 +164,7 @@ svix.message.create(
 <TabItem value="csharp">
 
 ```csharp
-var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
+var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
 var message = new MessageIn(
     eventType: "invoice.paid",
     payload: new {
@@ -194,7 +194,7 @@ Idempotency is not yet supported in the Svix CLI.
 <TabItem value="curl">
 
 ```shell
-curl "https://api.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/msg/" \
+curl "https://api.us.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/msg/" \
     -H "Accept: application/json" \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer AUTH_TOKEN" \

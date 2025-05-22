@@ -13,13 +13,13 @@ As with [regular webhook endpoints](/receiving/using-app-portal/adding-endpoints
 
 # Usage
 
-Once you've created a Polling Endpoint, you'll get a unique URL like `https://api.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q`.
+Once you've created a Polling Endpoint, you'll get a unique URL like `https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q`.
 
 You can call this endpoint directly once you have an [API key](/receiving/using-app-portal/polling-endpoints#api-keys).
 
 ```bash
 curl \
-  "https://api.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q" \
+  "https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q" \
   -H 'Accept: application/json' \
   -H 'Authorization: Bearer sk_poll_*****.eu'
 ```
@@ -38,7 +38,7 @@ Then, using the iterator in the next call, you can iterate through the events an
 
 ```bash
 curl \
-  -X GET "https://api.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q?iterator=eyJv..." \
+  -X GET "https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q?iterator=eyJv..." \
   -H 'Accept: application/json' \
   -H 'Authorization: Bearer sk_poll_*****.eu'
 ```

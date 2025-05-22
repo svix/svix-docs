@@ -169,7 +169,7 @@ Creating a `Source` from the [Ingest Dashboard]:
   <TabItem value="csharp">
   
   ```csharp
-  var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
+  var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
   var ingestSourceOut = await svix.Ingest.Source.CreateAsync(
     new IngestSourceIn{
         Name = "myGithubWebhook",
