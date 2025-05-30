@@ -30,7 +30,7 @@ The way to indicate that a webhook has been processed is by returning a `2xx` (s
 
 ## Failed delivery handling
 
-After the conclusion of the above attempts the message will be marked as `Failed` for this endpoint, and you will get a webhook of type `message.attempt.exhausted` notifying you of this error.
+After the conclusion of the above attempts the message will be marked as `Failed` for this endpoint, and the webhook sender's account will get [an operational webhook](./incoming-webhooks.mdx) of type `message.attempt.exhausted` notifying them of this error.
 
 
 ## Disabling failing endpoints
