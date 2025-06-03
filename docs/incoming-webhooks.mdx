@@ -5,10 +5,10 @@ title: Operational Webhooks
 import EventTypeTabs from '@theme/EventTypeTags';
 import TabItem from '@theme/TabItem';
 
+In addition to enabling you to send webhooks to your customers, Svix also sends you webhooks about the events in your Svix environment. We call these: "Operational webhooks".
 
-As you may expect from a webhooks service, Svix also uses webhooks to notify you of events. To configure which event types you would like to listen to and which endpoints these events will be sent to, please use the [Operational Webhooks](https://dashboard.svix.com/webhooks) section of the dashboard.
+These webhooks let you build powerful workflows and automations over events in your account. For example, a common one is to monitor for [`endpoint.disabled`](https://api.svix.com/docs#tag/Webhook/operation/endpoint.disabled), which triggers when an endpoint has been automatically disabled after multiple days of failing, and notify your customer automatically via email when that happens.
 
+To subscribe to operational webhooks, please head to the [Operational Webhooks](https://dashboard.svix.com/webhooks) section of the dashboard.
 
-## Messages we send
-
-The type of messages we send, their schemas, and related documentation are all available in [the webhook section](https://api.svix.com/docs#tag/Webhook) of the API reference documentation.
+For more information on the exact events, their schemas, and other related documentation please refer to the [the webhooks section](https://api.svix.com/docs#tag/Webhook) of the API reference documentation.
