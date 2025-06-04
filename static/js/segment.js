@@ -12,6 +12,7 @@
         api_host: 'https://eu.i.posthog.com',
         segment: window.analytics,
         capture_pageview: false,
+        capture_pageleave: true,
 
         loaded: (posthog) => {
           // When the posthog library has loaded, call `analytics.page()` explicitly.
