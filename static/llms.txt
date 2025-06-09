@@ -1,0 +1,72 @@
+# Svix
+
+> The enterprise-ready webhook infrastructure. Svix is secure, reliable, and built for scale. The documentation for Svix
+
+## Docs
+
+- [Introduction](https://docs.svix.com/): Svix makes sending webhooks easy and reliable by offering webhook sending as a service. With Svix you can start sending webhooks in minutes, while ensuring robust deliverability, and a great developer experience for your users.
+- [Quickstart](https://docs.svix.com/quickstart): Get started with Svix in under five minutes by following our quickstart guide to send your first webhook.
+- [Entities Overview](https://docs.svix.com/entities-overview): Learn about the four important entities in Svix: messages (webhooks being sent), applications (where messages are sent), endpoints (URLs for message delivery), and event-types (identifiers for message types).
+- [Common Usage Examples](https://docs.svix.com/common-usage-examples): Explore common patterns and examples for implementing webhooks with Svix in various scenarios.
+
+### Consuming Webhooks
+- [Introduction](https://docs.svix.com/receiving/introduction): Learn why and how to verify webhooks sent by the Svix service and its customers, including webhook consumption fundamentals.
+- [Using the App Portal](https://docs.svix.com/receiving/using-the-app-portal): Comprehensive guide to using the Svix app portal for webhook management and monitoring.
+- [Event Catalog](https://docs.svix.com/receiving/event-catalog): Browse and understand the available event types and their schemas in the Svix event catalog.
+- [Adding Endpoints](https://docs.svix.com/receiving/adding-endpoints): Learn how to add and configure webhook endpoints to receive events from Svix.
+- [Testing Events](https://docs.svix.com/receiving/testing-events): Test your webhook endpoints and validate event handling using Svix testing tools.
+- [Filtering Logs](https://docs.svix.com/receiving/filtering-logs): Filter and search through webhook delivery logs to monitor and debug webhook traffic.
+- [Replaying Messages](https://docs.svix.com/receiving/replaying-messages): Replay webhook messages for testing, debugging, or recovering from processing failures.
+- [Using Polling Endpoints](https://docs.svix.com/receiving/using-polling-endpoints): Alternative to webhooks using polling endpoints for environments where webhooks are not feasible.
+- [Polling Endpoints](https://docs.svix.com/receiving/polling-endpoints): Detailed guide on implementing and using polling endpoints as an alternative to traditional webhooks.
+
+### Verifying Webhooks
+- [Why Verify Webhooks](https://docs.svix.com/receiving/verifying-webhooks/why): Understand the security importance of verifying webhook signatures and timestamps.
+- [How to Verify Webhooks with the Svix Libraries](https://docs.svix.com/receiving/verifying-webhooks/how): Use official Svix libraries to verify webhook signatures and ensure message authenticity.
+- [Receiving Webhooks with Bridge](https://docs.svix.com/receiving/verifying-webhooks/bridge): Use Svix Bridge to receive and verify webhooks in development and testing environments.
+- [Verifying Webhooks Manually](https://docs.svix.com/receiving/verifying-webhooks/manual): Manual webhook verification process for custom implementations without using Svix libraries.
+- [Additional Authentication](https://docs.svix.com/receiving/verifying-webhooks/additional-authentication): Implement additional authentication layers beyond standard webhook verification.
+- [Static Source IP Addresses](https://docs.svix.com/receiving/verifying-webhooks/static-ips): Configure firewall rules using Svix's static IP addresses for additional security.
+
+### Basics
+- [Event Types](https://docs.svix.com/event-types): Manage and configure event types to control which events are sent to which endpoints.
+- [Consumer App Portal](https://docs.svix.com/consumer-app-portal): Provide your users with a self-service portal to manage their webhook endpoints and view delivery logs.
+- [API keys](https://docs.svix.com/api-keys): Generate and manage API keys for authenticating with the Svix API.
+- [Documenting Your Webhooks](https://docs.svix.com/documenting-webhooks): Best practices for documenting your webhook events and payloads for developers.
+
+### Delivery Information
+- [Operational Webhooks](https://docs.svix.com/operational-webhooks): Monitor your webhook infrastructure with operational webhooks that notify you of system events.
+- [Retry Schedule](https://docs.svix.com/retry-schedule): Understand Svix's automatic retry mechanism for failed webhook deliveries.
+- [OpenTelemetry Streaming](https://docs.svix.com/opentelemetry-streaming): Stream webhook delivery telemetry data to your observability platform using OpenTelemetry.
+
+### Advanced Functionality
+- [Idempotency](https://docs.svix.com/idempotency): Ensure webhook delivery idempotency to prevent duplicate processing of the same event.
+- [Rate Limiting Endpoints](https://docs.svix.com/rate-limiting): Configure rate limiting for webhook endpoints to control delivery frequency and protect downstream services.
+- [Transformations](https://docs.svix.com/transformations): Transform webhook payloads before delivery using Svix's transformation engine.
+- [Connectors](https://docs.svix.com/connectors): Use pre-built connectors to integrate with popular services and platforms.
+- [Channels](https://docs.svix.com/channels): Organize and route webhooks using channels for better event management and delivery control.
+- [Advanced Endpoint Types](https://docs.svix.com/advanced-endpoint-types): Configure advanced endpoint types including custom headers, authentication, and delivery options.
+
+### API Reference
+- [Introduction](https://api.svix.com/docs#section/Introduction): Reference documentation and schemas for the Svix webhook service API.
+- [Main concepts](https://api.svix.com/docs#section/Introduction/Main-concepts): Core API concepts including messages, applications, endpoints, and event-types.
+- [Authentication](https://api.svix.com/docs#section/Introduction/Authentication): API authentication methods and security considerations.
+- [Application](https://api.svix.com/docs#tag/Application): Application management endpoints for creating and managing webhook applications.
+- [Event Type](https://api.svix.com/docs#tag/Event-Type): Event type management endpoints for defining and configuring webhook event schemas.
+- [Background Task](https://api.svix.com/docs#tag/Background-Task): Background task endpoints for monitoring long-running operations.
+- [Environment](https://api.svix.com/docs#tag/Environment): Environment configuration endpoints for managing deployment environments.
+- [Endpoint](https://api.svix.com/docs#tag/Endpoint): Endpoint management for creating, updating, and configuring webhook delivery URLs.
+- [Message](https://api.svix.com/docs#tag/Message): Message endpoints for sending webhooks and managing message delivery.
+- [Message Attempt](https://api.svix.com/docs#tag/Message-Attempt): Message attempt endpoints for tracking and managing webhook delivery attempts.
+- [Integration](https://api.svix.com/docs#tag/Integration): Integration management endpoints for third-party service integrations.
+- [Ingest](https://api.svix.com/docs#tag/Ingest): Data ingestion endpoints for receiving events from external sources.
+- [Ingest Source](https://api.svix.com/docs#tag/Ingest-Source): Ingest source management for configuring data ingestion sources.
+- [Ingest Endpoint](https://api.svix.com/docs#tag/Ingest-Endpoint): Ingest endpoint configuration for receiving ingested data.
+- [Utility](https://api.svix.com/docs#tag/Utility): Utility endpoints for health checks and system information.
+- [Health](https://api.svix.com/docs#tag/Health): Health check endpoints for monitoring API and service status.
+
+
+## Optional
+
+- [Developer Slack](https://www.svix.com/slack/)
+- [Support](https://docs.svix.com/get-help)
