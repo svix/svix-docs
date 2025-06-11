@@ -144,9 +144,15 @@ You should use a URL parsing library to add the query parameter (avoid editing t
 
 ### Feature flags
 
-You may have noticed the empty set of "feature flags" being passed in the examples above. Feature flags can be used to restrict what event types your users will see in the Event Catalog and the API.
+When [creating an App Portal URL](https://api.svix.com/docs#tag/Authentication/operation/v1.authentication.app-portal-access), you can optionally specify a list of feature flags (using the `featureFlags: [ ... ]` field) to restrict which event types your users will see in the Event Catalog and the API.
 
 To learn more refer to the [Event Types](./event-types.mdx#event-type-feature-flags) documentation.
+
+### Session IDs
+
+App Portal URLs can also be generated with a specific session ID, using the `sessionId` field. App Portal URLs created with a session ID can be selectively invalidated by the [Expire All](https://api.svix.com/docs#tag/Authentication/operation/v1.authentication.expire-all) endpoint by including the session ID in the Expire All request.
+
+Multiple App Portal URLs can be created with the same session ID, and if [Expire All](https://api.svix.com/docs#tag/Authentication/operation/v1.authentication.expire-all) is called with a session ID, only App Portal URLs with that specific session ID will be invalidated.
 
 ## Embedding in your own dashboard
 
