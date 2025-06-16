@@ -45,6 +45,8 @@ You can disable this behavior from the [Environment settings page](https://dashb
 
 Your customers can also use the application portal to manually retry each message at any time, or automatically retry ("Recover") all failed messages starting from a given date.
 
+![Replay messages dialog](./img/retries-recover-failed-messages.png)
+
 Alternatively, you can use the respective APIs:
 - [Resend webhook](https://api.svix.com/docs#operation/resend_webhook_api_v1_app__app_id__msg__msg_id__endpoint__endpoint_id__resend__post) for retrying a single message.
 - [Resend failed webhooks](https://api.svix.com/docs#operation/recover_failed_webhooks_api_v1_app__app_id__endpoint__endpoint_id__recover__post) for the failed messages recovery.
