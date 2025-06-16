@@ -13,9 +13,11 @@ destination for their webhooks.
 Ingest supports signature verification schemes and flows used by a variety of
 webhook providers. Supported values for a `Source`'s `type` include:
 
+- `adobeSign`
 - `beehiiv`
 - `brex`
 - `clerk`
+- `docusign`
 - `github`
 - `guesty`
 - `hubspot`
@@ -33,9 +35,8 @@ webhook providers. Supported values for a `Source`'s `type` include:
 - `stripe`
 - `stych`
 - `svix` (that's us!)
+- `telnyx`
 - `zoom`
-- `adobeSign`
-- `docusign`
 
 Additionally there's the option to configure a `Source` as `genericWebhook` to
 skip performing signature verification. This is useful for providers that have
