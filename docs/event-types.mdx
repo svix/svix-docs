@@ -690,7 +690,7 @@ And [let us know](https://www.svix.com/contact/) once you do so that we can acti
 
 When introducing new features in your application it can be useful to only expose them to a select set of users.
 
-Event types can be hidden from users by setting a feature flag on them. If a feature flag is set on an event type users won't see the event type in the Event Catalog and the API, unless they have an authorization token that explicitly allows them.
+Event types can be hidden from users by setting feature flags on them. If a feature flag is set on an event type, users won't see the event type in the Event Catalog and the API, unless they have an authorization token that explicitly allows them.
 
 A feature flag is an arbitrary string that you can set at event type creation time. You can also remove or add back the feature flag by updating an existing event type. Feature flags follow the same naming rules as the event type name itself: `^[a-zA-Z0-9\\-_.]+$`.
 
@@ -706,7 +706,7 @@ const svix = new Svix("AUTH_TOKEN");
 const eventType = await svix.eventType.create({
   name: "user.signup",
   description: "A user has signed up",
-  featureFlag: "beta-feature-a",
+  featureFlags: ["beta-feature-a"],
 });
 ```
 
@@ -720,7 +720,7 @@ svix = Svix("AUTH_TOKEN")
 app = svix.event_type.create(EventTypeIn(
     name="user.signup",
     description="A user has signed up",
-    feature_flag="beta-feature-a"
+    feature_flags=["beta-feature-a"]
 ))
 ```
 
@@ -736,7 +736,7 @@ svixClient := svix.New("AUTH_TOKEN", nil)
 app, err := svixClient.EventType.Create(ctx, &svix.EventTypeIn{
     Name: "user.signup",
     Description: "A user has signed up",
-    FeatureFlag: svix.NullableString("beta-feature-a"),
+    FeatureFlag: []string{"beta-feature-a"},
 })}
 ```
 
@@ -753,7 +753,7 @@ let event_type = svix
         EventTypeIn {
             name: "user.signup".to_string(),
             description: "A user has signed up".to_string(),
-            feature_flag: Some("beta-feature-a".to_string()),
+            feature_flags: Some(vec!["beta-feature-a".to_string()]),
             ..EventTypeIn::default()
         },
         None,
@@ -771,10 +771,10 @@ import com.svix.models.EventTypeIn;
 
 Svix svix = new Svix("AUTH_TOKEN");
 svix.getEventType()
-  .create(new EventTypeIn()
+    .create(new EventTypeIn()
     .name("user.signup")
     .description("A user has signed up")
-    .featureFlag("beta-feature-a")
+    .featureFlags(new String[]{"beta-feature-a"})
   );
 ```
 
@@ -785,13 +785,11 @@ svix.getEventType()
 import com.svix.kotlin.Svix;
 import com.svix.kotlin.models.EventTypeIn;
 
-val svix = Svix("AUTH_TOKEN");
-svix.eventType.create(
-                EventTypeIn(
-                    name = "user.signup",
-                    description = "A user has signed up",
-                    featureFlag = "beta-feature-a",
-                ));
+val eventTypeOut = svix.eventType.create(EventTypeIn()
+    .name("user.signup")
+    .description("A user has signed up")
+    .featureFlags(arrayOf("beta-feature-a"))
+)
 ```
 
 </TabItem>
@@ -800,9 +798,10 @@ svix.eventType.create(
 ```ruby
 svix = Svix::Client.new("AUTH_TOKEN")
 svix.event_type.create(Svix::EventTypeIn.new({
-        "name" => "user.signup",
-        "description" => "A user has signed up",
-        "feature_flag": "beta-feature-a"}))
+    "name": "user.signup",
+    "description": "A user has signed up",
+    "feature_flags": ["beta-feature-a"]
+}))
 ```
 
 </TabItem>
@@ -810,11 +809,11 @@ svix.event_type.create(Svix::EventTypeIn.new({
 
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
-await svix.EventType.CreateAsync(new EventTypeIn(
+await svix.EventType.CreateAsync(new EventTypeIn{
     name: "user.signup",
     description: "A user has signed up",
-    featureFlag: "beta-feature-a"
-))
+    featureFlags: new string[] {"beta-feature-a"}
+});
 ```
 
 </TabItem>
@@ -822,7 +821,7 @@ await svix.EventType.CreateAsync(new EventTypeIn(
 
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
-svix event-type create '{ "name": "user.signup", "description": "A user has signed up", "featureFlag": "beta-feature-a" }'
+svix event-type create '{ "name": "user.signup", "description": "A user has signed up", "featureFlags": ["beta-feature-a"] }'
 ```
 
 </TabItem>
@@ -835,13 +834,13 @@ curl -X POST "https://api.us.svix.com/api/v1/event-type/" \
     -H  "Accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: Bearer ${SVIX_AUTH_TOKEN}" \
-    -d '{ "name": "user.signup", "description": "A user has signed up", "featureFlag": "beta-feature-a" }'
+    -d '{ "name": "user.signup", "description": "A user has signed up", "featureFlags": ["beta-feature-a"] }'
 ```
 
 </TabItem>
 </CodeTabs>
 
-If a user tries to retrieve this newly created event type they will get a not-found error. To give them access you need to give them an access token that explicitly allows them to see event types with the feature flag set during creation.
+If a user tries to retrieve this newly created event type they will get a not-found error. To give them access you need to give them an access token that explicitly allows them to see event types with at least one of the feature flags set during creation.
 
 <CodeTabs>
 <TabItem value="js">
@@ -1096,7 +1095,7 @@ If your framework of choice already support webhooks you are probably good to go
     "post": {
       "operationId": "pet.new",
       "description": "A new pet has been added",
-      "x-svix-feature-flag": "beta-feature-a",  // Optional field
+      "x-svix-feature-flags": ["beta-feature-a"],  // Optional field
       "x-svix-group-name": "group-name-1",  // Optional field
       "requestBody": {
         "content": {
