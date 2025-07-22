@@ -66,6 +66,7 @@ module.exports = {
           href: "https://api.svix.com/docs",
           label: "API Reference",
         },
+        "faq",
       ],
     },
   ],

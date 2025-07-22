@@ -1,0 +1,83 @@
+---
+title: FAQ
+---
+
+Here are some frequently asked questions about Svix.
+
+### How long does it take to integrate with Svix?
+
+Most teams wire up our SDK and start sending webhooks in under a day. Many small companies ship in a few hours; while larger enterprise roll-outs that include design reviews and QA typically budget ~two weeks from first commit to production.
+
+### I already have an event stream, how do I connect to Svix?
+
+Having an existing event stream makes integrating Svix even easier. All you need to do is either create a consumer that reads from the event stream and uses the Svix [`message.create`](https://api.svix.com/docs#tag/Message/operation/v1.message.create) API directly or connect [Svix Bridge](/sending-messages-with-bridge) to read event directly from the stream.
+
+### Build vs. buy a webhooks service?
+
+We created Svix because we believe that when it comes to webhooks, buying is much
+preferable to building. Buying means that you don't have to spend your precious
+engineering time and effort onto maintaining the webhooks system. For a thorough
+comparison, please refer to the <a className="underline" href="https://www.svix.com/build-vs-buy/">build vs. buy</a> matrix.
+
+### How do you ensure that customers only receive events pertaining to them and aren't affected by other customers?
+
+In Svix, each one of your customers will have its own [Consumer Application](/overview#consumer-applications) which is where you will be sending messages to. Each Consumer Application will only get messages sent to it, and Consumer Applications are completely isolated from other Consumer Applications on the database level.
+
+### How do my customers subscribe to receive webhooks?
+
+Svix offers an [embeddable Consumer Application Portal](https://www.svix.com/application-portal/) that you can fully white-label to match your UI (or build your own with the API).
+From there your customers will be able to add endpoints, pick event types, view logs, and replay deliveries without ever needing a Svix account.
+
+### We have time-sensitive and business critical events, how does your platform ensure reliability and message delivery guarantees?
+
+Svix queues every message durably, delivers with low latency, and retries on an exponential back-off schedule until it succeeds or exhausts the policy, giving you at-least-once delivery even under network hiccups or spikes.
+
+### What is your outage recovery process?
+
+If your service or a customer endpoint is down, you (or the customer) can replay all failed messages for a chosen time window straight from the Portal, or resend individual webhooks, ensuring nothing is lost once both systems are back online.
+
+### What support options are available and what are your SLAs?
+
+All tiers include email & community support. The Enterprise tier also offers 24/7 access to on-call engineers and custom support SLAs.
+For full information about the support and uptime SLAs options, please refer to the [Svix Pricing page](https://www.svix.com/pricing/).
+
+### Can Svix handle our scale?
+
+We process billions of webhooks a year for our customers, and we power webhooks for top companies like Brex and Lob. We can most likely handle your scale, but please reach out if you have any specific questions or requirements.
+
+### Will my customers know that we are using Svix?
+
+No. Your customers don't need to know you are using Svix.
+
+Though we always appreciate our customers spreading the word about Svix. :)
+
+### What happens when a customer endpoint is down?
+
+Failed attempts trigger the automatic retry schedule; all tries (and responses) are logged for transparency. After the final attempt the message is marked failed but retained, so the customer (or you) can later replay it once the endpoint is healthy.
+
+### What are webhooks?
+
+Webhooks are user-defined HTTP callbacks for server-to-server communication. You can think of them as a reverse-API or asynchronous API notificatinos. An API call is how a server can make requests from another service, and webhooks are how that service would asynchronously notify the server of events.
+
+
+### What is webhooks as a service?
+
+Webhooks as a service refers to Svix's software as a service (SaaS) webhook platform. We've built a user interface for managing your users' webhook subscriptions as well as an API that simplifies the process of implementing webhook best practices at scale.
+
+### Are Svix webhooks secure?
+
+Yes! Our webhook service was designed for security from the ground up. We follow industry best practices, encrypt all data both in transit and at rest, and are compliant with SOC 2 Type II, GDPR, CCPA and more.
+
+
+### How to test and debug webhooks?
+
+There most common way for testing and debugging webhooks is by pushing test events from the service you are testing to either a receiver that can show you the events, or to a proxy tool that can forward requests to your development machine. Svix Play supports both!
+
+
+### How can I test webhooks locally?
+
+Svix Play integrates seamlessly with the Svix CLI, allowing you to relay webhooks to your local development environment. This means you can test webhook integrations locally without exposing your development server to the internet.
+
+### Can I test webhooks for free?
+
+Yes! You can use Svix Play to test your webhooks completely for free. You don't even need to signup to use any of it, including the web UI, and the forwarding CLI.
