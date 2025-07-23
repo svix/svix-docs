@@ -59,6 +59,28 @@ module.exports = {
       "Svix Play": ["play"]
     },
     {
+      "Svix Stream": [
+        "stream/introduction",
+        "stream/event_types",
+        {
+          type: 'category',
+          label: 'Sinks',
+          link: {
+            type: 'doc',
+            id: 'stream/sinks/intro_to_sinks',
+          },
+          items: [
+            'stream/sinks/http',
+            'stream/sinks/poller',
+            'stream/sinks/s3',
+            'stream/sinks/gcs',
+            'stream/sinks/azure_blob',
+            'stream/sinks/otel_trace',
+          ]
+        }
+      ]
+    },
+    {
       "Additional links": [
         "get-help",
         {
