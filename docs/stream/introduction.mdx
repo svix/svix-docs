@@ -1,0 +1,191 @@
+---
+title: "Introduction"
+---
+
+import CodeTabs from "@theme/CodeTabs";
+import TabItem from "@theme/TabItem";
+
+# Svix Stream
+
+Svix Stream is an event streaming platform that enables services to reliably deliver events to multiple destinations through a single integrated API.
+
+The core of Svix Stream is built on top of **Streams**, **Events**, and **Sinks**. Events are pushed to a Stream, and Svix will batch, transform, and dispatch the events to one or more Sinks.
+
+![stream-diagram](../img/stream/diagram.png)
+
+### Streams
+
+**Streams** are unbounded, append only data stores, where events are stored and processed in a stable, first-in-first-out ordering.
+
+Creating a Stream is simple using the [API](https://api.svix.com/docs#tag/Stream/operation/v1.stream.stream.create):
+
+<CodeTabs>
+<TabItem value="js">
+
+```js
+import { Svix } from "svix";
+
+const streamOut = await svix.stream.stream.create({
+    name: "My Stream",
+    uid: "unique-identifier"
+});
+```
+
+</TabItem>
+<TabItem value="py">
+
+```python
+from svix.api import Svix, StreamIn
+
+stream_out = svix.stream.stream.create(StreamIn(
+    name="My Stream",
+    uid="unique-identifier"
+))
+```
+
+</TabItem>
+<TabItem value="go">
+
+```go
+import (
+	svix "github.com/svix/svix-webhooks/go"
+)
+
+svixClient := svix.New("AUTH_TOKEN", nil)
+streamOut, err := svixClient.Stream.Stream.Create(ctx, &svix.StreamIn{
+    Name: "My Stream",
+    Uid: "unique-identifier",
+})
+```
+
+</TabItem>
+<TabItem value="rust">
+
+```rust
+let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let stream_out = svix.stream().stream().create(StreamIn {
+    name: "My Stream".to_string(),
+    uid: Some("unique-identifier".to_string()),
+}, None).await?;
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+StreamOut streamOut = svix.getStream().getStream().create(new StreamIn()
+    .name("My Stream")
+    .uid("unique-identifier")
+);
+```
+
+</TabItem>
+<TabItem value="kotlin">
+
+```kotlin
+import com.svix.kotlin.Svix;
+import com.svix.kotlin.models.StreamIn;
+
+val streamOut = svix.stream.stream.create(StreamIn()
+    .name("My Stream")
+    .uid("unique-identifier")
+)
+```
+
+</TabItem>
+<TabItem value="ruby">
+
+```ruby
+stream_out = svix.stream.stream.create(Svix::StreamIn.new({
+    "name": "My Stream",
+    "uid": "unique-identifier"
+}))
+```
+
+</TabItem>
+<TabItem value="csharp">
+
+```csharp
+var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
+var streamOut = await svix.Stream.Stream.CreateAsync(new StreamIn{
+    name: "My Stream",
+    uid: "unique-identifier"
+});
+```
+
+</TabItem>
+<TabItem value="curl">
+
+```shell
+curl -X 'POST' \
+  'https://api.svix.com/api/v1/stream' \
+  -H 'Authorization: Bearer AUTH_TOKEN' \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "name": "My Stream",
+        "uid": "unique-identifier"
+    }'
+```
+
+</TabItem>
+</CodeTabs>
+
+
+The resulting stream will look something like:
+
+```json
+{
+    "id":"strm_30XKA2tCdjHue2qLkTgc0",
+    "uid":"unique-identifier",
+    "name":"My Stream",
+    "createdAt":"2025-07-21T14:22:17.861Z",
+    "updatedAt":"2025-07-21T14:22:17.861Z",
+    "metadata":{}
+}
+```
+
+### Events
+
+With the Stream setup, you can immediately start writing events to the Stream.
+
+```shell
+curl -X POST 'https://api.svix.com/api/v1/stream/strm_30XKA2tCdjHue2qLkTgc0/events' \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
+    -H 'Authorization: Bearer ••••••••••••••••••••••••••••' \
+    -d '{
+        "events": [
+            {
+                "eventType": "user.created",
+                "payload": "{ \"email\": \"joe@enterprise.io\" }"
+            },
+            {
+                "eventType": "user.login",
+                "payload": "{ \"id\": 12, \"timestamp\": \"2025-07-21T14:23:17.861Z\" }"
+            }
+        ]
+    }'
+```
+
+**Events** written to a stream always contain two fields:
+* `eventType` - An identifier denoting the type of event being sent.
+* `payload` - A string representing the event. Payloads will typically be JSON, though in practice they can be any format that fits your use case.
+
+In the Stream Dashboard, you'll see the most recent events that have been sent to the Stream.
+
+![stream-recent-events](../img/stream/stream-recent-events.png)
+
+Events are persisted to the stream for 14 days. After the Events are saved to the Stream, they'll be dispatched, in order, to one or more **Sinks** attached to the Stream.
+
+### Sinks
+
+Sinks define where Events in the Stream are sent, and can be anything from an [HTTP endpoint](./sinks/http) to an Object Storage bucket ([S3](./sinks/s3), [Google Cloud Storage](./sinks/gcs), [Azure Blob Storage](./sinks/azure_blob)), or even an [Open Telemetry Trace collector](./sinks/otel_trace).
+
+When configuring Sinks, you control:
+
+* Which event types the Sink is subscribed to.
+* How events are batched together before dispatch.
+* Custom JavaScript transformations to modify events before delivery.
+
+For more information on configuring Sinks, see [Introduction to Sinks](./sinks/intro)
