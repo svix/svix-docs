@@ -121,6 +121,11 @@ module.exports = {
     src: "/js/segment.js",
     async: true,
     defer: true,
+  },
+  {
+    src: "/js/commonroom.js",
+    async: true,
+    defer: true,
   }
   ],
   markdown: {
