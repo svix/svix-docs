@@ -5,6 +5,7 @@ module.exports = {
       Basics: ["event-types", "app-portal", "api-keys", "documenting-webhooks"],
       "Delivery Information": [
         "incoming-webhooks",
+        "email-notifications",
         "retries",
         "opentelemetry-streaming",
       ],
