@@ -1,0 +1,52 @@
+---
+title: Polling Endpoint
+---
+
+# Polling Endpoints
+
+Unlike other Sinks, Polling endpoints allow you to build clients to fetch events from the Stream directly, rather than having events pushed to you by Svix.
+
+Like all Sinks, Polling Endpoint can be created in the Stream Portal or [in the API](https://api.svix.com/docs#tag/Sink/operation/v1.stream.sink.create).
+
+```shell
+curl -X 'POST' 'https://api.svix.com/api/v1/stream/strm_30XKA2tCdjHue2qLkTgc0/sink' \
+  -H 'Authorization: Bearer AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "type": "poller",
+  "uid": "unique-identifier",
+  "status": "enabled",
+  "eventTypes": [],
+  "metadata": {}
+}'
+```
+
+As with other Sinks, you can specify which `eventTypes` you want the Sink to filter events on.
+
+Unlike with other Sinks, the `batchSize`, `maxWaitSecs`, and transformations are ignored, as these settings aren't relevant for Polling endpoints.
+
+## Usage
+In the Stream Portal, event consumers will get a unique URL and an API key to iterate through the full list of events sent to their Svix Stream since the endpoint was created.
+
+When creating a Polling Endpoint, consumers will get a unique URL like `https://api.svix.com/api/v1/stream/{stream_id}/sink/{sink_id}/events`
+
+When first calling the endpoint, it will return an empty array and an iterator.
+
+```json
+{
+  "data": [],
+  "iterator": "eyJvZmZzZXQiOi05MjIzMzcyMDM2ODU0Nzc1ODA4LCJhZnRlciI6bnVsbH0",
+  "done": false
+}
+```
+
+Then, using the iterator in the next call, they can iterate through the events and poll for new ones.
+
+```bash
+curl \
+  "https://api.svix.com/api/v1/stream/strm_30Vcjgt1o7mvmPbnhOQAB/sink/sink_30kXEU88euaFZlU1P5W0B?iterator=eyJv..." \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer sk_poll_*****.eu'
+```
+
+Events will be returned in the order they were posted to the Stream.
