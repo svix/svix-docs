@@ -109,4 +109,38 @@ module.exports = {
       ],
     },
   ],
+  streamSidebar: [
+    "stream/introduction",
+    {
+      "Event Types": [
+        "stream/event-types/introduction",
+      ],
+    },
+    {
+      "Sinks": [
+        'stream/sinks/introduction',
+        'stream/sinks/http',
+        'stream/sinks/otel_trace',
+        'stream/sinks/s3',
+        'stream/sinks/gcs',
+        'stream/sinks/azure_blob',
+        'stream/sinks/poller',
+      ],
+    },
+    {
+      "Stream Portal": [
+        'stream/portal/intro'
+      ],
+    },
+    {
+      "Additional links": [
+        "get-help",
+        {
+          type: "link",
+          href: "https://api.svix.com/docs#tag/Stream",
+          label: "API Reference",
+        }
+      ],
+    },
+  ],
 };
