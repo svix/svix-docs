@@ -263,7 +263,21 @@ You can implement Consumer App Portal functionality into your own dashboard usin
 This approach allows you to use your own UI structure and components.
 The hooks are an abstraction over the `svix` JavaScript library and help to handle concerns like paginating over large lists of data, and reloading data.
 
-Here's an example of how to list endpoints using `svix-react`:
+Using the hooks requires wrapping your application or components in `<SvixProvider>`:
+
+```jsx
+import { SvixProvider } from 'svix-react'
+
+export default function App() {
+  return (
+    <SvixProvider token={token} appId={appId}>
+      {/** your app's components **/}
+    </SvixProvider>
+  )
+}
+```
+
+Then, you can use hooks like `useEndpoints`:
 
 ```jsx
 import { useEndpoints } from 'svix-react'
@@ -287,20 +301,6 @@ export default function ListEndpoints() {
         Next Page
       </button>
     </div>
-  )
-}
-```
-
-Using the hooks requires wrapping your application or components in `<SvixProvider>`:
-
-```jsx
-import { SvixProvider } from 'svix-react'
-
-export default function App() {
-  return (
-    <SvixProvider token={token} appId={appId}>
-      {/** your app's components **/}
-    </SvixProvider>
   )
 }
 ```
