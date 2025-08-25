@@ -23,7 +23,7 @@ For more information on how to use the app portal please refer to the [receiving
 App portal access is based on short-lived sessions using special magic links. You customers don't need a Svix account, and they don't even need to know that Svix exists.
 :::
 
-To give your users access to the [App Portal](./app-portal), just use the [app portal access endpoint](https://api.svix.com/docs#tag/Authentication/operation/v1.authentication.app-portal-access). Calling this endpoint with an `app_id` returns a single-use URL you can just redirect your users to in order to log them into the App Portal. They will stay logged in for a few days or until they log out.
+To give your users access to the App Portal, just use the [app portal access endpoint](https://api.svix.com/docs#tag/Authentication/operation/v1.authentication.app-portal-access). Calling this endpoint with an `app_id` returns a single-use URL you can just redirect your users to in order to log them into the App Portal. They will stay logged in for a few days or until they log out.
 
 <CodeTabs>
 <TabItem value="js">
@@ -199,7 +199,7 @@ import "svix-react/style.css";
 
 const SvixEmbed = () => {
   const [appPortal, setAppPortal] = React.useState(null);
-  
+
   React.useEffect(() => {
     // Prerequisite: You'll need an endpoint that returns the App Portal
     // magic URL (https://api.svix.com/docs#tag/Authentication/operation/v1.authentication.app-portal-access)
@@ -259,9 +259,12 @@ http://app.svix.com/login?primaryColorLight=22cc91&primaryColorDark=28bb93&darkM
 ```
 
 ## Implementing your own Consumer App Portal functionality
-You can implement Consumer App Portal functionality into your own dashboard using ergonomic React Hooks provided by the `svix-react` library. This approach allows you to use your own UI structure and components. The hooks are an abstraction over the `svix` JavaScript library and help to handle concerns like paginating over large lists of data, and reloading data.
+You can implement Consumer App Portal functionality into your own dashboard using ergonomic React Hooks provided by the [`svix-react`] library.
+This approach allows you to use your own UI structure and components.
+The hooks are an abstraction over the `svix` JavaScript library and help to handle concerns like paginating over large lists of data, and reloading data.
 
-Using the hooks requires wrapping your application or components in `<SvixProvider />`:
+Using the hooks requires wrapping your application or components in `<SvixProvider>`:
+
 ```jsx
 import { SvixProvider } from 'svix-react'
 
@@ -274,7 +277,7 @@ export default function App() {
 }
 ```
 
-Then, you can use hooks like `useMessages`:
+Then, you can use hooks like `useEndpoints`:
 
 ```jsx
 import { useEndpoints } from 'svix-react'
@@ -302,7 +305,7 @@ export default function ListEndpoints() {
 }
 ```
 
-To get started and see a full list of hooks, refer to the [`svix-react` NPM package](https://www.npmjs.com/package/svix-react).
+[`svix-react`]: https://www.npmjs.com/package/svix-react
 
 ## Read Only Consumer App Portals
 You can set all Consumer App Portals belonging to an environment to be read only by enabling the Read Only toggle on the Environment Settings page.
