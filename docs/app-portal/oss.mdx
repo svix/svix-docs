@@ -1,0 +1,53 @@
+---
+title: Consumer App Portal (OSS)
+---
+
+The [Consumer Application Portal](/app-portal) is currently only included in the [hosted version of Svix](https://www.svix.com) and not in the open source version.
+This is probably going to change in the future, but for now you can just build your own.
+
+Fortunately, building your own is fairly simple using [`svix-react`] if you use React,
+or directly with the [JavaScript / TypeScript SDK](https://www.npmjs.com/package/svix) otherwise.
+
+Using the `svix-react` hooks requires wrapping your application or components in `<SvixProvider>`:
+
+```jsx
+import { SvixProvider } from 'svix-react'
+
+export default function App() {
+  return (
+    <SvixProvider token={token} appId={appId}>
+      {/** your app's components **/}
+    </SvixProvider>
+  )
+}
+```
+
+Then, you can use hooks like `useEndpoints`:
+
+```jsx
+import { useEndpoints } from 'svix-react'
+
+export default function ListEndpoints() {
+  const endpoints = useEndpoints()
+
+  return (
+    <div>
+      {endpoints.error && <div>An error has occurred</div>}
+      {endpoints.loading && <div>Loading...</div>}
+      <ul>
+        {endpoints.data?.map((endpoint) => (
+          <li>{endpoint.url}</li>
+        ))}
+      </ul>
+      <button disabled={!endpoints.hasPrevPage} onClick={endpoints.prevPage}>
+        Previous Page
+      </button>
+      <button disabled={!endpoints.hasNextPage} onClick={endpoints.nextPage}>
+        Next Page
+      </button>
+    </div>
+  )
+}
+```
+
+[`svix-react`]: https://www.npmjs.com/package/svix-react
