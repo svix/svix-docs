@@ -307,5 +307,15 @@ export default function ListEndpoints() {
 
 [`svix-react`]: https://www.npmjs.com/package/svix-react
 
-## Read Only Consumer App Portals
-You can set all Consumer App Portals belonging to an environment to be read only by enabling the Read Only toggle on the Environment Settings page.
+## App Portal capabilities
+
+When generating an App Portal magic link, you can set `capabilities` that control what the link's token can do.
+
+For basic read-only access, use `ViewBase`.
+
+Additional capabilities include:
+- `ViewBase`: Basic read only permissions, does not allow the user to see the endpoint secret.
+- `ViewEndpointSecret`: Allows the user to view the endpoint secret.
+- `ManageEndpoint`: Allows the user to read and modify any endpoint field or configuration (including secrets).
+
+See the full list of `capabilities` in our [API docs](https://api.svix.com/docs#tag/Authentication/operation/v1.authentication.app-portal-access).
