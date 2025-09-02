@@ -26,16 +26,19 @@ Your customers can write Javascript code to edit an endpoint's Transformation, a
 
 ### How to write a Transformation
 
-Svix expects a Transformation to declare a function named `handler`. Svix will pass a `WebhookObject` to this function as its only argument, and expects the function to always return a `WebhookObject`.
+Svix expects a Transformation to declare a function named `handler`. Svix will pass an object with the following properties to the function:
 
-`WebhookObject` is a JSON object containing 4 properties:
-
-- `method`, a string representing the HTTP method the webhook will be sent with. It is always `"POST"` by default, and its only valid values are `"POST"` or `"PUT"`
+- `method`, a string representing the HTTP method the webhook will be sent with. It is always `"POST"` by default, and its only valid values are `"POST"` or `"PUT"`.
 - `url`, a string representing the endpoint's URL. It can be changed to any valid URL.
 - `payload`, which contains the webhook's payload as a JSON object. It can be changed as needed.
-- `cancel`, a Boolean which controls whether or not to cancel the dispatch of a webhook. This value defaults to `false`. Note that canceled messages appear as successful dispatches.
+- `eventType`, a string representing the event type. Changes to it are ignored.
+- `transformationsParams`, object passed to the parameter of the same name in the [create-message API call](https://api.svix.com/docs#tag/Message/operation/v1.message.create). Changes are ignored.
 
-The Transformation will only work if the `handler` function returns the modified `WebhookObject`.
+The Transformation must return the same object, but may modify its properties as described above.
+In addition to the ones listed above, it can also set the following properties on the returned object:
+
+- `cancel`, a boolean which controls whether or not to cancel the dispatch of a webhook. This value defaults to `false`. Note that canceled messages appear as successful dispatches.
+- `headers`, an object with keys being HTTP header names and values being the associated header values. Headers set here take precedence over endpoint headers.
 
 ### An example Transformation
 
