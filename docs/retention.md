@@ -171,6 +171,26 @@ svix message create app_Xzx8bQeOB1D1XEYmAJaRGoj0 '{ "eventType": "invoice.paid",
 ```
 
 </TabItem>
+<TabItem value="php">
+
+```php
+$svix = new Svix('AUTH_TOKEN');
+
+
+$svix->message->create(
+  'app_Xzx8bQeOB1D1XEYmAJaRGoj0',
+  MessageIn::create(
+    eventType: 'invoice.paid',
+    payload: [
+      'id' => 'invoice_WF7WtCLFFtd8ubcTgboSFNql',
+      'status' => 'paid',
+      'attempt' => 2
+    ]
+  )->withPayloadRetentionPeriod(14)->withEventId('evt_Wqb1k73rXprtTm7Qdlr38G')
+);
+```
+
+</TabItem>
 <TabItem value="curl">
 
 ```shell

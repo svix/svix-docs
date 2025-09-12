@@ -151,6 +151,13 @@ scoop install svix
 For other platforms, such as linux, checkout the <a href="https://github.com/svix/svix-cli#installation">CLI docs</a> on Github.
 
 </TabItem>
+<TabItem value="php">
+
+```shell
+composer require svix/svix
+```
+
+</TabItem>
 <TabItem value="curl">
 
 ```shell
@@ -290,6 +297,19 @@ applicationOut = await svix.Application.CreateAsync(
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
 svix application create '{ "name": "Application name", "uid": "example-customer-123" }'
+```
+
+</TabItem>
+<TabItem value="php">
+
+```php
+$svix = new Svix('AUTH_TOKEN');
+
+$app = $svix->application->create(
+  ApplicationIn::create(
+    name: 'Application name'
+  )->withUid('example-customer-123')
+);
 ```
 
 </TabItem>
@@ -477,6 +497,27 @@ svix message create example-customer-123 '{ "eventType": "invoice.paid", "eventI
 ```
 
 </TabItem>
+<TabItem value="php">
+
+```php
+$svix = new Svix('AUTH_TOKEN');
+
+$svix->message->create(
+  'example-customer-123',
+  MessageIn::create(
+    eventType: 'invoice.paid',
+    payload: [
+      'type' => 'invoice.paid',
+      'id' => 'invoice_WF7WtCLFFtd8ubcTgboSFNql',
+      'status' => 'paid',
+      'attempt' => 2
+    ]
+  )->withEventId('evt_Wqb1k73rXprtTm7Qdlr38G'),
+);
+
+```
+
+</TabItem>
 <TabItem value="curl">
 
 ```shell
@@ -643,6 +684,20 @@ svix endpoint create example-customer-123 '{ "url": "https://api.example.com/svi
 ```
 
 </TabItem>
+<TabItem value="php">
+
+```php
+$svix = new Svix('AUTH_TOKEN');
+
+$endpointOut = $svix->endpoint->create(
+  'example-customer-123',
+  EndpointIn::create(
+    url: 'https://api.example.com/svix-webhooks/',
+  )->withDescription('My main endpoint')
+);
+```
+
+</TabItem>
 <TabItem value="curl">
 
 ```shell
@@ -769,6 +824,15 @@ var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("THE_SERVER_URL"));
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
 export SVIX_SERVER_URL='THE_SERVER_URL'
 svix application create '{ "name": "Application name" }'
+```
+
+</TabItem>
+<TabItem value="php">
+
+```php
+$svix = new Svix('AUTH_TOKEN', new SvixOptions(
+    serverUrl: 'THE_SERVER_URL'
+));
 ```
 
 </TabItem>

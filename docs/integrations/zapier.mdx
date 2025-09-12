@@ -158,6 +158,23 @@ svix integration get-key 'app_24D5XFE8W4VVYQ2XPdJlFKlYKrf' 'integ_24D5mQaRudh54X
 ```
 
 </TabItem>
+<TabItem value="php">
+
+```php
+$svix = new Svix('AUTH_TOKEN');
+
+$app = $svix->application->create(ApplicationIn::create(
+  name: 'Test Application'
+));
+
+$integ = $svix->integration->create($app->id, IntegrationIn::create(
+  name: 'Zapier Integration'
+));
+
+$integKey = $svix->integration->getKey($app->id, $integ->id);
+```
+
+</TabItem>
 <TabItem value="curl">
 
 ```shell
