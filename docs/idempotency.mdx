@@ -191,6 +191,29 @@ Idempotency is not yet supported in the Svix CLI.
 ```
 
 </TabItem>
+<TabItem value="php">
+
+```php
+$svix = new Svix('AUTH_TOKEN');
+
+$message = MessageIn::create(
+  eventType: 'invoice.paid',
+  payload: [
+    'type' => 'invoice.paid',
+    'id' => 'invoice_WF7WtCLFFtd8ubcTgboSFNql',
+    'status' => 'paid',
+    'attempt' => 2
+  ]
+)->withEventId('evt_Wqb1k73rXprtTm7Qdlr38G');
+
+$svix->message->create(
+  'app_Xzx8bQeOB1D1XEYmAJaRGoj0',
+  $message,
+  new MessageCreateOptions(idempotencyKey: 'fd56a56b-838d-4456-8b83-390802672895')
+);
+```
+
+</TabItem>
 <TabItem value="curl">
 
 ```shell

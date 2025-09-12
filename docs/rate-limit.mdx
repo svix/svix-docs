@@ -145,6 +145,19 @@ svix application create '{ "name": "Application name", "rateLimit": 1000 }'
 ```
 
 </TabItem>
+<TabItem value="php">
+
+```php
+$svix = new Svix('AUTH_TOKEN');
+
+$app = $svix->application->create(
+  ApplicationIn::create(
+    name: 'Application name',
+  )->withRateLimit(1000)
+);
+```
+
+</TabItem>
 <TabItem value="curl">
 
 ```shell

@@ -16,6 +16,7 @@ export default function CodeTabs({ children, additionalTabs=[] }) {
             { label: 'Kotlin', value: 'kotlin', },
             { label: 'Ruby', value: 'ruby', },
             { label: 'C#', value: 'csharp', },
+            { label: 'PHP', value: 'php', },
             ...additionalTabs,
             { label: 'CLI', value: 'cli', },
             { label: 'cURL', value: 'curl', },

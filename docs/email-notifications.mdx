@@ -194,6 +194,25 @@ svix application create '{
 ```
 
 </TabItem>
+<TabItem value="php">
+
+```php
+$svix = new Svix('AUTH_TOKEN');
+
+$metadata = [
+    'svix.email' => 'example-customer-123@example.com'
+];
+
+$applicationOut = $svix->application->create(
+  ApplicationIn::create(
+    name: 'Example customer 123'
+  )
+  ->withUid('example-customer-123')
+  ->withMetadata($metadata)
+);
+```
+
+</TabItem>
 <TabItem value="curl">
 
 ```shell
@@ -349,6 +368,23 @@ await svix.Application.PatchAsync("example-customer-123", new ApplicationPatch(
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
 svix application patch 'example-customer-123' '{ "metadata": { "svix.email": "example-customer-123@example.com" } }'
+```
+
+</TabItem>
+<TabItem value="php">
+
+```php
+$svix = new Svix('AUTH_TOKEN');
+
+$metadata = [
+    'svix.email' => 'example-customer-123@example.com'
+];
+
+$svix->application->patch(
+  'example-customer-123',
+  ApplicationPatch::create()
+  ->withMetadata($metadata)
+);
 ```
 
 </TabItem>

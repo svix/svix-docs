@@ -121,6 +121,21 @@ svix authentication app-portal app_Xzx8bQeOB1D1XEYmAJaRGoj0
 ```
 
 </TabItem>
+
+
+<TabItem value="php">
+```php
+$svix = new Svix('AUTH_TOKEN');
+
+$dashboard = $svix->authentication->appPortalAccess(
+  'app_Xzx8bQeOB1D1XEYmAJaRGoj0',
+  AppPortalAccessIn::create()
+);
+
+echo $dashboard->url . PHP_EOL;
+```
+</TabItem>
+
 <TabItem value="curl">
 
 ```shell
