@@ -623,7 +623,7 @@ const secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw";
 
 export default defineEventHandler(async (event) => {
   const headers = getRequestHeaders(event);
-  const payload = await readBody(event);
+  const payload = await readRawBody(event);
 
   const wh = new Webhook(secret);
 
