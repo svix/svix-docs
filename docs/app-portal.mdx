@@ -273,6 +273,13 @@ So for example:
 http://app.svix.com/login?primaryColorLight=22cc91&primaryColorDark=28bb93&darkMode=true&fontFamily=Roboto#key=eyJhcHBJZCI6ICJhcHBfMXRSdFlMN3pwWWR2NHFuWTRRZFI1azE4eXQ0IiwgInRva2VuIjogImFwcHNrX2UxOUN0Rm5hbTFoOU1Gamh5azRSMTUzNUNSd05VSWI0In0=
 ```
 
+## App Portal capabilities
+
+App portal capabilities let you disable certain functionality when giving your customers access to the app portal.
+You can control the exact list of capabilities by using the `capabilities` property when calling [the app portal access API endpoint](https://api.svix.com/docs#tag/Authentication/operation/v1.authentication.app-portal-access).
+
+To give your customer read-only access to the app portal, you can use the `ViewBase` capabilities. For the full list of `capabilities`, please refer to [the app portal access API docs](https://api.svix.com/docs#tag/Authentication/operation/v1.authentication.app-portal-access).
+
 ## Implementing your own Consumer App Portal functionality
 You can implement Consumer App Portal functionality into your own dashboard using ergonomic React Hooks provided by the [`svix-react`] library.
 This approach allows you to use your own UI structure and components.
@@ -321,16 +328,3 @@ export default function ListEndpoints() {
 ```
 
 [`svix-react`]: https://www.npmjs.com/package/svix-react
-
-## App Portal capabilities
-
-When generating an App Portal magic link, you can set `capabilities` that control what the link's token can do.
-
-For basic read-only access, use `ViewBase`.
-
-Additional capabilities include:
-- `ViewBase`: Basic read only permissions, does not allow the user to see the endpoint secret.
-- `ViewEndpointSecret`: Allows the user to view the endpoint secret.
-- `ManageEndpoint`: Allows the user to read and modify any endpoint field or configuration (including secrets).
-
-See the full list of `capabilities` in our [API docs](https://api.svix.com/docs#tag/Authentication/operation/v1.authentication.app-portal-access).
