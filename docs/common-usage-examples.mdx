@@ -107,11 +107,25 @@ Let's take Zoom for example. They have an application marketplace, and you can i
 
 #### Usage example
 
-There are a few ways to achieve this, and the exact method chosen will depend on your additional requirements and your own personal preferences.
+There are multiple ways to achieve this, but the recommended method is to have one application per partner. When an event is triggered for a customer that a partner is interested in, a message is sent to this partner's app (as well as those for any other partners listening).
 
-The first method is to have one application for each of your customers (even though they are unaware of webhooks), and for every partner that would like to listen to webhooks add a new endpoint with this partner's URL and event type requirements (with a unique endpoint `UID` to [keep things stateless](./overview.mdx#ids-and-uids)). The nice thing about this method is that it keeps things simple, and all of the webhooks for one application are sent to one place. The bad thing, however, is that if this partner ever wants to change the URL or the event type, this needs to be updated for each and every integration that they use.
+Let's take a look at a concrete example: let's assume we have a customer that has enabled multiple partners on their account (e.g. installed those apps). Your system knows which partners are enabled for that specific customer (as they enabled them on your system in the first place), for simplicity, let's assume you can get that list by calling `list_enabled_partners()`.
 
-The second method is to have one application per partner. When an event is triggered for a customer that a partner is interested in, a message is sent to this partner's app (as well as those for any other partners listening). This is currently done with separate API calls, but we plan on adding a way to mass send a message to multiple applications, so please [let us know](./get-help.mdx) if this is something you would be interested in.
+Then, whenever an event happens on your end for a specific customer, you can get the list of enabled partners and send all of them messages one-by-one, similar to the following pseudo-code:
+
+```python
+# Some event was triggered on your system for a customer
+
+# Send a message to the relevant customer
+svix.message.create(customer.id, {...})
+
+# Get the list of all of the enabled partners for this customer
+enabled_partners = customer.list_enabled_partners()
+
+# Send a message for each enabled partner
+for partner in enabled_partners:
+    svix.message.create(partner.id, {...})
+```
 
 
 ### The mix and match use-case
