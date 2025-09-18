@@ -232,7 +232,7 @@ curl "https://api.us.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/msg/" \
 </TabItem>
 </CodeTabs>
 
-Svix's idempotency works by saving the resulting status code and body of the first request made for any given idempotency key for any successful request. Subsequent requests with the same key return the same result for a period of up to 12 hours.
+Svix's idempotency works by saving the resulting status code and body of the first request made for any given idempotency key for any successful request. Subsequent requests using the same auth token and the same idempotency key will return the same result for a period of up to 12 hours.
 
 Please note that idempotency is only supported for `POST` requests.
 
