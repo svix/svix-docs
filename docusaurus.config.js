@@ -126,11 +126,6 @@ module.exports = {
     src: "/js/commonroom.js",
     async: true,
     defer: true,
-  },
-  {
-    src: "/js/reo.js",
-    async: true,
-    defer: true,
   }
   ],
   markdown: {
