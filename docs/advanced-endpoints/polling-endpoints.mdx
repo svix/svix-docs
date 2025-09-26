@@ -105,8 +105,7 @@ in each response body.
 
 ## Usage with Svix Bridge
 
-If you have a service that must not be exposed on the public internet that you want to dispatch
-webhooks from Svix to, you can deploy a [Svix Bridge] instance inside the same network that
+If you have a service that must not be exposed on the public internet and you want it to receive webhooks from Svix, you can deploy a [Svix Bridge] instance inside the same network that
 forwards messages from a polling endpoint to the destination service.
 Svix Bridge will take care of retrying in case the connection the Svix API
 or the destination service is temporarily lost.
