@@ -25,6 +25,7 @@ When you enable Polling Endpoints, your users will be able to create them in the
 ![Polling Endpoint Create](../img/advanced-endpoints/polling-endpoint-create.png)
 
 ## Usage
+
 Like with webhook endpoints, Polling Endpoints support filtering messages by [event types](/event-types) and [channels](/channels).
 
 In the App Portal, event consumers will get a unique URL and an API key to iterate through the full list of events sent to their [Svix Application](/overview#consumer-applications) since the endpoint was created.
@@ -101,6 +102,41 @@ Note that after performing a `seek`, active clients sending a now-out-of-sequenc
 In this situation, omitting the `iterator` parameter (as if making a new "initial" request) will allow such clients
 to pick up from the position tracked by the server. Subsequent requests should then use the iterator value returned
 in each response body.
+
+## Usage with Svix Bridge
+
+If you have a service that must not be exposed on the public internet and you want it to receive webhooks from Svix, you can deploy a [Svix Bridge] instance inside the same network that
+forwards messages from a polling endpoint to the destination service.
+Svix Bridge will take care of retrying in case the connection the Svix API
+or the destination service is temporarily lost.
+
+The app portal page for the Polling Endpoint includes a basic example config for Svix Bridge,
+with the app ID and sink ID already filled in. It looks like this:
+
+```yaml
+receivers:
+  - name: "msg-poller-to-http"
+    input:
+      type: "svix-message-poller"
+      consumer_id: "svix-bridge-1"
+      app_id: "app_xxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      sink_id: "poll_yyy"
+      token: "sk_poll_*****.eu"
+    output:
+      type: "http"
+      url: "http://example.local"
+```
+
+The http output is not the only destination Svix Bridge can send webhooks to,
+it can also store them to a messaging system like RabbitMQ or Kafka.
+Further, you can set a transformation - a small JS program that processes each message
+before it gets forwarded.
+
+For the full list of supported configuration options and how to configure each of the output types,
+see the [receivers example config file][example-recv-cfg].
+
+[Svix Bridge]: https://github.com/svix/svix-webhooks-private/tree/main/bridge#readme
+[example-recv-cfg]: https://github.com/svix/svix-webhooks/blob/main/bridge/svix-bridge.example.receivers.yaml
 
 ---
 
