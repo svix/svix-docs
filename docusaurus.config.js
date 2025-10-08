@@ -26,16 +26,6 @@ module.exports = {
           position: "left",
         },
         {
-          to: "https://docs.svix.com/receiving/introduction/",
-          label: "Consuming Webhooks",
-          position: "left",
-        },
-        {
-          to: "/stream/introduction/",
-          label: "Stream",
-          position: "left",
-        },
-        {
           to: "https://www.svix.com/slack/",
           label: "Community",
           position: "left",
