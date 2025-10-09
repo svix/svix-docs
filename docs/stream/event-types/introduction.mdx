@@ -23,7 +23,7 @@ You can create event types in the Stream Dashboard, or via the [API](https://api
 ```js
 import { Svix } from "svix";
 
-const streamEventTypeOut = await svix.stream.eventType.create({
+const streamEventTypeOut = await svix.streaming.eventType.create({
     name: "user.signup",
     description: null,
     featureFlags: ["cool-new-feature"]
@@ -36,7 +36,7 @@ const streamEventTypeOut = await svix.stream.eventType.create({
 ```python
 from svix.api import Svix, StreamEventTypeIn
 
-stream_event_type_out = svix.stream.event_type.create(StreamEventTypeIn(
+stream_event_type_out = svix.streaming.event_type.create(StreamEventTypeIn(
     name="user.signup",
     description=None,
     feature_flags=["cool-new-feature"]
@@ -52,7 +52,7 @@ import (
 )
 
 svixClient := svix.New("AUTH_TOKEN", nil)
-streamEventTypeOut, err := svixClient.Stream.EventType.Create(ctx, &StreamEventTypeIn{
+streamEventTypeOut, err := svixClient.Streaming.EventType.Create(ctx, &StreamEventTypeIn{
     Name: "user.signup",
     Description: nil,
     FeatureFlags: []string{"cool-new-feature"},
@@ -65,7 +65,7 @@ streamEventTypeOut, err := svixClient.Stream.EventType.Create(ctx, &StreamEventT
 ```rust
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
 let stream_event_type_out = svix
-    .stream()
+    .streaming()
     .event_type()
     .create(StreamEventTypeIn {
         name: "user.signup".to_string(),
@@ -83,7 +83,7 @@ import com.svix.Svix;
 import com.svix.models.StreamEventTypeIn;
 
 
-StreamEventTypeOut streamEventTypeOut = svix.getStream().getEventType().create(new StreamEventTypeIn()
+StreamEventTypeOut streamEventTypeOut = svix.getStreaming().getEventType().create(new StreamEventTypeIn()
     .name("user.signup")
     .description(null)
     .featureFlags(new String[]{"cool-new-feature"})
@@ -98,7 +98,7 @@ import com.svix.kotlin.Svix;
 import com.svix.kotlin.models.StreamEventTypeIn;
 
 val svix = Svix("AUTH_TOKEN");
-val streamEventTypeOut = svix.stream.eventType.create(StreamEventTypeIn()
+val streamEventTypeOut = svix.streaming.eventType.create(StreamEventTypeIn()
     .name("user.signup")
     .description(null)
     .featureFlags(arrayOf("cool-new-feature"))
@@ -109,7 +109,7 @@ val streamEventTypeOut = svix.stream.eventType.create(StreamEventTypeIn()
 <TabItem value="ruby">
 
 ```ruby
-stream_event_type_out = svix.stream.event_type.create(Svix::StreamEventTypeIn.new({
+stream_event_type_out = svix.streaming.event_type.create(Svix::StreamEventTypeIn.new({
     "name": "user.signup",
     "description": nil,
     "feature_flags": ["cool-new-feature"]
@@ -121,7 +121,7 @@ stream_event_type_out = svix.stream.event_type.create(Svix::StreamEventTypeIn.ne
 
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
-var streamEventTypeOut = await svix.Stream.EventType.CreateAsync(new StreamEventTypeIn{
+var streamEventTypeOut = await svix.Streaming.EventType.CreateAsync(new StreamEventTypeIn{
     name: "user.signup",
     description: null,
     featureFlags: new string[] {"cool-new-feature"}

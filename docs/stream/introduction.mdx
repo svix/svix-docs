@@ -25,7 +25,7 @@ Creating a Stream is simple using the [API](https://api.svix.com/docs#tag/Stream
 ```js
 import { Svix } from "svix";
 
-const streamOut = await svix.stream.stream.create({
+const streamOut = await svix.streaming.stream.create({
     name: "My Stream",
     uid: "unique-identifier"
 });
@@ -37,7 +37,7 @@ const streamOut = await svix.stream.stream.create({
 ```python
 from svix.api import Svix, StreamIn
 
-stream_out = svix.stream.stream.create(StreamIn(
+stream_out = svix.streaming.stream.create(StreamIn(
     name="My Stream",
     uid="unique-identifier"
 ))
@@ -52,7 +52,7 @@ import (
 )
 
 svixClient := svix.New("AUTH_TOKEN", nil)
-streamOut, err := svixClient.Stream.Stream.Create(ctx, &svix.StreamIn{
+streamOut, err := svixClient.Streaming.Stream.Create(ctx, &svix.StreamIn{
     Name: "My Stream",
     Uid: "unique-identifier",
 })
@@ -65,7 +65,7 @@ streamOut, err := svixClient.Stream.Stream.Create(ctx, &svix.StreamIn{
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
 
 let stream_out = svix
-    .stream()
+    .streaming()
     .stream()
     .create(
         StreamIn {
@@ -80,7 +80,7 @@ let stream_out = svix
 <TabItem value="java">
 
 ```java
-StreamOut streamOut = svix.getStream().getStream().create(new StreamIn()
+StreamOut streamOut = svix.getStreaming().getStream().create(new StreamIn()
     .name("My Stream")
     .uid("unique-identifier")
 );
@@ -93,7 +93,7 @@ StreamOut streamOut = svix.getStream().getStream().create(new StreamIn()
 import com.svix.kotlin.Svix;
 import com.svix.kotlin.models.StreamIn;
 
-val streamOut = svix.stream.stream.create(StreamIn()
+val streamOut = svix.streaming.stream.create(StreamIn()
     .name("My Stream")
     .uid("unique-identifier")
 )
@@ -103,7 +103,7 @@ val streamOut = svix.stream.stream.create(StreamIn()
 <TabItem value="ruby">
 
 ```ruby
-stream_out = svix.stream.stream.create(Svix::StreamIn.new({
+stream_out = svix.streaming.stream.create(Svix::StreamIn.new({
     "name": "My Stream",
     "uid": "unique-identifier"
 }))
@@ -115,7 +115,7 @@ stream_out = svix.stream.stream.create(Svix::StreamIn.new({
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
 
-var streamOut = await svix.Stream.Stream.CreateAsync(new StreamIn{
+var streamOut = await svix.Streaming.Stream.CreateAsync(new StreamIn{
     name: "My Stream",
     uid: "unique-identifier"
 });
@@ -172,7 +172,7 @@ With the new Stream, you can immediately start writing events.
 
 <TabItem value="js">
 ```js
-const events = await svix.stream.events.create("stream_id", {
+const events = await svix.streaming.events.create("stream_id", {
     events: [
         {
             "eventType": "user.created",
@@ -189,14 +189,14 @@ const events = await svix.stream.events.create("stream_id", {
 
 <TabItem value="py">
 ```python
-create_stream_events_out = svix.stream.events.create("stream_id", CreateStreamEventsIn(
+create_stream_events_out = svix.streaming.events.create("stream_id", CreateStreamEventsIn(
     events=[
         {
             "eventType": "user.created",
             "payload": '{"email": "bob@enterprise.io"}'
         },
         {
-            "eventType": "user.login", 
+            "eventType": "user.login",
             "payload": '{"id": 12, "timestamp": "2025-07-21T14:23:17.861Z"}'
         }
     ]
@@ -207,7 +207,7 @@ create_stream_events_out = svix.stream.events.create("stream_id", CreateStreamEv
 <TabItem value="go">
 
 ```go
-createStreamEventsOut, err := svixClient.Stream.Events.Create(ctx, "stream_id", &CreateStreamEventsIn{
+createStreamEventsOut, err := svixClient.Streaming.Events.Create(ctx, "stream_id", &CreateStreamEventsIn{
     Events: []interface{}{
         map[string]interface{}{
             "eventType": "user.created",
@@ -225,7 +225,7 @@ createStreamEventsOut, err := svixClient.Stream.Events.Create(ctx, "stream_id", 
 <TabItem value="rust">
 
 ```rust
-let create_stream_events_out = svix.stream().events().create("stream_id", CreateStreamEventsIn {
+let create_stream_events_out = svix.streaming().events().create("stream_id", CreateStreamEventsIn {
     events: vec![
         json!({
             "eventType": "user.created",
@@ -244,14 +244,14 @@ let create_stream_events_out = svix.stream().events().create("stream_id", Create
 <TabItem value="java">
 
 ```java
-CreateStreamEventsOut createStreamEventsOut = svix.getStream().getEvents().create("stream_id", new CreateStreamEventsIn()
+CreateStreamEventsOut createStreamEventsOut = svix.getStreaming().getEvents().create("stream_id", new CreateStreamEventsIn()
     .events(new Object[]{
         Map.of(
             "eventType", "user.created",
             "payload", "{\"email\": \"bob@enterprise.io\"}"
         ),
         Map.of(
-            "eventType", "user.login", 
+            "eventType", "user.login",
             "payload", "{\"id\": 12, \"timestamp\": \"2025-07-21T14:23:17.861Z\"}"
         )
     })
@@ -262,7 +262,7 @@ CreateStreamEventsOut createStreamEventsOut = svix.getStream().getEvents().creat
 <TabItem value="kotlin">
 
 ```kotlin
-val createStreamEventsOut = svix.stream.events.create("stream_id", CreateStreamEventsIn()
+val createStreamEventsOut = svix.streaming.events.create("stream_id", CreateStreamEventsIn()
     .events(arrayOf(
         mapOf(
             "eventType" to "user.created",
@@ -280,7 +280,7 @@ val createStreamEventsOut = svix.stream.events.create("stream_id", CreateStreamE
 <TabItem value="ruby">
 
 ```ruby
-create_stream_events_out = svix.stream.events.create("stream_id", Svix::CreateStreamEventsIn.new({
+create_stream_events_out = svix.streaming.events.create("stream_id", Svix::CreateStreamEventsIn.new({
     "events": [
         {
             "eventType" => "user.created",
@@ -298,7 +298,7 @@ create_stream_events_out = svix.stream.events.create("stream_id", Svix::CreateSt
 <TabItem value="csharp">
 
 ```csharp
-var createStreamEventsOut = await svix.Stream.Events.CreateAsync("stream_id", new CreateStreamEventsIn{
+var createStreamEventsOut = await svix.Streaming.Events.CreateAsync("stream_id", new CreateStreamEventsIn{
     events: new Object[] {
         new {
             eventType = "user.created",
