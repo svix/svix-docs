@@ -25,8 +25,8 @@ const products = [
   {
     id: 'ingest',
     name: 'Svix Ingest',
-    baseUrl: '/receiving/',
-    url: '/receiving/introduction/',
+    baseUrl: '/receiving/receiving-with-ingest',
+    url: '/receiving/receiving-with-ingest',
     description: 'Webhooks Receiving',
     icon: ArrowDownTrayIcon
   },
