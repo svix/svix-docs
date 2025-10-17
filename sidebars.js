@@ -26,6 +26,7 @@ module.exports = {
             'advanced-endpoints/polling-endpoints',
             'advanced-endpoints/fifo-endpoints',
             'advanced-endpoints/object-storage',
+            'advanced-endpoints/queue',
           ]
         },
       ],
