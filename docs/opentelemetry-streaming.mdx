@@ -37,6 +37,37 @@ Here is an example of how it looks like in an observability dashboard:
 
 ![OpenTelemetry Spans](./img/opentelemetry-spans.png)
 
+
+### Additional attributes
+You have the flexibility to add your own custom attributes to spans at either the app level or per event.
+
+#### Application attributes
+You can add additional otel attributes per app by adding key-value pairs to an application's
+metadata, prefixing the key with `otel.`. Example:
+```json
+{
+  "metadata": { "otel.custom-app-key-1": "custom-app-value-1" }
+}
+```
+
+The param `custom-app-key-1=custom-app-value-1` will be added to your spans.
+
+#### Event attributes
+You can add additional per-event attributes to your spans by passing custom key-value pairs in `transformationsParams.otel`
+when calling the Create Message endpoint. Example:
+```json
+{
+  "payload": { "abc": "123" },
+  "eventType": "my-event",
+  "transformationsParams": {
+    "otel": {
+      "custom-key-1": "custom-value-1",
+      "custom-key-2": "custom-value-2",
+    }
+  }
+}
+```
+
 ## How to use it
 
 The raw spans sent by Svix can be used in a variety of ways:
