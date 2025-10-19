@@ -149,7 +149,9 @@ curl -X POST "https://api.us.svix.com/api/v1/auth/app-portal-access/app_Xzx8bQeO
 </TabItem>
 </CodeTabs>
 
-If you want your users to be redirected to a specific page of the App Portal after login, you can add a `next` query parameter to the URL:
+### Showing a specific page
+
+If you want your users to be redirected to a specific page of the App Portal, you can add a `next` query parameter to the URL:
 
 ```
 https://app.svix.com/login?next=/endpoints/abc#key=xyz
@@ -281,8 +283,21 @@ You can control the exact list of capabilities by using the `capabilities` prope
 To give your customer read-only access to the app portal, you can use the `ViewBase` capabilities. For the full list of `capabilities`, please refer to [the app portal access API docs](https://api.svix.com/docs#tag/Authentication/operation/v1.authentication.app-portal-access).
 
 ## Implementing your own Consumer App Portal functionality
-You can implement Consumer App Portal functionality into your own dashboard using ergonomic React Hooks provided by the [`svix-react`] library.
-This approach allows you to use your own UI structure and components.
+
+You can implement Consumer App Portal functionality into your own dashboard using ergonomic React Hooks provided by the [`svix-react`] library or using the [Svix JavaScript library](https://api.svix.com/docs).
+
+This approach allows you to use your own UI structure and components and have full control over the behavior. It's also very common to mix-and-match your own app portal with the embedded consumer app portal that we provide as an iframe. For example, you can build the list, create, and edit endpoint views yourself, and then offer the full app portal in "read only" mode to give your customers access to the more advanced functionality available in the app portal.
+
+### Authentication
+
+Whether implementing your own dashboard using the Svix React library or the JavaScript library, you can use the Svix frontend-friendly tokens. These are tokens that can be safely passed to the frontend as they expire automatically and are scoped to the respective application. These are the same kinds of tokens used by the iframe.
+
+To get a frontend-friendly token, call the [get consumer app portal access API](https://api.svix.com/docs#tag/Authentication/operation/v1.authentication.app-portal-access) from the backend and pass the returned token to the frontend.
+
+This token will be scoped to the specific application, will expire automatically based on the set expiry, and will only have the capabilities associated with it on creation.
+
+### Svix React example
+
 The hooks are an abstraction over the `svix` JavaScript library and help to handle concerns like paginating over large lists of data, and reloading data.
 
 Using the hooks requires wrapping your application or components in `<SvixProvider>`:
