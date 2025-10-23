@@ -26,6 +26,7 @@ module.exports = {
             'advanced-endpoints/polling-endpoints',
             'advanced-endpoints/fifo-endpoints',
             'advanced-endpoints/object-storage',
+            'advanced-endpoints/queue',
           ]
         },
       ],
@@ -122,6 +123,7 @@ module.exports = {
         'stream/sinks/http',
         'stream/sinks/otel_trace',
         'stream/sinks/s3',
+        'stream/sinks/sqs',
         'stream/sinks/gcs',
         'stream/sinks/azure_blob',
         'stream/sinks/poller',
