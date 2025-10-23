@@ -123,6 +123,7 @@ module.exports = {
         'stream/sinks/http',
         'stream/sinks/otel_trace',
         'stream/sinks/s3',
+        'stream/sinks/sqs',
         'stream/sinks/gcs',
         'stream/sinks/azure_blob',
         'stream/sinks/poller',
