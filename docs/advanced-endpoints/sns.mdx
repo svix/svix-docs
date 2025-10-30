@@ -1,0 +1,136 @@
+---
+title: SNS endpoints
+---
+
+# SNS (Simple Notification Service) endpoints
+
+SNS endpoints allow you to send webhook events to AWS SNS topics instead of HTTP endpoints.
+
+This is useful for publishing events to notification topics without your customers having to set up any listener endpoint or write any glue code. SNS endpoints are ideal for:
+
+- **Fan-out messaging**: Deliver events to multiple subscribers
+- **Multi-protocol delivery**: Support email, SMS, HTTP, and other protocols
+- **Reliability**: Leverage SNS's durability and retry mechanisms
+- **Scalability**: Handle high-throughput event publishing
+
+## Configuration
+
+Create an SNS endpoint by providing your SNS topic ARN and AWS credentials. Events will be published to your topic as individual messages.
+
+```bash
+curl -X 'POST' \
+  'https://api.eu.svix.com/api/v1/stream/{your_sink_id}/sink' \
+  -H 'Authorization: Bearer AUTH_TOKEN' \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "config": {
+      "topicArn": "arn:aws:sns:us-east-1:123456789012:my-topic",
+      "region": "us-east-1",
+      "accessKeyId": "xxx",
+      "secretAccessKey": "xxx"
+    },
+    "type": "sns"
+  }'
+```
+
+## Transformation
+
+SNS endpoints use transformations to format events for the target topic. Here's the transformation function for SNS:
+
+```javascript
+/**
+ * @param input - The input object
+ * @param input.events - The array of events in the batch. The number of events in the batch is capped by the Sink's batch size.
+ * @param input.events[].payload - The message payload (string or JSON).
+ * @param input.events[].eventType - The message event type (string).
+ *
+ * @returns Object containing the response.
+ * @returns returns.messages - The array of SNS messages to send to the SNS topic.
+ * @returns returns.messages[].payload - The content of the message (string).
+ * @returns returns.messages[].subject - An optional subject of the message (string).
+ */
+function handler(input) {
+  const messages = input.events.map((event) => ({
+    payload: event,
+  }));
+
+  return {
+    messages,
+  };
+}
+```
+
+For example, if the endpoint receives the following events:
+
+```json
+{
+  "eventType": "user.created",
+  "payload": "{\"email\": \"joe@enterprise.io\"}"
+}
+```
+
+```json
+{
+  "eventType": "user.login", 
+  "payload": "{\"id\": 12, \"timestamp\": \"2025-07-21T14:23:17.861Z\"}"
+}
+```
+
+Using the same example events, the default SNS transformation would produce:
+
+```json
+{
+  "messages": [
+    {
+      "payload": {
+        "eventType": "user.created",
+        "payload": "{\"email\": \"joe@enterprise.io\"}"
+      }
+    },
+    {
+      "payload": {
+        "eventType": "user.login",
+        "payload": "{\"id\": 12, \"timestamp\": \"2025-07-21T14:23:17.861Z\"}"
+      }
+    }
+  ]
+}
+```
+
+To add a custom subject:
+```javascript
+function handler(input) {
+  const messages = input.events.map((event) => ({
+    payload: event,
+    subject: `Webhook: ${event.eventType}`,
+  }));
+
+  return {
+    messages,
+  };
+}
+```
+
+This would produce:
+
+```json
+{
+  "messages": [
+    {
+      "payload": {
+        "eventType": "user.created",
+        "payload": "{\"email\": \"joe@enterprise.io\"}"
+      },
+      "subject": "Webhook: user.created"
+    },
+    {
+      "payload": {
+        "eventType": "user.login",
+        "payload": "{\"id\": 12, \"timestamp\": \"2025-07-21T14:23:17.861Z\"}"
+      },
+      "subject": "Webhook: user.login"
+    }
+  ]
+}
+```
