@@ -30,11 +30,24 @@ const products = [
     description: 'Webhooks Receiving',
     icon: ArrowDownTrayIcon
   },
+  {
+    id: 'other',
+    name: 'More',
+    baseUrl: '/receiving',
+    url: '/receiving/introduction/',
+    description: 'Useful documentation',
+    icon: brandNavySmall,
+    hidden: true
+  }
 ];
 
 export default function ProductSwitcher() {
   const history = useHistory();
   const selectedProduct = products.find(p => useRouteMatch({ path: p.baseUrl === '/' ? '/' : `${p.baseUrl}*` })) || products[0];
+
+  if (selectedProduct.hidden) {
+    return null;
+  }
 
   return (
     <Menu>
@@ -52,7 +65,7 @@ export default function ProductSwitcher() {
       <MenuItems className={styles.menuItems} anchor="bottom">
 
         <div className={styles.menuTitle}>Products</div>
-        {products.map((product) => (
+        {products.filter(product => !product.hidden).map((product) => (
           <MenuItem
             key={product.id}
             as="button"
