@@ -1,8 +1,14 @@
 ---
 title: HTTP
+hide_title: true
 ---
 
-# HTTP Endpoints 
+import RAW from '!!raw-loader!@site/docs/stream/sinks/http.mdx';
+import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
+
+<HeaderWithCopyButton title="HTTP" sourceMarkdown={RAW} />
+
+# HTTP Endpoints
 
 Events can be sent to any arbitrary HTTP endpoint using the `http` sink type.
 
@@ -132,13 +138,13 @@ For example, the following transformation code would make a `PATCH` request with
 
 ```JavaScript
 function handler(input) {
-  
+
   // note that the body here is just a string.
   const body = input
     .events
     .map((event) => JSON.stringify(event.payload))
     .join("\n");
-  
+
   return {
     config: {
         format: "raw",

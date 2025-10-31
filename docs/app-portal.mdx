@@ -1,9 +1,14 @@
 ---
 title: Consumer App Portal
+hide_title: true
 ---
 
 import CodeTabs from "@theme/CodeTabs";
 import TabItem from "@theme/TabItem";
+import RAW from '!!raw-loader!@site/docs/app-portal.mdx';
+import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
+
+<HeaderWithCopyButton title="Consumer App Portal" sourceMarkdown={RAW} />
 
 Svix comes with a consumer application portal for your users (webhook consumers) that you can use out of the box. Your users can then use it to add endpoints, debug delivery, as well as inspect and replay past webhooks. This is the easiest way to get started, but you can alternatively use the API to build your own.
 

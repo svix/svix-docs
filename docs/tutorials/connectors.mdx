@@ -1,6 +1,12 @@
 ---
 title: Configuring the Slack Connector
+hide_title: true
 ---
+
+import RAW from '!!raw-loader!@site/docs/tutorials/connectors.mdx';
+import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
+
+<HeaderWithCopyButton title="Configuring the Slack Connector" sourceMarkdown={RAW} />
 
 :::info[Prerequisites]
 This guide assumes your familiar with the basics of [event types](../event-types), the [App Portal](../app-portal) and [Connectors](../connectors).
@@ -16,7 +22,7 @@ With the Slack connector, you can offer your users an easy-to-use way of integra
 
 1. Go to the [Connectors page](https://dashboard.svix.com/connectors) and click on "Configure Connector".
 
-2. Add a description. This will be displayed to your users in the App Portal. 
+2. Add a description. This will be displayed to your users in the App Portal.
 
 3. Select the event types this connector will support. You can choose specific event types that make sense for Slack, or select all of them.
 
@@ -71,7 +77,7 @@ Your transformation should `switch` on the `webhook.eventType` to determine how 
 function handler(webhook) {
   switch (webhook.eventType) {
     case "invoice.created":
-      webhook.payload = { 
+      webhook.payload = {
         text: `New invoice created: ${webhook.payload.amount}`
       };
       break;
@@ -116,7 +122,7 @@ Make sure your transformation works for the selected event types without any mod
 
 Now that you've created your Slack connector, you can test it out in the App Portal.
 
-[Create a sample application](https://docs.svix.com/quickstart#creating-a-consumer-application) and use the 'Preview App Portal' button in the Svix Dashboard. 
+[Create a sample application](https://docs.svix.com/quickstart#creating-a-consumer-application) and use the 'Preview App Portal' button in the Svix Dashboard.
 
 In the App Portal, the new connector will be visible when creating a new endpoint.
 
@@ -134,11 +140,10 @@ And the message using advanced formatting:
 
 ![Slack message advanced](../img/tutorials/slack-connectors/advanced-formatting.png)
 
-And that's it! In just a few clicks, your users will be able to connect their Slack account and start receiving notifications from your webhook events. 
+And that's it! In just a few clicks, your users will be able to connect their Slack account and start receiving notifications from your webhook events.
 
 ## Wrapping up
 
 All we needed to do to setup the connector was select the event types we wanted to support and write the transformation. Svix takes care of the rest, so you can provide a one-click connection to Slack for your users.
 
 Setting up connectors for the other supported services is just as easy. Check out the [Connectors docs](../connectors) to learn more.
-

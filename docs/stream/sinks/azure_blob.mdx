@@ -1,6 +1,12 @@
 ---
 title: Azure Blob Storage
+hide_title: true
 ---
+
+import RAW from '!!raw-loader!@site/docs/stream/sinks/azure_blob.mdx';
+import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
+
+<HeaderWithCopyButton title="Azure Blob Storage" sourceMarkdown={RAW} />
 
 # Azure Blob Storage
 
@@ -98,4 +104,3 @@ The default transformation code would result in following blob being uploaded to
 ```
 
 If you want to control the format of the object more precisely, you can use `config.format = "raw"`, and set `data` to a string of the exact file contents you want.
-

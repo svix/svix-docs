@@ -1,9 +1,14 @@
 ---
 title: Getting Started with the CLI
+hide_title: true
 ---
 
 import CLITabs from '@theme/CLITabs';
 import TabItem from '@theme/TabItem';
+import RAW from '!!raw-loader!@site/docs/tutorials/cli.mdx';
+import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
+
+<HeaderWithCopyButton title="Getting Started with the CLI" sourceMarkdown={RAW} />
 
 The Svix CLI is one of the fastest ways to interact with our API, which is especially useful during development.
 
@@ -103,7 +108,7 @@ svix application create '{"name": "My Application"}'
 ```
 
 API commands also include convenience flags for common values to make it easier when handcrafting commands.
-For example, the same application could have been created using the `--data-name` flag: 
+For example, the same application could have been created using the `--data-name` flag:
 
 ```sh
 svix application create --data-name "My Application"

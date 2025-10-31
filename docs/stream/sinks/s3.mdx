@@ -1,6 +1,12 @@
 ---
-title: Amazon S3 
+title: Amazon S3
+hide_title: true
 ---
+
+import RAW from '!!raw-loader!@site/docs/stream/sinks/s3.mdx';
+import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
+
+<HeaderWithCopyButton title="Amazon S3" sourceMarkdown={RAW} />
 
 # Amazon S3
 
@@ -103,4 +109,3 @@ And the files contents would match the jsonl format.
 ```
 
 If you want to control the format of the object more precisely, you can use `config.format = "raw"`, and set `data` to a string of the exact file contents you want.
-

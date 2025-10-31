@@ -1,15 +1,20 @@
 ---
 title: FIFO Endpoints
+hide_title: true
 ---
 
-# FIFO Endpoints
+import RAW from '!!raw-loader!@site/docs/advanced-endpoints/fifo-endpoints.mdx';
+import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
+
+<HeaderWithCopyButton title="FIFO Endpoints" sourceMarkdown={RAW} />
+
 
 FIFO endpoints let your webhook consumers receive webhooks in strict FIFO ordering (first in first out), unlike regular webhooks, which are delivered independently and order is on a best effort basis.
 
-Svix supports sending webhooks to both FIFO and regular endpoints, with no code changes required on your end. 
+Svix supports sending webhooks to both FIFO and regular endpoints, with no code changes required on your end.
 
 :::info[Why not make all webhooks FIFO?]
-Ensuring strict FIFO ordering comes with some tradeoffs. Since every call to the receiver endpoint is blocked until the previous one is successful, throughput is limited compared to regular webhook endpoints. 
+Ensuring strict FIFO ordering comes with some tradeoffs. Since every call to the receiver endpoint is blocked until the previous one is successful, throughput is limited compared to regular webhook endpoints.
 
 Read more about [how FIFO endpoints work](https://www.svix.com/blog/fifo-ordered-webhooks-delivery/) and [the challenges with guaranteeing webhook ordering](https://www.svix.com/blog/guaranteeing-webhook-ordering/).
 :::
@@ -28,7 +33,7 @@ When you enable FIFO Endpoints, your users will be able to create them in the [A
 ## Message Batching
 Because of the strict ordering, Svix has to wait for a successful acknowledgement of delivery before sending any other messages. To address throughput constraints FIFO endpoints deliver webhooks in configurable batch sizes.
 
-The batching parameters can be configured in the [App Portal](/app-portal) for each endpoint. 
+The batching parameters can be configured in the [App Portal](/app-portal) for each endpoint.
 
 ![FIFO Endpoint Batching](../img/advanced-endpoints/fifo-endpoint-batching.png)
 
@@ -48,7 +53,7 @@ Svix expects a Transformation to declare a function named `handler`. Svix will p
 
 ### An example Transformation
 
-You can write a transformation that transforms certain messages in the batch and forwards them. 
+You can write a transformation that transforms certain messages in the batch and forwards them.
 
 ```js
 function handler(input) {
@@ -67,7 +72,7 @@ function handler(input) {
 }
 ```
 
-Or you can write transformations that collect messages and returns a summarized response. 
+Or you can write transformations that collect messages and returns a summarized response.
 
 ```js
 function handler(input) {

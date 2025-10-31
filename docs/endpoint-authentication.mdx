@@ -1,8 +1,14 @@
 ---
 title: Advanced Endpoint Authentication
+hide_title: true
 ---
 
-Svix supports advanced endpoint authentication methods that can be used by your customers on top of the standard signature verification. 
+import RAW from '!!raw-loader!@site/docs/endpoint-authentication.mdx';
+import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
+
+<HeaderWithCopyButton title="Advanced Endpoint Authentication" sourceMarkdown={RAW} />
+
+Svix supports advanced endpoint authentication methods that can be used by your customers on top of the standard signature verification.
 
 :::info
 These are advanced methods that are not required to keep your webhooks secure, but your customers might need them for their use case.
@@ -19,8 +25,8 @@ When enabled, your users will see an option in the [App Portal](/app-portal) to 
 
 ![Endpoint Authentication Configure](./img/endpoint-authentication/endpoint-authentication-configure.png)
 
-## OAuth 
-To configure OAuth, your users will need to enter a `Client ID` and the `Authorization Server URL`, as well as the rest of the OAuth parameters, depending on the desired `Grant type` and `Authentication method`. 
+## OAuth
+To configure OAuth, your users will need to enter a `Client ID` and the `Authorization Server URL`, as well as the rest of the OAuth parameters, depending on the desired `Grant type` and `Authentication method`.
 
 ![OAuth Authentication](./img/endpoint-authentication/endpoint-configure-oauth.png)
 
