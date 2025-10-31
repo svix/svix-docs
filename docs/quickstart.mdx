@@ -6,12 +6,9 @@ hide_title: true
 import CodeTabs from "@theme/CodeTabs";
 import TabItem from "@theme/TabItem";
 import RAW from '!!raw-loader!@site/docs/quickstart.mdx';
-import CopyDocsButton from '@site/src/components/CopyDocsButton';
+import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
 
-<div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:'1rem',marginBottom:'0.5rem'}}>
-  <h1 style={{margin:0}}>Quickstart</h1>
-  <CopyDocsButton pageTitle="Quickstart" sourceMarkdown={RAW} />
-</div>
+<HeaderWithCopyButton title="Quickstart" sourceMarkdown={RAW} />
 
 Learn how to send your first webhook using Svix.
 

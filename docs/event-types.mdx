@@ -1,9 +1,14 @@
 ---
 title: Event Types
+hide_title: true
 ---
 
 import CodeTabs from "@theme/CodeTabs";
 import TabItem from "@theme/TabItem";
+import RAW from '!!raw-loader!@site/docs/event-types.mdx';
+import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
+
+<HeaderWithCopyButton title="Event Types" sourceMarkdown={RAW} />
 
 Each message sent through Svix has an associated event type.
 Event types are identifiers denoting the type of message being sent.
@@ -675,7 +680,7 @@ if ($handle) {
         $parts = explode('|', trim($line));
         $name = $parts[0];
         $description = $parts[1];
-        
+
         $eventType = $svix->eventType->create(EventTypeIn::create(
             name: $name,
             description: $description

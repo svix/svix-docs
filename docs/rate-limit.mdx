@@ -1,10 +1,14 @@
 ---
 title: Rate Limiting Endpoints
+hide_title: true
 ---
 
 import CodeTabs from '@theme/CodeTabs';
 import TabItem from '@theme/TabItem';
+import RAW from '!!raw-loader!@site/docs/rate-limit.mdx';
+import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
 
+<HeaderWithCopyButton title="Rate Limiting Endpoints" sourceMarkdown={RAW} />
 
 While Svix can handle however many messages you send us, your customers' endpoints may not be able to. This is why the Svix API includes rate-limiting (throttling) calls to customer endpoints.
 

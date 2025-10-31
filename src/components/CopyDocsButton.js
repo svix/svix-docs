@@ -7,9 +7,9 @@ export default function CopyDocsButton({ pageTitle, sourceMarkdown }) {
 
   const onClick = useCallback(async () => {
     await navigator.clipboard.writeText(sourceMarkdown || '');
-    window.analytics.track(`${pageTitle} | Copy Docs for LLM`, {
+    window.analytics.track(`Copy Docs for LLM`, {
       path: window.location.pathname,
-      title: pageTitle,
+      pageTitle,
     });
     setCopied(true);
     window.setTimeout(() => setCopied(false), 3000);

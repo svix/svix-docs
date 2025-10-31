@@ -1,8 +1,14 @@
 ---
 title: OpenTelemetry Tracing
+hide_title: true
 ---
 
-# OpenTelemetry Tracing 
+import RAW from '!!raw-loader!@site/docs/stream/sinks/otel_trace.mdx';
+import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
+
+<HeaderWithCopyButton title="OpenTelemetry Tracing" sourceMarkdown={RAW} />
+
+# OpenTelemetry Tracing
 
 Events can be sent to an OpenTelemetry tracing collector using the `otelTracing` sink type.
 
@@ -153,7 +159,7 @@ function handler(input) {
             // start and end times are extracted from the event directly.
             startTime: payload.startTime,
             endTime: payload.endTime,
-            
+
             // We use the eventType as the name of the span,
             // as it makes it easier to identify which events map to
             // which spans in Grafana
@@ -167,7 +173,7 @@ function handler(input) {
             // use the `attemptId` to mark the parent and child spans, respectively.
             spanIdKey: event.eventType === "message.attempt" ? payload.attemptId : undefined
             parentIdKey: event.eventType === "http.attempt" ? payload.attemptId : undefined,
-          
+
             // Attributes can be anything you want. Here, we extract the important ID's from the event payload.
             attributes: {
               msgId: payload.msgId,
