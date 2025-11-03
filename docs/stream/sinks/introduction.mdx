@@ -1,6 +1,12 @@
 ---
-title: Introduction 
+title: Introduction
+hide_title: true
 ---
+
+import RAW from '!!raw-loader!@site/docs/stream/sinks/introduction.mdx';
+import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
+
+<HeaderWithCopyButton title="Introduction" sourceMarkdown={RAW} />
 
 # Introduction to Sinks
 
@@ -77,7 +83,7 @@ This would take all the events in the batch, and make a `POST` request to the HT
             "payload": { "email": "joe@enterprise.io" }
         },
         {
-            "eventType": "user.login", 
+            "eventType": "user.login",
             "payload": {"id": 12, "timestamp": "2025-07-21T14:23:17.861Z"}
         }
     ]

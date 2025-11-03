@@ -1,6 +1,12 @@
 ---
 title: Transformations
+hide_title: true
 ---
+
+import RAW from '!!raw-loader!@site/docs/transformations.mdx';
+import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
+
+<HeaderWithCopyButton title="Transformations" sourceMarkdown={RAW} />
 
 Transformations are a powerful Svix feature that allows the modification of certain webhook properties in-flight. When you enable Transformations, your customers can write JavaScript code on their endpoints that can change a webhook's HTTP method, target URL, and body payload.
 

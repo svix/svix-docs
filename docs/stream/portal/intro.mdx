@@ -1,9 +1,14 @@
 ---
 title: Stream Portal
+hide_title: true
 ---
 
 import CodeTabs from "@theme/CodeTabs";
 import TabItem from "@theme/TabItem";
+import RAW from '!!raw-loader!@site/docs/stream/portal/intro.mdx';
+import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
+
+<HeaderWithCopyButton title="Stream Portal" sourceMarkdown={RAW} />
 
 Svix comes with a Stream Portal for your users (sink consumers) that you can use out of the box. Your users can then use it to configure sinks, debug delivery, as well as inspect and retry events. This is the easiest way to get started, but you can alternatively use the API to build your own.
 

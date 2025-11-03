@@ -1,6 +1,12 @@
 ---
 title: Object Storage
+hide_title: true
 ---
+
+import RAW from '!!raw-loader!@site/docs/advanced-endpoints/object-storage.mdx';
+import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
+
+<HeaderWithCopyButton title="Object Storage" sourceMarkdown={RAW} />
 
 # Object Storage Endpoints
 
@@ -44,7 +50,7 @@ function handler(input) {
 }
 ```
 
-`input.events` is the list of webhooks received by the endpoint, processed in batches. 
+`input.events` is the list of webhooks received by the endpoint, processed in batches.
 
 `config` describes the object put in the destination - the key name of the object, and the format of the object saved to the bucket.
 
