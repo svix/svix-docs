@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
+import { ClipboardDocumentIcon, CheckIcon } from '@heroicons/react/24/outline';
 import styles from './CopyDocsButton.module.css';
 
 export default function CopyDocsButton({ pageTitle, sourceMarkdown }) {
@@ -23,6 +24,13 @@ export default function CopyDocsButton({ pageTitle, sourceMarkdown }) {
       title="Copy Docs for LLM"
       onClick={onClick}
     >
+      <span className={styles.icon}>
+        {copied ? (
+          <CheckIcon width={16} height={16} aria-hidden="true" />
+        ) : (
+          <ClipboardDocumentIcon width={16} height={16} aria-hidden="true" />
+        )}
+      </span>
       {label}
     </button>
   );
