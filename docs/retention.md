@@ -203,3 +203,13 @@ curl -X POST "https://api.us.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/ms
 
 </TabItem>
 </CodeTabs>
+
+## Delete payloads on successful delivery
+
+As part of the enhanced compliance controls available in the Enterprise tier, Svix supports deleting payloads automatically upon successful delivery or the expiry of the retention period. Whichever comes first.
+
+This is useful for when you want to have the lowest retention required due to compliance reasons; as it ensures that the payload is deleted the moment it's no longer required and no longer than the defined retention period.
+
+While it may be useful in some scenarios, we recommend not using this setting unless you absolutely have to. The reason is that having the payload retained even after successful delivery is often useful for debugging and recovering from errors. While the payload is only deleted on successful delivery, we have seen scenarios where the receiver reported a success, but they actually failed to process the event and wanted to redrive it. If the payload is deleted, they won't be able to do that.
+
+This is a per-environment setting which can be enabled from the [environment settings page](https://dashboard.svix.com/settings) on the dashboard.
