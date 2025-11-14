@@ -69,7 +69,6 @@ module.exports = {
         docs: {
           routeBasePath: "/",
           sidebarPath: require.resolve("./sidebars.js"),
-          editUrl: "https://github.com/svix/svix-docs/edit/main/",
           sidebarCollapsible: false,
         },
         blog: false,
