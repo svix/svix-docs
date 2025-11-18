@@ -30,6 +30,8 @@ App portal access is based on short-lived sessions using special magic links. Yo
 
 To give your users access to the App Portal, just use the [app portal access endpoint](https://api.svix.com/docs#tag/Authentication/operation/v1.authentication.app-portal-access). Calling this endpoint with an `app_id` returns a single-use URL you can just redirect your users to in order to log them into the App Portal. They will stay logged in for a few days or until they log out.
 
+The following API call to get the URL should be called from the backend as the Svix API key should not be shared with the frontend. The values returned from this API call (URL and token) are safe to pass to the frontend.
+
 <CodeTabs>
 <TabItem value="js">
 
@@ -153,6 +155,50 @@ curl -X POST "https://api.us.svix.com/api/v1/auth/app-portal-access/app_Xzx8bQeO
 
 </TabItem>
 </CodeTabs>
+
+In most cases you would want to create an API endpoint on your end that your frontend can call to get the URL. For example, your code may look something like this:
+
+```javascript
+const svix = new Svix("AUTH_TOKEN");
+
+// API path: /webhooks/app-portal
+function get_app_portal(authenticated_user) {
+  const svix_app_id_or_uid = authenticated_user.id;
+  return await svix.authentication.appPortalAccess(svix_app_id_or_uid, {});
+}
+```
+
+Then your frontend will do something like this:
+
+```javascript
+// React example
+
+function AppPortal() {
+  const [appPortal, setAppPortal] = React.useState(null);
+
+  React.useEffect(() => {
+    fetch('https://api.your-backend.com/webhooks/app-portal', { method: "POST" })
+    .then((res) => res.json())
+    .then((result) => setAppPortal(result));
+  }, []);
+
+  const url = appPortal?.url;
+  if (url) {
+    // NOTE: in practice you'd want to use the svix-react library
+    return (
+      <iframe
+        src={url}
+        style="width: 100%; height: 100%; border: none;"
+        allow="clipboard-write"
+        loading="lazy"
+      >
+      </iframe>
+    );
+  else {
+    return <div>Loading...</div>;
+  }
+};
+```
 
 ### Showing a specific page
 
