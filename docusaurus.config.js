@@ -92,6 +92,10 @@ module.exports = {
             from: "/receiving/verifying-payloads",
           },
           {
+            to: "/ingest",
+            from: "/receiving/receiving-with-ingest",
+          },
+          {
             to: "/app-portal",
             from: "/management-ui",
           },

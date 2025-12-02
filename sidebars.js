@@ -54,7 +54,7 @@ module.exports = {
       ],
     },
     {
-      "Using Ingest": ["receiving/receiving-with-ingest"]
+      "Using Ingest": ["ingest/receiving-with-ingest"]
     },
     {
       "Svix Play": ["play"]
@@ -142,5 +142,8 @@ module.exports = {
         }
       ],
     },
+  ],
+  ingestSidebar: [
+    "ingest/receiving-with-ingest"
   ],
 };
