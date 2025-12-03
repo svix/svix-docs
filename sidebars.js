@@ -144,6 +144,8 @@ module.exports = {
     },
   ],
   ingestSidebar: [
-    "ingest/receiving-with-ingest"
+    {
+      "Using Ingest": ["ingest/receiving-with-ingest", "ingest/transformations", "ingest/source-errors"]
+    },
   ],
 };

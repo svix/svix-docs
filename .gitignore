@@ -26,3 +26,5 @@ Session.vim
 # yarn
 /.yarn/cache
 /.yarn/install-state.gz
+
+.cursor
