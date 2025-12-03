@@ -1,0 +1,14 @@
+---
+title: Source Errors
+---
+
+In the Source Errors tab, you can see the log of all the incoming webhooks that were rejected by the Source.
+The most likely reason for a source error is an invalid signature, or an invalid payload format in the incoming message.
+
+Every time your Ingest URL returns a non-200 status code, the reason for the failure will be logged here, and the incoming message will not be delivered to your endpoints.
+
+![Source Errors tab](../img/ingest/source-errors.png)
+
+In the error details, you can inspect the message payload, the HTTP method and headers, and the reason for the failure.
+
+![Source Error details](../img/ingest/source-errors-details.png)

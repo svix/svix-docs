@@ -54,7 +54,7 @@ module.exports = {
       ],
     },
     {
-      "Using Ingest": ["receiving/receiving-with-ingest"]
+      "Using Ingest": ["ingest/receiving-with-ingest"]
     },
     {
       "Svix Play": ["play"]
@@ -141,6 +141,11 @@ module.exports = {
           label: "API Reference",
         }
       ],
+    },
+  ],
+  ingestSidebar: [
+    {
+      "Using Ingest": ["ingest/receiving-with-ingest", "ingest/transformations", "ingest/source-errors"]
     },
   ],
 };
