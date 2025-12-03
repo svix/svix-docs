@@ -92,7 +92,11 @@ module.exports = {
             from: "/receiving/verifying-payloads",
           },
           {
-            to: "/ingest",
+            to: "/ingest/receiving-with-ingest",
+            from: "/ingest",
+          },
+          {
+            to: "/ingest/receiving-with-ingest",
             from: "/receiving/receiving-with-ingest",
           },
           {
