@@ -13,7 +13,17 @@ module.exports = {
         "idempotency",
         "rate-limit",
         "transformations",
-        "connectors",
+        {
+          type: 'category',
+          label: 'Connector Endpoints',
+          link: {
+            type: 'doc',
+            id: 'connectors/connectors',
+          },
+          items: [
+            "connectors/custom-connector",
+          ]
+        },
         "channels",
         {
           type: 'category',
