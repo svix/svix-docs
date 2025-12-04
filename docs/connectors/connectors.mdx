@@ -4,7 +4,7 @@ hide_title: true
 ---
 
 import ConnectorLogo from "@site/src/components/ConnectorLogo";
-import RAW from '!!raw-loader!@site/docs/connectors.mdx';
+import RAW from '!!raw-loader!@site/docs/connectors/connectors.mdx';
 import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
 
 <HeaderWithCopyButton title="Connectors Endpoints" sourceMarkdown={RAW} />
@@ -15,7 +15,7 @@ Connectors is a Svix feature that lets you provide your customers with pre-made 
 
 Connectors are enabled when [enabling transformations](/transformations#enabling-transformations). After enabling Transformations, you will see a new dashboard section where you will be able to create new connectors.
 
-![Connectors list](./img/connectors-list.png)
+![Connectors list](../img/connectors-list.png)
 
 To configure a connector, you need to provide the following details:
 
@@ -66,7 +66,7 @@ Your customers will be able to customize the transformation code and the event t
 
 After creating at least one connector, your customers will be able to choose it when creating an endpoint.
 
-![Adding an Endpoint using a Connector](./img/connectors-endpoint.png)
+![Adding an Endpoint using a Connector](../img/connectors-endpoint.png)
 
 ## Connection types
 
@@ -74,7 +74,7 @@ After creating at least one connector, your customers will be able to choose it 
 
 The Slack built-in integration lets you send messages to Slack channels via webhooks. It shows a 'Connect to Slack' button that lets your users get a Slack incoming webhook URL using OAuth in a few clicks, without leaving your site.
 
-![Connect to Slack](img/connectors/connect-to-slack.png)
+![Connect to Slack](../img/connectors/connect-to-slack.png)
 
 The transformation code should format the webhook payload according to [Slack's Incoming Webhook API](https://api.slack.com/messaging/webhooks#posting_with_webhooks).
 
@@ -106,7 +106,7 @@ function handler(webhook) {
 
 The Discord built-in integration lets you send messages to Discord channels via webhooks. It shows a 'Connect to Discord' button that lets your users get a Discord incoming webhook URL using OAuth in a few clicks, without leaving your site.
 
-![Connect to Discord](img/connectors/connect-to-discord.png)
+![Connect to Discord](../img/connectors/connect-to-discord.png)
 
 The transformation code should format the webhook payload according to [Discord's Execute Webhook API](https://discord.com/developers/docs/resources/webhook#execute-webhook).
 
@@ -144,7 +144,7 @@ The Microsoft Teams integration will show your users instructions on how to get 
 
 The transformation code should format the webhook payload according to [Microsoft Teams' Incoming Webhook API](https://learn.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/connectors-using?#send-adaptive-cards-using-an-incoming-webhook).
 
-![Connect to Microsoft Teams](img/connectors/connect-to-teams.png)
+![Connect to Microsoft Teams](../img/connectors/connect-to-teams.png)
 
 Here's an example transformation for a support ticket created event:
 
@@ -198,7 +198,7 @@ The integration will request access to the following [OAuth scopes](https://deve
 - `crm.objects.quotes.write`
 - `crm.objects.marketing_events.write`
 
-![Connect to Hubspot](img/connectors/connect-to-hubspot.png)
+![Connect to Hubspot](../img/connectors/connect-to-hubspot.png)
 
 The transformation code should set the webhook URL to the Hubspot API endpoint (depending on the object) and format the payload appropriately to create the object in Hubspot.
 
@@ -462,7 +462,7 @@ function handler(webhook) {
 
 The Windmill connector lets your users get a [Windmill](https://windmill.dev) webhook URL in a few clicks from the App Portal. It supports [Windmill Cloud](https://app.windmill.dev) as well as self-hosted Windmill instances.
 
-![Connect to Windmill](img/connectors/connect-to-windmill.png)
+![Connect to Windmill](../img/connectors/connect-to-windmill.png)
 
 Since Windmill webhooks support arbitrary payloads, it does not require any custom transformation code.
 
@@ -483,6 +483,8 @@ Since Zapier Webhooks support arbitrary payloads, it does not require any custom
 
 In case you don't find a built-in integration for the service you want to connect to, you can create a custom integration. You can provide your own integration name and icon, and write instructions for your users on how to use it.
 
-![Custom Integration](./img/connectors/custom-integration.png)
+[Learn more about Custom Connectors](/connectors/custom-connector)
+
+![Custom Integration](../img/connectors/custom-integration.png)
 
 If you have a request for a built-in integration not listed above, [contact us](https://www.svix.com/contact/).
