@@ -108,6 +108,7 @@
 .menuItem:hover,
 .menuItemActive {
   background: var(--ifm-color-emphasis-100);
+  text-decoration: none;
 }
 
 .menuItemFocus {

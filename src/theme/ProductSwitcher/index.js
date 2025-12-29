@@ -1,7 +1,7 @@
 import React from 'react';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
-import { SignalIcon, ArrowDownTrayIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import { useRouteMatch, Link } from 'react-router-dom';
+import { SignalIcon, ArrowDownTrayIcon, ChevronDownIcon, PlayCircleIcon } from '@heroicons/react/24/outline';
 import brandNavySmall from '../../../static/img/brand-small-icon.svg';
 
 import styles from './styles.module.css';
@@ -10,7 +10,7 @@ const products = [
   {
     id: 'dispatch',
     name: 'Svix Dispatch',
-    url: '/',
+    path: '/',
     description: 'Webhooks Sending',
     icon: brandNavySmall
   },
@@ -18,7 +18,7 @@ const products = [
     id: 'stream',
     name: 'Svix Stream',
     baseUrl: '/stream/',
-    url: '/stream/introduction/',
+    path: '/stream/introduction/',
     description: 'Event Streaming',
     icon: SignalIcon
   },
@@ -26,15 +26,23 @@ const products = [
     id: 'ingest',
     name: 'Svix Ingest',
     baseUrl: '/ingest',
-    url: '/ingest/receiving-with-ingest',
+    path: '/ingest/receiving-with-ingest',
     description: 'Webhooks Receiving',
     icon: ArrowDownTrayIcon
+  },
+  {
+    id: 'play',
+    name: 'Svix Play',
+    baseUrl: '/play',
+    href: 'https://svix.com/play',
+    description: 'Webhooks Debugger',
+    icon: PlayCircleIcon
   },
   {
     id: 'other',
     name: 'More',
     baseUrl: '/receiving',
-    url: '/receiving/introduction/',
+    path: '/receiving/introduction/',
     description: 'Useful documentation',
     icon: brandNavySmall,
     hidden: true
@@ -42,7 +50,6 @@ const products = [
 ];
 
 export default function ProductSwitcher() {
-  const history = useHistory();
   const selectedProduct = products.find(p => useRouteMatch({ path: p.baseUrl === '/' ? '/' : `${p.baseUrl}*` })) || products[0];
 
   if (selectedProduct.hidden) {
@@ -68,9 +75,11 @@ export default function ProductSwitcher() {
         {products.filter(product => !product.hidden).map((product) => (
           <MenuItem
             key={product.id}
-            as="button"
-            onClick={() => history.push(product.url)}
             className={styles.menuItem}
+            as={product.href ? 'a' : Link}
+            target={product.href ? '_blank' : undefined}
+            to={product.path}
+            href={product.href}
           >
             <>
               <div className={styles.menuItemIcon}>
