@@ -41,7 +41,7 @@
 
 ### Advanced Functionality
 - [Idempotency](https://docs.svix.com/idempotency): Ensure webhook delivery idempotency to prevent duplicate processing of the same event.
-- [Rate Limiting Endpoints](https://docs.svix.com/rate-limiting): Configure rate limiting for webhook endpoints to control delivery frequency and protect downstream services.
+- [Endpoint Throttling](https://docs.svix.com/rate-limiting): Configure throttling for webhook endpoints to control delivery frequency and protect downstream services.
 - [Transformations](https://docs.svix.com/transformations): Transform webhook payloads before delivery using Svix's transformation engine.
 - [Connectors](https://docs.svix.com/connectors): Use pre-built connectors to integrate with popular services and platforms.
 - [Channels](https://docs.svix.com/channels): Organize and route webhooks using channels for better event management and delivery control.

@@ -11,7 +11,7 @@ module.exports = {
       ],
       "Advanced Functionality": [
         "idempotency",
-        "rate-limit",
+        "throttling",
         "transformations",
         {
           type: 'category',
