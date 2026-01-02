@@ -114,6 +114,10 @@ module.exports = {
           {
             to: "/advanced-endpoints/polling-endpoints",
             from: "/polling-endpoints",
+          },
+          {
+            to: "/throttling",
+            from: "/rate-limit",
           }
         ],
       },
