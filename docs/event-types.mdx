@@ -1176,9 +1176,13 @@ curl -X POST "https://api.us.svix.com/api/v1/event-type/user.signup/" \
 </CodeTabs>
 
 :::info[Important]
-Keep in mind that endpoints with no event type filtering will receive all messages regardless of feature flags. Also, users with knowledge of a feature flag-gated event type can subscribe to that event type regardless of feature flags.
-Feature flags only impact event types' visibility in the catalog and the API, not their deliverability.
+Keep in mind that endpoints with no event type filtering will receive all messages regardless of feature flags.
+
+Feature flags only impact event types' visibility in the app portal, catalog, and the API; not their deliverability. This means that endpoints with no event type filtering will receive all messages regardless of feature flags.
+
+Additionally, if a user is subscribed to a feature flagged event, they will continue to be able to see it in the app portal regardless of whether the feature flag is enabled for them or not.
 :::
+
 
 ## Appendix
 
