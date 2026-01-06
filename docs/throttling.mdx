@@ -39,7 +39,7 @@ You can set the throttling rate on an application when [creating](https://api.sv
 import { Svix } from "svix";
 
 const svix = new Svix("AUTH_TOKEN");
-const app = await svix.application.create({name: "Application name", rateLimit: 1000});
+const app = await svix.application.create({name: "Application name", throttleRate: 1000});
 ```
 
 </TabItem>
