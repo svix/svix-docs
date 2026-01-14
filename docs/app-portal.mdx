@@ -317,7 +317,7 @@ The supported parameters are:
 - `primaryColorLight` and `primaryColorDark` - the primary color of the UI in light and dark mode, respectively. Format: `RRGGBB`, e.g. `28bb93`.
 - `icon` - a URL to an image file. E.g. `https://www.example.com/logo.png` (remember to URL-encode it!).
 - `fontFamily` - one of the fonts listed in the dashboard (see previous section). E.g. `Roboto`.
-- `darkMode` - when set to `true`, dark mode will be turned on by default when the app portal is opened.
+- `darkMode (false|true|auto)` - when set to `true`, dark mode will be turned on by default when the app portal is opened. `auto` will use the user's system preferred color mode. Defaults to `false`.
 - `hideNavigation` - when set to `true`, the navigation tabs will be hidden. This can be useful to embed only specific sections of the app portal, in combination with the `next` parameter (see [Showing a specific page](#showing-a-specific-page)).
 - `noGutters` - when set to `true`, the app portal will not have any left or right padding within the iframe. This can be useful to align the app portal content with other elements in your site.
 
