@@ -82,4 +82,15 @@ The raw spans sent by Svix can be used in a variety of ways:
 * Storing raw delivery logs for compliance reasons.
 * Much more...
 
-For specific instructions on how to achieve the above, please refer to the documentation by your observability provider or [contact Svix support](https://www.svix.com/contact/).
+## Support for third-party tools
+
+### Coralogix
+Coralogix OpenTelemetry integration generally works by adding the following custom headers to your OpenTelemetry configuration:
+* CX-Application-Name
+* CX-Subsystem-Name
+
+See [Coralogix OpenTelemetry documentation](https://coralogix.com/docs/opentelemetry/getting-started/) for further details. 
+
+For additional instructions on how to integrate your observability provider with OpenTelemetry, please refer to the documentation by your observability provider or [contact Svix support](https://www.svix.com/contact/).
+
+
