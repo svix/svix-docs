@@ -72,6 +72,31 @@ You can change it to the following URL to make it respond with the same body it 
 https://api.play.svix.com/api/v1/in/e_94XdF-OwN3EaTKty4izJDWRAH3V/?echo_body=true
 ```
 
+### Random Failure Rate
+
+Svix Play supports simulating random failures to help you test how your webhook system handles intermittent issues. This is useful for testing retry logic, error handling, and system resilience.
+
+You can use the `random_failure_rate` query parameter to specify a percentage (0-100) of requests that should randomly fail. When a request fails, it will use the status code from `force_status_code` if provided, or default to `400 Bad Request` if not set.
+
+For example, if your URL was:
+
+```
+https://api.play.svix.com/api/v1/in/e_94XdF-OwN3EaTKty4izJDWRAH3V/
+```
+
+You can change it to the following URL to make 30% of requests fail with a `400 Bad Request`:
+
+```
+https://api.play.svix.com/api/v1/in/e_94XdF-OwN3EaTKty4izJDWRAH3V/?random_failure_rate=30
+```
+
+Or combine it with `force_status_code` to use a specific error code for the failures:
+
+```
+https://api.play.svix.com/api/v1/in/e_94XdF-OwN3EaTKty4izJDWRAH3V/?random_failure_rate=30&force_status_code=503
+```
+
+This will make 30% of requests fail with a `503 Service Unavailable` status.
 
 ### Programmatic Use of the Public API
 
@@ -89,7 +114,7 @@ Next, send any number of events to the following route with any HTTP method:
 https://api.play.svix.com/api/v1/in/{your token here}/
 ```
 
-This route can take the query parameters `force_status_code`, `echo_body`, and `endpoint_signing_key`.
+This route can take the query parameters `force_status_code`, `random_failure_rate`, `echo_body`, and `endpoint_signing_key`.
 
 Next, you'll want to analyze the record of events for this token using the `/history/` route as follows:
 
