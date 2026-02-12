@@ -166,3 +166,13 @@ You can change it to the following URL in order to only display events that were
 https://api.play.svix.com/api/v1/history/e_94XdF-OwN3EaTKty4izJDWRAH3V/?iterator=2Nvo8F66yxe0cT7lrVmsbUg97He
 ```
 
+### Deleting History
+
+You can delete all recorded events for a given token by making a DELETE request to the `/history/` route:
+
+```
+curl -X DELETE https://api.play.svix.com/api/v1/history/e_94XdF-OwN3EaTKty4izJDWRAH3V/
+```
+
+This will permanently remove all events associated with that token.
+
