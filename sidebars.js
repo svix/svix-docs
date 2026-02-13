@@ -51,6 +51,7 @@ module.exports = {
       Tutorials: [
         "tutorials/cli",
         "tutorials/api-webhook-management",
+        "tutorials/migrating-webhooks-to-svix",
         "tutorials/event-type-schema",
         "tutorials/connectors",
         "sending-messages-with-bridge",
