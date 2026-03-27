@@ -1,3 +1,4 @@
+
 module.exports = {
   title: "Svix Docs",
   tagline: "Webhooks as a service",
@@ -127,6 +128,9 @@ module.exports = {
       {
       },
     ],
+  ],
+  clientModules: [
+    require.resolve('./src/client-modules/apollo-pixel.js'),
   ],
   scripts: [{
     src: "/js/segment.js",
