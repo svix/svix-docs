@@ -138,6 +138,11 @@ module.exports = {
     defer: true,
   },
   {
+    src: "/js/apollo.js",
+    async: true,
+    defer: true,
+  },
+  {
     src: "/js/commonroom.js",
     async: true,
     defer: true,
