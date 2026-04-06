@@ -35,7 +35,7 @@
 
 /* Better sidebar { */
 .menu a:not([href]).menu__link {
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   margin-bottom: 0.5rem;
   color: black;
   font-size: 0.8rem;
@@ -44,8 +44,20 @@
   text-transform: uppercase;
 }
 
+.menu > .menu__list > .menu__list-item:first-child > .menu__list-item-collapsible > a:not([href]).menu__link {
+  margin-top: 0;
+}
+
+.menu__list-item-collapsible:has(> a:not([href]).menu__link):hover {
+  background: transparent;
+}
+
 html[data-theme="dark"] .menu a:not([href]).menu__link {
   color: grey;
+}
+
+html[data-theme="dark"] .menu__list-item-collapsible:has(> a:not([href]).menu__link):hover {
+  background: transparent;
 }
 
 /* } */
