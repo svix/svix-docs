@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+/* Match next-themes / Nextra: `dark` class on a parent (usually <html>) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@source "./**/*.{js,ts,tsx,jsx}";
+@source "../src/**/*.{js,ts,tsx,jsx}";
+@source "../content/**/*.mdx";
+@source "../mdx-components.js";
+
+.nextra-navbar a[href^="https"] svg.x\:inline {
+  display: none;
+}
