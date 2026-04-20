@@ -16,11 +16,11 @@ The docs are deployed to https://docs.svix.com
 ## Installation
 
 ```console
-yarn install
+npm install
 ```
 
 ## Local Development
 
 ```console
-yarn start
+npm run dev
 ```
