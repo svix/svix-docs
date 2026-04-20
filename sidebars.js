@@ -25,6 +25,7 @@ module.exports = {
           ]
         },
         "channels",
+        "message-tags",
         {
           type: 'category',
           label: 'Advanced Endpoint Types',
