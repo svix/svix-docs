@@ -1,13 +1,13 @@
-import { Footer, Navbar } from 'nextra-theme-docs'
+import { Footer, Layout, Navbar } from 'nextra-theme-docs'
 import { Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
-import './globals.css'
+import '../globals.css'
 import Image from 'next/image'
-import Link from 'next/link'
 import Script from 'next/script'
-import { SvixThemeLayout } from './components/SvixThemeLayout'
-import { PostHogProvider } from './components/providers/PostHogProvider'
+import { PostHogProvider } from '../components/providers/PostHogProvider'
+import { ReactNode } from 'react'
+import { PageMapItem } from 'nextra'
 
 const siteData = {
   name: 'Svix Docs',
@@ -67,7 +67,35 @@ const navbar = (
 
 const footer = <Footer>Copyright © Svix</Footer>
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+const SECTION_ROOTS = new Set([
+  "stream",
+  "ingest",
+  "receiving"
+]);
+
+type DocsLayoutParams = {
+  mdxPath?: string[];
+};
+
+type DocsLayoutProps = {
+  children: ReactNode;
+  params: Promise<DocsLayoutParams>;
+};
+
+// FIXME(lucho): this is a hack
+async function getNestedPageMap(mdxPath: string[]): Promise<PageMapItem[]> {
+  const topLevelSegment = mdxPath?.[0];
+  const pageMapRoute =
+    topLevelSegment && SECTION_ROOTS.has(topLevelSegment)
+      ? `/${topLevelSegment}`
+      : "/";
+  return await getPageMap(pageMapRoute);
+}
+
+export default async function DocsLayout({ children, params }: DocsLayoutProps) {
+  const resolvedParams = await params;
+  const pageMap = await getNestedPageMap(resolvedParams.mdxPath);
+
   return (
     <html lang="en" dir="ltr" suppressHydrationWarning>
       <Head>
@@ -87,9 +115,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </Head>
       <body>
         <PostHogProvider>
-          <SvixThemeLayout
+          <Layout
             navbar={navbar}
-            pageMap={await getPageMap()}
+            pageMap={pageMap}
             docsRepositoryBase={siteData.docsSource}
             editLink={null}
             feedback={{
@@ -99,7 +127,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             footer={footer}
           >
             {children}
-          </SvixThemeLayout>
+          </Layout>
         </PostHogProvider>
       </body>
     </html>
