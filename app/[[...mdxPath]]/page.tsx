@@ -3,10 +3,15 @@ import { useMDXComponents as getMDXComponents } from '../../mdx-components'
 
 export const generateStaticParams = generateStaticParamsFor('mdxPath')
 
-export async function generateMetadata(props: { params: Promise<{ mdxPath: string[] }> }) {
+export async function generateMetadata(props: {
+  params: Promise<{ mdxPath?: string[] }>
+}) {
   const params = await props.params
-  const { metadata } = await importPage(params.mdxPath)
-  return metadata
+  const { metadata: mdxMeta } = await importPage(params.mdxPath)
+  return {
+    ...mdxMeta,
+    title: `${mdxMeta.title} | Svix Docs`,
+  }
 }
 
 const Wrapper = getMDXComponents().wrapper
