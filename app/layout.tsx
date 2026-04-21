@@ -1,10 +1,12 @@
-import { Footer, Layout, Navbar } from 'nextra-theme-docs'
+import { Footer, Navbar } from 'nextra-theme-docs'
 import { Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
 import './globals.css'
 import Image from 'next/image'
+import Link from 'next/link'
 import Script from 'next/script'
+import { SvixThemeLayout } from './components/SvixThemeLayout'
 import { PostHogProvider } from './components/providers/PostHogProvider'
 
 const siteData = {
@@ -26,9 +28,12 @@ export const metadata = {
     siteName: siteData.name,
     locale: 'en_US',
     type: 'website',
-    images: [{ url: '/img/brand.svg' }],
+    images: [{ url: '/img/socialbanner.png', width: 1200, height: 630, alt: siteData.name }],
   },
 }
+
+const navLinkClass =
+  'x:text-sm x:font-medium x:text-fd-muted-foreground hover:x:text-fd-foreground x:transition-colors'
 
 const navbar = (
   <Navbar
@@ -82,7 +87,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </Head>
       <body>
         <PostHogProvider>
-          <Layout
+          <SvixThemeLayout
             navbar={navbar}
             pageMap={await getPageMap()}
             docsRepositoryBase={siteData.docsSource}
@@ -94,7 +99,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             footer={footer}
           >
             {children}
-          </Layout>
+          </SvixThemeLayout>
         </PostHogProvider>
       </body>
     </html>

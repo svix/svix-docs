@@ -1,5 +1,5 @@
 'use client'
-
+// FIXME(lucho): make this pretty
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import {
   ArrowDownTrayIcon,
@@ -70,14 +70,6 @@ const products: Product[] = [
     description: 'Webhooks Debugger',
     icon: 'play',
   },
-  {
-    id: 'other',
-    name: 'More',
-    path: '/receiving/introduction',
-    description: 'Useful documentation',
-    icon: 'brand',
-    hidden: true,
-  },
 ]
 
 function getSelectedProduct(pathname: string): Product {
@@ -87,9 +79,6 @@ function getSelectedProduct(pathname: string): Product {
   }
   const normalized = p === '' ? '/' : p
 
-  if (normalized === '/') {
-    return products.find((p) => p.id === 'dispatch')!
-  }
   if (normalized.startsWith('/stream')) {
     return products.find((p) => p.id === 'stream')!
   }
@@ -99,9 +88,7 @@ function getSelectedProduct(pathname: string): Product {
   if (normalized.startsWith('/play')) {
     return products.find((p) => p.id === 'play')!
   }
-  if (normalized.startsWith('/receiving')) {
-    return products.find((p) => p.id === 'other')!
-  }
+  // Dispatch docs live at the site root (/introduction, /api-keys, …), not under /dispatch.
   return products.find((p) => p.id === 'dispatch')!
 }
 
