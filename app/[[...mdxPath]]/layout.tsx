@@ -12,28 +12,27 @@ import { PageMapItem } from 'nextra'
 const siteData = {
   name: 'Svix Docs',
   tagline: 'Webhooks as a service',
-  url: 'https://docs.svix.com',
+  description: 'Svix makes sending webhooks easy and reliable. Documentation for sending, receiving, and operating webhooks with Svix.',
+  productionUrl: 'https://docs.svix.com',
   repo: 'https://github.com/svix/svix-webhooks',
   docsSource: 'https://github.com/svix/svix-docs',
-}
+} as const
 
 export const metadata = {
-  metadataBase: new URL(siteData.url),
+  metadataBase: new URL(siteData.productionUrl),
+  description: siteData.description,
   title: {
     default: `${siteData.name} – ${siteData.tagline}`,
     template: `%s | ${siteData.name}`,
   },
   openGraph: {
-    url: siteData.url,
+    url: siteData.productionUrl,
     siteName: siteData.name,
     locale: 'en_US',
     type: 'website',
     images: [{ url: '/img/socialbanner.png', width: 1200, height: 630, alt: siteData.name }],
   },
 }
-
-const navLinkClass =
-  'x:text-sm x:font-medium x:text-fd-muted-foreground hover:x:text-fd-foreground x:transition-colors'
 
 const navbar = (
   <Navbar
