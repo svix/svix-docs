@@ -1,8 +1,9 @@
 import type { Meta } from 'nextra'
 import { ProductSwitcher } from '../app/components/ProductSwitcher'
+import metaLinks from '../src/nav-links'
 
-/** Sidebar order aligned with legacy Docusaurus `sidebars.js` (main dispatch docs). */
 const meta = {
+  ...metaLinks,
   _productSwitcher: { type: 'separator', title: <ProductSwitcher /> },
   _intro: { type: 'separator', title: 'Introduction' },
   introduction: 'Introduction',
@@ -59,9 +60,9 @@ const meta = {
   _additionalLinks: { type: 'separator', title: 'Additional links' },
   'get-help': 'Get Help',
   faq: 'FAQ',
-  ingest: { type: 'page', title: 'Ingest' },
-  stream: { type: 'page', title: 'Stream' },
-  receiving: { type: 'page', title: 'Receiving Webhooks' },
+  ingest: { type: 'page', title: 'Ingest', display: 'hidden' },
+  stream: { type: 'page', title: 'Stream', display: 'hidden' },
+  receiving: { type: 'page', title: 'Receiving Webhooks', display: 'hidden' },
   onboarding: { display: 'hidden' },
 } satisfies Meta
 

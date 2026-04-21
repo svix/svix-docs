@@ -4,7 +4,6 @@ import { CodeTab, CodeTabGroup } from './src/components/CodeTabs'
 import { CLITabs } from './src/components/CLITabs'
 import ConnectorLogo from './src/components/ConnectorLogo'
 
-// Get the default MDX components
 const themeComponents = getThemeComponents()
 
 // Merge components

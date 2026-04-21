@@ -1,7 +1,8 @@
 import type { Meta } from 'nextra'
+import metaLinks from '../../src/nav-links'
 
-/** Order aligned with legacy Docusaurus `consumersSidebar`. */
 const meta = {
+  ...metaLinks,
   introduction: 'Introduction',
   'using-app-portal': 'Using the App Portal',
   'verifying-payloads': 'Verifying Webhooks',

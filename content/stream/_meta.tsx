@@ -1,7 +1,9 @@
 import type { Meta } from 'nextra'
 import { ProductSwitcher } from '../../app/components/ProductSwitcher'
+import metaLinks from '../../src/nav-links'
 
 const meta = {
+  ...metaLinks,
   _productSwitcher: { type: 'separator', title: <ProductSwitcher /> },
   introduction: 'Introduction',
   'event-types': 'Event Types',

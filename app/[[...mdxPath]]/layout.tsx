@@ -59,7 +59,6 @@ const navbar = (
         />
       </>
     }
-    logoLink={siteData.url}
     projectLink={siteData.repo}
   >
   </Navbar>
@@ -82,7 +81,8 @@ type DocsLayoutProps = {
   params: Promise<DocsLayoutParams>;
 };
 
-// FIXME(lucho): this is a hack
+// This is a small hack to hide the top-level pages (for Svix dispatch) when the user is in the Ingest/Stream/Receiving sections.
+// We have to do it because dispatch pages are not under its own sub-section (/dispatch/*), they live at the root, and Nextra doesn't work well with that.
 async function getNestedPageMap(mdxPath: string[]): Promise<PageMapItem[]> {
   const topLevelSegment = mdxPath?.[0];
   const pageMapRoute =
