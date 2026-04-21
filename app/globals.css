@@ -11,3 +11,10 @@
 .nextra-navbar a[href^="https"] svg.x\:inline {
   display: none;
 }
+
+.nextra-sidebar li:has([data-product-switcher]),
+.nextra-mobile-nav li:has([data-product-switcher]) {
+  margin-top: 0;
+  margin-bottom: -0.25rem;
+  padding: 0;
+}
