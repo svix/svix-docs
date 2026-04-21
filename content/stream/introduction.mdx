@@ -1,20 +1,13 @@
 ---
 title: "Introduction"
-hide_title: true
 ---
-
-import CodeTabs from "@theme/CodeTabs";
-import TabItem from "@theme/TabItem";
-import RAW from '!!raw-loader!@site/docs/stream/introduction.mdx';
-import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
-
-<HeaderWithCopyButton title="Svix Stream" sourceMarkdown={RAW} />
+# Introduction
 
 Svix Stream is an event streaming platform that enables services to reliably deliver events to multiple destinations through a single integrated API.
 
 The core of Svix Stream is built on top of **Streams**, **Events**, and **Sinks**. Events are pushed to a Stream, and Svix will batch, transform, and dispatch the events to one or more Sinks.
 
-![stream-diagram](../img/stream/introduction/diagram.png)
+![stream-diagram](/img/stream/introduction/diagram.png)
 
 ### Streams
 
@@ -22,8 +15,8 @@ The core of Svix Stream is built on top of **Streams**, **Events**, and **Sinks*
 
 Creating a Stream is simple using the [API](https://api.svix.com/docs#tag/Stream/operation/v1.stream.stream.create):
 
-<CodeTabs>
-<TabItem value="js">
+<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","CLI","cURL"]}>
+<CodeTab>
 
 ```js
 import { Svix } from "svix";
@@ -34,8 +27,8 @@ const streamOut = await svix.streaming.stream.create({
 });
 ```
 
-</TabItem>
-<TabItem value="py">
+</CodeTab>
+<CodeTab>
 
 ```python
 from svix.api import Svix, StreamIn
@@ -46,23 +39,8 @@ stream_out = svix.streaming.stream.create(StreamIn(
 ))
 ```
 
-</TabItem>
-<TabItem value="go">
-
-```go
-import (
-	svix "github.com/svix/svix-webhooks/go"
-)
-
-svixClient := svix.New("AUTH_TOKEN", nil)
-streamOut, err := svixClient.Streaming.Stream.Create(ctx, &svix.StreamIn{
-    Name: "My Stream",
-    Uid: "unique-identifier",
-})
-```
-
-</TabItem>
-<TabItem value="rust">
+</CodeTab>
+<CodeTab>
 
 ```rust
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
@@ -79,8 +57,23 @@ let stream_out = svix
     ).await?;
 ```
 
-</TabItem>
-<TabItem value="java">
+</CodeTab>
+<CodeTab>
+
+```go
+import (
+	svix "github.com/svix/svix-webhooks/go"
+)
+
+svixClient := svix.New("AUTH_TOKEN", nil)
+streamOut, err := svixClient.Streaming.Stream.Create(ctx, &svix.StreamIn{
+    Name: "My Stream",
+    Uid: "unique-identifier",
+})
+```
+
+</CodeTab>
+<CodeTab>
 
 ```java
 StreamOut streamOut = svix.getStreaming().getStream().create(new StreamIn()
@@ -89,8 +82,8 @@ StreamOut streamOut = svix.getStreaming().getStream().create(new StreamIn()
 );
 ```
 
-</TabItem>
-<TabItem value="kotlin">
+</CodeTab>
+<CodeTab>
 
 ```kotlin
 import com.svix.kotlin.Svix;
@@ -102,8 +95,8 @@ val streamOut = svix.streaming.stream.create(StreamIn()
 )
 ```
 
-</TabItem>
-<TabItem value="ruby">
+</CodeTab>
+<CodeTab>
 
 ```ruby
 stream_out = svix.streaming.stream.create(Svix::StreamIn.new({
@@ -112,8 +105,8 @@ stream_out = svix.streaming.stream.create(Svix::StreamIn.new({
 }))
 ```
 
-</TabItem>
-<TabItem value="csharp">
+</CodeTab>
+<CodeTab>
 
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.svix.com"));
@@ -124,15 +117,15 @@ var streamOut = await svix.Streaming.Stream.CreateAsync(new StreamIn{
 });
 ```
 
-</TabItem>
+</CodeTab>
+<CodeTab>
 
-<TabItem value="cli">
 ```shell
 Support for svix-cli coming soon
 ```
-</TabItem>
 
-<TabItem value="curl">
+</CodeTab>
+<CodeTab>
 
 ```shell
 curl -X 'POST' \
@@ -146,8 +139,8 @@ curl -X 'POST' \
     }'
 ```
 
-</TabItem>
-</CodeTabs>
+</CodeTab>
+</CodeTabGroup>
 
 
 The new Stream will look something like:
@@ -165,15 +158,15 @@ The new Stream will look something like:
 
 And can be viewed in the Stream section of the Svix Dashboard.
 
-![stream-diagram](../img/stream/introduction/list-streams.png)
+![stream-diagram](/img/stream/introduction/list-streams.png)
 
 ### Events
 
 With the new Stream, you can immediately start writing events.
 
-<CodeTabs>
+<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","CLI","cURL"]}>
+<CodeTab>
 
-<TabItem value="js">
 ```js
 const events = await svix.streaming.events.create("stream_id", {
     events: [
@@ -188,9 +181,10 @@ const events = await svix.streaming.events.create("stream_id", {
     ]
 });
 ```
-</TabItem>
 
-<TabItem value="py">
+</CodeTab>
+<CodeTab>
+
 ```python
 create_stream_events_out = svix.streaming.events.create("stream_id", CreateStreamEventsIn(
     events=[
@@ -206,26 +200,8 @@ create_stream_events_out = svix.streaming.events.create("stream_id", CreateStrea
 ))
 ```
 
-</TabItem>
-<TabItem value="go">
-
-```go
-createStreamEventsOut, err := svixClient.Streaming.Events.Create(ctx, "stream_id", &CreateStreamEventsIn{
-    Events: []interface{}{
-        map[string]interface{}{
-            "eventType": "user.created",
-            "payload":   `{"email": "bob@enterprise.io"}`,
-        },
-        map[string]interface{}{
-            "eventType": "user.login",
-            "payload":   `{"id": 12, "timestamp": "2025-07-21T14:23:17.861Z"}`,
-        },
-    },
-})
-```
-
-</TabItem>
-<TabItem value="rust">
+</CodeTab>
+<CodeTab>
 
 ```rust
 let create_stream_events_out = svix.streaming().events().create("stream_id", CreateStreamEventsIn {
@@ -243,8 +219,26 @@ let create_stream_events_out = svix.streaming().events().create("stream_id", Cre
 }, None).await?;
 ```
 
-</TabItem>
-<TabItem value="java">
+</CodeTab>
+<CodeTab>
+
+```go
+createStreamEventsOut, err := svixClient.Streaming.Events.Create(ctx, "stream_id", &CreateStreamEventsIn{
+    Events: []interface{}{
+        map[string]interface{}{
+            "eventType": "user.created",
+            "payload":   `{"email": "bob@enterprise.io"}`,
+        },
+        map[string]interface{}{
+            "eventType": "user.login",
+            "payload":   `{"id": 12, "timestamp": "2025-07-21T14:23:17.861Z"}`,
+        },
+    },
+})
+```
+
+</CodeTab>
+<CodeTab>
 
 ```java
 CreateStreamEventsOut createStreamEventsOut = svix.getStreaming().getEvents().create("stream_id", new CreateStreamEventsIn()
@@ -261,8 +255,8 @@ CreateStreamEventsOut createStreamEventsOut = svix.getStreaming().getEvents().cr
 );
 ```
 
-</TabItem>
-<TabItem value="kotlin">
+</CodeTab>
+<CodeTab>
 
 ```kotlin
 val createStreamEventsOut = svix.streaming.events.create("stream_id", CreateStreamEventsIn()
@@ -279,8 +273,8 @@ val createStreamEventsOut = svix.streaming.events.create("stream_id", CreateStre
 )
 ```
 
-</TabItem>
-<TabItem value="ruby">
+</CodeTab>
+<CodeTab>
 
 ```ruby
 create_stream_events_out = svix.streaming.events.create("stream_id", Svix::CreateStreamEventsIn.new({
@@ -297,8 +291,8 @@ create_stream_events_out = svix.streaming.events.create("stream_id", Svix::Creat
 }))
 ```
 
-</TabItem>
-<TabItem value="csharp">
+</CodeTab>
+<CodeTab>
 
 ```csharp
 var createStreamEventsOut = await svix.Streaming.Events.CreateAsync("stream_id", new CreateStreamEventsIn{
@@ -315,13 +309,15 @@ var createStreamEventsOut = await svix.Streaming.Events.CreateAsync("stream_id",
 });
 ```
 
-</TabItem>
-<TabItem value="cli">
+</CodeTab>
+<CodeTab>
+
 ```shell
 Support for svix-cli coming soon
 ```
-</TabItem>
-<TabItem value="curl">
+
+</CodeTab>
+<CodeTab>
 
 ```shell
 curl -X 'POST' \
@@ -343,8 +339,8 @@ curl -X 'POST' \
     }'
 ```
 
-</TabItem>
-</CodeTabs>
+</CodeTab>
+</CodeTabGroup>
 
 
 **Events** written to a Stream always contain two fields:
@@ -353,7 +349,7 @@ curl -X 'POST' \
 
 In the Stream Dashboard, you'll see the most recent events that have been sent to the Stream.
 
-![stream-recent-events](../img/stream/introduction/stream-recent-events.png)
+![stream-recent-events](/img/stream/introduction/stream-recent-events.png)
 
 Events are persisted to the Stream for 14 days. While the Events are saved to the Stream, they'll be dispatched, in order, to one or more **Sinks** attached to the Stream.
 

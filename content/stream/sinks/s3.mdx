@@ -1,18 +1,13 @@
 ---
 title: Amazon S3
-hide_title: true
 ---
-
-import RAW from '!!raw-loader!@site/docs/stream/sinks/s3.mdx';
-import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
-
-<HeaderWithCopyButton title="Amazon S3" sourceMarkdown={RAW} />
+# Amazon S3
 
 Events can be sent to an S3 bucket using the `amazonS3` sink type.
 
 Like all Sinks, S3 buckets can be created in the Stream Portal...
 
-![s3-recent-events](../../img/stream/s3-create.png)
+![s3-recent-events](/img/stream/s3-create.png)
 
 ... or [in the API](https://api.svix.com/docs#tag/Sink/operation/v1.stream.sink.create).
 
@@ -97,7 +92,7 @@ curl -X 'POST' \
 
 The default transformation code would result in the following object being uploaded to your bucket.
 
-![s3-recent-events](../../img/stream/s3-example.png)
+![s3-recent-events](/img/stream/s3-example.png)
 
 And the files contents would match the jsonl format.
 

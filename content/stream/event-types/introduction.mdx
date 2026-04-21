@@ -1,14 +1,7 @@
 ---
 title: "Event Types"
-hide_title: true
 ---
-
-import CodeTabs from "@theme/CodeTabs";
-import TabItem from "@theme/TabItem";
-import RAW from '!!raw-loader!@site/docs/stream/event-types/introduction.mdx';
-import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
-
-<HeaderWithCopyButton title="Event Types" sourceMarkdown={RAW} />
+# Event Types
 
 Just like Svix Webhooks, each event sent through Svix Stream has an associated event type. Event types are identifiers denoting the type of event being sent, and are primarily used by Sinks to filter on events.
 
@@ -16,12 +9,12 @@ Event types are just a string, for example: `user.signup`, `invoice.paid` and `w
 
 You can see all of your environment's Stream Event Types under the "Event Types" tab in the Stream Dashboard.
 
-![stream-recent-events](../../img/stream/event-types/list.png)
+![stream-recent-events](/img/stream/event-types/list.png)
 
 You can create event types in the Stream Dashboard, or via the [API](https://api.svix.com/docs#tag/Stream-Event%20Type/operation/v1.stream.event-type.create).
 
-<CodeTabs>
-<TabItem value="js">
+<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","CLI","cURL"]}>
+<CodeTab>
 
 ```js
 import { Svix } from "svix";
@@ -33,8 +26,8 @@ const streamEventTypeOut = await svix.streaming.eventType.create({
 });
 ```
 
-</TabItem>
-<TabItem value="py">
+</CodeTab>
+<CodeTab>
 
 ```python
 from svix.api import Svix, StreamEventTypeIn
@@ -46,24 +39,8 @@ stream_event_type_out = svix.streaming.event_type.create(StreamEventTypeIn(
 ))
 ```
 
-</TabItem>
-<TabItem value="go">
-
-```go
-import (
-	svix "github.com/svix/svix-webhooks/go"
-)
-
-svixClient := svix.New("AUTH_TOKEN", nil)
-streamEventTypeOut, err := svixClient.Streaming.EventType.Create(ctx, &StreamEventTypeIn{
-    Name: "user.signup",
-    Description: nil,
-    FeatureFlags: []string{"cool-new-feature"},
-})
-```
-
-</TabItem>
-<TabItem value="rust">
+</CodeTab>
+<CodeTab>
 
 ```rust
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
@@ -78,8 +55,24 @@ let stream_event_type_out = svix
     .await?;
 ```
 
-</TabItem>
-<TabItem value="java">
+</CodeTab>
+<CodeTab>
+
+```go
+import (
+	svix "github.com/svix/svix-webhooks/go"
+)
+
+svixClient := svix.New("AUTH_TOKEN", nil)
+streamEventTypeOut, err := svixClient.Streaming.EventType.Create(ctx, &StreamEventTypeIn{
+    Name: "user.signup",
+    Description: nil,
+    FeatureFlags: []string{"cool-new-feature"},
+})
+```
+
+</CodeTab>
+<CodeTab>
 
 ```java
 import com.svix.Svix;
@@ -93,8 +86,8 @@ StreamEventTypeOut streamEventTypeOut = svix.getStreaming().getEventType().creat
 );
 ```
 
-</TabItem>
-<TabItem value="kotlin">
+</CodeTab>
+<CodeTab>
 
 ```kotlin
 import com.svix.kotlin.Svix;
@@ -108,8 +101,8 @@ val streamEventTypeOut = svix.streaming.eventType.create(StreamEventTypeIn()
 )
 ```
 
-</TabItem>
-<TabItem value="ruby">
+</CodeTab>
+<CodeTab>
 
 ```ruby
 stream_event_type_out = svix.streaming.event_type.create(Svix::StreamEventTypeIn.new({
@@ -119,8 +112,8 @@ stream_event_type_out = svix.streaming.event_type.create(Svix::StreamEventTypeIn
 }))
 ```
 
-</TabItem>
-<TabItem value="csharp">
+</CodeTab>
+<CodeTab>
 
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
@@ -131,15 +124,15 @@ var streamEventTypeOut = await svix.Streaming.EventType.CreateAsync(new StreamEv
 });
 ```
 
-</TabItem>
+</CodeTab>
+<CodeTab>
 
-<TabItem value="cli">
 ```shell
 Support for svix-cli coming soon
 ```
-</TabItem>
 
-<TabItem value="curl">
+</CodeTab>
+<CodeTab>
 
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
@@ -156,8 +149,8 @@ curl -X 'POST' \
     }'
 ```
 
-</TabItem>
-</CodeTabs>
+</CodeTab>
+</CodeTabGroup>
 
 ## Event Type Filtering
 
@@ -165,6 +158,6 @@ When creating a [Sink](../sinks/introduction), you can optionally specify which 
 
 In this example, the Google Cloud Storage sink will only receive events with the event type `user.created` or `user.login`.
 
-![stream-recent-events](../../img/stream/sink-event-type-filtering.png)
+![stream-recent-events](/img/stream/sink-event-type-filtering.png)
 
 If no event types are selected when creating a Sink, the Sink will receive all events, regardless of the event type.

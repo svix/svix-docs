@@ -1,25 +1,68 @@
-import { Meta } from "nextra"
+import type { Meta } from 'nextra'
+import { ProductSwitcher } from '../app/components/ProductSwitcher'
 
+/** Sidebar order aligned with legacy Docusaurus `sidebars.js` (main dispatch docs). */
 const meta = {
-  '*': {
-    type: 'page' as const,
+  _productSwitcher: { type: 'separator', title: <ProductSwitcher /> },
+  _intro: { type: 'separator', title: 'Introduction' },
+  introduction: 'Introduction',
+  quickstart: 'Quickstart',
+  overview: 'Overview',
+  'common-usage-examples': 'Common Usage Examples',
+  'consuming-webhooks': 'Consuming Webhooks',
+  _basics: { type: 'separator', title: 'Basics' },
+  'event-types': 'Event Types',
+  'app-portal': {
+    title: 'Consumer App Portal',
+    display: 'children',
+    theme: {
+      layout: 'full',
+    },
   },
-  dispatch: {
-    title: 'Svix Dispatch',
-    type: 'page' as const,
+  'api-keys': 'API Keys',
+  'documenting-webhooks': 'Documenting Webhooks',
+  _delivery: { type: 'separator', title: 'Delivery Information' },
+  'incoming-webhooks': 'Operational Webhooks',
+  'email-notifications': 'Email Notifications',
+  retries: 'Retries',
+  'opentelemetry-streaming': 'OpenTelemetry Streaming',
+  _advanced: { type: 'separator', title: 'Advanced Functionality' },
+  idempotency: 'Idempotency',
+  throttling: 'Throttling',
+  transformations: 'Transformations',
+  connectors: 'Connector Endpoints',
+  channels: 'Channels',
+  'message-tags': 'Message Tags',
+  'advanced-endpoints': 'Advanced Endpoint Types',
+  _security: { type: 'separator', title: 'Security & Compliance' },
+  security: 'Security',
+  retention: 'Retention',
+  'endpoint-authentication': 'Endpoint Authentication',
+  _manageAccount: { type: 'separator', title: 'Manage Your Account' },
+  account: {
+    title: 'Manage Your Account',
+    display: 'children',
   },
-  stream: {
-    title: 'Svix Stream',
-    type: 'page' as const,
+  _tutorials: { type: 'separator', title: 'Tutorials' },
+  tutorials: {
+    title: 'Tutorials',
+    display: 'children',
   },
-  ingest: {
-    title: 'Svix Ingest',
-    type: 'page' as const,
+  'sending-messages-with-bridge': 'Sending Messages with Bridge',
+  _integrations: { type: 'separator', title: 'Integrations' },
+  integrations: {
+    title: 'Integrations',
+    display: 'children',
   },
-  receiving: {
-    title: 'Consuming Webhooks',
-    type: 'page' as const,
-  },
+  _svixPlay: { type: 'separator', title: 'Svix Play' },
+  play: 'Svix Play - Webhooks Debugger',
+  _additionalLinks: { type: 'separator', title: 'Additional links' },
+  'get-help': 'Get Help',
+  faq: 'FAQ',
+  ingest: { type: 'page', title: 'Ingest' },
+  stream: { type: 'page', title: 'Stream' },
+  receiving: { type: 'page', title: 'Receiving Webhooks' },
+  onboarding: { display: 'hidden' },
 } satisfies Meta
 
 export default meta

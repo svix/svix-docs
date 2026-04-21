@@ -1,18 +1,13 @@
 ---
 title: Google Cloud Storage
-hide_title: true
 ---
-
-import RAW from '!!raw-loader!@site/docs/stream/sinks/gcs.mdx';
-import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
-
-<HeaderWithCopyButton title="Google Cloud Storage" sourceMarkdown={RAW} />
+# Google Cloud Storage
 
 Events can be sent to a Google Cloud Storage bucket using the `googleCloudStorage` sink type.
 
 Like all Sinks, GCS buckets can be created in the Stream Portal...
 
-![gcs-recent-events](../../img/stream/gcs-create.png)
+![gcs-recent-events](/img/stream/gcs-create.png)
 
 ... or [in the API](https://api.svix.com/docs#tag/Sink/operation/v1.stream.sink.create).
 
@@ -95,7 +90,7 @@ curl -X 'POST' \
 
 The default transformation code would result in the following object being uploaded to your bucket.
 
-![gcs-recent-events](../../img/stream/gcs-example.png)
+![gcs-recent-events](/img/stream/gcs-example.png)
 
 And the files contents would match the jsonl format.
 

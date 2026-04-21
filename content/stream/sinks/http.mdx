@@ -1,20 +1,13 @@
 ---
 title: HTTP
-hide_title: true
 ---
-
-import RAW from '!!raw-loader!@site/docs/stream/sinks/http.mdx';
-import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
-
-<HeaderWithCopyButton title="HTTP" sourceMarkdown={RAW} />
-
 # HTTP Endpoints
 
 Events can be sent to any arbitrary HTTP endpoint using the `http` sink type.
 
 Like all Sinks, HTTP receivers can be created in the Stream Portal...
 
-![stream-recent-events](../../img/stream/http-create.png)
+![stream-recent-events](/img/stream/http-create.png)
 
 ... or [in the API](https://api.svix.com/docs#tag/Sink/operation/v1.stream.sink.create).
 
@@ -38,7 +31,7 @@ curl -X 'POST' 'https://api.svix.com/api/v1/stream/strm_30XKA2tCdjHue2qLkTgc0/si
 
 Just like with Svix Endpoints, you can [configure](https://api.svix.com/docs#tag/Sink/operation/v1.stream.sink-headers-patch) the `http` sink with custom headers that will be injected on each request.
 
-![stream-recent-events](../../img/stream/http-headers.png)
+![stream-recent-events](/img/stream/http-headers.png)
 
 
 # Transformations

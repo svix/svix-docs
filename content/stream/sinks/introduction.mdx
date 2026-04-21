@@ -1,13 +1,6 @@
 ---
 title: Introduction
-hide_title: true
 ---
-
-import RAW from '!!raw-loader!@site/docs/stream/sinks/introduction.mdx';
-import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
-
-<HeaderWithCopyButton title="Introduction" sourceMarkdown={RAW} />
-
 # Introduction to Sinks
 
 Sinks define where events are sent, and how events are shaped before dispatch.
@@ -29,7 +22,7 @@ When creating a Sink, you can optionally specify which event types the sink shou
 
 In this example, the Google Cloud Storage sink will only receive events with the event type `user.created` or `user.login`.
 
-![stream-recent-events](../../img/stream/sink-event-type-filtering.png)
+![stream-recent-events](/img/stream/sink-event-type-filtering.png)
 
 If no event types are selected when creating a Sink, the sink will receive all events, regardless of the event type.
 
@@ -37,7 +30,7 @@ If no event types are selected when creating a Sink, the sink will receive all e
 
 All Sinks (with the exception of Polling Endpoints) can be configured with a `batchSize` and `maxWaitSecs`, which determines how large and how frequently batches are sent.
 
-![stream-recent-events](../../img/stream/batching.png)
+![stream-recent-events](/img/stream/batching.png)
 
 Events are dispatched when either condition is met:
 
@@ -52,7 +45,7 @@ To minimize resource utilization on the Sink, keep batch sizes large and set `ma
 
 All Sinks (with the exception of Polling Endpoints) are configured with custom transformation code, which gives precise control over how events are shaped before being sent to the sink.
 
-![transformation](../../img/stream/transformation_generic.png)
+![transformation](/img/stream/transformation_generic.png)
 
 Because transformations shape the request to the Sink, each sink type has its own transformation template. `http` Sinks let you configure the parameters like URL, body, and headers, while object storage Sinks (`amazonS3`, `googleCloudStorage`) let you control the object key name and contents.
 
@@ -92,7 +85,7 @@ This would take all the events in the batch, and make a `POST` request to the HT
 
 You can also test your transformation code on custom events directly in the Stream Portal in the transformations tab.
 
-![transformation-test](../../img/stream/test-transformation.png)
+![transformation-test](/img/stream/test-transformation.png)
 
 ## Dispatch Order
 
@@ -133,7 +126,7 @@ curl -X POST 'https://api.svix.com/api/v1/stream/strm_30XKA2tCdjHue2qLkTgc0/even
 
 These events will be persisted to the Stream in the same order they were written.
 
-![stream-recent-events](../../img/stream/five-events.png)
+![stream-recent-events](/img/stream/five-events.png)
 
 When dispatch occurs, the order in the Stream is preserved. `event.one` will always be sent before (or batched in the same request as) `event.two`, `event.two` will always be sent before (or batched in the same request as) `event.three`, and so on.
 
@@ -143,7 +136,7 @@ If dispatch fails, Svix Stream will make a best effort to deliver the events by 
 
 You can see if dispatch is in a `retrying` state on the sink's page in the Stream Portal.
 
-![stream-recent-events](../../img/stream/retrying-status.png)
+![stream-recent-events](/img/stream/retrying-status.png)
 
 The status bar will also tell you:
 1. When the next retry is scheduled at.
@@ -151,7 +144,7 @@ The status bar will also tell you:
 
 If dispatch fails because the sink is misconfigured, or the retry schedule was exhausted, the sink will automatically be disabled.
 
-![stream-recent-events](../../img/stream/failed-status.png)
+![stream-recent-events](/img/stream/failed-status.png)
 
 While a sink is disabled, events can still be written to the Stream without interruption.
 

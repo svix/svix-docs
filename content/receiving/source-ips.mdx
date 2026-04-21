@@ -2,11 +2,13 @@
 title: Static Source IP Addresses
 ---
 
-import sourceIps from "/static/webhook-ips.json";
+import sourceIps from '../../public/webhook-ips.json'
+
+# Static Source IP Addresses
 
 In case your webhook receiving endpoint is behind a firewall or NAT, you may need to allow traffic from Svix's static IP addresses.
 
-This is the full list of IP addresses that webhooks may originate from grouped by the region of the sender. The list is also available as a JSON file: [webhooks-ips.json](pathname:///webhook-ips.json).
+This is the full list of IP addresses that webhooks may originate from grouped by the region of the sender. The list is also available as a JSON file: [webhooks-ips.json](/webhook-ips.json).
 
 ## Regions
 
@@ -44,10 +46,13 @@ The list of IP addresses below is grouped by the respective Svix region. The reg
 </code>
 </pre>
 
-:::info[Important]
-Static source IPs are not guaranteed for all pricing tiers, please refer to [the pricing page](https://www.svix.com/pricing/) for more information.
-:::
+<Callout type="info">
 
+**Important**
+
+Static source IPs are not guaranteed for all pricing tiers, please refer to [the pricing page](https://www.svix.com/pricing/) for more information.
+
+</Callout>
 ## Webhook User Agent
 
 Some systems may require to identify the User-Agent used by Svix in addition to the IP addresses. Requests from the Svix service, as well as self-hosted instances, may use different user-agent strings depending on the exact plan and configuration (usually `Svix-Webhooks/{server-version}` or `Webhooks/{server-version}`).

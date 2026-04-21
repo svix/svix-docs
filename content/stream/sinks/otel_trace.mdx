@@ -1,18 +1,13 @@
 ---
 title: OpenTelemetry Tracing
-hide_title: true
 ---
-
-import RAW from '!!raw-loader!@site/docs/stream/sinks/otel_trace.mdx';
-import HeaderWithCopyButton from '@site/src/components/HeaderWithCopyButton';
-
-<HeaderWithCopyButton title="OpenTelemetry Tracing" sourceMarkdown={RAW} />
+# OpenTelemetry Tracing
 
 Events can be sent to an OpenTelemetry tracing collector using the `otelTracing` sink type.
 
 Like all Sinks, OpenTelemetry tracing collectors can be created in the Stream Portal...
 
-![otel-recent-events](../../img/stream/otel-create.png)
+![otel-recent-events](/img/stream/otel-create.png)
 
 ... or [in the API](https://api.svix.com/docs#tag/Sink/operation/v1.stream.sink.create).
 
@@ -38,7 +33,7 @@ Typically, the `url` of an OpenTelemetry tracing sink will be the `OTEL_EXPORTER
 
 Just like with `http` Sinks, you can [configure](https://api.svix.com/docs#tag/Sink/operation/v1.stream.sink-headers-patch) the `otelTracing` sink with custom headers that will be injected on each request.
 
-![stream-recent-events](../../img/stream/otel-headers.png)
+![stream-recent-events](/img/stream/otel-headers.png)
 
 
 # Transformations
@@ -197,4 +192,4 @@ function handler(input) {
 
 When we send these events to the stream, they'll be dispatched to Grafana. Here, we can see `msg_1234` as its own isolated trace, with the `message.attempt` and `http.attempt` spans correctly grouped together, with the expected attributes.
 
-![grafana-example](../../img/stream/grafana-dashboard.png)
+![grafana-example](/img/stream/grafana-dashboard.png)

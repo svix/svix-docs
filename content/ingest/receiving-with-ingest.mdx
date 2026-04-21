@@ -1,9 +1,7 @@
 ---
 title: Receiving Webhooks with Ingest
 ---
-
-import CodeTabs from '@theme/CodeTabs';
-import TabItem from '@theme/TabItem';
+# Receiving Webhooks with Ingest
 
 Receiving webhooks with [Svix Ingest] starts by creating a `Source`.
 
@@ -53,21 +51,21 @@ skip performing signature verification. This is useful for providers that have
 no verification scheme and for providers whose verification scheme is not yet
 supported by Ingest.
 
-:::tip
+<Callout type="default">
+
 Let us know if your webhook provider isn't yet supported so we can add it!
-:::
 
-
+</Callout>
 ## Create a Source
 
 Creating a `Source` from the [Ingest Dashboard]:
 
-![screenshot of the Ingest Dashboard showing the overview tab for a Source named "demo"](../../static/img/ingest/source-edit.png)
+![screenshot of the Ingest Dashboard showing the overview tab for a Source named "demo"](/img/ingest/source-edit.png)
 
-<CodeTabs>
-  <TabItem value="js">
+<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","CLI","cURL"]}>
+<CodeTab>
 
-  ```javascript
+```javascript
   const svix = new Svix("AUTH_TOKEN");
   const ingestSourceOut = await svix.ingest.source.create({
     name: "myGithubWebhook",
@@ -79,10 +77,10 @@ Creating a `Source` from the [Ingest Dashboard]:
   });
   ```
 
-  </TabItem>
-  <TabItem value="py">
+</CodeTab>
+<CodeTab>
 
-  ```python
+```python
   svix = Svix("AUTH_TOKEN")
   ingest_source_out = svix.ingest.source.create(IngestSourceIn(
     name="myGithubWebhook",
@@ -94,73 +92,10 @@ Creating a `Source` from the [Ingest Dashboard]:
   ))
   ```
 
-  </TabItem>
-  <TabItem value="go">
+</CodeTab>
+<CodeTab>
 
-  ```go
-  svixClient := svix.New("AUTH_TOKEN", nil)
-  ingestSourceOut, err := svixClient.Ingest.Source.Create(
-    ctx,
-    &IngestSourceIn{
-        Name: "myGithubWebhook",
-        Uid: "unique-identifier",
-        Type: IngestSourceInTypeGithub,
-        Config: GithubConfig{
-            Secret: "SECRET",
-        },
-    },
-  )
-  ```
-
-  </TabItem>
-  <TabItem value="kotlin">
-
-  ```kotlin
-  val svix = Svix("AUTH_TOKEN")
-  val ingestSourceOut = svix.ingest.source.create(IngestSourceIn(
-    name = "myGithubWebhook",
-    uid = "unique-identifier",
-    config = IngestSourceInConfig.Github(GithubConfig(
-        secret = "SECRET"
-    )),
-  ))
-  ```
-
-  </TabItem>
-  <TabItem value="java">
-
-  ```java
-  Svix svix = new Svix("AUTH_TOKEN");
-  IngestSourceOut ingestSourceOut = svix
-    .getIngest()
-    .getSource()
-    .create(new IngestSourceIn()
-        .name("myGithubWebhook")
-        .uid("unique-identifier")
-        .config(new IngestSourceInConfig.Github(new GithubConfig()
-          .secret("SECRET")
-        ))
-    );
-  ```
-
-  </TabItem>
-  <TabItem value="ruby">
-
-  ```ruby
-  svix = Svix::Client.new("AUTH_TOKEN")
-  ingest_source_out = svix.ingest.source.create(Svix::IngestSourceIn.new({
-    "name": "myGithubWebhook",
-    "uid": "unique-identifier",
-    "config": Svix::IngestSourceInConfig::Github.new({
-      "secret": "SECRET"
-    })
-}))
-  ```
-
-  </TabItem>
-  <TabItem value="rust">
-
-  ```rust
+```rust
   let svix = Svix::new("AUTH_TOKEN".to_string(), None);
   let ingest_source_out = svix.ingest().source().create(
       IngestSourceIn {
@@ -176,10 +111,73 @@ Creating a `Source` from the [Ingest Dashboard]:
   ).await?;
   ```
 
-  </TabItem>
-  <TabItem value="csharp">
+</CodeTab>
+<CodeTab>
 
-  ```csharp
+```go
+  svixClient := svix.New("AUTH_TOKEN", nil)
+  ingestSourceOut, err := svixClient.Ingest.Source.Create(
+    ctx,
+    &IngestSourceIn{
+        Name: "myGithubWebhook",
+        Uid: "unique-identifier",
+        Type: IngestSourceInTypeGithub,
+        Config: GithubConfig{
+            Secret: "SECRET",
+        },
+    },
+  )
+  ```
+
+</CodeTab>
+<CodeTab>
+
+```java
+  Svix svix = new Svix("AUTH_TOKEN");
+  IngestSourceOut ingestSourceOut = svix
+    .getIngest()
+    .getSource()
+    .create(new IngestSourceIn()
+        .name("myGithubWebhook")
+        .uid("unique-identifier")
+        .config(new IngestSourceInConfig.Github(new GithubConfig()
+          .secret("SECRET")
+        ))
+    );
+  ```
+
+</CodeTab>
+<CodeTab>
+
+```kotlin
+  val svix = Svix("AUTH_TOKEN")
+  val ingestSourceOut = svix.ingest.source.create(IngestSourceIn(
+    name = "myGithubWebhook",
+    uid = "unique-identifier",
+    config = IngestSourceInConfig.Github(GithubConfig(
+        secret = "SECRET"
+    )),
+  ))
+  ```
+
+</CodeTab>
+<CodeTab>
+
+```ruby
+  svix = Svix::Client.new("AUTH_TOKEN")
+  ingest_source_out = svix.ingest.source.create(Svix::IngestSourceIn.new({
+    "name": "myGithubWebhook",
+    "uid": "unique-identifier",
+    "config": Svix::IngestSourceInConfig::Github.new({
+      "secret": "SECRET"
+    })
+}))
+  ```
+
+</CodeTab>
+<CodeTab>
+
+```csharp
   var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
   var ingestSourceOut = await svix.Ingest.Source.CreateAsync(
     new IngestSourceIn{
@@ -192,10 +190,10 @@ Creating a `Source` from the [Ingest Dashboard]:
   );
   ```
 
-  </TabItem>
-  <TabItem value="cli">
+</CodeTab>
+<CodeTab>
 
-  ```shell
+```shell
   svix ingest source create '{
     "name": "myGithubWebhook",
     "uid": "unique-identifier",
@@ -206,10 +204,10 @@ Creating a `Source` from the [Ingest Dashboard]:
   }'
   ```
 
-  </TabItem>
-  <TabItem value="curl">
+</CodeTab>
+<CodeTab>
 
-  ```shell
+```shell
   curl -X 'POST' \
     'https://api.eu.svix.com/ingest/api/v1/source' \
     -H 'Authorization: Bearer AUTH_TOKEN' \
@@ -225,8 +223,8 @@ Creating a `Source` from the [Ingest Dashboard]:
     }'
   ```
 
-  </TabItem>
-</CodeTabs>
+</CodeTab>
+</CodeTabGroup>
 
 ## Tell your provider where to send webhooks
 
@@ -245,11 +243,11 @@ _"Payload URL"_.
 In the [Ingest Dashboard], the Destinations tab for your `Source` is where you
 can configure endpoints, view logs, inspect message payloads, etc.
 
-![screenshot of the Ingest Dashboard showing the Destination/Endpoints tab for a Source named "demo"](../../static/img/ingest/destination-endpoints.png)
+![screenshot of the Ingest Dashboard showing the Destination/Endpoints tab for a Source named "demo"](/img/ingest/destination-endpoints.png)
 
 Configuring endpoints allows you to forward messages received by Ingest over to endpoints of your choosing.
 
-![screenshot of the Ingest Dashboard showing the Destination/Logs tab for a Source named "demo"](../../static/img/ingest/destination-logs.png)
+![screenshot of the Ingest Dashboard showing the Destination/Logs tab for a Source named "demo"](/img/ingest/destination-logs.png)
 
 Logs and statistics are available to help monitor for problems, replay or
 recover messages.
@@ -260,7 +258,7 @@ recover messages.
 The last portion of the Ingest URL is a `Token` which can be
 invalidated and rotated:
 
-![screenshot of the Ingest Dashboard showing the overview tab for a Source named "demo"](../../static/img/ingest/url-token-rotate.png)
+![screenshot of the Ingest Dashboard showing the overview tab for a Source named "demo"](/img/ingest/url-token-rotate.png)
 
 `Token`s that are rotated stay usable for 24 hours. During this time both the
 old and new `Token`s are honored by Ingest. During this period it's important
