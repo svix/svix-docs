@@ -56,7 +56,7 @@ const products: Product[] = [
     id: 'diom',
     name: 'Diom',
     href: 'https://diom.svix.com/docs',
-    description: 'Backend Components',
+    description: 'Components Platform',
     icon: <FontAwesomeIcon icon={faGem} width={20} height={20} />,
   }
 ]

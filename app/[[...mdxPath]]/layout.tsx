@@ -37,7 +37,6 @@ export const metadata = {
 const navbar = (
   <Navbar
     align="left"
-    className="!x:justify-start"
     logo={
       <>
         <Image
@@ -118,7 +117,6 @@ export default async function DocsLayout({ children, params }: DocsLayoutProps) 
             navbar={navbar}
             pageMap={pageMap}
             docsRepositoryBase={siteData.docsSource}
-            editLink={null}
             feedback={{
               content: 'Question? Give us feedback',
               link: 'https://github.com/svix/svix-webhooks/discussions/new?category=general',

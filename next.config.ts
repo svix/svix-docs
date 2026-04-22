@@ -8,9 +8,6 @@ const withNextra = nextra({
 
 const ciExportConfig: NextConfig = {
   output: "export",
-  images: {
-    unoptimized: true,
-  }
 };
 
 const nextConfig: NextConfig = {
