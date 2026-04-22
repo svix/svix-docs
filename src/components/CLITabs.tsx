@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react'
-import { Tabs } from 'nextra/components'
+import { TabGroup } from './Tabs'
 
 const CLI_TAB_ITEMS = ['Homebrew', 'Scoop', 'macOS', 'Linux', 'Windows'] as const
 
-/** Install tabs for the CLI tutorial; children must be five `<CodeTab>` panels in that order. */
+/** Install tabs for the CLI tutorial; children must be five `<TabItem>` panels in that order. */
 export function CLITabs({ children }: { children: ReactNode }) {
   return (
-    <Tabs items={[...CLI_TAB_ITEMS]} defaultIndex={0} storageKey="cli-platform">
+    <TabGroup storageKey="cli-platform" items={CLI_TAB_ITEMS}>
       {children}
-    </Tabs>
+    </TabGroup>
   )
 }

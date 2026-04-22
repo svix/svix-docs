@@ -13,8 +13,8 @@ You can see all of your environment's Stream Event Types under the "Event Types"
 
 You can create event types in the Stream Dashboard, or via the [API](https://api.svix.com/docs#tag/Stream-Event%20Type/operation/v1.stream.event-type.create).
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 import { Svix } from "svix";
@@ -26,8 +26,8 @@ const streamEventTypeOut = await svix.streaming.eventType.create({
 });
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```python
 from svix.api import Svix, StreamEventTypeIn
@@ -39,8 +39,8 @@ stream_event_type_out = svix.streaming.event_type.create(StreamEventTypeIn(
 ))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```rust
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
@@ -55,8 +55,8 @@ let stream_event_type_out = svix
     .await?;
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```go
 import (
@@ -71,8 +71,8 @@ streamEventTypeOut, err := svixClient.Streaming.EventType.Create(ctx, &StreamEve
 })
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 ```java
 import com.svix.Svix;
@@ -86,8 +86,8 @@ StreamEventTypeOut streamEventTypeOut = svix.getStreaming().getEventType().creat
 );
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 ```kotlin
 import com.svix.kotlin.Svix;
@@ -101,8 +101,8 @@ val streamEventTypeOut = svix.streaming.eventType.create(StreamEventTypeIn()
 )
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```ruby
 stream_event_type_out = svix.streaming.event_type.create(Svix::StreamEventTypeIn.new({
@@ -112,8 +112,8 @@ stream_event_type_out = svix.streaming.event_type.create(Svix::StreamEventTypeIn
 }))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
@@ -124,15 +124,15 @@ var streamEventTypeOut = await svix.Streaming.EventType.CreateAsync(new StreamEv
 });
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 ```shell
 Support for svix-cli coming soon
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
@@ -149,8 +149,8 @@ curl -X 'POST' \
     }'
 ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 ## Event Type Filtering
 

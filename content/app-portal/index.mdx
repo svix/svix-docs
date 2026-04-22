@@ -26,8 +26,8 @@ To give your users access to the App Portal, just use the [app portal access end
 
 The following API call to get the URL should be called from the backend as the Svix API key should not be shared with the frontend. The values returned from this API call (URL and token) are safe to pass to the frontend.
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 const svix = new Svix("AUTH_TOKEN");
@@ -36,8 +36,8 @@ const dashboard = await svix.authentication.appPortalAccess("app_Xzx8bQeOB1D1XEY
 console.log(dashboard.url);
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```python
 svix = Svix("AUTH_TOKEN")
@@ -46,8 +46,8 @@ dashboard = svix.authentication.app_portal_access("app_Xzx8bQeOB1D1XEYmAJaRGoj0"
 print(dashboard.url)
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```rust
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
@@ -63,8 +63,8 @@ let dashboard = svix
 println!("{}", dashboard.url);
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```go
 svixClient := svix.New("AUTH_TOKEN", nil)
@@ -73,8 +73,8 @@ dashboard, _ := svixClient.Authentication.AppPortalAccess(ctx, "app_Xzx8bQeOB1D1
 fmt.Println(dashboard.Url)
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 ```java
 Svix svix = new Svix("AUTH_TOKEN");
@@ -83,8 +83,8 @@ AppPortalAccessOut dashboard = svix.getAuthentication().appPortalAccess("app_Xzx
 System.out.println(dashboard.getUrl());
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 ```kotlin
 val svix = Svix("AUTH_TOKEN")
@@ -93,8 +93,8 @@ val dashboard = svix.authentication.appPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj
 println(dashboard.url)
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```ruby
 svix = Svix::Client.new("AUTH_TOKEN")
@@ -103,8 +103,8 @@ dashboard = svix.authentication.app_portal_access("app_Xzx8bQeOB1D1XEYmAJaRGoj0"
 puts dashboard.url
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
@@ -113,8 +113,8 @@ var dashboard = await svix.Authentication.AppPortalAccessAsync("app_Xzx8bQeOB1D1
 Console.WriteLine(dashboard.Url)
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="PHP">
 
 ```php
 $svix = new Svix('AUTH_TOKEN');
@@ -127,16 +127,16 @@ $dashboard = $svix->authentication->appPortalAccess(
 echo $dashboard->url . PHP_EOL;
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 ```shell
 export SVIX_AUTH_TOKEN="AUTH_TOKEN"
 svix authentication app-portal app_Xzx8bQeOB1D1XEYmAJaRGoj0
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
 curl -X POST "https://api.us.svix.com/api/v1/auth/app-portal-access/app_Xzx8bQeOB1D1XEYmAJaRGoj0/" \
@@ -146,8 +146,8 @@ curl -X POST "https://api.us.svix.com/api/v1/auth/app-portal-access/app_Xzx8bQeO
     -d '{}'
 ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 In most cases you would want to create an API endpoint on your end that your frontend can call to get the URL. For example, your code may look something like this:
 

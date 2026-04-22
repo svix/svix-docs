@@ -44,8 +44,8 @@ We recommend you use period-delimited event type names (e.g. `<group>.<event>`).
 
 You can add, edit, and delete event types in [the dashboard](https://dashboard.svix.com) or through the API below.
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 import { Svix } from "svix";
@@ -57,8 +57,8 @@ const eventType = await svix.eventType.create({
 });
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```python
 from svix.api import Svix, EventTypeIn
@@ -70,8 +70,8 @@ app = svix.event_type.create(EventTypeIn(
 ))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```rust
  let svix = Svix::new("AUTH_TOKEN".to_string(), None);
@@ -88,8 +88,8 @@ app = svix.event_type.create(EventTypeIn(
      .await?;
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```go
 import (
@@ -103,8 +103,8 @@ app, err := svixClient.EventType.Create(ctx, &svix.EventTypeIn{
 })}
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 ```java
 import com.svix.Svix;
@@ -119,8 +119,8 @@ svix.getEventType()
   );
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 ```kotlin
 import com.svix.kotlin.Svix;
@@ -134,8 +134,8 @@ svix.eventType.create(
                 ));
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```ruby
 svix = Svix::Client.new("AUTH_TOKEN")
@@ -144,8 +144,8 @@ svix.event_type.create(Svix::EventTypeIn.new({
         "description" => "A user has signed up"}))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
@@ -155,8 +155,8 @@ await svix.EventType.CreateAsync(new EventTypeIn(
 ))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="PHP">
 
 ```php
 $svix = new Svix('AUTH_TOKEN');
@@ -167,16 +167,16 @@ $eventType = $svix->eventType->create(EventTypeIn::create(
 ));
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
 svix event-type create '{ "name": "user.signup", "description": "A user has signed up" }'
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
@@ -188,8 +188,8 @@ curl -X POST "https://api.us.svix.com/api/v1/event-type/" \
     -d '{ "name": "user.signup", "description": "A user has signed up" }'
 ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 ## Event Type Schema
 
@@ -260,8 +260,8 @@ Event types and their schemas are generated from `webhooks` or `x-webhooks` top-
 When the event type already exists, it'll be updated with the latest description and schema, otherwise a new event type will be created.
 
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 
@@ -270,8 +270,8 @@ await svix.eventType.importOpenApi({ spec });
 
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```python
 
@@ -280,8 +280,8 @@ svix.event_type.import_openapi(EventTypeImportOpenApiIn(spec=spec))
 
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```rust
 
@@ -293,8 +293,8 @@ let _ = svix
 
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```go
 
@@ -305,8 +305,8 @@ svixClient.EventType.ImportOpenApi(context.Background(), svix.EventTypeImportOpe
 
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 ```java
 
@@ -315,8 +315,8 @@ svix.getEventType().importOpenApi(new EventTypeImportOpenApiIn().spec(spec));
 
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 ```kotlin
 
@@ -327,8 +327,8 @@ var eventTypeImportOpenApiOut = await svix.EventType.ImportOpenapiAsync(
 
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```ruby
 
@@ -337,8 +337,8 @@ event_type_import_open_api_out = svix.event_type.import_openapi(Svix::EventTypeI
 
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```csharp
 
@@ -351,8 +351,8 @@ var eventTypeImportOpenApiOut = await svix.EventType.ImportOpenapiAsync(
 
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="PHP">
 
 ```php
 $spec = loadOpenapiFromFile('openapi.json');
@@ -364,15 +364,15 @@ $eventTypeImportOpenApiOut = $svix->eventType->importOpenapi(
 );
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 ```shell
 # TBD
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
 
@@ -386,8 +386,8 @@ curl -X POST "https://api.us.svix.com/api/v1/event-type/import/openapi/" \
 
 ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 ### Using the Github Action
 
@@ -417,8 +417,8 @@ user.changed|A user has changed
 
 Here are some example scripts for processing the above file:
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 import { Svix } from "svix";
@@ -447,8 +447,8 @@ async function execute() {
 execute();
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```python
 import json
@@ -465,8 +465,8 @@ with open("./data.csv", "r") as f:
         ))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```rust
 use std::{error::Error, fs::File};
@@ -503,8 +503,8 @@ async fn main() {
 }
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```go
 package main
@@ -544,8 +544,8 @@ func main() {
 }
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 ```java
 package sviximport;
@@ -582,8 +582,8 @@ public class App {
 }
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 ```kotlin
 package sviximport
@@ -620,8 +620,8 @@ fun main() = runBlocking {
 }
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```ruby
 require "svix"
@@ -636,16 +636,16 @@ CSV.foreach('data.csv', {:col_sep => "|"}) do |line|
 end
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```csharp
 // Example TBD
 // Read the CSV and create event types
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="PHP">
 
 ```php
 $svix = new Svix('AUTH_TOKEN');
@@ -666,8 +666,8 @@ if ($handle) {
 }
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
@@ -678,8 +678,8 @@ do
 done < data.csv
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
@@ -694,8 +694,8 @@ do
 done < data.csv
 ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 ## Publishing your Event Catalog
 
@@ -737,8 +737,8 @@ A feature flag is an arbitrary string that you can set at event type creation ti
 
 Here's how you can create an event type with a feature flag:
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 import { Svix } from "svix";
@@ -751,8 +751,8 @@ const eventType = await svix.eventType.create({
 });
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```python
 from svix.api import Svix, EventTypeIn
@@ -765,8 +765,8 @@ app = svix.event_type.create(EventTypeIn(
 ))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```rust
 use svix::api::{ApplicationIn, Svix, SvixOptions};
@@ -786,8 +786,8 @@ let event_type = svix
     .await?;
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```go
 import (
@@ -802,8 +802,8 @@ app, err := svixClient.EventType.Create(ctx, &svix.EventTypeIn{
 })}
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 ```java
 import com.svix.Svix;
@@ -819,8 +819,8 @@ svix.getEventType()
   );
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 ```kotlin
 import com.svix.kotlin.Svix;
@@ -833,8 +833,8 @@ val eventTypeOut = svix.eventType.create(EventTypeIn()
 )
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```ruby
 svix = Svix::Client.new("AUTH_TOKEN")
@@ -845,8 +845,8 @@ svix.event_type.create(Svix::EventTypeIn.new({
 }))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
@@ -857,8 +857,8 @@ await svix.EventType.CreateAsync(new EventTypeIn{
 });
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="PHP">
 
 ```php
 $svix = new Svix('AUTH_TOKEN');
@@ -873,16 +873,16 @@ $eventType = $svix->eventType->create(
 
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
 svix event-type create '{ "name": "user.signup", "description": "A user has signed up", "featureFlags": ["beta-feature-a"] }'
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
@@ -894,13 +894,13 @@ curl -X POST "https://api.us.svix.com/api/v1/event-type/" \
     -d '{ "name": "user.signup", "description": "A user has signed up", "featureFlags": ["beta-feature-a"] }'
 ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 If a user tries to retrieve this newly created event type they will get a not-found error. To give them access you need to give them an access token that explicitly allows them to see event types with at least one of the feature flags set during creation.
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 const svix = new Svix("AUTH_TOKEN");
@@ -911,8 +911,8 @@ const dashboard = await svix.authentication.appPortalAccess("app_Xzx8bQeOB1D1XEY
 console.log(dashboard.url);
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```python
 svix = Svix("AUTH_TOKEN")
@@ -923,8 +923,8 @@ dashboard = svix.authentication.app_portal_access("app_Xzx8bQeOB1D1XEYmAJaRGoj0"
 print(dashboard.url)
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```rust
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
@@ -943,8 +943,8 @@ let dashboard = svix
 println!("{}", dashboard.url);
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```go
 svixClient := svix.New("AUTH_TOKEN", nil)
@@ -955,8 +955,8 @@ dashboard, _ := svixClient.Authentication.AppPortalAccess(ctx, "app_Xzx8bQeOB1D1
 fmt.Println(dashboard.Url)
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 ```java
 Svix svix = new Svix("AUTH_TOKEN");
@@ -967,8 +967,8 @@ AppPortalAccessOut dashboard = svix.getAuthentication().appPortalAccess("app_Xzx
 System.out.println(dashboard.getUrl());
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 ```kotlin
 val svix = Svix("AUTH_TOKEN")
@@ -979,8 +979,8 @@ val dashboard = svix.authentication.appPortalAccess("app_Xzx8bQeOB1D1XEYmAJaRGoj
 println(dashboard.url)
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```ruby
 svix = Svix::Client.new("AUTH_TOKEN")
@@ -991,8 +991,8 @@ dashboard = svix.authentication.app_portal_access("app_Xzx8bQeOB1D1XEYmAJaRGoj0"
 puts dashboard.url
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
@@ -1003,8 +1003,8 @@ var dashboard = await svix.Authentication.AppPortalAccessAsync("app_Xzx8bQeOB1D1
 Console.WriteLine(dashboard.Url)
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="PHP">
 
 ```php
 $svix = new Svix('AUTH_TOKEN');
@@ -1019,8 +1019,8 @@ $dashboard = $svix->authentication->appPortalAccess(
 echo $dashboard->url . PHP_EOL;
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 ```shell
 export SVIX_AUTH_TOKEN="AUTH_TOKEN"
@@ -1029,8 +1029,8 @@ svix authentication app-portal app_Xzx8bQeOB1D1XEYmAJaRGoj0 '{
 }'
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
 curl -X POST "https://api.us.svix.com/api/v1/auth/app-portal-access/app_Xzx8bQeOB1D1XEYmAJaRGoj0/" \
@@ -1040,31 +1040,31 @@ curl -X POST "https://api.us.svix.com/api/v1/auth/app-portal-access/app_Xzx8bQeO
     -d '{"featureFlags": ["beta-feature-a"]}'
 ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 A user with this newly minted dashboard access token will be able to see this new event type.
 
 Once you're ready to release this new event type to all of your users simply remove the feature flag from it.
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 const svix = new Svix("AUTH_TOKEN");
 await svix.eventType.update("user.signup", { featureFlag: null });
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```python
 svix = Svix("AUTH_TOKEN")
 svix.event_type.update("user.signup", EventTypeUpdate(feature_flag=None))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```rust
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
@@ -1081,16 +1081,16 @@ let event_type_out = svix
     .await?;
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```go
 svixClient := svix.New("AUTH_TOKEN", nil)
 eventTypeOut, _ := svixClient.EventType.Update(ctx, "user.signup", &svix.EventTypeUpdate{ FeatureFlag: nil })
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 ```java
 Svix svix = new Svix("AUTH_TOKEN");
@@ -1099,16 +1099,16 @@ EventTypeOut eventTypeOut = svix.getEventType().update("user.signup", new EventT
 );
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 ```kotlin
 val svix = Svix("AUTH_TOKEN")
 val eventTypeOut = svix.eventType.update("user.signup", EventTypeUpdate().featureFlag(null))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```ruby
 svix = Svix::Client.new("AUTH_TOKEN")
@@ -1117,8 +1117,8 @@ event_type_out = svix.event_type.update("user.signup", Svix::EventTypeUpdate.new
 }))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
@@ -1127,8 +1127,8 @@ var eventTypeOut = await svix.EventType.Update("user.signup", new EventTypeUpdat
 });
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="PHP">
 
 ```php
 $svix = new Svix('AUTH_TOKEN');
@@ -1141,16 +1141,16 @@ $eventTypeOut = $svix->eventType->update(
 );
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 ```shell
 export SVIX_AUTH_TOKEN="AUTH_TOKEN"
 svix event-type update user.signup '{"featureFlag": null}'
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
 curl -X POST "https://api.us.svix.com/api/v1/event-type/user.signup/" \
@@ -1160,8 +1160,8 @@ curl -X POST "https://api.us.svix.com/api/v1/event-type/user.signup/" \
     -d '{"featureFlag": null}'
 ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 <Callout type="info">
 

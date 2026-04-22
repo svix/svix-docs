@@ -64,8 +64,8 @@ On your service, return the Svix application ID and integration secret to your u
 
 Code example including application creation:
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","C#","PHP","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","C#","PHP","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 import { Svix } from "svix";
@@ -76,8 +76,8 @@ const integ = await svix.integration.create(app.id, { name: "Zapier Integration"
 const integKey = await svix.integration.getKey(app.id, integ.id);
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```python
 from svix.api import Svix, ApplicationIn, IntegrationIn
@@ -88,15 +88,15 @@ integ_id = svix.integration.create(app_id, IntegrationIn(name="Zapier Integratio
 integ_key = svix.integration.get_key(app_id, integ_id).key
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```rust
 // TBD
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```go
 import (
@@ -113,8 +113,8 @@ integOut, err := svixClient.Integration.Create(ctx, appOut.Id, &svix.Integration
 integKeyOut, err := svixClient.Integration.GetKey(ctx, appOut.Id, integOut.Id)
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 ```java
 import com.svix.Svix;
@@ -127,8 +127,8 @@ String integId = svix.getIntegration().create(appId, new IntegrationIn().name("Z
 String integKey = svix.getIntegration().getKey(appId, integId).key;
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 ```kotlin
 import com.svix.kotlin.Svix;
@@ -141,15 +141,15 @@ val integId = svix.integration.create(appId, IntegrationIn().name("Zapier Integr
 val integKey = svix.integration.getKey(appId, integId).key
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```csharp
 // TBD
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="PHP">
 
 ```php
 $svix = new Svix('AUTH_TOKEN');
@@ -165,8 +165,8 @@ $integ = $svix->integration->create($app->id, IntegrationIn::create(
 $integKey = $svix->integration->getKey($app->id, $integ->id);
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 ```shell
 svix application create '{"name": "Test Application"}'
@@ -174,8 +174,8 @@ svix integration create 'app_24D5XFE8W4VVYQ2XPdJlFKlYKrf' '{"name": "Zapier Inte
 svix integration get-key 'app_24D5XFE8W4VVYQ2XPdJlFKlYKrf' 'integ_24D5mQaRudh54XvMNMmgUroNfRA'
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
 curl -X 'POST' \
@@ -204,8 +204,8 @@ curl -X 'GET' \
 
 ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 
 

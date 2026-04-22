@@ -14,8 +14,8 @@ To change the retention period just pass the wanted retention period when creati
 
 Here are a few examples for setting the retention to `14` days:
 
-<CodeTabGroup items={["JavaScript","Python","Go","Rust","Java","Kotlin","Ruby","C#","CLI","PHP","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Go","Rust","Java","Kotlin","Ruby","C#","CLI","PHP","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 const svix = new Svix("AUTH_TOKEN");
@@ -31,8 +31,8 @@ await svix.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0", {
 });
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```python
 svix = Svix("AUTH_TOKEN")
@@ -51,8 +51,8 @@ svix.message.create(
 )
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```go
 svixClient := svix.New("AUTH_TOKEN", nil)
@@ -68,8 +68,8 @@ svixClient.Message.Create(ctx, "app_Xzx8bQeOB1D1XEYmAJaRGoj0", &svix.MessageIn{
 })
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```rust
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
@@ -91,8 +91,8 @@ svix.message()
     .await?;
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 ```java
 Svix svix = new Svix("AUTH_TOKEN");
@@ -108,8 +108,8 @@ svix.getMessage().create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
       "}"));
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 ```kotlin
 val svix = Svix("AUTH_TOKEN")
@@ -125,8 +125,8 @@ svix.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
             )
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```ruby
 svix = Svix::Client.new("AUTH_TOKEN")
@@ -144,8 +144,8 @@ svix.message.create("app_Xzx8bQeOB1D1XEYmAJaRGoj0",
 )
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
@@ -161,16 +161,16 @@ await svix.Message.CreateAsync("app_Xzx8bQeOB1D1XEYmAJaRGoj0", new MessageIn(
 ));
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 ```shell
 export SVIX_AUTH_TOKEN="AUTH_TOKEN"
 svix message create app_Xzx8bQeOB1D1XEYmAJaRGoj0 '{ "eventType": "invoice.paid", "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G", "payloadRetentionPeriod": 14, "payload": { "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql", "status": "paid", "attempt": 2 } }'
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="PHP">
 
 ```php
 $svix = new Svix('AUTH_TOKEN');
@@ -189,8 +189,8 @@ $svix->message->create(
 );
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
 curl -X POST "https://api.us.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/msg/" \
@@ -200,8 +200,8 @@ curl -X POST "https://api.us.svix.com/api/v1/app/app_Xzx8bQeOB1D1XEYmAJaRGoj0/ms
     -d '{"eventType": "invoice.paid", "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G", "payloadRetentionPeriod": 14, "payload": {"id": "invoice_WF7WtCLFFtd8ubcTgboSFNql", "status": "paid", "attempt": 2}}'
 ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 ## Delete payloads on successful delivery
 

@@ -62,8 +62,8 @@ Creating a `Source` from the [Ingest Dashboard]:
 
 ![screenshot of the Ingest Dashboard showing the overview tab for a Source named "demo"](/img/ingest/source-edit.png)
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```javascript
   const svix = new Svix("AUTH_TOKEN");
@@ -77,8 +77,8 @@ Creating a `Source` from the [Ingest Dashboard]:
   });
   ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```python
   svix = Svix("AUTH_TOKEN")
@@ -92,8 +92,8 @@ Creating a `Source` from the [Ingest Dashboard]:
   ))
   ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```rust
   let svix = Svix::new("AUTH_TOKEN".to_string(), None);
@@ -111,8 +111,8 @@ Creating a `Source` from the [Ingest Dashboard]:
   ).await?;
   ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```go
   svixClient := svix.New("AUTH_TOKEN", nil)
@@ -129,8 +129,8 @@ Creating a `Source` from the [Ingest Dashboard]:
   )
   ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 ```java
   Svix svix = new Svix("AUTH_TOKEN");
@@ -146,8 +146,8 @@ Creating a `Source` from the [Ingest Dashboard]:
     );
   ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 ```kotlin
   val svix = Svix("AUTH_TOKEN")
@@ -160,8 +160,8 @@ Creating a `Source` from the [Ingest Dashboard]:
   ))
   ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```ruby
   svix = Svix::Client.new("AUTH_TOKEN")
@@ -174,8 +174,8 @@ Creating a `Source` from the [Ingest Dashboard]:
 }))
   ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```csharp
   var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
@@ -190,8 +190,8 @@ Creating a `Source` from the [Ingest Dashboard]:
   );
   ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 ```shell
   svix ingest source create '{
@@ -204,8 +204,8 @@ Creating a `Source` from the [Ingest Dashboard]:
   }'
   ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
   curl -X 'POST' \
@@ -223,8 +223,8 @@ Creating a `Source` from the [Ingest Dashboard]:
     }'
   ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 ## Tell your provider where to send webhooks
 

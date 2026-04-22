@@ -48,8 +48,8 @@ You can create one on the [API Access page](https://dashboard.svix.com/api-acces
 
 ### Install the Svix SDK (optional)
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 npm install svix
@@ -57,29 +57,29 @@ npm install svix
 yarn add svix
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```shell
 pip install svix
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```toml
 cargo add svix
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```shell
 go get github.com/svix/svix-webhooks/go
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 Gradle: Add this dependency to your project's build file:
 
@@ -97,8 +97,8 @@ Maven: Add this dependency to your project's POM:
 </dependency>
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 Gradle: Add this dependency to your project's build file:
 
@@ -116,29 +116,29 @@ Maven: Add this dependency to your project's POM:
 </dependency>
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```sh
 gem install svix
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```shell
 dotnet add package Svix
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="PHP">
 
 ```shell
 composer require svix/svix
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 On macOS install via <a href="https://brew.sh/">Homebrew</a>:
 
@@ -155,8 +155,8 @@ scoop install svix
 
 For other platforms, such as linux, checkout the <a href="https://github.com/svix/svix-cli#installation">CLI docs</a> on Github.
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
 # Install cURL. E.g. on arch linux:
@@ -165,8 +165,8 @@ pacman -S curl
 brew install curl
 ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 ## Create a consumer application
 
@@ -176,8 +176,8 @@ Every entity on Svix supports setting a `uid` (user defined ID) which can then b
 
 In this example, we'll show how to create an application with the `example-customer-123` UID using the [create application API endpoint](https://api.svix.com/docs#operation/create_application_api_v1_app__post), though in practice you will set it to whatever unique identifier you use in your database.
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 import { Svix } from "svix";
@@ -189,8 +189,8 @@ const app = await svix.application.create({
 });
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```python
 from svix.api import Svix, ApplicationIn
@@ -202,8 +202,8 @@ app = svix.application.create(ApplicationIn(
 ))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```rust
 use svix::api::{ApplicationIn, Svix, SvixOptions};
@@ -222,8 +222,8 @@ let app = svix
     .await?;
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```go
 import (
@@ -237,8 +237,8 @@ app, err := svixClient.Application.Create(ctx, &svix.ApplicationIn{
 })
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 ```java
 import com.svix.models.ApplicationIn;
@@ -251,8 +251,8 @@ ApplicationOut app = svix.getApplication().create(
 );
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 ```kotlin
 import com.svix.kotlin.models.ApplicationIn
@@ -265,8 +265,8 @@ val applicationOut = svix.application.create(
 )
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```ruby
 require "svix"
@@ -279,8 +279,8 @@ application_out = svix.application.create(Svix::ApplicationIn.new({
 }))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
@@ -289,8 +289,8 @@ applicationOut = await svix.Application.CreateAsync(
 );
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="PHP">
 
 ```php
 $svix = new Svix('AUTH_TOKEN');
@@ -302,16 +302,16 @@ $app = $svix->application->create(
 );
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
 svix application create '{ "name": "Application name", "uid": "example-customer-123" }'
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
 # Change URL based on your selected region
@@ -322,8 +322,8 @@ curl -X POST "https://api.us.svix.com/api/v1/app/" \
     -d '{"name": "Application name", "uid": "example-customer-123"}'
 ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 
 ## Send a message
@@ -339,8 +339,8 @@ In addition to the application, people also set the following properties when se
 
 This example uses the [create message API](https://api.svix.com/docs#operation/create_message_api_v1_app__app_id__msg__post) and the application we created in the previous step (`uid = example-customer-123`):
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 const svix = new Svix("AUTH_TOKEN");
@@ -356,8 +356,8 @@ await svix.message.create("example-customer-123", {
 });
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```python
 svix = Svix("AUTH_TOKEN")
@@ -376,8 +376,8 @@ svix.message.create(
 )
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```rust
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
@@ -400,8 +400,8 @@ svix.message()
     .await?;
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```go
 svixClient := svix.New("AUTH_TOKEN", nil)
@@ -418,8 +418,8 @@ svixClient.Message.Create(ctx, "example-customer-123", &svix.MessageIn{
 })
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 ```java
 Svix svix = new Svix("AUTH_TOKEN");
@@ -435,8 +435,8 @@ svix.getMessage().create("example-customer-123",
       "}"));
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 ```kotlin
 val svix = Svix("AUTH_TOKEN")
@@ -452,8 +452,8 @@ svix.message.create("example-customer-123",
             eventId = "evt_Wqb1k73rXprtTm7Qdlr38G"))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```ruby
 svix = Svix::Client.new("AUTH_TOKEN")
@@ -469,8 +469,8 @@ svix.message.create("example-customer-123",
         "event_id" => "evt_Wqb1k73rXprtTm7Qdlr38G"}))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
@@ -486,8 +486,8 @@ await svix.Message.CreateAsync("example-customer-123", new MessageIn(
 ));
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="PHP">
 
 ```php
 $svix = new Svix('AUTH_TOKEN');
@@ -507,16 +507,16 @@ $svix->message->create(
 
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 ```shell
 export SVIX_AUTH_TOKEN="AUTH_TOKEN"
 svix message create example-customer-123 '{ "eventType": "invoice.paid", "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G", "payload": { "type": "event.type", "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql", "status": "paid", "attempt": 2 } }'
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
 # Change URL based on your selected region
@@ -527,8 +527,8 @@ curl -X POST "https://api.us.svix.com/api/v1/app/example-customer-123/msg/" \
     -d '{"eventType": "invoice.paid", "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G", "payload": {"type": "event.type", "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql", "status": "paid", "attempt": 2}}'
 ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 #### Including the event type in the payload
 
@@ -572,8 +572,8 @@ The app portal is built using the Svix SDKs, which means that everything you can
 
 Here is an example creating an endpoint using the [create endpoint API](https://api.svix.com/docs#operation/create_endpoint_api_v1_app__app_id__endpoint__post), and the application we created above (`uid = example-customer-123`):
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 const svix = new Svix("AUTH_TOKEN");
@@ -583,8 +583,8 @@ await svix.endpoint.create("example-customer-123", {
 });
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```python
 svix = Svix("AUTH_TOKEN")
@@ -597,8 +597,8 @@ svix.endpoint.create(
 )
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```rust
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
@@ -615,8 +615,8 @@ svix.endpoint()
     .await?;
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```go
 svixClient := svix.New("AUTH_TOKEN", nil)
@@ -627,8 +627,8 @@ svixClient.Endpoint.Create(ctx, "example-customer-123", &svix.EndpointIn{
 })
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 ```java
 Svix svix = new Svix("AUTH_TOKEN");
@@ -639,8 +639,8 @@ svix.getEndpoint()
               .description("My main endpoint"));
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 ```kotlin
 val svix = Svix("AUTH_TOKEN")
@@ -651,8 +651,8 @@ val endpointOut =
             description = "My main endpoint"))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```ruby
 svix = Svix::Client.new("AUTH_TOKEN")
@@ -663,8 +663,8 @@ endpoint_out =
             "description" => "My main endpoint"}))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
@@ -674,8 +674,8 @@ endpointOut = await svix.Endpoint.CreateAsync(new EndpointIn(
 ));
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="PHP">
 
 ```php
 $svix = new Svix('AUTH_TOKEN');
@@ -688,16 +688,16 @@ $endpointOut = $svix->endpoint->create(
 );
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 ```shell
 export SVIX_AUTH_TOKEN="AUTH_TOKEN"
 svix endpoint create example-customer-123 '{ "url": "https://api.example.com/svix-webhooks/", "description": "My main endpoint" }'
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
 # Change URL based on your selected region
@@ -708,8 +708,8 @@ curl -X POST "https://api.us.svix.com/api/v1/app/example-customer-123/endpoint/"
     -d '{"url": "https://api.example.com/svix-webhooks/", "description": "My main endpoint"}'
 ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 Additionally, you can expose the API to your customers by creating equivalent API endpoints in your API, and making calls to the Svix API internally. For more on this, please reference the [exposing the API to your customers tutorial](./tutorials/api-webhook-management.md).
 
@@ -733,8 +733,8 @@ The Svix libraries automatically infer the correct server URL from the authentic
 
 This is how you override the server URL in each of the libraries:
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 import { Svix } from "svix";
@@ -742,8 +742,8 @@ import { Svix } from "svix";
 const svix = new Svix("AUTH_TOKEN", { serverUrl: "THE_SERVER_URL" });
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```python
 from svix.api import Svix, SvixAsync, SvixOptions
@@ -754,8 +754,8 @@ svix = Svix("AUTH_TOKEN", SvixOptions(server_url="THE_SERVER_URL"))
 svix = SvixAsync("AUTH_TOKEN", SvixOptions(server_url="THE_SERVER_URL"))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```rust
 use svix::api::{ApplicationIn, Svix, SvixOptions};
@@ -766,8 +766,8 @@ let svix = Svix::new("AUTH_TOKEN".to_string(), SvixOptions {
 });
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```go
 import (
@@ -780,8 +780,8 @@ svixClient := svix.New("AUTH_TOKEN", &svix.SvixOptions{
 })
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 ```java
 import com.svix.Svix;
@@ -789,8 +789,8 @@ import com.svix.Svix;
 Svix svix = new Svix("AUTH_TOKEN", new SvixOptions().serverUrl("THE_SERVER_URL"));
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 ```kotlin
 import com.svix.kotlin.Svix;
@@ -798,8 +798,8 @@ import com.svix.kotlin.Svix;
 val svix = Svix("AUTH_TOKEN", SvixOptions("THE_SERVER_URL"))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```ruby
 require "svix"
@@ -807,8 +807,8 @@ require "svix"
 svix = Svix::Client.new("AUTH_TOKEN", Svix::SvixOptions.new(false, "THE_SERVER_URL"))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```csharp
 using Svix;
@@ -816,8 +816,8 @@ using Svix;
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("THE_SERVER_URL"));
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="PHP">
 
 ```php
 $svix = new Svix('AUTH_TOKEN', new SvixOptions(
@@ -825,8 +825,8 @@ $svix = new Svix('AUTH_TOKEN', new SvixOptions(
 ));
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
@@ -834,8 +834,8 @@ export SVIX_SERVER_URL='THE_SERVER_URL'
 svix application create '{ "name": "Application name" }'
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
 # Just replace the URL below
@@ -846,8 +846,8 @@ curl -X POST "https://api.us.svix.com/api/v1/app/" \
     -d '{"name": "Application name"}'
 ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 ## Closing words
 

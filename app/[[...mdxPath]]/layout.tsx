@@ -117,10 +117,6 @@ export default async function DocsLayout({ children, params }: DocsLayoutProps) 
             navbar={navbar}
             pageMap={pageMap}
             docsRepositoryBase={siteData.docsSource}
-            feedback={{
-              content: 'Question? Give us feedback',
-              link: 'https://github.com/svix/svix-webhooks/discussions/new?category=general',
-            }}
             footer={footer}
           >
             {children}

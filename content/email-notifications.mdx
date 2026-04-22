@@ -31,8 +31,8 @@ You can set the email address when creating an application, or by updating an ex
 
 #### When creating an application
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 import { Svix } from "svix";
@@ -47,8 +47,8 @@ const app = await svix.application.create({
 });
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```python
 from svix.api import Svix, ApplicationIn
@@ -63,8 +63,8 @@ app = svix.application.create(ApplicationIn(
 ))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```rust
 use svix::api::{ApplicationIn, Svix, SvixOptions};
@@ -87,8 +87,8 @@ let app = svix
     .await?;
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```go
 import (
@@ -106,8 +106,8 @@ app, err := svixClient.Application.Create(ctx, &svix.ApplicationIn{
 })
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 ```java
 import com.svix.models.ApplicationIn;
@@ -125,8 +125,8 @@ ApplicationOut app = svix.getApplication().create(
 );
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 ```kotlin
 import com.svix.kotlin.models.ApplicationIn
@@ -138,15 +138,15 @@ val metadata = mapOf("svix.email" to "example-customer-123@example.com")
 
 val applicationOut = svix.application.create(
     ApplicationIn(
-        name = "Example customer 123", 
+        name = "Example customer 123",
         uid = "example-customer-123",
         metadata = metadata
     )
 )
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```ruby
 require "svix"
@@ -162,8 +162,8 @@ application_out = svix.application.create(Svix::ApplicationIn.new({
 }))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
@@ -177,8 +177,8 @@ var applicationOut = await svix.Application.CreateAsync(
 );
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="PHP">
 
 ```php
 $svix = new Svix('AUTH_TOKEN');
@@ -196,22 +196,22 @@ $applicationOut = $svix->application->create(
 );
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
-svix application create '{ 
-  "name": "Example customer 123", 
+svix application create '{
+  "name": "Example customer 123",
   "uid": "example-customer-123",
-  "metadata": { 
-    "svix.email": "example-customer-123@example.com" 
-  } 
+  "metadata": {
+    "svix.email": "example-customer-123@example.com"
+  }
 }'
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
@@ -221,21 +221,21 @@ curl -X POST "https://api.us.svix.com/api/v1/app/" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: Bearer ${SVIX_AUTH_TOKEN}" \
     -d '{
-      "name": "Example customer 123", 
+      "name": "Example customer 123",
       "uid": "example-customer-123",
-      "metadata": { 
-        "svix.email": "example-customer-123@example.com" 
+      "metadata": {
+        "svix.email": "example-customer-123@example.com"
       }
     }'
 ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 #### Updating an existing application
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 import { Svix } from "svix";
@@ -248,8 +248,8 @@ await svix.application.patch("example-customer-123", {
 });
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```python
 from svix.api import Svix
@@ -262,8 +262,8 @@ svix.application.patch("example-customer-123", {
 })
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```rust
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
@@ -282,8 +282,8 @@ let app = svix
     .await?;
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```go
 import (
@@ -299,8 +299,8 @@ app, err := svixClient.Application.Patch(ctx, "example-customer-123", &svix.Appl
 })
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 ```java
 import com.svix.Svix;
@@ -318,8 +318,8 @@ svix.getApplication()
   );
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 ```kotlin
 import com.svix.kotlin.Svix
@@ -333,8 +333,8 @@ svix.application.patch("example-customer-123", ApplicationPatch(
 ))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```ruby
 svix = Svix::Client.new("AUTH_TOKEN")
@@ -345,8 +345,8 @@ svix.application.patch("example-customer-123", Svix::ApplicationPatch.new({
 }))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
@@ -360,8 +360,8 @@ await svix.Application.PatchAsync("example-customer-123", new ApplicationPatch(
 ));
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="PHP">
 
 ```php
 $svix = new Svix('AUTH_TOKEN');
@@ -377,16 +377,16 @@ $svix->application->patch(
 );
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
 svix application patch 'example-customer-123' '{ "metadata": { "svix.email": "example-customer-123@example.com" } }'
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
@@ -398,8 +398,8 @@ curl -X PATCH "https://api.us.svix.com/api/v1/app/example-customer-123/" \
     -d '{ "metadata": { "svix.email": "example-customer-123@example.com" } }'
 ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 ### An example email notification
 

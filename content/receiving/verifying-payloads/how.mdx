@@ -9,8 +9,8 @@ As shown in the [Why Verify section](./why.mdx), verifying operational webhooks 
 
 First install the libraries if you haven't already:
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 npm install svix
@@ -18,30 +18,30 @@ npm install svix
 yarn add svix
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```sh
 pip install svix
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```toml
 http = "1.0.0"
 svix = "1.20.0"
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```shell
 go get github.com/svix/svix-webhooks/go
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 Gradle: Add this dependency to your project's build file:
 
@@ -59,8 +59,8 @@ Maven: Add this dependency to your project's POM:
 </dependency>
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 Gradle: Add this dependency to your project's build file:
 
@@ -78,29 +78,29 @@ Maven: Add this dependency to your project's POM:
 </dependency>
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```shell
 gem install svix
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```shell
 dotnet add package Svix
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="PHP">
 
 ```shell
 composer require svix/svix
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 On macOS install via <a href="https://brew.sh/">Homebrew</a>:
 ```sh
@@ -115,16 +115,16 @@ scoop install svix
 
 For other platforms, such as linux, checkout the <a href="https://github.com/svix/svix-cli#installation">CLI docs</a> on Github.
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
 # Install cURL. E.g. on arch linux:
 pacman -S curl
 ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 Then verify webhooks using the code below. The payload is the raw (string) body of the request, and the headers are the headers passed in the request.
 
@@ -140,8 +140,8 @@ See examples below for how to get the raw request body with different frameworks
 </Callout>
 The signature you should get from where you added the endpoint, e.g. the application portal.
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 import { Webhook } from "svix";
@@ -161,8 +161,8 @@ const wh = new Webhook(secret);
 wh.verify(payload, headers);
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```python
 from svix.webhooks import Webhook
@@ -182,8 +182,8 @@ wh = Webhook(secret)
 wh.verify(payload, headers)
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```rust
 use svix::webhooks::Webhook;
@@ -205,8 +205,8 @@ wh.verify(&payload, &headers)?;
 // returns Ok on success, Err otherwise
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```go
 import (
@@ -228,8 +228,8 @@ err := wh.Verify(payload, headers)
 // returns nil on success, error otherwise
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 ```java
 import com.svix.Webhook;
@@ -251,8 +251,8 @@ webhook.verify(payload, headers)
 // throws WebhookVerificationError exception on failure.
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 ```kotlin
 import com.svix.kotlin.Webhook
@@ -275,8 +275,8 @@ webhook.verify(payload, headers)
 // throws WebhookVerificationError exception on failure.
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```ruby
 require 'svix'
@@ -295,8 +295,8 @@ wh = Svix::Webhook.new("whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw")
 json = wh.verify(payload, headers)
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```csharp
 using Svix;
@@ -315,8 +315,8 @@ var wh = new Webhook("whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw/Je4ZJEGP1QFb");
 wh.Verify(payload, headers);
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="PHP">
 
 ```php
 // import using composers autoload
@@ -337,21 +337,21 @@ $wh = new \Svix\Webhook('whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw');
 $json = $wh->verify($payload, $header);
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 ```shell
 export SVIX_AUTH_TOKEN="AUTH_TOKEN"
 svix verify --secret whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw --msg-id msg_p5jXN8AQM9LWM0D4loKWxJek --timestamp 1614265330 --signature v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE= '{"test": 2432232314}'
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 No easy way to verify the signature just with cURL.
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 
 ## Framework specific examples

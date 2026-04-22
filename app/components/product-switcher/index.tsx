@@ -94,7 +94,7 @@ export function ProductSwitcher() {
     <Menu as="div" data-product-switcher>
       <MenuButton
         type="button"
-        className="flex items-center justify-between gap-2 px-4 py-3 rounded-md hover:bg-gray-100 dark:hover:bg-neutral-800/50 cursor-pointer border nextra-border transition-all duration-300 w-full outline-none"
+        className="flex items-center justify-between gap-2 px-4 py-3 mt-2 md:mt-0 rounded-md hover:bg-gray-100 dark:hover:bg-neutral-800/50 cursor-pointer border nextra-border transition-all duration-300 w-full outline-none"
       >
         {selected.icon}
         <div className="flex flex-col ml-1 text-left">

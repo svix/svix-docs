@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react'
-import { Tabs } from 'nextra/components'
+import { type ReactNode } from 'react'
+import { TabGroup } from './Tabs'
 
 const DEFAULT_CODE_TAB_ITEMS = [
   'JavaScript',
@@ -15,20 +15,13 @@ const DEFAULT_CODE_TAB_ITEMS = [
   'cURL',
 ] as const
 
-export function CodeTabGroup({
+export function CodeTabs({
   children,
-  items,
+  items = DEFAULT_CODE_TAB_ITEMS,
 }: {
   children: ReactNode
   /** When omitted, uses the full default language list (11 tabs). */
-  items?: string[]
+  items?: readonly string[]
 }) {
-  const tabItems = items ?? [...DEFAULT_CODE_TAB_ITEMS]
-  return (
-    <Tabs storageKey="programming-language" items={tabItems}>
-      {children}
-    </Tabs>
-  )
+  return <TabGroup storageKey="programming-language" items={items}>{children}</TabGroup>
 }
-
-export const CodeTab = Tabs.Tab

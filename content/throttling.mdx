@@ -25,8 +25,8 @@ You can set the throttling rate on either the application or each of its endpoin
 
 You can set the throttling rate on an application when [creating](https://api.svix.com/docs#operation/create_application_api_v1_app__post) or [updating](https://api.svix.com/docs#operation/update_application_api_v1_app__app_id___put) it using the `throttleRate` property. The value is the number of messages per second.
 
-<CodeTabGroup items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
-<CodeTab>
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
+<TabItem value="JavaScript">
 
 ```js
 import { Svix } from "svix";
@@ -35,8 +35,8 @@ const svix = new Svix("AUTH_TOKEN");
 const app = await svix.application.create({name: "Application name", throttleRate: 1000});
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Python">
 
 ```python
 from svix.api import Svix, ApplicationIn
@@ -45,8 +45,8 @@ svix = Svix("AUTH_TOKEN")
 app = svix.application.create(ApplicationIn(name="Application name", throttle_rate=1000))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Rust">
 
 ```rust
 use svix::api::{ApplicationIn, Svix, SvixOptions};
@@ -65,8 +65,8 @@ let app = svix
     .await?;
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Go">
 
 ```go
 import (
@@ -80,8 +80,8 @@ app, err := svixClient.Application.Create(ctx, &svix.ApplicationIn{
 })}
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Java">
 
 ```java
 import com.svix.models.ApplicationIn;
@@ -92,8 +92,8 @@ Svix svix = new Svix("AUTH_TOKEN");
 ApplicationOut app = svix.getApplication().create(new ApplicationIn().name("Application name").throttleRate(1000));
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Kotlin">
 
 ```kotlin
 import com.svix.kotlin.models.ApplicationIn;
@@ -105,8 +105,8 @@ val applicationOut = svix.application.create(ApplicationIn(
     throttleRate = 1000))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="Ruby">
 
 ```ruby
 require "svix"
@@ -118,8 +118,8 @@ application_out = svix.application.create(Svix::ApplicationIn.new({
     "throttle_rate" => 1000}))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="C#">
 
 ```csharp
 using Svix;
@@ -133,8 +133,8 @@ await svix.Application.CreateAsync(new EventTypeIn(
 ))
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="PHP">
 
 ```php
 $svix = new Svix('AUTH_TOKEN');
@@ -146,16 +146,16 @@ $app = $svix->application->create(
 );
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="CLI">
 
 ```shell
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
 svix application create '{ "name": "Application name", "throttleRate": 1000 }'
 ```
 
-</CodeTab>
-<CodeTab>
+</TabItem>
+<TabItem value="cURL">
 
 ```shell
 curl -X POST "https://api.us.svix.com/api/v1/app/" \
@@ -165,8 +165,8 @@ curl -X POST "https://api.us.svix.com/api/v1/app/" \
     -d '{"name": "Application name", "throttleRate": 1000}'
 ```
 
-</CodeTab>
-</CodeTabGroup>
+</TabItem>
+</CodeTabs>
 
 
 ### Setting endpoint throttling rates
