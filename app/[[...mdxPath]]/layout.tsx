@@ -15,7 +15,7 @@ const siteData = {
   description: 'Svix makes sending webhooks easy and reliable. Documentation for sending, receiving, and operating webhooks with Svix.',
   productionUrl: 'https://docs.svix.com',
   repo: 'https://github.com/svix/svix-webhooks',
-  docsSource: 'https://github.com/svix/svix-docs',
+  docsSource: 'https://github.com/svix/svix-docs/tree/main',
 } as const
 
 export const metadata = {
