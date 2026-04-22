@@ -12,6 +12,7 @@
     "@fortawesome/react-fontawesome": "^3.3.1",
     "@headlessui/react": "^2.2.10",
     "@heroicons/react": "^2.2.0",
+    "clsx": "^2.1.1",
     "next": "^16.2.3",
     "nextra": "^4.6.1",
     "nextra-theme-docs": "^4.6.1",
