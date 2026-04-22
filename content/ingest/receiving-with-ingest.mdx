@@ -1,0 +1,276 @@
+---
+title: Receiving Webhooks with Ingest
+---
+# Receiving Webhooks with Ingest
+
+Receiving webhooks with [Svix Ingest] starts by creating a `Source`.
+
+A `Source` generates an endpoint you can share with a webhook provider as a
+destination for their webhooks.
+
+Ingest supports signature verification schemes and flows used by a variety of
+webhook providers. Supported values for a `Source`'s `type` include:
+
+- `adobeSign`
+- `airwallex`
+- `beehiiv`
+- `brex`
+- `checkbook`
+- `clerk`
+- `docusign`
+- `easypost`
+- `github`
+- `guesty`
+- `hubspot`
+- `incidentIo`
+- `lithic`
+- `nash`
+- `open-ai`
+- `orum-io`
+- `pleo`
+- `port.io`
+- `render`
+- `replicate`
+- `resend`
+- `rutter`
+- `safebase`
+- `sardine`
+- `segment`
+- `shopify`
+- `slack`
+- `stripe`
+- `stych`
+- `svix` (that's us!)
+- `telnyx`
+- `vapi`
+- `veriff`
+- `zoom`
+
+Additionally there's the option to configure a `Source` as `genericWebhook` to
+skip performing signature verification. This is useful for providers that have
+no verification scheme and for providers whose verification scheme is not yet
+supported by Ingest.
+
+<Callout type="default">
+
+Let us know if your webhook provider isn't yet supported so we can add it!
+
+</Callout>
+## Create a Source
+
+Creating a `Source` from the [Ingest Dashboard]:
+
+![screenshot of the Ingest Dashboard showing the overview tab for a Source named "demo"](/img/ingest/source-edit.png)
+
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","CLI","cURL"]}>
+<TabItem value="JavaScript">
+
+```javascript
+  const svix = new Svix("AUTH_TOKEN");
+  const ingestSourceOut = await svix.ingest.source.create({
+    name: "myGithubWebhook",
+    uid: "unique-identifier",
+    type: "github",
+    config: {
+        secret: "SECRET"
+    },
+  });
+  ```
+
+</TabItem>
+<TabItem value="Python">
+
+```python
+  svix = Svix("AUTH_TOKEN")
+  ingest_source_out = svix.ingest.source.create(IngestSourceIn(
+    name="myGithubWebhook",
+    uid="unique-identifier",
+    type="github",
+    config=GithubConfig(
+        secret="SECRET"
+    ),
+  ))
+  ```
+
+</TabItem>
+<TabItem value="Rust">
+
+```rust
+  let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+  let ingest_source_out = svix.ingest().source().create(
+      IngestSourceIn {
+          name: "myGithubWebhook".to_owned(),
+          uid: Some("unique-identifier".to_owned()),
+          config: IngestSourceInConfig::Github(GithubConfig {
+              secret: "SECRET".to_owned(),
+              ..Default::default()
+          }),
+          ..Default::default()
+      },
+      None,
+  ).await?;
+  ```
+
+</TabItem>
+<TabItem value="Go">
+
+```go
+  svixClient := svix.New("AUTH_TOKEN", nil)
+  ingestSourceOut, err := svixClient.Ingest.Source.Create(
+    ctx,
+    &IngestSourceIn{
+        Name: "myGithubWebhook",
+        Uid: "unique-identifier",
+        Type: IngestSourceInTypeGithub,
+        Config: GithubConfig{
+            Secret: "SECRET",
+        },
+    },
+  )
+  ```
+
+</TabItem>
+<TabItem value="Java">
+
+```java
+  Svix svix = new Svix("AUTH_TOKEN");
+  IngestSourceOut ingestSourceOut = svix
+    .getIngest()
+    .getSource()
+    .create(new IngestSourceIn()
+        .name("myGithubWebhook")
+        .uid("unique-identifier")
+        .config(new IngestSourceInConfig.Github(new GithubConfig()
+          .secret("SECRET")
+        ))
+    );
+  ```
+
+</TabItem>
+<TabItem value="Kotlin">
+
+```kotlin
+  val svix = Svix("AUTH_TOKEN")
+  val ingestSourceOut = svix.ingest.source.create(IngestSourceIn(
+    name = "myGithubWebhook",
+    uid = "unique-identifier",
+    config = IngestSourceInConfig.Github(GithubConfig(
+        secret = "SECRET"
+    )),
+  ))
+  ```
+
+</TabItem>
+<TabItem value="Ruby">
+
+```ruby
+  svix = Svix::Client.new("AUTH_TOKEN")
+  ingest_source_out = svix.ingest.source.create(Svix::IngestSourceIn.new({
+    "name": "myGithubWebhook",
+    "uid": "unique-identifier",
+    "config": Svix::IngestSourceInConfig::Github.new({
+      "secret": "SECRET"
+    })
+}))
+  ```
+
+</TabItem>
+<TabItem value="C#">
+
+```csharp
+  var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
+  var ingestSourceOut = await svix.Ingest.Source.CreateAsync(
+    new IngestSourceIn{
+        Name = "myGithubWebhook",
+        Uid = "unique-identifier",
+        Config = IngestSourceInConfig.Github(new GithubConfig {
+            Secret = "SECRET",
+        }),
+    }
+  );
+  ```
+
+</TabItem>
+<TabItem value="CLI">
+
+```shell
+  svix ingest source create '{
+    "name": "myGithubWebhook",
+    "uid": "unique-identifier",
+    "type": "github",
+    "config": {
+        "secret": "SECRET"
+    }
+  }'
+  ```
+
+</TabItem>
+<TabItem value="cURL">
+
+```shell
+  curl -X 'POST' \
+    'https://api.eu.svix.com/ingest/api/v1/source' \
+    -H 'Authorization: Bearer AUTH_TOKEN' \
+    -H 'Accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -d '{
+        "name": "myGithubWebhook",
+        "uid": "unique-identifier",
+        "type": "github",
+        "config": {
+            "secret": "SECRET"
+        }
+    }'
+  ```
+
+</TabItem>
+</CodeTabs>
+
+## Tell your provider where to send webhooks
+
+The Ingest URL is also listed on the [Ingest Dashboard] for each `Source`.
+
+The `IngestSourceOut` response from the API will include an `ingestUrl` which is
+the endpoint you give to your provider, telling them where to send their
+webhooks.
+
+For GitHub, as is used in this example, this is referred to as the
+_"Payload URL"_.
+
+
+## Managing incoming messages
+
+In the [Ingest Dashboard], the Destinations tab for your `Source` is where you
+can configure endpoints, view logs, inspect message payloads, etc.
+
+![screenshot of the Ingest Dashboard showing the Destination/Endpoints tab for a Source named "demo"](/img/ingest/destination-endpoints.png)
+
+Configuring endpoints allows you to forward messages received by Ingest over to endpoints of your choosing.
+
+![screenshot of the Ingest Dashboard showing the Destination/Logs tab for a Source named "demo"](/img/ingest/destination-logs.png)
+
+Logs and statistics are available to help monitor for problems, replay or
+recover messages.
+
+
+## Managing Source Tokens
+
+The last portion of the Ingest URL is a `Token` which can be
+invalidated and rotated:
+
+![screenshot of the Ingest Dashboard showing the overview tab for a Source named "demo"](/img/ingest/url-token-rotate.png)
+
+`Token`s that are rotated stay usable for 24 hours. During this time both the
+old and new `Token`s are honored by Ingest. During this period it's important
+that you reconfigure your provider with the new Ingest URL in order to have a
+seamless transition.
+
+## Verifying Webhooks
+
+Verifying webhooks forwarded by Svix Ingest works the same way as verifying webhooks sent by Svix
+Dispatch. Check [How to Verify Webhooks with the Svix Libraries][verify-libs] and the following
+pages for ways to ensure only legitimate requests get processed at your destination endpoint(s).
+
+[Svix Ingest]: https://svix.com/ingest
+[Ingest Dashboard]: https://dashboard.svix.com/ingest
+[verify-libs]: https://docs.svix.com/receiving/verifying-payloads/how

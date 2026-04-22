@@ -27,4 +27,13 @@ Session.vim
 /.yarn/cache
 /.yarn/install-state.gz
 
+# Nextra
+.nextra
+.next
+
+
+# Pagefind
+public/_pagefind
+static/_pagefind
+
 .cursor

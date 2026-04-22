@@ -1,0 +1,69 @@
+import type { Meta } from 'nextra'
+import { ProductSwitcher } from '../app/components/product-switcher'
+import metaLinks from '../src/nav-links'
+
+const meta = {
+  ...metaLinks,
+  _productSwitcher: { type: 'separator', title: <ProductSwitcher /> },
+  _intro: { type: 'separator', title: 'Introduction' },
+  introduction: 'Introduction',
+  quickstart: 'Quickstart',
+  overview: 'Overview',
+  'common-usage-examples': 'Common Usage Examples',
+  'consuming-webhooks': 'Consuming Webhooks',
+  _basics: { type: 'separator', title: 'Basics' },
+  'event-types': 'Event Types',
+  'app-portal': {
+    title: 'Consumer App Portal',
+    display: 'children',
+    theme: {
+      layout: 'full',
+    },
+  },
+  'api-keys': 'API Keys',
+  'documenting-webhooks': 'Documenting Webhooks',
+  _delivery: { type: 'separator', title: 'Delivery Information' },
+  'incoming-webhooks': 'Operational Webhooks',
+  'email-notifications': 'Email Notifications',
+  retries: 'Retries',
+  'opentelemetry-streaming': 'OpenTelemetry Streaming',
+  _advanced: { type: 'separator', title: 'Advanced Functionality' },
+  idempotency: 'Idempotency',
+  throttling: 'Throttling',
+  transformations: 'Transformations',
+  connectors: 'Connector Endpoints',
+  channels: 'Channels',
+  'message-tags': 'Message Tags',
+  'advanced-endpoints': 'Advanced Endpoint Types',
+  _security: { type: 'separator', title: 'Security & Compliance' },
+  security: 'Security',
+  retention: 'Retention',
+  'endpoint-authentication': 'Endpoint Authentication',
+  _manageAccount: { type: 'separator', title: 'Manage Your Account' },
+  account: {
+    title: 'Manage Your Account',
+    display: 'children',
+  },
+  _tutorials: { type: 'separator', title: 'Tutorials' },
+  tutorials: {
+    title: 'Tutorials',
+    display: 'children',
+  },
+  'sending-messages-with-bridge': 'Sending Messages with Bridge',
+  _integrations: { type: 'separator', title: 'Integrations' },
+  integrations: {
+    title: 'Integrations',
+    display: 'children',
+  },
+  _svixPlay: { type: 'separator', title: 'Svix Play' },
+  play: 'Svix Play - Webhooks Debugger',
+  _additionalLinks: { type: 'separator', title: 'Additional links' },
+  'get-help': 'Get Help',
+  faq: 'FAQ',
+  ingest: { type: 'page', title: 'Ingest', display: 'hidden' },
+  stream: { type: 'page', title: 'Stream', display: 'hidden' },
+  receiving: { type: 'page', title: 'Receiving Webhooks', display: 'hidden' },
+  onboarding: { display: 'hidden' },
+} satisfies Meta
+
+export default meta

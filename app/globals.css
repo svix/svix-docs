@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+/* Match next-themes / Nextra: `dark` class on a parent (usually <html>) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@source "./**/*.{js,ts,tsx,jsx}";
+@source "../src/**/*.{js,ts,tsx,jsx}";
+@source "../content/**/*.mdx";
+@source "../mdx-components.js";
+
+.nextra-navbar a[href^="https"] svg.x\:inline {
+  display: none;
+}
+
+.nextra-sidebar li:has([data-product-switcher]),
+.nextra-mobile-nav li:has([data-product-switcher]) {
+  margin-top: 0;
+  margin-bottom: -0.25rem;
+  padding: 0;
+}

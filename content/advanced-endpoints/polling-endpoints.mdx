@@ -1,0 +1,142 @@
+---
+title: Polling Endpoints
+---
+# Polling Endpoints
+
+Polling Endpoints are a way for your users to get a stream of events by polling instead of listening to webhooks.
+
+## When is polling better?
+
+There are a few examples where polling for events works better than webhooks.
+
+One example is when testing webhooks locally. It's much easier to poll for events than exposing a public HTTP endpoint (even with tools like [Svix Play](/play) or [ngrok](/integrations/ngrok)).
+
+Another example is when your users don't care about getting events in real-time and prefer getting them all at once at the end of a day. One place where this use-case comes up, is when your users need to store all events for compliance reasons. In that case batching and saving them all at once is easier and more cost efficient for them.
+
+## Enabling Polling Endpoints
+
+Polling Endpoints can be enabled at the environment level in the [Svix Dashboard](https://dashboard.svix.com/settings/organization/general-settings) by enabling **Advanced Endpoint Types**.
+
+![Enable Polling Endpoints](/img/advanced-endpoints/advanced-endpoints-setting.png)
+
+When you enable Polling Endpoints, your users will be able to create them in the [App Portal](/app-portal).
+
+![Polling Endpoint Create](/img/advanced-endpoints/polling-endpoint-create.png)
+
+## Usage
+
+Like with webhook endpoints, Polling Endpoints support filtering messages by [event types](/event-types) and [channels](/channels).
+
+In the App Portal, event consumers will get a unique URL and an API key to iterate through the full list of events sent to their [Svix Application](/overview#consumer-applications) since the endpoint was created.
+
+When creating a Polling Endpoint, consumers will get a unique URL like `https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q`
+
+When first calling the endpoint, it will return an empty array and an iterator.
+
+```json
+{
+  "data": [],
+  "iterator": "eyJvZmZzZXQiOi05MjIzMzcyMDM2ODU0Nzc1ODA4LCJhZnRlciI6bnVsbH0",
+  "done": false
+}
+```
+
+Then, using the iterator in the next call, they can iterate through the events and poll for new ones.
+
+```bash
+curl \
+  "https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q?iterator=eyJv..." \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer sk_poll_*****.eu'
+```
+
+Messages will be returned in the order they were sent to Svix.
+
+### Polling with a Server-tracked Iterator
+
+By polling with a **Consumer ID**,  the server will track the client's progress as it iterates through the stream of
+messages.
+
+> Consumer IDs are arbitrary strings used by a client to self-identify.
+>
+> Note that Consumer IDs should be _unique per client_ and should not be shared. Put another way, Consumer IDs track
+> exclusive sequential access through the stream of messages.
+> Shared concurrent access through a given Consumer ID will result in errors as mutual clients drift in their positions
+> in the stream.
+
+Usage is the same, and still relies on sending the `iterator` parameter to move forward through the stream.
+Server tracking of the client's iterator is opt-in by adding a trailing `/consumer/CONSUMER_ID` to the Polling Endpoint
+URL.
+
+```bash
+curl \
+  "https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q/consumer/MY-CONSUMER-ID?iterator=eyJv..." \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer sk_poll_*****.eu'
+```
+
+The big difference is the server "remembers" the last `iterator` used to make a request for the given Consumer ID
+such that subsequent requests _without a `iterator`_ will resume using that last seen value.
+This is useful for situations where a process may be interrupted and lose its place while polling.
+
+In summation, when using Consumer IDs you need to provide an `iterator` in order to move forward, but you don't have to
+worry about losing progress or starting over if you lose an iterator for any reason.
+Poll the stream using the Consumer ID, omitting the `iterator` parameter, and you'll pick up where you left off.
+At that stage, use the provided `iterator` given in the response to start moving forward again.
+
+### Updating a Server-tracked Iterator with Seek
+
+The `iterator` persisted on the server side can be adjusted with the `seek` endpoint.
+
+```bash
+curl \
+  "https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q/consumer/MY-CONSUMER-ID/seek" \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer sk_poll_*****.eu' \
+  -d '{"after": "2025-01-17T00:00:00.0Z"}'
+```
+
+Note that after performing a `seek`, active clients sending a now-out-of-sequence `iterator` may see errors.
+In this situation, omitting the `iterator` parameter (as if making a new "initial" request) will allow such clients
+to pick up from the position tracked by the server. Subsequent requests should then use the iterator value returned
+in each response body.
+
+## Usage with Svix Bridge
+
+If you have a service that must not be exposed on the public internet and you want it to receive webhooks from Svix, you can deploy a [Svix Bridge] instance inside the same network that
+forwards messages from a polling endpoint to the destination service.
+Svix Bridge will take care of retrying in case the connection the Svix API
+or the destination service is temporarily lost.
+
+The app portal page for the Polling Endpoint includes a basic example config for Svix Bridge,
+with the app ID and sink ID already filled in. It looks like this:
+
+```yaml
+receivers:
+  - name: "msg-poller-to-http"
+    input:
+      type: "svix-message-poller"
+      consumer_id: "svix-bridge-1"
+      app_id: "app_xxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      sink_id: "poll_yyy"
+      token: "sk_poll_*****.eu"
+    output:
+      type: "http"
+      url: "http://example.local"
+```
+
+The http output is not the only destination Svix Bridge can send webhooks to,
+it can also store them to a messaging system like RabbitMQ or Kafka.
+Further, you can set a transformation - a small JS program that processes each message
+before it gets forwarded.
+
+For the full list of supported configuration options and how to configure each of the output types,
+see the [receivers example config file][example-recv-cfg].
+
+[Svix Bridge]: https://github.com/svix/svix-webhooks-private/tree/main/bridge#readme
+[example-recv-cfg]: https://github.com/svix/svix-webhooks/blob/main/bridge/svix-bridge.example.receivers.yaml
+
+---
+
+Polling Endpoints can be used in parallel with regular Svix webhooks, and you don't need to make any changes to how you [create messages](/quickstart#send-a-message).

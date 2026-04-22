@@ -1,51 +1,31 @@
 {
-  "name": "svix-docs",
-  "version": "0.0.0",
-  "private": true,
   "scripts": {
-    "docusaurus": "docusaurus",
-    "start": "docusaurus start",
-    "dev": "docusaurus start",
-    "build": "docusaurus build",
-    "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy",
-    "serve": "docusaurus serve",
-    "clear": "docusaurus clear"
+    "dev": "next dev",
+    "build": "next build && npm run pagefind-vercel",
+    "start": "next start",
+    "pagefind-ci": "pagefind --site out --output-path out/_pagefind",
+    "pagefind-vercel": "pagefind --site .next/server/app --output-path public/_pagefind"
   },
   "dependencies": {
-    "@docusaurus/core": "^3.9.2",
-    "@docusaurus/plugin-client-redirects": "^3.9.2",
-    "@docusaurus/preset-classic": "^3.9.2",
-    "@headlessui/react": "^2.2.9",
+    "@fortawesome/fontawesome-svg-core": "^7.2.0",
+    "@fortawesome/free-regular-svg-icons": "^7.2.0",
+    "@fortawesome/react-fontawesome": "^3.3.1",
+    "@headlessui/react": "^2.2.10",
     "@heroicons/react": "^2.2.0",
-    "@mdx-js/react": "^3.1.0",
     "clsx": "^2.1.1",
-    "docusaurus-lunr-search": "^3.6.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
-  "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "next": "^16.2.3",
+    "nextra": "^4.6.1",
+    "nextra-theme-docs": "^4.6.1",
+    "posthog-js": "^1.369.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^3.9.2",
-    "@docusaurus/tsconfig": "^3.9.2",
-    "@types/react": "^19.0.0",
-    "@types/react-helmet": "^6.1.0",
-    "@types/react-router-dom": "^5.1.7",
-    "raw-loader": "^4.0.2",
-    "typescript": "^5.2.2"
-  },
-  "resolutions": {
-    "loader-utils@npm:^2.0.0": "2.0.4"
+    "@tailwindcss/postcss": "^4.1.10",
+    "@types/node": "25.3.0",
+    "@types/react": "19.2.14",
+    "pagefind": "^1.4.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^4.1.10"
   }
 }

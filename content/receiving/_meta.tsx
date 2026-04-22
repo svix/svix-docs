@@ -1,0 +1,13 @@
+import type { Meta } from 'nextra'
+import metaLinks from '../../src/nav-links'
+
+const meta = {
+  ...metaLinks,
+  introduction: 'Introduction',
+  'using-app-portal': 'Using the App Portal',
+  'verifying-payloads': 'Verifying Webhooks',
+  'additional-authentication': 'Additional Authentication',
+  'source-ips': 'Static Source IP Addresses',
+} satisfies Meta
+
+export default meta
