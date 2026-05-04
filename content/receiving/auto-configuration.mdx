@@ -1,0 +1,422 @@
+---
+title: Receiving with Webhooks Auto-Config
+---
+
+# Receiving with Webhooks Auto-Config
+
+Webhooks Auto-Config is a convenient way to configure your webhook endpoints in a code-first way, with the Svix SDK.
+
+Key benefits:
+- Define the webhook configuration in code (rather than both code and the webhooks management dashboard).
+- Automatically update URL, event types and other endpoint settings.
+- Signature verification is supported out of the box, no additional secrets to wire up.
+
+## How to use Webhooks Auto-Config
+
+1. Create an endpoint and select Webhooks Auto-Config as the configuration method.
+2. The portal will issue an auto-config token.
+3. Use the auto-config token to configure the endpoint in code.
+4. Call `subscribe()` to complete the configuration.
+
+```typescript
+const svix = new Svix.AutoConfiguration({
+  token: SECRET_AUTO_CONFIGURATION_TOKEN,
+  eventTypes: ["invoice.paid", "user.created"],
+  url: "https://api.us.example.com/webhooks/acme",
+});
+
+await svix.subscribe();
+```
+
+### Payload Verification
+
+When using Webhooks Auto-Config, the payload verification is supported out of the box, no need to wire up additional secrets.
+
+To verify the payload, call verify() on the same WebhooksAutoConfig instance you used to subscribe. The auto-config token contains the secret key to verify the payload.
+
+```typescript
+const webhook = new Svix.WebhooksAutoConfig({
+  token: SECRET_AUTO_CONFIGURATION_TOKEN,
+  ...
+});
+
+webhook.verify(payload, headers);
+```
+
+For more details on how to verify the payload, see [Verifying Webhooks Manually](/receiving/verifying-payloads/how).
+
+## Integration Examples
+
+Auto Configuration can be used in a variety of ways, as part of a CI/CD pipeline, a serverless function, or the startup process of your application.
+
+Here are some examples in different frameworks and deployment platforms.
+
+### In Github Actions (CI/CD)
+
+```yaml
+name: deploy
+on:
+  push:
+    branches: [main]
+jobs:
+  subscribe-endpoint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm ci
+      - run: |
+          node --input-type=module <<'EOF'
+          import { Svix } from "svix";
+
+          const svix = new Svix.AutoConfiguration({
+            token: process.env.SVIX_AUTO_CONFIGURATION_TOKEN,
+            eventTypes: ["invoice.paid", "user.created"],
+            url: "https://api.us.example.com/webhooks/acme",
+          });
+
+          await svix.subscribe();
+          EOF
+        env:
+          SVIX_AUTO_CONFIGURATION_TOKEN: ${{ secrets.SVIX_AUTO_CONFIGURATION_TOKEN }}
+```
+
+### Express.js
+
+```js
+import express from "express";
+import { Svix } from "svix";
+
+const app = express();
+
+async function start() {
+  const svix = new Svix.AutoConfiguration({
+    token: process.env.SVIX_AUTO_CONFIGURATION_TOKEN,
+    eventTypes: ["invoice.paid", "user.created"],
+    url: "https://api.us.example.com/webhooks/acme",
+  });
+
+  await svix.subscribe();
+  app.listen(3000);
+}
+
+start();
+```
+
+### Elysia
+
+```typescript
+import { Elysia } from "elysia";
+import { Svix } from "svix";
+
+const svix = new Svix.AutoConfiguration({
+  token: process.env.SVIX_AUTO_CONFIGURATION_TOKEN,
+  eventTypes: ["invoice.paid", "user.created"],
+  url: "https://api.us.example.com/webhooks/acme",
+});
+
+await svix.subscribe();
+
+new Elysia().get("/", () => "ok").listen(3000);
+```
+
+### Next.js (middleware)
+
+```typescript
+import { Svix } from "svix";
+
+export async function register() {
+  if (process.env.NEXT_RUNTIME !== "nodejs") return;
+
+  const svix = new Svix.AutoConfiguration({
+    token: process.env.SVIX_AUTO_CONFIGURATION_TOKEN,
+    eventTypes: ["invoice.paid", "user.created"],
+    url: "https://api.us.example.com/webhooks/acme",
+  });
+
+  await svix.subscribe();
+}
+```
+
+### Python (Django)
+
+```python
+import os
+
+from django.apps import AppConfig
+
+
+class WebhooksConfig(AppConfig):
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "webhooks"
+
+    def ready(self) -> None:
+        from svix.auto_configuration import AutoConfiguration
+
+        AutoConfiguration(
+            token=os.environ["SVIX_AUTO_CONFIGURATION_TOKEN"],
+            event_types=["invoice.paid", "user.created"],
+            url="https://api.us.example.com/webhooks/acme",
+        ).subscribe()
+```
+
+### Python (Flask)
+
+```python
+import os
+
+from flask import Flask
+from svix.auto_configuration import AutoConfiguration
+
+AutoConfiguration(
+    token=os.environ["SVIX_AUTO_CONFIGURATION_TOKEN"],
+    event_types=["invoice.paid", "user.created"],
+    url="https://api.us.example.com/webhooks/acme",
+).subscribe()
+
+app = Flask(__name__)
+```
+
+### Python (FastAPI)
+
+```python
+import os
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI
+from svix.auto_configuration import AutoConfiguration
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    AutoConfiguration(
+        token=os.environ["SVIX_AUTO_CONFIGURATION_TOKEN"],
+        event_types=["invoice.paid", "user.created"],
+        url="https://api.us.example.com/webhooks/acme",
+    ).subscribe()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
+```
+
+### Node.js (Next.js)
+
+```js
+const http = require("http");
+const { parse } = require("url");
+const next = require("next");
+const { Svix } = require("svix");
+
+const app = next({ dev: process.env.NODE_ENV !== "production" });
+const handle = app.getRequestHandler();
+
+app.prepare().then(async () => {
+  const svix = new Svix.AutoConfiguration({
+    token: process.env.SVIX_AUTO_CONFIGURATION_TOKEN,
+    eventTypes: ["invoice.paid", "user.created"],
+    url: "https://api.us.example.com/webhooks/acme",
+  });
+
+  await svix.subscribe();
+
+  http
+    .createServer((req, res) => handle(req, res, parse(req.url, true)))
+    .listen(3000);
+});
+```
+
+### Node.js (Next.js 13 App Router)
+
+```typescript
+import { Svix } from "svix";
+
+export async function register() {
+  if (process.env.NEXT_RUNTIME !== "nodejs") return;
+
+  const svix = new Svix.AutoConfiguration({
+    token: process.env.SVIX_AUTO_CONFIGURATION_TOKEN,
+    eventTypes: ["invoice.paid", "user.created"],
+    url: "https://api.us.example.com/webhooks/acme",
+  });
+
+  await svix.subscribe();
+}
+```
+
+### Node.js (Express)
+
+```js
+import express from "express";
+import { Svix } from "svix";
+
+const app = express();
+
+async function start() {
+  await new Svix.AutoConfiguration({
+    token: process.env.SVIX_AUTO_CONFIGURATION_TOKEN,
+    eventTypes: ["invoice.paid", "user.created"],
+    url: "https://api.us.example.com/webhooks/acme",
+  }).subscribe();
+
+  app.listen(3000);
+}
+
+start();
+```
+
+### Node.js (NestJS)
+
+```typescript
+import { NestFactory } from "@nestjs/core";
+import { Svix } from "svix";
+
+import { AppModule } from "./app.module";
+
+async function bootstrap() {
+  const svix = new Svix.AutoConfiguration({
+    token: process.env.SVIX_AUTO_CONFIGURATION_TOKEN,
+    eventTypes: ["invoice.paid", "user.created"],
+    url: "https://api.us.example.com/webhooks/acme",
+  });
+
+  await svix.subscribe();
+
+  const app = await NestFactory.create(AppModule);
+  await app.listen(3000);
+}
+
+bootstrap();
+```
+
+### Node.js (Nuxt)
+
+```typescript
+import { Svix } from "svix";
+
+export default defineNitroPlugin(async () => {
+  const svix = new Svix.AutoConfiguration({
+    token: process.env.SVIX_AUTO_CONFIGURATION_TOKEN,
+    eventTypes: ["invoice.paid", "user.created"],
+    url: "https://api.us.example.com/webhooks/acme",
+  });
+
+  await svix.subscribe();
+});
+```
+
+### Go (Standard lib)
+
+```go
+package main
+
+import (
+	"context"
+	"log"
+	"net/http"
+	"os"
+
+	svix "github.com/svix/svix-webhooks/go"
+)
+
+func main() {
+	ctx := context.Background()
+
+	ac, err := svix.NewAutoConfiguration(svix.AutoConfigurationOptions{
+		Token:      os.Getenv("SVIX_AUTO_CONFIGURATION_TOKEN"),
+		EventTypes: []string{"invoice.paid", "user.created"},
+		URL:        "https://api.us.example.com/webhooks/acme",
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err := ac.Subscribe(ctx); err != nil {
+		log.Fatal(err)
+	}
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
+	log.Fatal(http.ListenAndServe(":8080", nil))
+}
+```
+
+### Go (Gin)
+
+```go
+package main
+
+import (
+	"context"
+	"log"
+	"os"
+
+	svix "github.com/svix/svix-webhooks/go"
+	"github.com/gin-gonic/gin"
+)
+
+func main() {
+	ctx := context.Background()
+
+	ac, err := svix.NewAutoConfiguration(svix.AutoConfigurationOptions{
+		Token:      os.Getenv("SVIX_AUTO_CONFIGURATION_TOKEN"),
+		EventTypes: []string{"invoice.paid", "user.created"},
+		URL:        "https://api.us.example.com/webhooks/acme",
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err := ac.Subscribe(ctx); err != nil {
+		log.Fatal(err)
+	}
+
+	r := gin.Default()
+	r.GET("/", func(c *gin.Context) {
+		c.Status(200)
+	})
+	if err := r.Run(":8080"); err != nil {
+		log.Fatal(err)
+	}
+}
+```
+
+### Rust (axum)
+
+```rust
+use std::env;
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let svix = svix::AutoConfiguration::new(svix::AutoConfigurationOptions {
+        token: env::var("SVIX_AUTO_CONFIGURATION_TOKEN")?,
+        event_types: vec![
+            "invoice.paid".to_string(),
+            "user.created".to_string(),
+        ],
+        url: "https://api.us.example.com/webhooks/acme".to_string(),
+    });
+
+    svix.subscribe().await?;
+
+    let app = axum::Router::new().route("/", axum::routing::get(|| async { "ok" }));
+
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await?;
+    axum::serve(listener, app).await?;
+
+    Ok(())
+}
+```
+
+### Ruby (Ruby on Rails)
+
+```ruby
+Rails.application.config.after_initialize do
+  Svix::AutoConfiguration.new(
+    token: ENV.fetch("SVIX_AUTO_CONFIGURATION_TOKEN"),
+    event_types: ["invoice.paid", "user.created"],
+    url: "https://api.us.example.com/webhooks/acme"
+  ).subscribe
+end
+```

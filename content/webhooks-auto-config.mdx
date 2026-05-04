@@ -1,0 +1,250 @@
+# Webhooks Auto-Config
+
+Webhooks Auto-Config is a declarative, code-first way to configure webhook endpoints, using the Svix SDK.
+
+Key benefits for your customers:
+- Define the webhook configuration in code (rather than both code and the app portal UI).
+- Automatically update URL, event types and other endpoint settings.
+- Signature verification is supported out of the box, no additional secrets to wire up.
+
+## How it works
+
+When Auto-Config is enabled in your environment, your users will be able to configure their webhook endpoints in the Application Portal.
+The portal will issue an **auto-config token**, which can be used to configure the endpoint in code.
+
+Using the Svix SDK `WebhooksAutoConfig` client, the consumer specifies the endpoint configuration, passes the token and calls `subscribe()`.
+When `subscribe()` is called, Svix updates the endpoint to match the configuration.
+
+This can be done in a CI/CD pipeline, a serverless function, or the startup process of your application.
+
+### Example
+
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP"]}>
+<TabItem value="JavaScript">
+
+```js
+import { Svix } from "svix";
+
+const webhook = new Svix.WebhooksAutoConfig({
+  token: SECRET_AUTO_CONFIGURATION_TOKEN,
+  eventTypes: ["invoice.paid", "user.created"],
+  url: "https://api.us.example.com/webhooks/acme",
+});
+
+await webhook.subscribe();
+```
+
+</TabItem>
+<TabItem value="Python">
+
+```python
+from svix.auto_config import WebhooksAutoConfig
+
+webhook = WebhooksAutoConfig(
+    token=SECRET_AUTO_CONFIGURATION_TOKEN,
+    event_types=["invoice.paid", "user.created"],
+    url="https://api.us.example.com/webhooks/acme",
+)
+
+webhook.subscribe()
+```
+
+</TabItem>
+<TabItem value="Rust">
+
+```rust
+let webhook = svix::WebhooksAutoConfig::new(svix::WebhooksAutoConfigOptions {
+    token: SECRET_AUTO_CONFIGURATION_TOKEN.to_string(),
+    event_types: vec!["invoice.paid".to_string(), "user.created".to_string()],
+    url: "https://api.us.example.com/webhooks/acme".to_string(),
+});
+
+webhook.subscribe().await?;
+```
+
+</TabItem>
+<TabItem value="Go">
+
+```go
+import (
+	svix "github.com/svix/svix-webhooks/go"
+)
+
+webhook, err := svix.NewWebhooksAutoConfig(svix.WebhooksAutoConfigOptions{
+    Token:      SECRET_AUTO_CONFIGURATION_TOKEN,
+    EventTypes: []string{"invoice.paid", "user.created"},
+    URL:        "https://api.us.example.com/webhooks/acme",
+})
+if err != nil {
+    panic(err)
+}
+
+if err := webhook.Subscribe(ctx); err != nil {
+    panic(err)
+}
+```
+
+</TabItem>
+<TabItem value="Java">
+
+```java
+import com.svix.WebhooksAutoConfig;
+import java.util.List;
+
+WebhooksAutoConfig webhook = new WebhooksAutoConfig(
+        SECRET_AUTO_CONFIGURATION_TOKEN,
+        List.of("invoice.paid", "user.created"),
+        "https://api.us.example.com/webhooks/acme");
+
+webhook.subscribe();
+```
+
+</TabItem>
+<TabItem value="Kotlin">
+
+```kotlin
+import com.svix.kotlin.WebhooksAutoConfig
+
+val webhook = WebhooksAutoConfig(
+    token = SECRET_AUTO_CONFIGURATION_TOKEN,
+    eventTypes = listOf("invoice.paid", "user.created"),
+    url = "https://api.us.example.com/webhooks/acme",
+)
+
+webhook.subscribe()
+```
+
+</TabItem>
+<TabItem value="Ruby">
+
+```ruby
+require "svix"
+
+webhook = Svix::WebhooksAutoConfig.new(
+  token: SECRET_AUTO_CONFIGURATION_TOKEN,
+  event_types: ["invoice.paid", "user.created"],
+  url: "https://api.us.example.com/webhooks/acme",
+)
+
+webhook.subscribe
+```
+
+</TabItem>
+<TabItem value="C#">
+
+```csharp
+using Svix;
+
+var webhook = new WebhooksAutoConfig(
+    SECRET_AUTO_CONFIGURATION_TOKEN,
+    new[] { "invoice.paid", "user.created" },
+    "https://api.us.example.com/webhooks/acme");
+
+await webhook.SubscribeAsync();
+```
+
+</TabItem>
+<TabItem value="PHP">
+
+```php
+$webhook = new \Svix\WebhooksAutoConfig([
+    'token' => SECRET_AUTO_CONFIGURATION_TOKEN,
+    'eventTypes' => ['invoice.paid', 'user.created'],
+    'url' => 'https://api.us.example.com/webhooks/acme',
+]);
+
+$webhook->subscribe();
+```
+
+</TabItem>
+</CodeTabs>
+
+### Updating the endpoint configuration
+
+To update the endpoint configuration, your customers simply need to change the WebhooksAutoConfig options and call `subscribe()` again.
+No need for any manual changes in the Application Portal UI.
+
+### Signature verification
+
+The same `WebhooksAutoConfig` instance is also used to verify signatures for incoming webhooks.
+
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP"]}>
+<TabItem value="JavaScript">
+
+```js
+const isVerified = await svix.verify(payload, headers);
+```
+
+</TabItem>
+<TabItem value="Python">
+
+```python
+is_verified = webhook.verify(payload, headers)
+```
+
+</TabItem>
+<TabItem value="Rust">
+
+```rust
+let is_verified = webhook.verify(&payload, &headers).await?;
+```
+
+</TabItem>
+<TabItem value="Go">
+
+```go
+isVerified, err := webhook.Verify(ctx, payload, headers)
+if err != nil {
+    panic(err)
+}
+```
+
+</TabItem>
+<TabItem value="Java">
+
+```java
+boolean isVerified = webhook.verify(payload, headers);
+```
+
+</TabItem>
+<TabItem value="Kotlin">
+
+```kotlin
+val isVerified = webhook.verify(payload, headers)
+```
+
+</TabItem>
+<TabItem value="Ruby">
+
+```ruby
+is_verified = webhook.verify(payload, headers)
+```
+
+</TabItem>
+<TabItem value="C#">
+
+```csharp
+var isVerified = await webhook.VerifyAsync(payload, headers);
+```
+
+</TabItem>
+<TabItem value="PHP">
+
+```php
+$isVerified = $webhook->verify($payload, $headers);
+```
+
+</TabItem>
+</CodeTabs>
+
+## Using Webhooks Auto-Config in CI/CD
+
+The recommended way to use Auto-Config is to include it as part of the webhook consumer's deployment process, so the endpoint configuration is updated on every deploy.
+
+For additional examples on how to set it up, see [Receiving with Webhooks Auto-Config](/receiving/webhooks-auto-config).
+
+
+## Enabling Auto Configuration
+
+Turn on endpoint auto configuration in your environment’s settings on the Svix dashboard.
+After it is enabled, App Portal users can start using Auto Configuration, with no additional setup required.
