@@ -9,13 +9,13 @@ Key benefits for your customers:
 
 ## How it works
 
-When Auto-Config is enabled in your environment, your users will be able to configure their webhook endpoints in the Application Portal.
+When Auto-Config is enabled in your environment, your users will be able to choose it as an option when creating an endpoint in the Application Portal.
 The portal will issue an **auto-config token**, which can be used to configure the endpoint in code.
 
-Using the Svix SDK `WebhooksAutoConfig` client, the consumer specifies the endpoint configuration, passes the token and calls `subscribe()`.
-When `subscribe()` is called, Svix updates the endpoint to match the configuration.
+Using the Svix SDK `AutoConfig` client, the consumer specifies the endpoint configuration, passes the token and calls `subscribe()`.
+`subscribe()` will update the endpoint to match the specified configuration.
 
-This can be done in a CI/CD pipeline, a serverless function, or the startup process of your application.
+This can be done in a CI/CD pipeline or the application startup or deployment process.
 
 ### Example
 
@@ -25,8 +25,8 @@ This can be done in a CI/CD pipeline, a serverless function, or the startup proc
 ```js
 import { Svix } from "svix";
 
-const webhook = new Svix.WebhooksAutoConfig({
-  token: SECRET_AUTO_CONFIGURATION_TOKEN,
+const webhook = new Svix.AutoConfig({
+  token: process.env.AUTO_CONFIG_TOKEN,
   eventTypes: ["invoice.paid", "user.created"],
   url: "https://api.us.example.com/webhooks/acme",
 });
@@ -38,10 +38,12 @@ await webhook.subscribe();
 <TabItem value="Python">
 
 ```python
-from svix.auto_config import WebhooksAutoConfig
+import os
 
-webhook = WebhooksAutoConfig(
-    token=SECRET_AUTO_CONFIGURATION_TOKEN,
+from svix.auto_configuration import AutoConfig
+
+webhook = AutoConfig(
+    token=os.environ["AUTO_CONFIG_TOKEN"],
     event_types=["invoice.paid", "user.created"],
     url="https://api.us.example.com/webhooks/acme",
 )
@@ -53,8 +55,8 @@ webhook.subscribe()
 <TabItem value="Rust">
 
 ```rust
-let webhook = svix::WebhooksAutoConfig::new(svix::WebhooksAutoConfigOptions {
-    token: SECRET_AUTO_CONFIGURATION_TOKEN.to_string(),
+let webhook = svix::AutoConfig::new(svix::AutoConfigOptions {
+    token: std::env::var("AUTO_CONFIG_TOKEN")?,
     event_types: vec!["invoice.paid".to_string(), "user.created".to_string()],
     url: "https://api.us.example.com/webhooks/acme".to_string(),
 });
@@ -67,11 +69,13 @@ webhook.subscribe().await?;
 
 ```go
 import (
+	"os"
+
 	svix "github.com/svix/svix-webhooks/go"
 )
 
-webhook, err := svix.NewWebhooksAutoConfig(svix.WebhooksAutoConfigOptions{
-    Token:      SECRET_AUTO_CONFIGURATION_TOKEN,
+webhook, err := svix.NewAutoConfig(svix.AutoConfigOptions{
+    Token:      os.Getenv("AUTO_CONFIG_TOKEN"),
     EventTypes: []string{"invoice.paid", "user.created"},
     URL:        "https://api.us.example.com/webhooks/acme",
 })
@@ -88,11 +92,11 @@ if err := webhook.Subscribe(ctx); err != nil {
 <TabItem value="Java">
 
 ```java
-import com.svix.WebhooksAutoConfig;
+import com.svix.AutoConfig;
 import java.util.List;
 
-WebhooksAutoConfig webhook = new WebhooksAutoConfig(
-        SECRET_AUTO_CONFIGURATION_TOKEN,
+AutoConfig webhook = new AutoConfig(
+        System.getenv("AUTO_CONFIG_TOKEN"),
         List.of("invoice.paid", "user.created"),
         "https://api.us.example.com/webhooks/acme");
 
@@ -103,10 +107,10 @@ webhook.subscribe();
 <TabItem value="Kotlin">
 
 ```kotlin
-import com.svix.kotlin.WebhooksAutoConfig
+import com.svix.kotlin.AutoConfig
 
-val webhook = WebhooksAutoConfig(
-    token = SECRET_AUTO_CONFIGURATION_TOKEN,
+val webhook = AutoConfig(
+    token = System.getenv("AUTO_CONFIG_TOKEN")!!,
     eventTypes = listOf("invoice.paid", "user.created"),
     url = "https://api.us.example.com/webhooks/acme",
 )
@@ -120,8 +124,8 @@ webhook.subscribe()
 ```ruby
 require "svix"
 
-webhook = Svix::WebhooksAutoConfig.new(
-  token: SECRET_AUTO_CONFIGURATION_TOKEN,
+webhook = Svix::AutoConfig.new(
+  token: ENV.fetch("AUTO_CONFIG_TOKEN"),
   event_types: ["invoice.paid", "user.created"],
   url: "https://api.us.example.com/webhooks/acme",
 )
@@ -133,10 +137,11 @@ webhook.subscribe
 <TabItem value="C#">
 
 ```csharp
+using System;
 using Svix;
 
-var webhook = new WebhooksAutoConfig(
-    SECRET_AUTO_CONFIGURATION_TOKEN,
+var webhook = new AutoConfig(
+    Environment.GetEnvironmentVariable("AUTO_CONFIG_TOKEN"),
     new[] { "invoice.paid", "user.created" },
     "https://api.us.example.com/webhooks/acme");
 
@@ -147,8 +152,8 @@ await webhook.SubscribeAsync();
 <TabItem value="PHP">
 
 ```php
-$webhook = new \Svix\WebhooksAutoConfig([
-    'token' => SECRET_AUTO_CONFIGURATION_TOKEN,
+$webhook = new \Svix\AutoConfig([
+    'token' => getenv('AUTO_CONFIG_TOKEN'),
     'eventTypes' => ['invoice.paid', 'user.created'],
     'url' => 'https://api.us.example.com/webhooks/acme',
 ]);
@@ -161,18 +166,18 @@ $webhook->subscribe();
 
 ### Updating the endpoint configuration
 
-To update the endpoint configuration, your customers simply need to change the WebhooksAutoConfig options and call `subscribe()` again.
+To update the endpoint configuration, your customers simply need to change the AutoConfig options and call `subscribe()` again.
 No need for any manual changes in the Application Portal UI.
 
 ### Signature verification
 
-The same `WebhooksAutoConfig` instance is also used to verify signatures for incoming webhooks.
+The same `AutoConfig` instance is also used to verify signatures for incoming webhooks.
 
 <CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP"]}>
 <TabItem value="JavaScript">
 
 ```js
-const isVerified = await svix.verify(payload, headers);
+const isVerified = await webhook.verify(payload, headers);
 ```
 
 </TabItem>
@@ -247,4 +252,4 @@ For additional examples on how to set it up, see [Receiving with Webhooks Auto-C
 ## Enabling Auto Configuration
 
 Turn on endpoint auto configuration in your environment’s settings on the Svix dashboard.
-After it is enabled, App Portal users can start using Auto Configuration, with no additional setup required.
+After it is enabled, Application Portal users can start using Auto Configuration, with no additional setup required.
