@@ -1,6 +1,6 @@
-# Webhooks Auto-Config
+# Webhooks autoconfig
 
-Webhooks Auto-Config is a declarative, code-first way to configure webhook endpoints, using the Svix SDK.
+Webhooks autoconfig is a declarative, code-first way to configure webhook endpoints, using the Svix SDK.
 
 Key benefits for your customers:
 - Define the webhook configuration in code (rather than both code and the app portal UI).
@@ -9,8 +9,10 @@ Key benefits for your customers:
 
 ## How it works
 
-When Auto-Config is enabled in your environment, your users will be able to choose it as an option when creating an endpoint in the Application Portal.
-The portal will issue an **auto-config token**, which can be used to configure the endpoint in code.
+When autoconfig is enabled in your environment, your users will be able to choose it as an option when creating an endpoint in the Application Portal.
+The portal will issue an **autoconfig token**, which can be used to configure the endpoint in code.
+
+![Autoconfig option in the Application Portal](/img/autoconfig-create.png)
 
 Using the Svix SDK `AutoConfig` client, the consumer specifies the endpoint configuration, passes the token and calls `subscribe()`.
 `subscribe()` will update the endpoint to match the specified configuration.
@@ -20,12 +22,12 @@ This can be done in a CI/CD pipeline or the application startup or deployment pr
 ### Example
 
 <CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP"]}>
+
 <TabItem value="JavaScript">
-
 ```js
-import { Svix } from "svix";
+import { AutoConfig } from "svix";
 
-const webhook = new Svix.AutoConfig({
+const webhook = new AutoConfig({
   token: process.env.AUTO_CONFIG_TOKEN,
   eventTypes: ["invoice.paid", "user.created"],
   url: "https://api.us.example.com/webhooks/acme",
@@ -33,10 +35,9 @@ const webhook = new Svix.AutoConfig({
 
 await webhook.subscribe();
 ```
-
 </TabItem>
-<TabItem value="Python">
 
+<TabItem value="Python">
 ```python
 import os
 
@@ -50,10 +51,9 @@ webhook = AutoConfig(
 
 webhook.subscribe()
 ```
-
 </TabItem>
-<TabItem value="Rust">
 
+<TabItem value="Rust">
 ```rust
 let webhook = svix::AutoConfig::new(svix::AutoConfigOptions {
     token: std::env::var("AUTO_CONFIG_TOKEN")?,
@@ -63,10 +63,9 @@ let webhook = svix::AutoConfig::new(svix::AutoConfigOptions {
 
 webhook.subscribe().await?;
 ```
-
 </TabItem>
-<TabItem value="Go">
 
+<TabItem value="Go">
 ```go
 import (
 	"os"
@@ -87,10 +86,9 @@ if err := webhook.Subscribe(ctx); err != nil {
     panic(err)
 }
 ```
-
 </TabItem>
-<TabItem value="Java">
 
+<TabItem value="Java">
 ```java
 import com.svix.AutoConfig;
 import java.util.List;
@@ -102,10 +100,9 @@ AutoConfig webhook = new AutoConfig(
 
 webhook.subscribe();
 ```
-
 </TabItem>
-<TabItem value="Kotlin">
 
+<TabItem value="Kotlin">
 ```kotlin
 import com.svix.kotlin.AutoConfig
 
@@ -117,10 +114,9 @@ val webhook = AutoConfig(
 
 webhook.subscribe()
 ```
-
 </TabItem>
-<TabItem value="Ruby">
 
+<TabItem value="Ruby">
 ```ruby
 require "svix"
 
@@ -132,10 +128,9 @@ webhook = Svix::AutoConfig.new(
 
 webhook.subscribe
 ```
-
 </TabItem>
-<TabItem value="C#">
 
+<TabItem value="C#">
 ```csharp
 using System;
 using Svix;
@@ -147,10 +142,9 @@ var webhook = new AutoConfig(
 
 await webhook.SubscribeAsync();
 ```
-
 </TabItem>
-<TabItem value="PHP">
 
+<TabItem value="PHP">
 ```php
 $webhook = new \Svix\AutoConfig([
     'token' => getenv('AUTO_CONFIG_TOKEN'),
@@ -160,8 +154,8 @@ $webhook = new \Svix\AutoConfig([
 
 $webhook->subscribe();
 ```
-
 </TabItem>
+
 </CodeTabs>
 
 ### Updating the endpoint configuration
@@ -242,14 +236,14 @@ $isVerified = $webhook->verify($payload, $headers);
 </TabItem>
 </CodeTabs>
 
-## Using Webhooks Auto-Config in CI/CD
+## Using Webhooks autoconfig in CI/CD
 
-The recommended way to use Auto-Config is to include it as part of the webhook consumer's deployment process, so the endpoint configuration is updated on every deploy.
+The recommended way to use autoconfig is to include it as part of the webhook consumer's deployment process, so the endpoint configuration is updated on every deploy.
 
-For additional examples on how to set it up, see [Receiving with Webhooks Auto-Config](/receiving/webhooks-auto-config).
+For additional examples on how to set it up, see [Receiving with Webhooks autoconfig](/receiving/webhooks-autoconfig).
 
 
 ## Enabling Auto Configuration
 
-Turn on endpoint auto configuration in your environment’s settings on the Svix dashboard.
+Turn on endpoint auto configuration in your environment’s settings on the [Svix dashboard](https://dashboard.svix.com/settings).
 After it is enabled, Application Portal users can start using Auto Configuration, with no additional setup required.

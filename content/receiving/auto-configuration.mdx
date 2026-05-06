@@ -1,25 +1,30 @@
 ---
-title: Receiving with Webhooks Auto-Config
+title: Receiving with Webhooks autoconfig
 ---
 
-# Receiving with Webhooks Auto-Config
+# Receiving with Webhooks autoconfig
 
-Webhooks Auto-Config is a convenient way to configure your webhook endpoints in a code-first way, using the Svix SDK.
+Webhooks autoconfig is a convenient way to configure your webhook endpoints in a code-first way, using the Svix SDK.
 
 Key benefits:
 - Define the webhook configuration in code (rather than both code and the webhooks management dashboard).
 - Automatically update URL, event types and other endpoint settings.
 - Signature verification is supported out of the box, no additional secrets to wire up.
 
-## How to use Webhooks Auto-Config
+## How to use Webhooks autoconfig
 
-1. Create an endpoint and select Auto-Config as the configuration method.
-2. Get the auto-config token.
-3. Set the endpoint configuration and the auto-config token in your application code or CI/CD pipeline.
+1. Create an endpoint and select autoconfig as the configuration method.
+2. Get the autoconfig token.
+3. Set the endpoint configuration and the autoconfig token in your application code or CI/CD pipeline.
 4. Call `subscribe()` to complete the configuration.
 
-```typescript
-const webhook = new Svix.AutoConfig({
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP"]}>
+
+<TabItem value="JavaScript">
+```js
+import { AutoConfig } from "svix";
+
+const webhook = new AutoConfig({
   token: process.env.AUTO_CONFIG_TOKEN,
   eventTypes: ["invoice.paid", "user.created"],
   url: "https://api.us.example.com/webhooks/acme",
@@ -27,12 +32,135 @@ const webhook = new Svix.AutoConfig({
 
 await webhook.subscribe();
 ```
+</TabItem>
+
+<TabItem value="Python">
+```python
+import os
+
+from svix.auto_configuration import AutoConfig
+
+webhook = AutoConfig(
+    token=os.environ["AUTO_CONFIG_TOKEN"],
+    event_types=["invoice.paid", "user.created"],
+    url="https://api.us.example.com/webhooks/acme",
+)
+
+webhook.subscribe()
+```
+</TabItem>
+
+<TabItem value="Rust">
+```rust
+let webhook = svix::AutoConfig::new(svix::AutoConfigOptions {
+    token: std::env::var("AUTO_CONFIG_TOKEN")?,
+    event_types: vec!["invoice.paid".to_string(), "user.created".to_string()],
+    url: "https://api.us.example.com/webhooks/acme".to_string(),
+});
+
+webhook.subscribe().await?;
+```
+</TabItem>
+
+<TabItem value="Go">
+```go
+import (
+	"os"
+
+	svix "github.com/svix/svix-webhooks/go"
+)
+
+webhook, err := svix.NewAutoConfig(svix.AutoConfigOptions{
+    Token:      os.Getenv("AUTO_CONFIG_TOKEN"),
+    EventTypes: []string{"invoice.paid", "user.created"},
+    URL:        "https://api.us.example.com/webhooks/acme",
+})
+if err != nil {
+    panic(err)
+}
+
+if err := webhook.Subscribe(ctx); err != nil {
+    panic(err)
+}
+```
+</TabItem>
+
+<TabItem value="Java">
+```java
+import com.svix.AutoConfig;
+import java.util.List;
+
+AutoConfig webhook = new AutoConfig(
+        System.getenv("AUTO_CONFIG_TOKEN"),
+        List.of("invoice.paid", "user.created"),
+        "https://api.us.example.com/webhooks/acme");
+
+webhook.subscribe();
+```
+</TabItem>
+
+<TabItem value="Kotlin">
+```kotlin
+import com.svix.kotlin.AutoConfig
+
+val webhook = AutoConfig(
+    token = System.getenv("AUTO_CONFIG_TOKEN")!!,
+    eventTypes = listOf("invoice.paid", "user.created"),
+    url = "https://api.us.example.com/webhooks/acme",
+)
+
+webhook.subscribe()
+```
+</TabItem>
+
+<TabItem value="Ruby">
+```ruby
+require "svix"
+
+webhook = Svix::AutoConfig.new(
+  token: ENV.fetch("AUTO_CONFIG_TOKEN"),
+  event_types: ["invoice.paid", "user.created"],
+  url: "https://api.us.example.com/webhooks/acme",
+)
+
+webhook.subscribe
+```
+</TabItem>
+
+<TabItem value="C#">
+```csharp
+using System;
+using Svix;
+
+var webhook = new AutoConfig(
+    Environment.GetEnvironmentVariable("AUTO_CONFIG_TOKEN"),
+    new[] { "invoice.paid", "user.created" },
+    "https://api.us.example.com/webhooks/acme");
+
+await webhook.SubscribeAsync();
+```
+</TabItem>
+
+<TabItem value="PHP">
+```php
+$webhook = new \Svix\AutoConfig([
+    'token' => getenv('AUTO_CONFIG_TOKEN'),
+    'eventTypes' => ['invoice.paid', 'user.created'],
+    'url' => 'https://api.us.example.com/webhooks/acme',
+]);
+
+$webhook->subscribe();
+```
+</TabItem>
+
+</CodeTabs>
+
 
 ### Payload Verification
 
-When using Webhooks Auto-Config, the payload verification is supported out of the box, no need to wire up additional secrets.
+When using Webhooks autoconfig, the payload verification is supported out of the box, no need to wire up additional secrets.
 
-To verify the payload, call verify() on the same AutoConfig instance you used to subscribe. The auto-config token contains the secret key to verify the payload.
+To verify the payload, call verify() on the same AutoConfig instance you used to subscribe. The autoconfig token contains the secret key to verify the payload.
 
 ```typescript
 const webhook = new Svix.AutoConfig({
@@ -43,11 +171,11 @@ const webhook = new Svix.AutoConfig({
 webhook.verify(payload, headers);
 ```
 
-For more details on how to verify the payload, see [Verifying Webhooks Manually](/receiving/verifying-payloads/how).
+For more details on how to verify the payload and headers, see [Verifying Webhooks](/receiving/verifying-payloads/how).
 
 ## Integration Examples
 
-Auto Configuration can be used in a variety of ways, as part of a CI/CD pipeline, a serverless function, or the startup process of your application.
+Autoconfig can be used in a variety of ways, as part of a CI/CD pipeline, a serverless function, or the startup process of your application.
 
 Here are some examples in different frameworks and deployment platforms.
 
