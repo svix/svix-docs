@@ -9,42 +9,9 @@ A `Source` generates an endpoint you can share with a webhook provider as a
 destination for their webhooks.
 
 Ingest supports signature verification schemes and flows used by a variety of
-webhook providers. Supported values for a `Source`'s `type` include:
-
-- `adobeSign`
-- `airwallex`
-- `beehiiv`
-- `brex`
-- `checkbook`
-- `clerk`
-- `docusign`
-- `easypost`
-- `github`
-- `guesty`
-- `hubspot`
-- `incidentIo`
-- `lithic`
-- `nash`
-- `open-ai`
-- `orum-io`
-- `pleo`
-- `port.io`
-- `render`
-- `replicate`
-- `resend`
-- `rutter`
-- `safebase`
-- `sardine`
-- `segment`
-- `shopify`
-- `slack`
-- `stripe`
-- `stych`
-- `svix` (that's us!)
-- `telnyx`
-- `vapi`
-- `veriff`
-- `zoom`
+webhook providers, including `adobeSign`, `airwallex`, `clerk`, `docusign`,
+`github`, `hubspot`, `open-ai`, `resend`, `shopify`, `slack`, `stripe`, `zoom`,
+and many others. Check out [the product][Svix Ingest] to see the full list.
 
 Additionally there's the option to configure a `Source` as `genericWebhook` to
 skip performing signature verification. This is useful for providers that have
@@ -53,7 +20,7 @@ supported by Ingest.
 
 <Callout type="default">
 
-Let us know if your webhook provider isn't yet supported so we can add it!
+Don't see your provider? Let us know and we'll add it!
 
 </Callout>
 ## Create a Source
