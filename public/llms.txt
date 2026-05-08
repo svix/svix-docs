@@ -2,6 +2,8 @@
 
 > The enterprise-ready webhook infrastructure. Svix is secure, reliable, and built for scale. The documentation for Svix
 
+A markdown version of any page is available by appending `.md` to the end of its path (e.g., `https://docs.svix.com/quickstart.md`).
+
 ## Docs
 
 - [Introduction](https://docs.svix.com/): Svix makes sending webhooks easy and reliable by offering webhook sending as a service. With Svix you can start sending webhooks in minutes, while ensuring robust deliverability, and a great developer experience for your users.
