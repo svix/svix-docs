@@ -36,4 +36,7 @@ Session.vim
 public/_pagefind
 static/_pagefind
 
+# Generated markdown
+public/generated
+
 .cursor

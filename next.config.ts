@@ -28,6 +28,14 @@ const nextConfig: NextConfig = {
       { source: '/rate-limit', destination: '/throttling', permanent: true },
     ]
   },
+  rewrites: async () => {
+    return [
+      {
+        source: '/:path(.+)\\.md',
+        destination: '/generated/md/:path.md',
+      }
+    ]
+  },
   devIndicators: false,
   ...(process.env.CI && ciExportConfig),
 }
