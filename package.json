@@ -1,10 +1,11 @@
 {
   "scripts": {
     "dev": "next dev",
-    "build": "next build && npm run pagefind-vercel",
+    "build": "next build && npm run pagefind-vercel && npm run generate-md-vercel",
     "start": "next start",
     "pagefind-ci": "pagefind --site out --output-path out/_pagefind",
-    "pagefind-vercel": "pagefind --site .next/server/app --output-path public/_pagefind"
+    "pagefind-vercel": "pagefind --site .next/server/app --output-path public/_pagefind",
+    "generate-md-vercel": "node scripts/generate-md.mjs content public/generated/md"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
@@ -12,6 +13,7 @@
     "@fortawesome/react-fontawesome": "^3.3.1",
     "@headlessui/react": "^2.2.10",
     "@heroicons/react": "^2.2.0",
+    "accepts": "^1.3.8",
     "clsx": "^2.1.1",
     "next": "^16.2.3",
     "nextra": "^4.6.1",
