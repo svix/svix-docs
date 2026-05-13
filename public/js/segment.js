@@ -9,7 +9,9 @@
 
     analytics.ready(() => {
       window.posthog.init("phc_vqk6r12rFcoSqqRVNIT81inyGF0y1a753NjKzKGaPg", {
-        api_host: 'https://eu.i.posthog.com',
+        // Uses PostHog's managed reverse proxy
+        api_host: "https://p.svix.com",
+        ui_host: "https://eu.posthog.com",
         segment: window.analytics,
         capture_pageview: false,
         capture_pageleave: true,

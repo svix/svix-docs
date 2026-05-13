@@ -5,7 +5,6 @@ import 'nextra-theme-docs/style.css'
 import '../globals.css'
 import Image from 'next/image'
 import Script from 'next/script'
-import { PostHogProvider } from '../components/providers/PostHogProvider'
 import { ReactNode } from 'react'
 import { PageMapItem } from 'nextra'
 
@@ -98,6 +97,16 @@ export default async function DocsLayout({ children, params }: DocsLayoutProps) 
     <html lang="en" dir="ltr" suppressHydrationWarning>
       <Head>
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+      </Head>
+      <body>
+        <Layout
+          navbar={navbar}
+          pageMap={pageMap}
+          docsRepositoryBase={siteData.docsSource}
+          footer={footer}
+        >
+          {children}
+        </Layout>
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-Z7S16CMH3G" strategy="afterInteractive" />
         <Script id="gtag-init" strategy="afterInteractive">
           {`
@@ -110,18 +119,6 @@ export default async function DocsLayout({ children, params }: DocsLayoutProps) 
         <Script src="/js/segment.js" strategy="afterInteractive" />
         <Script src="/js/apollo.js" strategy="afterInteractive" />
         <Script src="/js/commonroom.js" strategy="afterInteractive" />
-      </Head>
-      <body>
-        <PostHogProvider>
-          <Layout
-            navbar={navbar}
-            pageMap={pageMap}
-            docsRepositoryBase={siteData.docsSource}
-            footer={footer}
-          >
-            {children}
-          </Layout>
-        </PostHogProvider>
       </body>
     </html>
   )
