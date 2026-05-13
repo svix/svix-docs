@@ -260,7 +260,9 @@ await webhook.subscribe();
 new Elysia().get("/", () => "ok").listen(3000);
 ```
 
-### Next.js (middleware)
+### Next.js (instrumentation)
+
+Use [Next.js instrumentation](https://nextjs.org/docs/app/guides/instrumentation) to subscribe when a new Next.js server instance is initiated.
 
 ```typescript
 import { Svix } from "svix";
@@ -272,8 +274,6 @@ const webhook = new Svix.AutoConfig({
 });
 
 export async function register() {
-  if (process.env.NEXT_RUNTIME !== "nodejs") return;
-
   await webhook.subscribe();
 }
 ```
