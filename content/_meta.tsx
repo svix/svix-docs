@@ -35,7 +35,7 @@ const meta = {
   channels: 'Channels',
   'message-tags': 'Message Tags',
   'advanced-endpoints': 'Advanced Endpoint Types',
-  'webhooks-auto-config': 'Endpoint AutoConfig',
+  'webhooks-autoconfig': 'Webhooks AutoConfig',
   _security: { type: 'separator', title: 'Security & Compliance' },
   security: 'Security',
   retention: 'Retention',
