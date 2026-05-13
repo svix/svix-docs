@@ -17,7 +17,7 @@ The portal will issue an *AutoConfig token*, which can be used to configure the 
 Using the Svix SDK `AutoConfig` client, the consumer specifies the endpoint configuration, passes the token and calls `subscribe()`.
 `subscribe()` will update the endpoint to match the specified configuration.
 
-Calling `subscribe()` can be done as part of the application startup process, or in CI/CD as part of the deployment process, so the endpoint configuration is always in sync with the latest version of the application code.
+`subscribe()` can be called during the application startup, or in CI as part of the deployment process, so the endpoint configuration is always in sync with the latest version of the application code.
 
 For more information on how to receive webhooks using AutoConfig, see [Receiving with Webhooks AutoConfig](/receiving/webhooks-autoconfig).
 
