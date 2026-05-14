@@ -23,7 +23,9 @@ An endpoint's Transformation can be enabled or disabled at any time by toggling 
 
 Your customers can write Javascript code to edit an endpoint's Transformation, and test their code against an event type's payload or a custom payload to see the resulting webhook.
 
-![Editing an endpoint's Transformation](/img/edit-transformation.png)
+![Editing an endpoint's Transformation](/img/transformations-edit.png)
+
+![Testing an endpoint's Transformation](/img/transformations-test.png)
 
 ### How to write a Transformation
 
@@ -33,6 +35,7 @@ Svix expects a Transformation to declare a function named `handler`. Svix will p
 - `url`, a string representing the endpoint's URL. It can be changed to any valid URL.
 - `payload`, which contains the webhook's payload as a JSON object. It can be changed as needed.
 - `eventType`, a string representing the event type. Changes to it are ignored.
+- `env`, key-value dictionary of variables defined in the 'Variables' tab. Changes are ignored.
 - `transformationsParams`, object passed to the parameter of the same name in the [create-message API call](https://api.svix.com/docs#tag/Message/operation/v1.message.create). Changes are ignored.
 
 The Transformation must return the same object, but may modify its properties as described above.
