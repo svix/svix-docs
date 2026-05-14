@@ -8,7 +8,7 @@ Webhooks AutoConfig is a convenient way to configure your webhook endpoints in a
 
 Key benefits:
 - Define the webhook configuration in code (rather than both code and the webhooks management dashboard).
-- Automatically update URL, event types and other endpoint settings.
+- Automatically update the endpoint's URL, event types and other settings.
 - Signature verification is supported out of the box, no additional secrets to wire up.
 
 ## How to use Webhooks AutoConfig
@@ -17,6 +17,8 @@ Key benefits:
 2. Get the AutoConfig token.
 3. Set the endpoint configuration and the AutoConfig token in your application.
 4. Call `subscribe()` to complete the configuration.
+
+![AutoConfig option in the Application Portal](/img/autoconfig/autoconfig-create.png)
 
 Calling `subscribe()` can be done as part of the application startup process, or in CI/CD as part of the deployment process, so the endpoint configuration is always in sync with the latest version of the application code.
 
@@ -171,12 +173,14 @@ const webhook = new Svix.AutoConfig({
 webhook.verify(payload, headers);
 ```
 
+`payload` and `headers` depend on the framework (see [Integration Examples](#integration-examples)).
+
 <Callout type="info">
 
 **Use the raw request body when verifying webhooks**
 
 You need to use the raw request body when verifying webhooks, as the cryptographic signature is sensitive to even the slightest changes.
-You should watch out for frameworks that parse the request as JSON and then stringify it because this too will break the signature verification.
+You should watch out for frameworks that parse the request as JSON and then stringify it because this can break the signature verification.
 
 See [Verifying Webhooks](/receiving/verifying-payloads/how) for more details.
 
@@ -185,7 +189,7 @@ See [Verifying Webhooks](/receiving/verifying-payloads/how) for more details.
 
 ## Integration Examples
 
-AutoConfig can be used in a variety of ways, as part of a CI/CD pipeline, a serverless function, or the startup process of your application.
+AutoConfig can be used in a variety of ways, such as part of a CI/CD pipeline, a serverless function, or the startup process of your application.
 
 Here are some examples in different frameworks and deployment platforms.
 
