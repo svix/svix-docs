@@ -1,31 +1,26 @@
 # Webhooks AutoConfig
 
-Webhooks AutoConfig is a declarative, code-first way to configure webhook endpoints, using the Svix SDK.
+Webhooks AutoConfig is a declarative, code-first way to configure webhook endpoints, using the Svix SDK. It makes it
+significantly easier for your customers to configure webhook endpoints, and ensures that their configuration is always in sync
+with the latest version of the application code, without additional manual steps.
 
 Key benefits for your customers:
-- Define the webhook configuration in code (rather than both code and the Application Portal UI).
-- Automatically update URL, event types and other endpoint settings.
-- Signature verification is supported out of the box, no additional secrets to wire up.
+- Define the webhook configuration in code. No need for manual updates int the webhooks management UI.
+- Automatically update URL, event types and other endpoint settings. No risk of configuration drift.
+- Signature verification is supported out of the box. No additional secrets to wire up.
 
 ## How it works
 
 When AutoConfig is enabled in your environment, your users will be able to choose it as an option when creating an endpoint in the Application Portal.
-The portal will issue an *AutoConfig token*, which can be used to configure the endpoint in code.
 
 ![AutoConfig option in the Application Portal](/img/autoconfig/autoconfig-create.png)
 
-Using the Svix SDK `AutoConfig` client, the consumer specifies the endpoint configuration, passes the token and calls `subscribe()`.
-`subscribe()` will update the endpoint to match the specified configuration.
+The portal will issue an *AutoConfig token*, which can be used to configure the endpoint with the AutoConfig SDK.
 
-`subscribe()` can be called during the application startup, or in CI as part of the deployment process, so the endpoint configuration is always in sync with the latest version of the application code.
+The AutoConfig token also contains the endpoint signing secret, so the same instance can be used to verify webhook signatures.
 
-For more information on how to receive webhooks using AutoConfig, see [Receiving with Webhooks AutoConfig](/receiving/webhooks-autoconfig).
+Here's an example of how this looks like in code:
 
-### AutoConfig Example
-
-<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP"]}>
-
-<TabItem value="JavaScript">
 ```js
 import { AutoConfig } from "svix";
 
@@ -35,201 +30,14 @@ const webhook = new AutoConfig({
   url: "https://api.us.example.com/webhooks/acme",
 });
 
+// Update the endpoint configuration
 await webhook.subscribe();
-```
-</TabItem>
 
-<TabItem value="Python">
-```python
-from svix.auto_configuration import AutoConfig
-
-webhook = AutoConfig(
-    token=AUTO_CONFIG_TOKEN,
-    event_types=["invoice.paid", "user.created"],
-    url="https://api.us.example.com/webhooks/acme",
-)
-
-await webhook.subscribe()
-```
-</TabItem>
-
-<TabItem value="Rust">
-```rust
-let webhook = svix::AutoConfig::new(svix::AutoConfigOptions {
-    token: AUTO_CONFIG_TOKEN,
-    event_types: vec!["invoice.paid".to_string(), "user.created".to_string()],
-    url: "https://api.us.example.com/webhooks/acme".to_string(),
-});
-
-webhook.subscribe().await?;
-```
-</TabItem>
-
-<TabItem value="Go">
-```go
-import (
-	svix "github.com/svix/svix-webhooks/go"
-)
-
-webhook, err := svix.NewAutoConfig(svix.AutoConfigOptions{
-    Token:      AUTO_CONFIG_TOKEN,
-    EventTypes: []string{"invoice.paid", "user.created"},
-    URL:        "https://api.us.example.com/webhooks/acme",
-})
-if err != nil {
-    panic(err)
-}
-
-if err := webhook.Subscribe(ctx); err != nil {
-    panic(err)
-}
-```
-</TabItem>
-
-<TabItem value="Java">
-```java
-import com.svix.AutoConfig;
-import java.util.List;
-
-AutoConfig webhook = new AutoConfig(
-        AUTO_CONFIG_TOKEN,
-        List.of("invoice.paid", "user.created"),
-        "https://api.us.example.com/webhooks/acme");
-
-webhook.subscribe();
-```
-</TabItem>
-
-<TabItem value="Kotlin">
-```kotlin
-import com.svix.kotlin.AutoConfig
-
-val webhook = AutoConfig(
-    token = AUTO_CONFIG_TOKEN,
-    eventTypes = listOf("invoice.paid", "user.created"),
-    url = "https://api.us.example.com/webhooks/acme",
-)
-
-webhook.subscribe()
-```
-</TabItem>
-
-<TabItem value="Ruby">
-```ruby
-require "svix"
-
-webhook = Svix::AutoConfig.new(
-  token: AUTO_CONFIG_TOKEN,
-  event_types: ["invoice.paid", "user.created"],
-  url: "https://api.us.example.com/webhooks/acme",
-)
-
-webhook.subscribe
-```
-</TabItem>
-
-<TabItem value="C#">
-```csharp
-using System;
-using Svix;
-
-var webhook = new AutoConfig(
-    AUTO_CONFIG_TOKEN,
-    new[] { "invoice.paid", "user.created" },
-    "https://api.us.example.com/webhooks/acme");
-
-await webhook.SubscribeAsync();
-```
-</TabItem>
-
-<TabItem value="PHP">
-```php
-$webhook = new \Svix\AutoConfig([
-    'token' => AUTO_CONFIG_TOKEN,
-    'eventTypes' => ['invoice.paid', 'user.created'],
-    'url' => 'https://api.us.example.com/webhooks/acme',
-]);
-
-$webhook->subscribe();
-```
-</TabItem>
-
-</CodeTabs>
-
-### Updating the endpoint configuration
-
-To update the endpoint configuration, your customers simply need to change the AutoConfig options and call `subscribe()` again.
-No need for any manual changes in the Application Portal UI.
-
-### Signature verification
-
-The same `AutoConfig` instance is also used to verify signatures for incoming webhooks. No need to configure a separate signature verification secret.
-
-<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP"]}>
-<TabItem value="JavaScript">
-
-```js
-const isVerified = await webhook.verify(payload, headers);
+// Same AutoConfig instance can be used to verify webhook signatures
+const isVerified = webhook.verify(payload, headers);
 ```
 
-</TabItem>
-<TabItem value="Python">
+To update the endpoint configuration, your customers simply need to change the AutoConfig options and call `subscribe()` again, which can be done as part of their
+application startup or deployment process, so there is no need for manual steps in the Application Portal UI.
 
-```python
-is_verified = webhook.verify(payload, headers)
-```
-
-</TabItem>
-<TabItem value="Rust">
-
-```rust
-let is_verified = webhook.verify(&payload, &headers).await?;
-```
-
-</TabItem>
-<TabItem value="Go">
-
-```go
-isVerified, err := webhook.Verify(ctx, payload, headers)
-if err != nil {
-    panic(err)
-}
-```
-
-</TabItem>
-<TabItem value="Java">
-
-```java
-boolean isVerified = webhook.verify(payload, headers);
-```
-
-</TabItem>
-<TabItem value="Kotlin">
-
-```kotlin
-val isVerified = webhook.verify(payload, headers)
-```
-
-</TabItem>
-<TabItem value="Ruby">
-
-```ruby
-is_verified = webhook.verify(payload, headers)
-```
-
-</TabItem>
-<TabItem value="C#">
-
-```csharp
-var isVerified = await webhook.VerifyAsync(payload, headers);
-```
-
-</TabItem>
-<TabItem value="PHP">
-
-```php
-$isVerified = $webhook->verify($payload, $headers);
-```
-
-</TabItem>
-</CodeTabs>
+For more information on how to receive webhooks using AutoConfig, see [Receiving with Webhooks AutoConfig](/receiving/webhooks-autoconfig).

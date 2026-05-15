@@ -186,14 +186,54 @@ See [Verifying Webhooks](/receiving/verifying-payloads/how) for more details.
 
 </Callout>
 
+## Integrating with your application
 
-## Integration Examples
+AutoConfig can be used in a variety of ways, depending on your application and server architecture.
 
-AutoConfig can be used in a variety of ways, such as part of a CI/CD pipeline, a serverless function, or the startup process of your application.
+The key is to call `subscribe()` when your endpoint configuration changes, so your code is always in sync with the latest version of the application.
+The simplest way to ensure this is to call `subscribe()` in the startup process of your application.
 
-Here are some examples in different frameworks and deployment platforms.
+For example, in Express.js, you can call `subscribe()` in an Express.js server:
 
-### In Github Actions (CI/CD)
+```js
+import express from "express";
+import { Svix } from "svix";
+
+const app = express();
+
+const webhook = new Svix.AutoConfig({
+  token: AUTO_CONFIG_TOKEN,
+  eventTypes: ["invoice.paid", "user.created"],
+  url: "https://api.us.example.com/webhooks/acme",
+});
+
+async function start() {
+  await webhook.subscribe();
+  app.listen(3000);
+}
+
+start();
+```
+
+When using a serverless framework, there are lifecycle hooks where you can call `subscribe()` during the server startup process.
+
+For example, in Next.js, you can use [instrumentation](https://nextjs.org/docs/app/guides/instrumentation) to subscribe when a new Next.js server instance is initiated.
+
+```typescript
+import { Svix } from "svix";
+
+const webhook = new Svix.AutoConfig({
+  token: AUTO_CONFIG_TOKEN,
+  eventTypes: ["invoice.paid", "user.created"],
+  url: "https://api.us.example.com/webhooks/acme",
+});
+
+export async function register() {
+  await webhook.subscribe();
+}
+```
+
+Alternatively, AutoConfig can even be used in a CI/CD pipeline, to update the endpoint configuration as part of your deployment process:
 
 ```yaml
 name: deploy
@@ -223,349 +263,4 @@ jobs:
           EOF
         env:
           AUTO_CONFIG_TOKEN: ${{ secrets.AUTO_CONFIG_TOKEN }}
-```
-
-### Express.js
-
-```js
-import express from "express";
-import { Svix } from "svix";
-
-const app = express();
-
-const webhook = new Svix.AutoConfig({
-  token: AUTO_CONFIG_TOKEN,
-  eventTypes: ["invoice.paid", "user.created"],
-  url: "https://api.us.example.com/webhooks/acme",
-});
-
-async function start() {
-  await webhook.subscribe();
-  app.listen(3000);
-}
-
-start();
-```
-
-### Elysia
-
-```typescript
-import { Elysia } from "elysia";
-import { Svix } from "svix";
-
-const webhook = new Svix.AutoConfig({
-  token: AUTO_CONFIG_TOKEN,
-  eventTypes: ["invoice.paid", "user.created"],
-  url: "https://api.us.example.com/webhooks/acme",
-});
-
-await webhook.subscribe();
-
-new Elysia().get("/", () => "ok").listen(3000);
-```
-
-### Next.js (instrumentation)
-
-Use [Next.js instrumentation](https://nextjs.org/docs/app/guides/instrumentation) to subscribe when a new Next.js server instance is initiated.
-
-```typescript
-import { Svix } from "svix";
-
-const webhook = new Svix.AutoConfig({
-  token: AUTO_CONFIG_TOKEN,
-  eventTypes: ["invoice.paid", "user.created"],
-  url: "https://api.us.example.com/webhooks/acme",
-});
-
-export async function register() {
-  await webhook.subscribe();
-}
-```
-
-### Python (Django)
-
-```python
-import os
-
-from django.apps import AppConfig
-from svix.auto_configuration import AutoConfig
-
-webhook = AutoConfig(
-    token=AUTO_CONFIG_TOKEN,
-    event_types=["invoice.paid", "user.created"],
-    url="https://api.us.example.com/webhooks/acme",
-)
-
-
-class WebhooksConfig(AppConfig):
-    name = "webhooks"
-
-    def ready(self) -> None:
-        webhook.subscribe()
-```
-
-### Python (Flask)
-
-```python
-import os
-
-from flask import Flask
-from svix.auto_configuration import AutoConfig
-
-webhook = AutoConfig(
-    token=AUTO_CONFIG_TOKEN,
-    event_types=["invoice.paid", "user.created"],
-    url="https://api.us.example.com/webhooks/acme",
-)
-webhook.subscribe()
-
-app = Flask(__name__)
-```
-
-### Python (FastAPI)
-
-```python
-import os
-from contextlib import asynccontextmanager
-
-from fastapi import FastAPI
-from svix.auto_configuration import AutoConfig
-
-webhook = AutoConfig(
-    token=AUTO_CONFIG_TOKEN,
-    event_types=["invoice.paid", "user.created"],
-    url="https://api.us.example.com/webhooks/acme",
-)
-
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    webhook.subscribe()
-    yield
-
-
-app = FastAPI(lifespan=lifespan)
-```
-
-### Node.js (Next.js)
-
-```js
-const http = require("http");
-const { parse } = require("url");
-const next = require("next");
-const { Svix } = require("svix");
-
-const app = next({ dev: process.env.NODE_ENV !== "production" });
-const handle = app.getRequestHandler();
-
-const webhook = new Svix.AutoConfig({
-  token: AUTO_CONFIG_TOKEN,
-  eventTypes: ["invoice.paid", "user.created"],
-  url: "https://api.us.example.com/webhooks/acme",
-});
-
-app.prepare().then(async () => {
-  await webhook.subscribe();
-
-  http
-    .createServer((req, res) => handle(req, res, parse(req.url, true)))
-    .listen(3000);
-});
-```
-
-### Node.js (Next.js 13 App Router)
-
-```typescript
-import { Svix } from "svix";
-
-const webhook = new Svix.AutoConfig({
-  token: AUTO_CONFIG_TOKEN,
-  eventTypes: ["invoice.paid", "user.created"],
-  url: "https://api.us.example.com/webhooks/acme",
-});
-
-export async function register() {
-  if (process.env.NEXT_RUNTIME !== "nodejs") return;
-
-  await webhook.subscribe();
-}
-```
-
-### Node.js (Express)
-
-```js
-import express from "express";
-import { Svix } from "svix";
-
-const app = express();
-
-const webhook = new Svix.AutoConfig({
-  token: AUTO_CONFIG_TOKEN,
-  eventTypes: ["invoice.paid", "user.created"],
-  url: "https://api.us.example.com/webhooks/acme",
-});
-
-async function start() {
-  await webhook.subscribe();
-
-  app.listen(3000);
-}
-
-start();
-```
-
-### Node.js (NestJS)
-
-```typescript
-import { NestFactory } from "@nestjs/core";
-import { Svix } from "svix";
-
-import { AppModule } from "./app.module";
-
-const webhook = new Svix.AutoConfig({
-  token: AUTO_CONFIG_TOKEN,
-  eventTypes: ["invoice.paid", "user.created"],
-  url: "https://api.us.example.com/webhooks/acme",
-});
-
-async function bootstrap() {
-  await webhook.subscribe();
-
-  const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
-}
-
-bootstrap();
-```
-
-### Node.js (Nuxt)
-
-```typescript
-import { Svix } from "svix";
-
-const webhook = new Svix.AutoConfig({
-  token: AUTO_CONFIG_TOKEN,
-  eventTypes: ["invoice.paid", "user.created"],
-  url: "https://api.us.example.com/webhooks/acme",
-});
-
-export default defineNitroPlugin(async () => {
-  await webhook.subscribe();
-});
-```
-
-### Go (Standard lib)
-
-```go
-package main
-
-import (
-	"context"
-	"log"
-	"net/http"
-	"os"
-
-	svix "github.com/svix/svix-webhooks/go"
-)
-
-func main() {
-	ctx := context.Background()
-
-	webhook, err := svix.NewAutoConfig(svix.AutoConfigOptions{
-		Token:      AUTO_CONFIG_TOKEN,
-		EventTypes: []string{"invoice.paid", "user.created"},
-		URL:        "https://api.us.example.com/webhooks/acme",
-	})
-	if err != nil {
-		log.Fatal(err)
-	}
-	if err := webhook.Subscribe(ctx); err != nil {
-		log.Fatal(err)
-	}
-
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-	})
-	log.Fatal(http.ListenAndServe(":8080", nil))
-}
-```
-
-### Go (Gin)
-
-```go
-package main
-
-import (
-	"context"
-	"log"
-	"os"
-
-	svix "github.com/svix/svix-webhooks/go"
-	"github.com/gin-gonic/gin"
-)
-
-func main() {
-	ctx := context.Background()
-
-	webhook, err := svix.NewAutoConfig(svix.AutoConfigOptions{
-		Token:      AUTO_CONFIG_TOKEN,
-		EventTypes: []string{"invoice.paid", "user.created"},
-		URL:        "https://api.us.example.com/webhooks/acme",
-	})
-	if err != nil {
-		log.Fatal(err)
-	}
-	if err := webhook.Subscribe(ctx); err != nil {
-		log.Fatal(err)
-	}
-
-	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-		c.Status(200)
-	})
-	if err := r.Run(":8080"); err != nil {
-		log.Fatal(err)
-	}
-}
-```
-
-### Rust (axum)
-
-```rust
-use std::env;
-
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let webhook = svix::AutoConfig::new(svix::AutoConfigOptions {
-        token: AUTO_CONFIG_TOKEN,
-        event_types: vec![
-            "invoice.paid".to_string(),
-            "user.created".to_string(),
-        ],
-        url: "https://api.us.example.com/webhooks/acme".to_string(),
-    });
-
-    webhook.subscribe().await?;
-
-    let app = axum::Router::new().route("/", axum::routing::get(|| async { "ok" }));
-
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await?;
-    axum::serve(listener, app).await?;
-
-    Ok(())
-}
-```
-
-### Ruby (Ruby on Rails)
-
-```ruby
-webhook = Svix::AutoConfig.new(
-  token: AUTO_CONFIG_TOKEN,
-  event_types: ["invoice.paid", "user.created"],
-  url: "https://api.us.example.com/webhooks/acme"
-)
-
-Rails.application.config.after_initialize do
-  webhook.subscribe
-end
 ```
