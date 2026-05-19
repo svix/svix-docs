@@ -4,23 +4,37 @@ title: Receiving with Webhooks AutoConfig
 
 # Receiving with Webhooks AutoConfig
 
-Webhooks AutoConfig is a convenient way to configure your webhook endpoints in a code-first way, using the Svix SDK.
+Webhooks AutoConfig is an easier way to configure and consume webhooks.
 
-Key benefits:
-- Define the webhook configuration in code (rather than both code and the webhooks management dashboard).
-- Automatically update the endpoint's URL, event types and other settings.
-- Signature verification is supported out of the box, no additional secrets to wire up.
+With AutoConfig, you can set your webhook endpoint URL, event types, and other configuration in code
+and AutoConfig will automatically ensure the settings are up to date. Configuration automatically changes when your
+code changes without needing to go to the UI and reconfigure the endpoint.
 
 ## How to use Webhooks AutoConfig
 
-1. Create an endpoint and select AutoConfig as the configuration method.
-2. Get the AutoConfig token.
-3. Set the endpoint configuration and the AutoConfig token in your application.
-4. Call `subscribe()` to complete the configuration.
+<Steps>
+
+### Create an endpoint
+
+Create an endpoint and select AutoConfig as the configuration method.
 
 ![AutoConfig option in the Application Portal](/img/autoconfig/autoconfig-create.png)
 
-Calling `subscribe()` can be done as part of the application startup process, or in CI/CD as part of the deployment process, so the endpoint configuration is always in sync with the latest version of the application code.
+
+### Get the AutoConfig token
+
+Get the AutoConfig token.
+
+![AutoConfig token in the Application Portal](/img/autoconfig/autoconfig-token.png)
+
+### Configure your application
+
+Set the endpoint configuration and the AutoConfig token in your application code.
+
+### Call `subscribe()`
+
+Call `subscribe()` to complete the configuration.
+
 
 <CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP"]}>
 
@@ -154,13 +168,18 @@ $webhook = new \Svix\AutoConfig([
 $webhook->subscribe();
 ```
 </TabItem>
-
 </CodeTabs>
+
+Calling `subscribe()` can be done as part of the application startup process, or in CI/CD as part of the deployment process, so the endpoint configuration is always in sync with the latest version of the application code.
+
+</Steps>
+
+
 
 
 ### Payload Verification
 
-When using Webhooks AutoConfig, the payload verification is supported out of the box, no need to wire up additional secrets.
+When using Webhooks AutoConfig, payload verification is supported out of the box. No need to wire up additional secrets.
 
 To verify the payload, call verify() on the same AutoConfig instance you used to subscribe. The AutoConfig token contains the secret key to verify the payload.
 
@@ -173,7 +192,7 @@ const webhook = new Svix.AutoConfig({
 webhook.verify(payload, headers);
 ```
 
-`payload` and `headers` depend on the framework (see [Integration Examples](#integration-examples)).
+`payload` and `headers` depend on the framework (see [Verifying Webhooks](/receiving/verifying-payloads/how)).
 
 <Callout type="info">
 

@@ -1,4 +1,4 @@
-import { Callout } from 'nextra/components'
+import { Callout, Steps } from 'nextra/components'
 import { useMDXComponents as getThemeComponents } from 'nextra-theme-docs'
 import { CodeTabs } from './src/components/CodeTabs'
 import { CLITabs } from './src/components/CLITabs'
@@ -25,6 +25,7 @@ export function useMDXComponents(components) {
     ...themeComponents,
     ...components,
     Callout,
+    Steps,
     CodeTabs,
     CLITabs,
     TabItem: Tabs.Tab,

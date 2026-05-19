@@ -1,13 +1,10 @@
 # Webhooks AutoConfig
 
-Webhooks AutoConfig is a declarative, code-first way to configure webhook endpoints, using the Svix SDK. It makes it
-significantly easier for your customers to configure webhook endpoints, and ensures that their configuration is always in sync
-with the latest version of the application code, without additional manual steps.
+Webhooks AutoConfig is an easier way to configure and consume webhooks.
 
-Key benefits for your customers:
-- Define the webhook configuration in code. No need for manual updates int the webhooks management UI.
-- Automatically update URL, event types and other endpoint settings. No risk of configuration drift.
-- Signature verification is supported out of the box. No additional secrets to wire up.
+With AutoConfig, webhook consumers can set their webhook endpoint URL, event types, and other configuration in code
+and AutoConfig will automatically ensure their settings are up to date. Configuration automatically changes when their
+code changes without needing to go to the UI and reconfigure the endpoint.
 
 ## How it works
 
@@ -15,9 +12,9 @@ When AutoConfig is enabled in your environment, your users will be able to choos
 
 ![AutoConfig option in the Application Portal](/img/autoconfig/autoconfig-create.png)
 
-The portal will issue an *AutoConfig token*, which can be used to configure the endpoint with the AutoConfig SDK.
+The portal will issue an `AutoConfig token`, which can be used to configure the endpoint with the AutoConfig SDK.
 
-The AutoConfig token also contains the endpoint signing secret, so the same instance can be used to verify webhook signatures.
+The `AutoConfig token` also contains the endpoint signing secret, so the same instance can be used to verify webhook signatures.
 
 Here's an example of how this looks like in code:
 
@@ -38,6 +35,8 @@ const isVerified = webhook.verify(payload, headers);
 ```
 
 To update the endpoint configuration, your customers simply need to change the AutoConfig options and call `subscribe()` again, which can be done as part of their
-application startup or deployment process, so there is no need for manual steps in the Application Portal UI.
+application startup or deployment process.
+
+No manual steps in the Application Portal UI are needed, so the configuration is always in sync with the latest version of the application code.
 
 For more information on how to receive webhooks using AutoConfig, see [Receiving with Webhooks AutoConfig](/receiving/webhooks-autoconfig).
