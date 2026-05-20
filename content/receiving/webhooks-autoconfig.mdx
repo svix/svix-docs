@@ -1,0 +1,285 @@
+---
+title: Receiving with Webhooks AutoConfig
+---
+
+# Receiving with Webhooks AutoConfig
+
+Webhooks AutoConfig is an easier way to configure and consume webhooks.
+
+With AutoConfig, you can set your webhook endpoint URL, event types, and other configuration in code
+and AutoConfig will automatically ensure the settings are up to date. Configuration automatically changes when your
+code changes without needing to go to the UI and reconfigure the endpoint.
+
+## How to use Webhooks AutoConfig
+
+<Steps>
+
+### Create an endpoint
+
+Create an endpoint and select AutoConfig as the configuration method.
+
+![AutoConfig option in the Application Portal](/img/autoconfig/autoconfig-create.png)
+
+
+### Get the AutoConfig token
+
+Get the AutoConfig token.
+
+![AutoConfig token in the Application Portal](/img/autoconfig/autoconfig-token.png)
+
+### Configure your application
+
+Set the endpoint configuration and the AutoConfig token in your application code.
+
+### Call `subscribe()`
+
+Call `subscribe()` to complete the configuration.
+
+
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP"]}>
+
+<TabItem value="JavaScript">
+```js
+import { AutoConfig } from "svix";
+
+const webhook = new AutoConfig({
+  token: AUTO_CONFIG_TOKEN,
+  eventTypes: ["invoice.paid", "user.created"],
+  url: "https://api.us.example.com/webhooks/acme",
+});
+
+await webhook.subscribe();
+```
+</TabItem>
+
+<TabItem value="Python">
+```python
+import os
+
+from svix.auto_configuration import AutoConfig
+
+webhook = AutoConfig(
+    token=AUTO_CONFIG_TOKEN,
+    event_types=["invoice.paid", "user.created"],
+    url="https://api.us.example.com/webhooks/acme",
+)
+
+webhook.subscribe()
+```
+</TabItem>
+
+<TabItem value="Rust">
+```rust
+let webhook = svix::AutoConfig::new(svix::AutoConfigOptions {
+    token: AUTO_CONFIG_TOKEN,
+    event_types: vec!["invoice.paid".to_string(), "user.created".to_string()],
+    url: "https://api.us.example.com/webhooks/acme".to_string(),
+});
+
+webhook.subscribe().await?;
+```
+</TabItem>
+
+<TabItem value="Go">
+```go
+import (
+	svix "github.com/svix/svix-webhooks/go"
+)
+
+webhook, err := svix.NewAutoConfig(svix.AutoConfigOptions{
+    Token:      AUTO_CONFIG_TOKEN,
+    EventTypes: []string{"invoice.paid", "user.created"},
+    URL:        "https://api.us.example.com/webhooks/acme",
+})
+if err != nil {
+    panic(err)
+}
+
+if err := webhook.Subscribe(ctx); err != nil {
+    panic(err)
+}
+```
+</TabItem>
+
+<TabItem value="Java">
+```java
+import com.svix.AutoConfig;
+import java.util.List;
+
+AutoConfig webhook = new AutoConfig(
+        AUTO_CONFIG_TOKEN,
+        List.of("invoice.paid", "user.created"),
+        "https://api.us.example.com/webhooks/acme");
+
+webhook.subscribe();
+```
+</TabItem>
+
+<TabItem value="Kotlin">
+```kotlin
+import com.svix.kotlin.AutoConfig
+
+val webhook = AutoConfig(
+    token = AUTO_CONFIG_TOKEN,
+    eventTypes = listOf("invoice.paid", "user.created"),
+    url = "https://api.us.example.com/webhooks/acme",
+)
+
+webhook.subscribe()
+```
+</TabItem>
+
+<TabItem value="Ruby">
+```ruby
+require "svix"
+
+webhook = Svix::AutoConfig.new(
+  token: AUTO_CONFIG_TOKEN,
+  event_types: ["invoice.paid", "user.created"],
+  url: "https://api.us.example.com/webhooks/acme",
+)
+
+webhook.subscribe
+```
+</TabItem>
+
+<TabItem value="C#">
+```csharp
+using System;
+using Svix;
+
+var webhook = new AutoConfig(
+    AUTO_CONFIG_TOKEN,
+    new[] { "invoice.paid", "user.created" },
+    "https://api.us.example.com/webhooks/acme");
+
+await webhook.SubscribeAsync();
+```
+</TabItem>
+
+<TabItem value="PHP">
+```php
+$webhook = new \Svix\AutoConfig([
+    'token' => AUTO_CONFIG_TOKEN,
+    'eventTypes' => ['invoice.paid', 'user.created'],
+    'url' => 'https://api.us.example.com/webhooks/acme',
+]);
+
+$webhook->subscribe();
+```
+</TabItem>
+</CodeTabs>
+
+Calling `subscribe()` can be done as part of the application startup process, or in CI/CD as part of the deployment process, so the endpoint configuration is always in sync with the latest version of the application code.
+
+</Steps>
+
+
+
+
+### Payload Verification
+
+When using Webhooks AutoConfig, payload verification is supported out of the box. No need to wire up additional secrets.
+
+To verify the payload, call verify() on the same AutoConfig instance you used to subscribe. The AutoConfig token contains the secret key to verify the payload.
+
+```typescript
+const webhook = new Svix.AutoConfig({
+  token: process.env.AUTO_CONFIG_TOKEN,
+  ...
+});
+
+webhook.verify(payload, headers);
+```
+
+`payload` and `headers` depend on the framework (see [Verifying Webhooks](/receiving/verifying-payloads/how)).
+
+<Callout type="info">
+
+**Use the raw request body when verifying webhooks**
+
+You need to use the raw request body when verifying webhooks, as the cryptographic signature is sensitive to even the slightest changes.
+You should watch out for frameworks that parse the request as JSON and then stringify it because this can break the signature verification.
+
+See [Verifying Webhooks](/receiving/verifying-payloads/how) for more details.
+
+</Callout>
+
+## Integrating with your application
+
+AutoConfig can be used in a variety of ways, depending on your application and server architecture.
+
+The key is to call `subscribe()` when your endpoint configuration changes, so your code is always in sync with the latest version of the application.
+The simplest way to ensure this is to call `subscribe()` in the startup process of your application.
+
+For example, in Express.js, you can call `subscribe()` in an Express.js server:
+
+```js
+import express from "express";
+import { Svix } from "svix";
+
+const app = express();
+
+const webhook = new Svix.AutoConfig({
+  token: AUTO_CONFIG_TOKEN,
+  eventTypes: ["invoice.paid", "user.created"],
+  url: "https://api.us.example.com/webhooks/acme",
+});
+
+async function start() {
+  await webhook.subscribe();
+  app.listen(3000);
+}
+
+start();
+```
+
+When using a serverless framework, there are lifecycle hooks where you can call `subscribe()` during the server startup process.
+
+For example, in Next.js, you can use [instrumentation](https://nextjs.org/docs/app/guides/instrumentation) to subscribe when a new Next.js server instance is initiated.
+
+```typescript
+import { Svix } from "svix";
+
+const webhook = new Svix.AutoConfig({
+  token: AUTO_CONFIG_TOKEN,
+  eventTypes: ["invoice.paid", "user.created"],
+  url: "https://api.us.example.com/webhooks/acme",
+});
+
+export async function register() {
+  await webhook.subscribe();
+}
+```
+
+Alternatively, AutoConfig can even be used in a CI/CD pipeline, to update the endpoint configuration as part of your deployment process:
+
+```yaml
+name: deploy
+on:
+  push:
+    branches: [main]
+jobs:
+  subscribe-endpoint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm ci
+      - run: |
+          node --input-type=module <<'EOF'
+          import { Svix } from "svix";
+
+          const webhook = new Svix.AutoConfig({
+            token: AUTO_CONFIG_TOKEN,
+            eventTypes: ["invoice.paid", "user.created"],
+            url: "https://api.us.example.com/webhooks/acme",
+          });
+
+          await webhook.subscribe();
+          EOF
+        env:
+          AUTO_CONFIG_TOKEN: ${{ secrets.AUTO_CONFIG_TOKEN }}
+```

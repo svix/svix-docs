@@ -6,6 +6,7 @@ const meta = {
   introduction: 'Introduction',
   'using-app-portal': 'Using the App Portal',
   'verifying-payloads': 'Verifying Webhooks',
+  'webhooks-autoconfig': 'Receiving with Webhooks AutoConfig',
   'additional-authentication': 'Additional Authentication',
   'source-ips': 'Static Source IP Addresses',
 } satisfies Meta

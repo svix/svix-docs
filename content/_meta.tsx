@@ -28,6 +28,7 @@ const meta = {
   retries: 'Retries',
   'opentelemetry-streaming': 'OpenTelemetry Streaming',
   _advanced: { type: 'separator', title: 'Advanced Functionality' },
+  'webhooks-autoconfig': 'Webhooks AutoConfig',
   idempotency: 'Idempotency',
   throttling: 'Throttling',
   transformations: 'Transformations',
