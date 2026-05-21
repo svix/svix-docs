@@ -1,0 +1,6 @@
+[files]
+extend-exclude = ["*.svg", ".yarn/*"]
+
+[default.extend-identifiers]
+# iterator sample value
+eyJvZmZzZXQiOi05MjIzMzcyMDM2ODU0Nzc1ODA4LCJhZnRlciI6bnVsbH0 = "eyJvZmZzZXQiOi05MjIzMzcyMDM2ODU0Nzc1ODA4LCJhZnRlciI6bnVsbH0"

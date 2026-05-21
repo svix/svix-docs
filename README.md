@@ -24,3 +24,5 @@ npm install
 ```console
 npm run dev
 ```
+
+This repository has pre-commit hooks meant to be run with [prek](https://prek.j178.dev/).

@@ -15,4 +15,4 @@
     }, {})
   );
   document.head.appendChild(script);
-})(); 
+})();
