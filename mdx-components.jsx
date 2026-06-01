@@ -3,7 +3,7 @@ import { useMDXComponents as getThemeComponents } from 'nextra-theme-docs'
 import { CodeTabs } from './src/components/CodeTabs'
 import { CLITabs } from './src/components/CLITabs'
 import { SlackJoinLink } from './src/components/SlackJoinLink'
-import { AgentSkillsCallout } from './src/components/AgentSkillsCallout'
+import { AgentSkillsCallout, ReceivingSkillCallout, ReceivingSkillCopy } from './src/components/AgentSkillsCallout'
 import ConnectorLogo from './src/components/ConnectorLogo'
 import clsx from 'clsx'
 import Image from 'next/image'
@@ -33,5 +33,7 @@ export function useMDXComponents(components) {
     ConnectorLogo,
     SlackJoinLink,
     AgentSkillsCallout,
+    ReceivingSkillCallout,
+    ReceivingSkillCopy
   }
 }
