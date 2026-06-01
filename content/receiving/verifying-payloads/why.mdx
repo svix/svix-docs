@@ -5,6 +5,8 @@ title: Why Verify Webhooks
 
 Because of the way webhooks work, attackers can impersonate services by simply sending a fake webhook to an endpoint. Think about it: it's just an HTTP POST from an unknown source. This is a potential security hole for many applications, or at the very least, a source of problems.
 
+<ReceivingSkillCallout />
+
 In order to prevent it, Svix signs every webhook and its metadata with a unique key for each endpoint. This signature can then be used to verify the webhook indeed comes from Svix, and only process it if it is.
 
 Another potential security hole is what's called replay attacks. A [replay attack](https://en.wikipedia.org/wiki/Replay_attack) is when an attacker intercepts a valid payload (including the signature), and re-transmits it to your endpoint. This payload will pass signature validation, and will therefore be acted upon.

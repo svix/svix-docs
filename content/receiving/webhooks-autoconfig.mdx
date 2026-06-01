@@ -6,6 +6,8 @@ title: Receiving with Webhooks AutoConfig
 
 Webhooks AutoConfig is an easier way to configure and consume webhooks.
 
+<ReceivingSkillCallout />
+
 With AutoConfig, you can set your webhook endpoint URL, event types, and other configuration in code
 and AutoConfig will automatically ensure the settings are up to date. Configuration automatically changes when your
 code changes without needing to go to the UI and reconfigure the endpoint.
@@ -194,7 +196,7 @@ webhook.verify(payload, headers);
 
 `payload` and `headers` depend on the framework (see [Verifying Webhooks](/receiving/verifying-payloads/how)).
 
-<Callout type="info">
+<Callout type="important">
 
 **Use the raw request body when verifying webhooks**
 

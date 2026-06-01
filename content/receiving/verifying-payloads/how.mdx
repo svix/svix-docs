@@ -5,6 +5,8 @@ title: How to Verify Webhooks with the Svix Libraries
 
 As shown in the [Why Verify section](./why.mdx), verifying operational webhooks is very important. This section describes how to do it.
 
+<ReceivingSkillCallout />
+
 ## Verifying using our official libraries
 
 First install the libraries if you haven't already:
@@ -128,7 +130,7 @@ pacman -S curl
 
 Then verify webhooks using the code below. The payload is the raw (string) body of the request, and the headers are the headers passed in the request.
 
-<Callout type="error">
+<Callout type="important">
 
 **Use the raw request body**
 
