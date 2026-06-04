@@ -14,10 +14,12 @@ async function* walkMdx(root) {
   }
 }
 
+const BASE_URL = "https://docs.svix.com";
+
 async function main() {
-  const [inputDir, outputDir] = process.argv.slice(2);
+  const [inputDir, outputDir, llmsFullPath] = process.argv.slice(2);
   if (!inputDir || !outputDir) {
-    console.error("Usage: generate-md.mjs <content-dir> <output-dir>");
+    console.error("Usage: generate-md.mjs <content-dir> <output-dir> [llms-full-path]");
     process.exit(1);
   }
 
@@ -30,6 +32,7 @@ async function main() {
   await mkdir(outputDir, { recursive: true });
 
   let count = 0;
+  const llmsFullParts = [];
 
   for await (const file of walkMdx(inputDir)) {
     const rel = relative(inputDir, file);
@@ -42,9 +45,20 @@ async function main() {
     await mkdir(dirname(outPath), { recursive: true });
     await writeFile(outPath, content, "utf8");
     count++;
+
+    // Append the raw page contents (no cleaning, no reordering) preceded by a
+    // separator noting the page's canonical URL.
+    const route = outRel.replace(/\.md$/, "");
+    llmsFullParts.push(`<!-- Source: ${BASE_URL}/${route} -->\n\n${content}`);
   }
 
   console.log(`Generated ${count} markdown files in ${outputDir}`);
+
+  if (llmsFullPath) {
+    await mkdir(dirname(llmsFullPath), { recursive: true });
+    await writeFile(llmsFullPath, llmsFullParts.join("\n\n") + "\n", "utf8");
+    console.log(`Generated ${llmsFullPath} from ${count} pages`);
+  }
 }
 
 main().catch((err) => {
