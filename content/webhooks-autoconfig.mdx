@@ -21,9 +21,8 @@ Here's an example of how this looks like in code:
 ```js
 import { AutoConfig } from "svix";
 
-const webhook = new AutoConfig({
-  token: AUTO_CONFIG_TOKEN,
-  eventTypes: ["invoice.paid", "user.created"],
+const webhook = new AutoConfig(AUTO_CONFIG_TOKEN, {
+  filterTypes: ["invoice.paid", "user.created"],
   url: "https://api.us.example.com/webhooks/acme",
 });
 
