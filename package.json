@@ -2,6 +2,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && npm run pagefind-vercel && npm run generate-md-vercel",
+    "postbuild": "next-sitemap",
     "start": "next start",
     "pagefind-ci": "pagefind --site out --output-path out/_pagefind",
     "pagefind-vercel": "pagefind --site .next/server/app --output-path public/_pagefind",
@@ -26,6 +27,7 @@
     "@tailwindcss/postcss": "^4.1.10",
     "@types/node": "25.3.0",
     "@types/react": "19.2.14",
+    "next-sitemap": "^4.2.3",
     "pagefind": "^1.4.0",
     "postcss": "^8.4.49",
     "tailwindcss": "^4.1.10"

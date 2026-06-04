@@ -39,4 +39,7 @@ static/_pagefind
 # Generated markdown
 public/generated
 
+# next-sitemap output
+public/sitemap*.xml
+
 .cursor
