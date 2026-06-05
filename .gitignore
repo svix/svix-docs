@@ -38,5 +38,6 @@ static/_pagefind
 
 # Generated markdown
 public/generated
+public/llms-full.txt
 
 .cursor

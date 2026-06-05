@@ -5,7 +5,7 @@
     "start": "next start",
     "pagefind-ci": "pagefind --site out --output-path out/_pagefind",
     "pagefind-vercel": "pagefind --site .next/server/app --output-path public/_pagefind",
-    "generate-md-vercel": "node scripts/generate-md.mjs content public/generated/md"
+    "generate-md-vercel": "node scripts/generate-md.mjs content public/generated/md public/llms-full.txt"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.2.0",

@@ -9,7 +9,7 @@ The core of Svix Stream is built on top of **Streams**, **Events**, and **Sinks*
 
 ![stream-diagram](/img/stream/introduction/diagram.png)
 
-### Streams
+## Streams
 
 **Streams** are unbounded, append only data stores, where events are stored and processed in a stable, first-in-first-out ordering.
 
@@ -160,7 +160,7 @@ And can be viewed in the Stream section of the Svix Dashboard.
 
 ![stream-diagram](/img/stream/introduction/list-streams.png)
 
-### Events
+## Events
 
 With the new Stream, you can immediately start writing events.
 
@@ -353,7 +353,7 @@ In the Stream Dashboard, you'll see the most recent events that have been sent t
 
 Events are persisted to the Stream for 14 days. While the Events are saved to the Stream, they'll be dispatched, in order, to one or more **Sinks** attached to the Stream.
 
-### Sinks
+## Sinks
 
 Sinks define where Events in the Stream are sent, and can be anything from an [HTTP endpoint](./sinks/http) to an Object Storage bucket ([S3](./sinks/s3), [Google Cloud Storage](./sinks/gcs), [Azure Blob Storage](./sinks/azure_blob)), or even an [Open Telemetry Trace collector](./sinks/otel_trace).
 
