@@ -229,7 +229,7 @@ let app = svix
 
 ```go
 import (
-	svix "github.com/svix/svix-webhooks"
+	svix "github.com/svix/svix-webhooks/go"
 )
 
 svixClient := svix.New("AUTH_TOKEN", nil)
@@ -285,7 +285,7 @@ application_out = svix.application.create(Svix::ApplicationIn.new({
 <TabItem value="C#">
 
 ```csharp
-var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
+var svix = new SvixClient("AUTH_TOKEN");
 applicationOut = await svix.Application.CreateAsync(
     new ApplicationIn(name: "Application name", uid: "example-customer-123")
 );
@@ -407,7 +407,7 @@ svix.message()
 
 ```go
 svixClient := svix.New("AUTH_TOKEN", nil)
-eventId = "evt_Wqb1k73rXprtTm7Qdlr38G"
+eventId := "evt_Wqb1k73rXprtTm7Qdlr38G"
 svixClient.Message.Create(ctx, "example-customer-123", &svix.MessageIn{
     EventType: "invoice.paid",
     EventId: *svix.NullableString(&eventId),
@@ -475,7 +475,7 @@ svix.message.create("example-customer-123",
 <TabItem value="C#">
 
 ```csharp
-var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
+var svix = new SvixClient("AUTH_TOKEN");
 await svix.Message.CreateAsync("example-customer-123", new MessageIn(
     eventType: "invoice.paid",
     payload: new {
@@ -514,7 +514,7 @@ $svix->message->create(
 
 ```shell
 export SVIX_AUTH_TOKEN="AUTH_TOKEN"
-svix message create example-customer-123 '{ "eventType": "invoice.paid", "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G", "payload": { "type": "event.type", "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql", "status": "paid", "attempt": 2 } }'
+svix message create example-customer-123 '{ "eventType": "invoice.paid", "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G", "payload": { "type": "invoice.paid", "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql", "status": "paid", "attempt": 2 } }'
 ```
 
 </TabItem>
@@ -526,7 +526,7 @@ curl -X POST "https://api.us.svix.com/api/v1/app/example-customer-123/msg/" \
     -H  "Accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: Bearer AUTH_TOKEN" \
-    -d '{"eventType": "invoice.paid", "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G", "payload": {"type": "event.type", "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql", "status": "paid", "attempt": 2}}'
+    -d '{"eventType": "invoice.paid", "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G", "payload": {"type": "invoice.paid", "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql", "status": "paid", "attempt": 2}}'
 ```
 
 </TabItem>
@@ -624,7 +624,6 @@ svix.endpoint()
 svixClient := svix.New("AUTH_TOKEN", nil)
 svixClient.Endpoint.Create(ctx, "example-customer-123", &svix.EndpointIn{
     Url:         "https://api.example.com/svix-webhooks/",
-    Version:     1,
     Description: svix.String("My main endpoint"),
 })
 ```
@@ -669,7 +668,7 @@ endpoint_out =
 <TabItem value="C#">
 
 ```csharp
-var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
+var svix = new SvixClient("AUTH_TOKEN");
 endpointOut = await svix.Endpoint.CreateAsync(new EndpointIn(
     url: "https://api.example.com/svix-webhooks/",
     description: "My main endpoint"

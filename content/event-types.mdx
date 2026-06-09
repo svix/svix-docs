@@ -148,7 +148,7 @@ svix.event_type.create(Svix::EventTypeIn.new({
 <TabItem value="C#">
 
 ```csharp
-var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
+var svix = new SvixClient("AUTH_TOKEN");
 await svix.EventType.CreateAsync(new EventTypeIn(
     name: "user.signup",
     description: "A user has signed up"
@@ -220,7 +220,7 @@ The [OpenAPI specification](https://www.openapis.org/) is a formal standard for 
 
 If you already have an OpenAPI specification, you can upload it to Svix which will automatically create event types for you based on the [`webhooks`](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#fixed-fields) section (or `x-webhooks` for OpenAPI 3.0).
 
-In addition to the standard features supported by the OpenAPI spec, Svix also supports a couple of extensions: `x-svix-feature-flag` and `x-svix-group-name` which let you set the [feature flag](#event-type-feature-flags) and group name on the event type respectively as follows:
+In addition to the standard features supported by the OpenAPI spec, Svix also supports a couple of extensions: `x-svix-feature-flags` and `x-svix-group-name` which let you set the [feature flags](#event-type-feature-flags) and group name on the event type respectively as follows:
 
 ```json
 "webhooks": {
@@ -228,7 +228,7 @@ In addition to the standard features supported by the OpenAPI spec, Svix also su
     "post": {
       "operationId": "pet.new",
       "description": "A new pet has been created",
-      "x-svix-feature-flag": "beta-feature-a",
+      "x-svix-feature-flags": ["beta-feature-a"],
       "x-svix-group-name": "group-name-1",
       "requestBody": {
         ...
@@ -849,7 +849,7 @@ svix.event_type.create(Svix::EventTypeIn.new({
 <TabItem value="C#">
 
 ```csharp
-var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
+var svix = new SvixClient("AUTH_TOKEN");
 await svix.EventType.CreateAsync(new EventTypeIn{
     name: "user.signup",
     description: "A user has signed up",
@@ -995,7 +995,7 @@ puts dashboard.url
 <TabItem value="C#">
 
 ```csharp
-var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
+var svix = new SvixClient("AUTH_TOKEN");
 var dashboard = await svix.Authentication.AppPortalAccessAsync("app_Xzx8bQeOB1D1XEYmAJaRGoj0", new AppPortalAccessIn{
     featureFlags: new string[] {"beta-feature-a"}
 });
@@ -1121,7 +1121,7 @@ event_type_out = svix.event_type.update("user.signup", Svix::EventTypeUpdate.new
 <TabItem value="C#">
 
 ```csharp
-var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("https://api.us.svix.com"));
+var svix = new SvixClient("AUTH_TOKEN");
 var eventTypeOut = await svix.EventType.Update("user.signup", new EventTypeUpdate{
     featureFlag: null
 });
