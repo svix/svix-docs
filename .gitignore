@@ -40,4 +40,7 @@ static/_pagefind
 public/generated
 public/llms-full.txt
 
+# next-sitemap output
+public/sitemap*.xml
+
 .cursor
