@@ -7,6 +7,7 @@ const meta = {
   s3: 'Amazon S3',
   gcs: 'Google Cloud Storage',
   azure_blob: 'Azure Blob Storage',
+  snowflake: 'Snowflake',
   poller: 'Polling Endpoint',
 } satisfies Meta
 
