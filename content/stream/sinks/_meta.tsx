@@ -9,6 +9,7 @@ const meta = {
   azure_blob: 'Azure Blob Storage',
   snowflake: 'Snowflake',
   rabbitmq: 'RabbitMQ',
+  eventbridge: 'Amazon EventBridge',
   poller: 'Polling Endpoint',
 } satisfies Meta
 
