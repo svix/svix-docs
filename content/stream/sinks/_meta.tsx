@@ -10,6 +10,7 @@ const meta = {
   snowflake: 'Snowflake',
   rabbitmq: 'RabbitMQ',
   eventbridge: 'Amazon EventBridge',
+  sns: 'Amazon SNS',
   poller: 'Polling Endpoint',
 } satisfies Meta
 

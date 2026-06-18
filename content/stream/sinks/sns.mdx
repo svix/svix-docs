@@ -1,0 +1,118 @@
+---
+title: Amazon SNS
+---
+# Amazon SNS
+
+Events can be sent to an Amazon SNS topic using the `sns` sink type.
+
+Like all Sinks, SNS sinks can be created in the Stream Portal...
+
+![sns-create](/img/stream/sns-create.png)
+
+... or [in the API](https://api.svix.com/docs#tag/Sink/operation/v1.streaming.sink.create).
+
+```shell
+curl -X 'POST' 'https://api.svix.com/api/v1/stream/strm_30XKA2tCdjHue2qLkTgc0/sink' \
+  -H 'Authorization: Bearer AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "type": "sns",
+  "config": {
+    "topicArn": "arn:aws:sns:us-east-1:000000000000:my-topic",
+    "region": "us-east-1",
+    "accessKeyId": "AKIA3LIKMTLDNWBX2PPD",
+    "secretAccessKey": "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"
+  },
+  "uid": "unique-identifier",
+  "status": "enabled",
+  "batchSize": 1000,
+  "maxWaitSecs": 300,
+  "eventTypes": [],
+  "metadata": {}
+}'
+```
+
+Every event in the batch is published to the topic as a separate message.
+
+- `topicArn` — the ARN of the SNS topic to publish to.
+- `region`, `accessKeyId`, `secretAccessKey` — the AWS region and credentials used to authenticate.
+
+# Transformations
+
+By default, all `sns` Sinks come bundled with the following transformation code.
+
+```JavaScript
+/**
+ * @param input - The input object
+ * @param input.events - The array of events in the batch. The number of events in the batch is capped by the Sink's batch size.
+ * @param input.events[].payload - The message payload (string or JSON).
+ * @param input.events[].eventType - The message event type (string).
+ *
+ * @returns Object containing the response.
+ * @returns returns.messages - The array of SNS messages to send to the SNS topic.
+ * @returns returns.messages[].payload - The content of the message (string).
+ * @returns returns.messages[].subject - An optional subject of the message (string).
+ */
+function handler(input) {
+  const messages = input.events.map((event) => ({
+    payload: event,
+  }));
+
+  return {
+    messages,
+  };
+}
+```
+
+`input.events` matches the events sent in [`create_events`](https://api.svix.com/docs#tag/Event/operation/v1.streaming.events.create).
+
+Each entry in the returned `messages` array is published as a separate SNS message. The `payload` becomes the message body, and the optional `subject` becomes the SNS subject. By default, each event is published as its serialized JSON, with no subject.
+
+For example, if the following events are written to the stream:
+
+```shell
+curl -X 'POST' \
+  'https://api.svix.com/api/v1/stream/{stream_id}/events' \
+  -H 'Authorization: Bearer AUTH_TOKEN' \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "events": [
+            {
+                "eventType": "user.created",
+                "payload": "{\"email\": \"joe@enterprise.io\"}"
+            },
+            {
+                "eventType": "user.login",
+                "payload": "{\"id\": 12, \"timestamp\": \"2025-07-21T14:23:17.861Z\"}"
+            }
+        ]
+    }'
+```
+
+The default transformation code would publish two messages to your topic, with the following bodies.
+
+```json
+{"payload":{"email":"joe@enterprise.io"},"eventType":"user.created"}
+```
+
+```json
+{"payload":{"id":12,"timestamp":"2025-07-21T14:23:17.861Z"},"eventType":"user.login"}
+```
+
+To control the message bodies, or to set a subject, return your own array of `messages`. Each message's `payload` becomes the body of one SNS message, and `subject` is published as that message's SNS subject.
+
+```JavaScript
+function handler(input) {
+  const messages = input.events.map((event) => ({
+    payload: JSON.stringify(event.payload),
+    subject: event.eventType
+  }));
+
+  return {
+    messages,
+  };
+}
+```
+
+SNS accepts at most 10 messages per batch request, so larger batches are automatically split across multiple `PublishBatch` calls.
