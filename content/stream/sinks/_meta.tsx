@@ -13,6 +13,7 @@ const meta = {
   sns: 'Amazon SNS',
   sqs: 'Amazon SQS',
   bigquery: 'Google BigQuery',
+  clickhouse: 'ClickHouse',
   poller: 'Polling Endpoint',
 } satisfies Meta
 
