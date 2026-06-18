@@ -401,6 +401,14 @@ curl -X PATCH "https://api.us.svix.com/api/v1/app/example-customer-123/" \
 </TabItem>
 </CodeTabs>
 
+### Redirecting to your webhooks management page
+
+When the webhooks management page URL is included in emails, Svix adds `svix_app_id` as aquery parameter, with the application ID or UID as the value.
+
+This can be used to redirect the user to the right page in your application, in cases where the URL varies per customer.
+
+For example, if the webhooks management page URL in your site is `app.example.com/webhooks/customer-123`, set the webhooks management URL to `app.example.com/webhooks`. Then, in your application, add a redirect from `/webhooks/?svix_app_id={APP_UID}` to `/webhooks/{APP_UID}`.
+
 ### An example email notification
 
 ![Email notification example](/img/email-notification-example.png)
