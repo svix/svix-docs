@@ -8,6 +8,7 @@ const meta = {
   gcs: 'Google Cloud Storage',
   azure_blob: 'Azure Blob Storage',
   snowflake: 'Snowflake',
+  rabbitmq: 'RabbitMQ',
   poller: 'Polling Endpoint',
 } satisfies Meta
 
