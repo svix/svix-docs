@@ -1,0 +1,108 @@
+---
+title: Amazon EventBridge
+---
+# Amazon EventBridge
+
+Events can be sent to Amazon EventBridge using the `eventBridge` sink type.
+
+Like all Sinks, EventBridge sinks can be created in the Stream Portal...
+
+![eventbridge-create](/img/stream/eventbridge-create.png)
+
+... or [in the API](https://api.svix.com/docs#tag/Sink/operation/v1.streaming.sink.create).
+
+```shell
+curl -X 'POST' 'https://api.svix.com/api/v1/stream/strm_30XKA2tCdjHue2qLkTgc0/sink' \
+  -H 'Authorization: Bearer AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "type": "eventBridge",
+  "config": {
+    "eventBusName": "my-event-bus",
+    "detailType": "application/json",
+    "region": "us-east-1",
+    "accessKeyId": "AKIA3LIKMTLDNWBX2PPD",
+    "secretAccessKey": "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"
+  },
+  "uid": "unique-identifier",
+  "status": "enabled",
+  "batchSize": 1000,
+  "maxWaitSecs": 300,
+  "eventTypes": [],
+  "metadata": {}
+}'
+```
+
+Every event in the batch is sent to EventBridge as a separate entry.
+
+- `eventBusName` — the name or ARN of the event bus that receives the events.
+- `detailType` — a free-form string (max 128 characters) used as the `detail-type` of each event. Defaults to `application/json`.
+- `region`, `accessKeyId`, `secretAccessKey` — the AWS region and credentials used to authenticate.
+
+Each event is published with its `source` set to `svix-webhooks-<stream_id>`, its `detail-type` set to the configured `detailType`, and its `detail` set to the message produced by the transformation. You can match on the `source` and `detail-type` when writing EventBridge rules.
+
+# Transformations
+
+By default, all `eventBridge` Sinks come bundled with the following transformation code.
+
+```JavaScript
+/**
+ * @param input - The input object
+ * @param input.events - The array of events in the batch. The number of events in the batch is capped by the Sink's batch size.
+ * @param input.events[].payload - The message payload (string or JSON)
+ * @param input.events[].eventType - The message event type (string)
+ *
+ * @returns Object containing the request body
+ * @returns returns.payloads - The array of messages (strings) to send to the Sink. Each payload is a distinct message sent to the Sink.
+ */
+function handler(input) {
+
+  const payloads = input.events.map((event) => JSON.stringify(event))
+
+  return {
+    payloads
+  }
+}
+```
+
+`input.events` matches the events sent in [`create_events`](https://api.svix.com/docs#tag/Event/operation/v1.streaming.events.create).
+
+Each entry in the returned `payloads` array becomes the `detail` of a separate EventBridge event. By default, each event is serialized to a JSON string containing its `payload` and `eventType`.
+
+For example, if the following events are written to the stream:
+
+```shell
+curl -X 'POST' \
+  'https://api.svix.com/api/v1/stream/{stream_id}/events' \
+  -H 'Authorization: Bearer AUTH_TOKEN' \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "events": [
+            {
+                "eventType": "user.created",
+                "payload": "{\"email\": \"joe@enterprise.io\"}"
+            },
+            {
+                "eventType": "user.login",
+                "payload": "{\"id\": 12, \"timestamp\": \"2025-07-21T14:23:17.861Z\"}"
+            }
+        ]
+    }'
+```
+
+The default transformation code would send two events to your event bus, with the following `detail` bodies.
+
+{/* SCREENSHOT: the resulting events received from the EventBridge bus */}
+
+```json
+{"payload":{"email":"joe@enterprise.io"},"eventType":"user.created"}
+```
+
+```json
+{"payload":{"id":12,"timestamp":"2025-07-21T14:23:17.861Z"},"eventType":"user.login"}
+```
+
+To control the `detail` of each event, return your own array of strings in `payloads`. Each string becomes the `detail` of one EventBridge event.
+
+EventBridge accepts at most 10 entries per request, so larger batches are automatically split across multiple `PutEvents` calls.
