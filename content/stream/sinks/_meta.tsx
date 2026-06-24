@@ -11,6 +11,7 @@ const meta = {
   rabbitmq: 'RabbitMQ',
   eventbridge: 'Amazon EventBridge',
   sns: 'Amazon SNS',
+  sqs: 'Amazon SQS',
   poller: 'Polling Endpoint',
 } satisfies Meta
 
