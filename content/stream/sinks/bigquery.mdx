@@ -1,0 +1,112 @@
+---
+title: Google BigQuery
+---
+# Google BigQuery
+
+Events can be sent to a Google BigQuery table using the `bigQuery` sink type.
+
+Like all Sinks, BigQuery sinks can be created in the Stream Portal...
+
+![big-query](/img/stream/bigquery-create.png)
+
+... or [in the API](https://api.svix.com/docs#tag/Sink/operation/v1.streaming.sink.create).
+
+```shell
+curl -X 'POST' 'https://api.svix.com/api/v1/stream/strm_30XKA2tCdjHue2qLkTgc0/sink' \
+  -H 'Authorization: Bearer AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "type": "bigQuery",
+  "config": {
+    "projectId": "my-gcp-project",
+    "datasetId": "my_dataset",
+    "tableId": "events",
+    "credentials": "<json encoded service account credentials>"
+  },
+  "uid": "unique-identifier",
+  "status": "enabled",
+  "batchSize": 1000,
+  "maxWaitSecs": 300,
+  "eventTypes": [],
+  "metadata": {}
+}'
+```
+
+Every event batch is inserted into the configured BigQuery table.
+
+- `projectId` — the GCP project that owns the dataset.
+- `datasetId` — the BigQuery dataset that contains the table.
+- `tableId` — the table that receives the rows.
+- `credentials` — a Google Cloud service account credentials JSON object, provided as a string.
+
+## Destination table
+
+Without a transformation, Svix inserts each event into the table identified by `projectId`, `datasetId`, and `tableId` using two columns: `id` and `payload`. Svix generates a unique `id` for each row and writes the raw event payload to `payload`.
+
+The table must already exist before you enable the sink. For the default behavior, create it with:
+
+```sql
+CREATE TABLE `my-gcp-project.my_dataset.events` (
+  id STRING,
+  payload STRING
+);
+```
+
+If you use a transformation (below), you control the columns each row contains, so your table can use any schema you like — as long as it matches the rows your transformation returns.
+
+# Transformations
+
+Each event is inserted into BigQuery as a row. A transformation returns the `rows` to insert, where each row is an object whose keys match your table's columns.
+
+```JavaScript
+/**
+ * @param input - The input object
+ * @param input.events - The array of events in the batch. The number of events in the batch is capped by the Sink's batch size.
+ * @param input.events[].payload - The message payload (string or JSON)
+ * @param input.events[].eventType - The message event type (string)
+ *
+ * @returns Object describing the rows to insert.
+ * @returns returns.rows - The array of rows to insert. Each row is an object whose keys match the columns of your BigQuery table.
+ */
+function handler(input) {
+    const rows = input.events.map((event) => ({
+        id: crypto.randomUUID(),
+        payload: JSON.stringify(event.payload)
+    }));
+
+    return { rows };
+}
+```
+
+`input.events` matches the events sent in [`create_events`](https://api.svix.com/docs#tag/Event/operation/v1.streaming.events.create).
+
+Each entry in the returned `rows` array is inserted as a separate row. The object keys must match the column names of your table. To write different columns, adjust the objects in `rows` and your table schema to match.
+
+For example, if the following events are written to the stream:
+
+```shell
+curl -X 'POST' \
+  'https://api.svix.com/api/v1/stream/{stream_id}/events' \
+  -H 'Authorization: Bearer AUTH_TOKEN' \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "events": [
+            {
+                "eventType": "user.created",
+                "payload": "{\"email\": \"joe@enterprise.io\"}"
+            },
+            {
+                "eventType": "user.login",
+                "payload": "{\"id\": 12, \"timestamp\": \"2025-07-21T14:23:17.861Z\"}"
+            }
+        ]
+    }'
+```
+
+The transformation above inserts two rows into your table.
+
+| `id` | `payload` |
+| --- | --- |
+| `1f0a8c1e-...` | `{"email":"joe@enterprise.io"}` |
+| `4b9d2e7a-...` | `{"id":12,"timestamp":"2025-07-21T14:23:17.861Z"}` |

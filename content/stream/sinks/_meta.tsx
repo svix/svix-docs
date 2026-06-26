@@ -12,6 +12,7 @@ const meta = {
   eventbridge: 'Amazon EventBridge',
   sns: 'Amazon SNS',
   sqs: 'Amazon SQS',
+  bigquery: 'Google BigQuery',
   poller: 'Polling Endpoint',
 } satisfies Meta
 
