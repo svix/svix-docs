@@ -1,0 +1,15 @@
+---
+title: Delivery Control
+---
+
+# Delivery Control
+
+If you want to dynamically control future webhook delivery to an endpoint from the receiving end,
+Svix will respect the following HTTP header instructions in the webhook response:
+
+- `webhook-delivery: disable` – disables the webhook endpoint,
+  i.e. future messages sent to the application will not be delivered to it
+- `webhook-delivery: abort-message` – stops retries of the message just sent;
+  has no effect when the message wouldn't be retried anyways,
+  such as when delivery is considered successful
+  (for details about retries, see [Retry Schedule](/retries.mdx))

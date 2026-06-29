@@ -24,6 +24,8 @@ If an endpoint is removed or disabled delivery attempts to the endpoint will be 
 
 For example, an attempt that fails three times before eventually succeeding will be delivered roughly 35 minutes and 5 seconds following the first attempt.
 
+Retries will be stopped if the receiving end includes the header `webhook-delivery: abort-message` in its response (see also [Delivery Control](/receiving/delivery-control.mdx)).
+
 
 ## Indicating successful delivery
 
