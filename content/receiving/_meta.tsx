@@ -8,6 +8,7 @@ const meta = {
   'verifying-payloads': 'Verifying Webhooks',
   'webhooks-autoconfig': 'Receiving with Webhooks AutoConfig',
   'additional-authentication': 'Additional Authentication',
+  'delivery-control': 'Delivery Control',
   'source-ips': 'Static Source IP Addresses',
 } satisfies Meta
 
