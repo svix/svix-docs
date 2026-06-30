@@ -7,6 +7,7 @@ import Image from 'next/image'
 import Script from 'next/script'
 import { ReactNode } from 'react'
 import { PageMapItem } from 'nextra'
+import { ViewAsMarkdown } from '../../src/components/ViewAsMarkdown'
 
 const siteData = {
   name: 'Svix Docs',
@@ -104,6 +105,7 @@ export default async function DocsLayout({ children, params }: DocsLayoutProps) 
           pageMap={pageMap}
           docsRepositoryBase={siteData.docsSource}
           footer={footer}
+          toc={{ extraContent: <ViewAsMarkdown /> }}
         >
           {children}
         </Layout>
