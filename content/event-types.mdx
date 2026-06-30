@@ -80,7 +80,7 @@ app = svix.event_type.create(EventTypeIn(
      .create(
          EventTypeIn {
              name: "user.signup".to_string(),
-             description: "A user has signed up".to_str
+             description: "A user has signed up".to_string(),
              ..EventTypeIn::default()
          },
          None,
