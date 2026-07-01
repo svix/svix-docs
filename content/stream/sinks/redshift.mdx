@@ -1,0 +1,144 @@
+---
+title: Amazon Redshift
+---
+# Amazon Redshift
+
+Events can be sent to an Amazon Redshift table using the `redshift` sink type. Svix writes to Redshift through the [Redshift Data API](https://docs.aws.amazon.com/redshift-data/latest/APIReference/Welcome.html), and supports both Redshift Serverless and provisioned clusters.
+
+Like all Sinks, Redshift sinks can be created in the Stream Portal...
+
+![redshift-create](/img/stream/redshift-create.png)
+
+... or [in the API](https://api.svix.com/docs#tag/Sink/operation/v1.streaming.sink.create).
+
+```shell
+curl -X 'POST' 'https://api.svix.com/api/v1/stream/strm_30XKA2tCdjHue2qLkTgc0/sink' \
+  -H 'Authorization: Bearer AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "type": "redshift",
+  "config": {
+    "region": "us-west-2",
+    "accessKeyId": "AKIA3LIKMTLDNWBX2PPD",
+    "secretAccessKey": "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",
+    "workgroupName": "default",
+    "dbName": "dev",
+    "tableName": "events"
+  },
+  "uid": "unique-identifier",
+  "status": "enabled",
+  "batchSize": 1000,
+  "maxWaitSecs": 300,
+  "eventTypes": [],
+  "metadata": {}
+}'
+```
+
+Every event batch is inserted into the configured Redshift table.
+
+- `region`, `accessKeyId`, `secretAccessKey` — the AWS region and credentials used to authenticate.
+- `dbName` — the database to write to.
+- `schemaName` — the schema that contains the table (optional).
+- `tableName` — the table that receives the rows.
+
+## Connection
+
+How you point Svix at your Redshift depends on the deployment type:
+
+- **Redshift Serverless** — set `workgroupName` to the name of your workgroup.
+- **Provisioned clusters** — set `clusterIdentifier` to your cluster's identifier and `dbUser` to the database user to connect as.
+
+```shell
+# Provisioned cluster variant of the config block
+  "config": {
+    "region": "us-west-2",
+    "accessKeyId": "AKIA3LIKMTLDNWBX2PPD",
+    "secretAccessKey": "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",
+    "clusterIdentifier": "my-cluster",
+    "dbUser": "awsuser",
+    "dbName": "dev",
+    "tableName": "events"
+  }
+```
+
+## Destination table
+
+Without a transformation, Svix inserts each event into the table identified by `dbName`, `schemaName`, and `tableName` using two columns: `created_at` and `payload`. Svix sets `created_at` to the insert time and writes the raw event payload to `payload`.
+
+The table must already exist before you enable the sink. For the default behavior, create it with:
+
+```sql
+CREATE TABLE events (
+  created_at TIMESTAMP,
+  payload VARCHAR(65535)
+);
+```
+
+At the time of writing, `VARCHAR(65535)` is the largest allowable `VARCHAR` size in Redshift. If events with larger payloads are written to the stream, the sink will be disabled since these events can't be written to Redshift.
+
+The `dbName`, `schemaName`, and `tableName` fields are only required when you're not using a transformation. With a transformation, the target table is named directly in your statement.
+
+# Transformations
+
+Redshift transformations build a parameterized SQL statement. The transformation returns the `statement` to run and the `bindings` it references.
+
+```JavaScript
+/**
+ * @param input - The input object
+ * @param input.events - The array of events in the batch. The number of events in the batch is capped by the Sink's batch size.
+ * @param input.events[].payload - The message payload (string or JSON)
+ * @param input.events[].eventType - The message event type (string)
+ *
+ * @returns Object describing the SQL to run against Redshift.
+ * @returns returns.statement - The SQL statement to execute. Reference parameters by name (e.g. :payload0).
+ * @returns returns.bindings - The parameters referenced by the statement. Each binding is an object with a `name` and a `value`.
+ */
+function handler(input) {
+    let bindings = [];
+    let values = [];
+
+    input.events.forEach((event, i) => {
+        const name = `payload${i}`;
+        bindings.push({ name: name, value: JSON.stringify(event.payload) });
+        values.push(`(CURRENT_TIMESTAMP, :${name})`);
+    });
+
+    return {
+        bindings: bindings,
+        statement: `INSERT INTO events (created_at, payload) VALUES ${values.join(", ")};`
+    };
+}
+```
+
+`input.events` matches the events sent in [`create_events`](https://api.svix.com/docs#tag/Event/operation/v1.streaming.events.create).
+
+`bindings` is an array of `{ name, value }` parameters, and the `statement` references them by name (e.g. `:payload0`). The statement is run against your database through the Redshift Data API. To write different columns, adjust the `bindings`, the `statement`, and your table to match.
+
+For example, if the following events are written to the stream:
+
+```shell
+curl -X 'POST' \
+  'https://api.svix.com/api/v1/stream/{stream_id}/events' \
+  -H 'Authorization: Bearer AUTH_TOKEN' \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "events": [
+            {
+                "eventType": "user.created",
+                "payload": "{\"email\": \"joe@enterprise.io\"}"
+            },
+            {
+                "eventType": "user.login",
+                "payload": "{\"id\": 12, \"timestamp\": \"2025-07-21T14:23:17.861Z\"}"
+            }
+        ]
+    }'
+```
+
+The transformation above inserts two rows into your table.
+
+| `created_at` | `payload` |
+| --- | --- |
+| `2025-07-21 14:23:18` | `{"email":"joe@enterprise.io"}` |
+| `2025-07-21 14:23:18` | `{"id":12,"timestamp":"2025-07-21T14:23:17.861Z"}` |

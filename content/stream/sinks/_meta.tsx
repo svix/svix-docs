@@ -14,6 +14,7 @@ const meta = {
   sqs: 'Amazon SQS',
   bigquery: 'Google BigQuery',
   clickhouse: 'ClickHouse',
+  redshift: 'Amazon Redshift',
   poller: 'Polling Endpoint',
 } satisfies Meta
 
