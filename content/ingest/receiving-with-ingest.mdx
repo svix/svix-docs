@@ -199,7 +199,15 @@ The Ingest URL is also listed on the [Ingest Dashboard] for each `Source`.
 
 The `IngestSourceOut` response from the API will include an `ingestUrl` which is
 the endpoint you give to your provider, telling them where to send their
-webhooks.
+webhooks. Given an ingest URL of the format
+`https://api.svix.com/ingest/api/v1/source/src_abcdefghijklmnop/in/token1234567`,
+providers can actually send requests to any trailing path, and with any query parameter; e.g.,
+`https://api.svix.com/ingest/api/v1/source/src_abcdefghijklmnop/in/token1234567/foo/bar/baz?qux=duck`.
+
+Trailing path segments will be forwarded along to the eventual destination under the `svix-ingest-trailing-path-segments` header;
+query parameters will be forwarded under the `svix-ingest-query` header. Both
+are and are also available as [transformations](./transformations.mdx)
+parameters.
 
 For GitHub, as is used in this example, this is referred to as the
 _"Payload URL"_.
