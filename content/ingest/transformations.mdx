@@ -27,7 +27,7 @@ Svix expects a Transformation to declare a function named `handler`. Svix will p
 - `url`, a string representing the destination endpoint's URL. It can be changed to any valid URL.
 - `payload`, which contains the webhook's payload as a JSON object. It can be changed as needed.
 - `eventType`, a string representing the event type. Changes to it are ignored. This will always have the value `svix.in` for ingest events
-- `transformationsParams`, additional parameters made available in ingest; se below for details
+- `transformationsParams`, additional parameters made available in ingest; see below for details
 
 The Transformation must return the same object, but may modify its properties as described above.
 In addition to the ones listed above, it can also set the following properties on the returned object:
@@ -54,7 +54,7 @@ Great, the webhook is redirected to the custom URL if the `customUrl` property e
 
 Transformations called from an Ingest request will receive additional parameters under the `transformationsParams` property. Specifically:
 
-- `transformationsParams.headers` will be a string/string key-value map containing the headers of the input request. If a header is duplicated on the input request, one will be chosen arbitrarily for inclusion in the map.
+- `transformationsParams.headers` will be a string/string key-value map containing the headers of the input request. If a header is duplicated on the input request, the values will be concatenated with ", ", as per [RFC 9110 § 5.2](https://www.rfc-editor.org/info/rfc9110/#section-5.2).
 - `transformationsParams.headers.svix-ingest-query` contains the un-parsed query string (the part after the `?` on the request URL)
 - `transformationsParams.headers.svix-ingest-trailing-path-segments` contains any parts of the URL after the token, not including the first `/`.
 
