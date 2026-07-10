@@ -1,0 +1,78 @@
+---
+title: Amazon EventBridge
+---
+# Amazon EventBridge
+
+Svix can deliver webhooks directly to Amazon EventBridge, without your customers having to set up any listener endpoint or write any glue code.
+
+When **Advanced Endpoint Types** is [enabled](/advanced-endpoints#enabling-advanced-endpoint-types), your customers will see the option to use an EventBridge destination in the [App Portal](/app-portal).
+
+![EventBridge Endpoint Create](/img/advanced-endpoints/eventbridge-create.png)
+
+They will be able to configure the connection right in the App Portal:
+
+- `eventBusName` — the name or ARN of the event bus that receives the events.
+- `detailType` — a free-form string (max 128 characters) used as the `detail-type` of each event. Defaults to `application/json`.
+- `region`, `accessKeyId`, `secretAccessKey` — the AWS region and credentials used to authenticate.
+
+Every webhook in the batch is sent to EventBridge as a separate entry.
+
+Each event is published with its `source` set to `svix-webhooks-<app_id>`, its `detail-type` set to the configured `detailType`, and its `detail` set to the message produced by the transformation. You can match on the `source` and `detail-type` when writing EventBridge rules.
+
+# Transformations
+
+By default, all EventBridge Endpoints come bundled with the following transformation code.
+
+```JavaScript
+/**
+ * @param input - The input object
+ * @param input.events - The array of webhooks in the batch. The number of webhooks in the batch is capped by the endpoint's batch size.
+ * @param input.events[].payload - The message payload (string or JSON)
+ * @param input.events[].eventType - The message event type (string)
+ *
+ * @returns Object containing the request body
+ * @returns returns.payloads - The array of messages (strings) to send to the endpoint. Each payload is a distinct message sent to EventBridge.
+ */
+function handler(input) {
+
+  const payloads = input.events.map((event) => JSON.stringify(event))
+
+  return {
+    payloads
+  }
+}
+```
+
+`input.events` is the list of webhooks received by the endpoint, processed in batches.
+
+Each entry in the returned `payloads` array becomes the `detail` of a separate EventBridge event. By default, each webhook is serialized to a JSON string containing its `payload` and `eventType`.
+
+For example, if the endpoint receives the following messages:
+
+```json
+{
+  "eventType": "user.created",
+  "payload": "{\"email\": \"joe@enterprise.io\"}"
+}
+```
+
+```json
+{
+  "eventType": "user.login",
+  "payload": "{\"id\": 12, \"timestamp\": \"2025-07-21T14:23:17.861Z\"}"
+}
+```
+
+The default transformation code would send two events to your event bus, with the following `detail` bodies.
+
+```json
+{"payload":{"email":"joe@enterprise.io"},"eventType":"user.created"}
+```
+
+```json
+{"payload":{"id":12,"timestamp":"2025-07-21T14:23:17.861Z"},"eventType":"user.login"}
+```
+
+To control the `detail` of each event, return your own array of strings in `payloads`. Each string becomes the `detail` of one EventBridge event.
+
+EventBridge accepts at most 10 entries per request, so larger batches are automatically split across multiple `PutEvents` calls.
