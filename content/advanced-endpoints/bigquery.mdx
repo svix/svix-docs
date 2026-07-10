@@ -1,0 +1,85 @@
+---
+title: Google BigQuery
+---
+# Google BigQuery
+
+Svix can deliver webhooks directly to a Google BigQuery table, without your customers having to set up any listener endpoint or write any glue code.
+
+When **Advanced Endpoint Types** is [enabled](/advanced-endpoints#enabling-advanced-endpoint-types), your customers will see the option to use a BigQuery destination in the [App Portal](/app-portal).
+
+![BigQuery Endpoint Create](/img/advanced-endpoints/bigquery-create.png)
+
+They will be able to configure the connection right in the App Portal:
+
+- `projectId` — the GCP project that owns the dataset.
+- `datasetId` — the BigQuery dataset that contains the table.
+- `tableId` — the table that receives the rows.
+- `credentials` — a Google Cloud service account credentials JSON object, provided as a string.
+
+Every batch of webhooks received by the endpoint is inserted into the configured BigQuery table.
+
+## Destination table
+
+Without a transformation, Svix inserts each webhook into the table identified by `projectId`, `datasetId`, and `tableId` using two columns: `id` and `payload`. Svix generates a unique `id` for each row and writes the raw payload to `payload`.
+
+The table must already exist before you enable the endpoint. For the default behavior, create it with:
+
+```sql
+CREATE TABLE `my-gcp-project.my_dataset.events` (
+  id STRING,
+  payload STRING
+);
+```
+
+If you use a transformation (below), you control the columns each row contains, so your table can use any schema you like — as long as it matches the rows your transformation returns.
+
+# Transformations
+
+Each webhook is inserted into BigQuery as a row. A transformation returns the `rows` to insert, where each row is an object whose keys match your table's columns.
+
+```JavaScript
+/**
+ * @param input - The input object
+ * @param input.events - The array of webhooks in the batch. The number of webhooks in the batch is capped by the endpoint's batch size.
+ * @param input.events[].payload - The message payload (string or JSON)
+ * @param input.events[].eventType - The message event type (string)
+ *
+ * @returns Object describing the rows to insert.
+ * @returns returns.rows - The array of rows to insert. Each row is an object whose keys match the columns of your BigQuery table.
+ */
+function handler(input) {
+    const rows = input.events.map((event) => ({
+        id: crypto.randomUUID(),
+        payload: JSON.stringify(event.payload)
+    }));
+
+    return { rows };
+}
+```
+
+`input.events` is the list of webhooks received by the endpoint, processed in batches.
+
+Each entry in the returned `rows` array is inserted as a separate row. The object keys must match the column names of your table. To write different columns, adjust the objects in `rows` and your table schema to match.
+
+For example, if the endpoint receives the following messages:
+
+```json
+{
+  "eventType": "user.created",
+  "payload": "{\"email\": \"joe@enterprise.io\"}"
+}
+```
+
+```json
+{
+  "eventType": "user.login",
+  "payload": "{\"id\": 12, \"timestamp\": \"2025-07-21T14:23:17.861Z\"}"
+}
+```
+
+The transformation above inserts two rows into your table.
+
+| `id` | `payload` |
+| --- | --- |
+| `1f0a8c1e-...` | `{"email":"joe@enterprise.io"}` |
+| `4b9d2e7a-...` | `{"id":12,"timestamp":"2025-07-21T14:23:17.861Z"}` |
