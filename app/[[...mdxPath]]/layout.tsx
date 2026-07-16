@@ -4,10 +4,10 @@ import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
 import '../globals.css'
 import Image from 'next/image'
-import Script from 'next/script'
 import { ReactNode } from 'react'
 import { PageMapItem } from 'nextra'
 import { ViewAsMarkdown } from '../../src/components/ViewAsMarkdown'
+import { Analytics } from '../../src/components/Analytics'
 
 const siteData = {
   name: 'Svix Docs',
@@ -109,18 +109,7 @@ export default async function DocsLayout({ children, params }: DocsLayoutProps) 
         >
           {children}
         </Layout>
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-Z7S16CMH3G" strategy="afterInteractive" />
-        <Script id="gtag-init" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-Z7S16CMH3G', { anonymize_ip: true });
-          `}
-        </Script>
-        <Script src="/js/segment.js" strategy="afterInteractive" />
-        <Script src="/js/apollo.js" strategy="afterInteractive" />
-        <Script src="/js/commonroom.js" strategy="afterInteractive" />
+        <Analytics />
       </body>
     </html>
   )
