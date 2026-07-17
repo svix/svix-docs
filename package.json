@@ -21,6 +21,7 @@
     "nextra-theme-docs": "^4.6.1",
     "posthog-js": "^1.369.0",
     "react": "^19.2.4",
+    "react-cookiehub": "^1.1.0",
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
