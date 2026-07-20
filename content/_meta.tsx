@@ -32,10 +32,20 @@ const meta = {
   idempotency: 'Idempotency',
   throttling: 'Throttling',
   transformations: 'Transformations',
-  connectors: 'Connector Endpoints',
+  connectors: {
+    title: 'Connector Endpoints',
+    theme: {
+      collapsed: true,
+    },
+  },
   channels: 'Channels',
   'message-tags': 'Message Tags',
-  'advanced-endpoints': 'Advanced Endpoint Types',
+  'advanced-endpoints': {
+    title: 'Advanced Endpoint Types',
+    theme: {
+      collapsed: true,
+    },
+  },
   _security: { type: 'separator', title: 'Security & Compliance' },
   security: 'Security',
   retention: 'Retention',
