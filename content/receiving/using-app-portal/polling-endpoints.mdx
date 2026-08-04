@@ -15,56 +15,46 @@ As with [regular webhook endpoints](/receiving/using-app-portal/adding-endpoints
 
 ## Usage
 
-Once you've created a Polling Endpoint, you'll get a unique URL like `https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q`.
+Once you've created a Polling Endpoint, you'll get a unique URL like `https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/polling-endpoint/poll_59q/consumer/{consumer_id}`.
 
 You can call this endpoint directly once you have an [API key](/receiving/using-app-portal/polling-endpoints#api-keys).
 
+Poll this URL to receive messages for a given `Consumer ID`. Each consumer tracks its own progress independently.
+
 ```bash
 curl \
-  "https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q" \
+  -X GET "https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/polling-endpoint/poll_59q/consumer/MY_CONSUMER_ID" \
   -H 'Accept: application/json' \
   -H 'Authorization: Bearer sk_poll_*****.eu'
 ```
 
-When first calling the endpoint, it will return an empty array and an iterator.
+Each message includes an `offset`. Messages are returned in the order they were received.
 
 ```json
 {
-  "data": [],
-  "iterator": "eyJvZmZzZXQiOi05MjIzMzcyMDM2ODU0Nzc1ODA4LCJhZnRlciI6bnVsbH0",
-  "done": false
+  "data": [{
+    "id": "msg_2K2N9Qk...",
+    "eventType": "invoice.created",
+    "payload": { "hello": "world" },
+    "timestamp": "2025-01-17T00:00:00.000Z",
+    "offset": 0
+  }],
+  "done": true
 }
 ```
 
-Then, using the iterator in the next call, you can iterate through the events and poll for new ones.
+After processing a batch, commit the last message's `offset` so the next poll continues from there.
 
 ```bash
 curl \
-  -X GET "https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q?iterator=eyJv..." \
+  -X POST "https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/polling-endpoint/poll_59q/consumer/MY_CONSUMER_ID/commit" \
   -H 'Accept: application/json' \
-  -H 'Authorization: Bearer sk_poll_*****.eu'
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer sk_poll_*****.eu' \
+  -d '{ "offset": 0 }'
 ```
 
-An example response might look like this:
-
-```json
-{
-  "data": [
-    {
-      "id": "ev_1234567890",
-      "type": "invoice.created",
-      "created_at": 1715289600
-    },
-    {
-      "id": "ev_1234567891",
-      "type": "invoice.updated",
-      "created_at": 1715289601
-    }
-  ],
-  "iterator": "aHR0cHM6Ly9hcGkuc3ZpeC5jb20vYXBpL3YxL2FwcC9hcHBfMm1HNkRnVWE=",
-  "done": false
-}
-```
+Until you commit, the same messages may be returned again after the lease expires. Use a stable `Consumer ID` per worker so progress is preserved across restarts.
 
 ### API Keys
 
