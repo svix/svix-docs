@@ -388,4 +388,16 @@ export default function ListEndpoints() {
 }
 ```
 
+## FAQ
+
+### Can I inject my own CSS in the embedded app portal?
+
+We don't support injecting custom CSS into the pre-built embedded app portal as it would make the integration very fragile. CSS is very powerful, which means people injecting CSS would be able to make significant changes that we won't be able to test and will likely cause the UI to break.
+
+With that being said, there are two alternatives:
+
+1. We support a set of white-labeling customizations, and are always happy to add more. Please reach out with your suggest customization.
+2. You can refer to the [implementing your own consumer app portal](#implementing-your-own-consumer-app-portal-functionality) section above which will enable you to build a fully custom UI.
+
+
 [`svix-react`]: https://www.npmjs.com/package/svix-react
