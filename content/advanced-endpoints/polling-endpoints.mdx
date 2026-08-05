@@ -27,35 +27,46 @@ When you enable Polling Endpoints, your users will be able to create them in the
 
 Like with webhook endpoints, Polling Endpoints support filtering messages by [event types](/event-types) and [channels](/channels).
 
-In the App Portal, event consumers will get a unique URL and an API key to iterate through the full list of events sent to their [Svix Application](/overview#consumer-applications) since the endpoint was created.
+In the App Portal, consumers will get a unique URL and an API key to iterate through the full list of events sent to their [Svix Application](/overview#consumer-applications) since the endpoint was created.
 
-When creating a Polling Endpoint, consumers will get a unique URL like `https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q`
+When creating a Polling Endpoint, consumers will get a unique URL like `https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/polling-endpoint/poll_59q/consumer/{consumer_id}`
 
-When first calling the endpoint, it will return an empty array and an iterator.
-
-```json
-{
-  "data": [],
-  "iterator": "eyJvZmZzZXQiOi05MjIzMzcyMDM2ODU0Nzc1ODA4LCJhZnRlciI6bnVsbH0",
-  "done": false
-}
-```
-
-Then, using the iterator in the next call, they can iterate through the events and poll for new ones.
+This URL can be polled to receive messages for a given `Consumer ID`. Each consumer tracks its own progress independently.
 
 ```bash
 curl \
-  "https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q?iterator=eyJv..." \
+  -X GET "https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/polling-endpoint/poll_59q/consumer/MY_CONSUMER_ID" \
   -H 'Accept: application/json' \
   -H 'Authorization: Bearer sk_poll_*****.eu'
 ```
 
-Messages will be returned in the order they were sent to Svix.
+Each message includes an `offset`. Messages are returned in the order they were received.
 
-### Polling with a Server-tracked Iterator
+```json
+{
+  "data": [{
+    "id": "msg_2K2N9Qk...",
+    "eventType": "invoice.created",
+    "payload": { "hello": "world" },
+    "timestamp": "2025-01-17T00:00:00.000Z",
+    "offset": 0
+  }],
+  "done": true
+}
+```
 
-By polling with a **Consumer ID**,  the server will track the client's progress as it iterates through the stream of
-messages.
+After processing a batch, commit the last message's `offset` so the next poll continues from there.
+
+```bash
+curl \
+  -X POST "https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/polling-endpoint/poll_59q/consumer/MY_CONSUMER_ID/commit" \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer sk_poll_*****.eu' \
+  -d '{ "offset": 0 }'
+```
+
+Until you commit, the same messages may be returned again after the lease expires. Use a stable `Consumer ID` per worker so progress is preserved across restarts.
 
 > Consumer IDs are arbitrary strings used by a client to self-identify.
 >
@@ -63,44 +74,6 @@ messages.
 > exclusive sequential access through the stream of messages.
 > Shared concurrent access through a given Consumer ID will result in errors as mutual clients drift in their positions
 > in the stream.
-
-Usage is the same, and still relies on sending the `iterator` parameter to move forward through the stream.
-Server tracking of the client's iterator is opt-in by adding a trailing `/consumer/CONSUMER_ID` to the Polling Endpoint
-URL.
-
-```bash
-curl \
-  "https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q/consumer/MY-CONSUMER-ID?iterator=eyJv..." \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer sk_poll_*****.eu'
-```
-
-The big difference is the server "remembers" the last `iterator` used to make a request for the given Consumer ID
-such that subsequent requests _without a `iterator`_ will resume using that last seen value.
-This is useful for situations where a process may be interrupted and lose its place while polling.
-
-In summation, when using Consumer IDs you need to provide an `iterator` in order to move forward, but you don't have to
-worry about losing progress or starting over if you lose an iterator for any reason.
-Poll the stream using the Consumer ID, omitting the `iterator` parameter, and you'll pick up where you left off.
-At that stage, use the provided `iterator` given in the response to start moving forward again.
-
-### Updating a Server-tracked Iterator with Seek
-
-The `iterator` persisted on the server side can be adjusted with the `seek` endpoint.
-
-```bash
-curl \
-  "https://api.us.svix.com/api/v1/app/app_2mG6DgUaGlwCNdM5oRCUJec2kQC/poller/poll_59q/consumer/MY-CONSUMER-ID/seek" \
-  -H 'Accept: application/json' \
-  -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer sk_poll_*****.eu' \
-  -d '{"after": "2025-01-17T00:00:00.0Z"}'
-```
-
-Note that after performing a `seek`, active clients sending a now-out-of-sequence `iterator` may see errors.
-In this situation, omitting the `iterator` parameter (as if making a new "initial" request) will allow such clients
-to pick up from the position tracked by the server. Subsequent requests should then use the iterator value returned
-in each response body.
 
 ## Usage with Svix Bridge
 
