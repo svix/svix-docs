@@ -1,22 +1,22 @@
 ---
-title: App Portal MCP
+title: Application Portal MCP
 ---
-# App Portal MCP
+# Application Portal MCP
 
-The App Portal MCP server lets your users point their coding agent (Claude Code, Cursor, VSCode, Codex, and others) at their webhooks. Instead of clicking through the App Portal to figure out why a delivery failed, they can ask their agent
+The Application Portal MCP server lets your users point their coding agent (Claude Code, Cursor, VSCode, Codex, and others) at their webhooks. Instead of clicking through the Application Portal to figure out why a delivery failed, they can ask their agent
 
-The server is scoped to **a single application**: the token your user generates from the App Portal encodes the application it belongs to, so an agent can only ever see that one customer's data, which is the same data the App Portal itself shows them.
+The server is scoped to **a single application**: the token your user generates from the Application Portal encodes the application it belongs to, so an agent can only ever see that one customer's data, which is the same data the Application Portal itself shows them.
 
 
 ## Enabling it for your customers
 
-The server is off by default for existing accounts. To turn it on, go to your Svix Dashboard **Settings** -> **General**, and enable **Enable App Portal MCP**.
+The server is off by default for existing accounts. To turn it on, go to your Svix Dashboard **Settings** -> **General**, and enable **Enable Application Portal MCP**.
 
-This is an environment-level setting, so enable it in each environment (e.g. Development and Production) where you want it available. Once enabled, an **MCP** tab appears under **Settings** in the App Portal for every one of your customers in that environment.
+This is an environment-level setting, so enable it in each environment (e.g. Development and Production) where you want it available. Once enabled, an **MCP** tab appears under **Settings** in the Application Portal for every one of your customers in that environment.
 
 ## How your users connect
 
-From the App Portal, your users:
+From the Application Portal, your users:
 
 <Steps>
 
@@ -38,7 +38,7 @@ The [Connecting Your Coding Agent](/receiving/using-app-portal/connecting-your-c
 
 ### Connection details
 
-The generated configuration points the agent at the App Portal MCP server for the application:
+The generated configuration points the agent at the Application Portal MCP server for the application:
 
 ```
 https://mcp.<region>.svix.com/app/<app_id>
@@ -46,7 +46,7 @@ https://mcp.<region>.svix.com/app/<app_id>
 
 Where `<region>` is the region your account is in (`us`, `eu`, `ca`, or `au`). The token is sent on every request as an `Authorization: Bearer <token>` header.
 
-The server is named `<slug>-webhooks` in the agent's configuration, where `<slug>` is derived from your App Portal display name (for example `your-company-name-webhooks`), so it's recognizable next to your users' other MCP servers.
+The server is named `<slug>-webhooks` in the agent's configuration, where `<slug>` is derived from your Application Portal display name (for example `your-company-name-webhooks`), so it's recognizable next to your users' other MCP servers.
 
 For reference, the underlying configuration looks like this in most agents:
 
@@ -97,8 +97,8 @@ MCP tokens are application-scoped and restricted: they can read the application,
 
 A few things worth passing on to your users:
 
-- **Tokens expire.** By default they're valid for 7 days, after which the agent needs a new one generated from the App Portal.
+- **Tokens expire.** By default they're valid for 7 days, after which the agent needs a new one generated from the Application Portal.
 - **Tokens can be revoked at any time.** From the **MCP** tab, the token's menu -> **Expire** revokes it immediately, and any agent using it loses access.
 - **Payload data reaches the agent's model.** Message payloads the agent reads are sent to whichever model provider backs the coding agent, so treat this the same way you'd treat pasting a payload into that tool.
 
-Turning off **Enable App Portal MCP** in your Dashboard settings hides the MCP tab, so your users can no longer generate new tokens. Tokens that were already issued keep working until they expire, so revoke any you don't want to remain active.
+Turning off **Enable Application Portal MCP** in your Dashboard settings hides the MCP tab, so your users can no longer generate new tokens. Tokens that were already issued keep working until they expire, so revoke any you don't want to remain active.
