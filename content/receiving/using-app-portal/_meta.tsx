@@ -7,6 +7,7 @@ const meta = {
   'filtering-logs': 'Filtering Logs',
   'replaying-messages': 'Replaying Messages',
   'polling-endpoints': 'Polling Endpoints',
+  'connecting-your-coding-agent': 'Connecting Your Coding Agent (MCP)',
 } satisfies Meta
 
 export default meta

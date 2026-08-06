@@ -1,0 +1,104 @@
+---
+title: App Portal MCP
+---
+# App Portal MCP
+
+The App Portal MCP server lets your users point their coding agent (Claude Code, Cursor, VSCode, Codex, and others) at their webhooks. Instead of clicking through the App Portal to figure out why a delivery failed, they can ask their agent
+
+The server is scoped to **a single application**: the token your user generates from the App Portal encodes the application it belongs to, so an agent can only ever see that one customer's data, which is the same data the App Portal itself shows them.
+
+
+## Enabling it for your customers
+
+The server is off by default for existing accounts. To turn it on, go to your Svix Dashboard **Settings** -> **General**, and enable **Enable App Portal MCP**.
+
+This is an environment-level setting, so enable it in each environment (e.g. Development and Production) where you want it available. Once enabled, an **MCP** tab appears under **Settings** in the App Portal for every one of your customers in that environment.
+
+## How your users connect
+
+From the App Portal, your users:
+
+<Steps>
+
+### Open **Settings** -> **MCP**
+
+### Click **Connect to MCP**
+
+This generates an MCP access token and opens a dialog with ready-to-paste setup steps for their coding agent.
+
+### Follow the steps for their agent
+
+The dialog covers a broad list of coding agents, if your agent is missing from this list, please let us know!
+
+</Steps>
+
+The token is only shown once, at generation time. The MCP tab lists previously generated tokens along with their creation and expiration dates, and lets your users revoke any of them.
+
+The [Connecting Your Coding Agent](/receiving/using-app-portal/connecting-your-coding-agent) guide walks your users through all of this, and you can point them to it directly.
+
+### Connection details
+
+The generated configuration points the agent at the App Portal MCP server for the application:
+
+```
+https://mcp.<region>.svix.com/app/<app_id>
+```
+
+Where `<region>` is the region your account is in (`us`, `eu`, `ca`, or `au`). The token is sent on every request as an `Authorization: Bearer <token>` header.
+
+The server is named `<slug>-webhooks` in the agent's configuration, where `<slug>` is derived from your App Portal display name (for example `your-company-name-webhooks`), so it's recognizable next to your users' other MCP servers.
+
+For reference, the underlying configuration looks like this in most agents:
+
+```json
+{
+  "mcpServers": {
+    "your-company-name-webhooks": {
+      "url": "https://mcp.us.svix.com/app/app_2ErlDgQ1QzKvSAqxdMQnjHNL",
+      "headers": {
+        "Authorization": "Bearer <YOUR_TOKEN>"
+      }
+    }
+  }
+}
+```
+
+## What the agent can do
+
+The server exposes the following tools:
+
+| Tool                        | Purpose                                                                         |
+| --------------------------- | ------------------------------------------------------------------------------- |
+| `get_application`           | The application this session is scoped to (name, UID, metadata).                  |
+| `list_endpoints`            | List the application's endpoints (URL, enabled state, filtered event types).      |
+| `get_endpoint`              | Full configuration of one endpoint.                                              |
+| `get_endpoint_stats`        | Success / fail / pending / sending counts over a time window.                    |
+| `get_transformation`        | An endpoint's transformation code, enabled state, and variables.                  |
+| `update_transformation`     | Set an endpoint's transformation code and/or toggle it on or off.                 |
+| `list_messages`             | List messages sent to the application (filter by event type, channel, time).      |
+| `list_attempts_by_endpoint` | Delivery attempts for an endpoint (e.g. only failures), with response bodies.     |
+| `list_attempts_by_message`  | Every endpoint a single message was attempted against, and how each responded.    |
+| `get_message`               | A message's event type, channels, and JSON payload.                              |
+| `get_attempt`               | One attempt in full, including the response status code and body.                 |
+| `resend_message`            | Resend one message to an endpoint.                                               |
+| `recover_endpoint`          | Replay all failed messages for an endpoint since a given date.                    |
+
+Most of these are read-only. Three of them are not: `resend_message` and `recover_endpoint` perform real deliveries, and `update_transformation` changes live endpoint configuration. The server instructs agents to only use them when explicitly asked, and most agents will ask for confirmation before running a tool, but as with any agent, your users should review those calls before approving them.
+
+Some questions this makes easy to answer:
+
+- "Why is my `invoice.paid` endpoint failing?": the agent pulls the endpoint's stats, then the failed attempts and the exact response bodies the handler returned.
+- "What does the payload for this event actually look like?": the agent fetches a recent message and its JSON payload 
+- "My handler was down for an hour, can you replay what it missed?": the agent recovers the endpoint from that point in time.
+
+## Tokens and security
+
+MCP tokens are application-scoped and restricted: they can read the application, its endpoints, event types, integrations, messages, and attempts, and they can update endpoint transformations and create messages and attempts (what powers resend and recover). They cannot touch anything outside the application they were issued for, and they cannot be used as a Svix API key for your organization.
+
+A few things worth passing on to your users:
+
+- **Tokens expire.** By default they're valid for 7 days, after which the agent needs a new one generated from the App Portal.
+- **Tokens can be revoked at any time.** From the **MCP** tab, the token's menu -> **Expire** revokes it immediately, and any agent using it loses access.
+- **Payload data reaches the agent's model.** Message payloads the agent reads are sent to whichever model provider backs the coding agent, so treat this the same way you'd treat pasting a payload into that tool.
+
+Turning off **Enable App Portal MCP** in your Dashboard settings hides the MCP tab, so your users can no longer generate new tokens. Tokens that were already issued keep working until they expire, so revoke any you don't want to remain active.
