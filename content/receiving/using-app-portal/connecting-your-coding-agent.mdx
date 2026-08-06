@@ -1,21 +1,17 @@
 ---
-title: Connecting Your Coding Agent (App Portal MCP)
+title: Connecting Your Coding Agent
 ---
-# Connecting Your Coding Agent (App Portal MCP)
+# Connecting Your Coding Agent
 
-You can connect a coding agent directly to your webhooks using [MCP](https://modelcontextprotocol.io). Instead of clicking through the App Portal to work out why a delivery failed, you can ask your agent, and it will look at your endpoints, messages, and failed attempts for you, right where you're writing the code that handles them.
+You can connect a coding agent directly to your webhooks using [MCP](https://modelcontextprotocol.io). Instead of clicking through the Portal to work out why a delivery failed, you can ask your agent, and it will look at your endpoints, messages, and failed attempts for you, right where you're writing the code that handles them.
 
-The connection is scoped to your application only: the agent sees the same data the App Portal shows you, and nothing else.
-
-<Callout type="info">
-  If you don't see an **MCP** tab under **Settings** in the App Portal, the platform sending you webhooks hasn't enabled this feature. Get in touch with them if you'd like it turned on.
-</Callout>
+The connection is scoped to your application only: the agent sees the same data the Portal shows you, and nothing else.
 
 ## Connect your agent
 
 <Steps>
 
-### Open **Settings** → **MCP** in the App Portal
+### Open **Settings** → **MCP** in the Portal
 
 ### Click **Connect to MCP**
 
@@ -33,7 +29,7 @@ Restart your agent if it was already running, then confirm the server is connect
 
 Once connected, you can ask questions in plain language and let the agent do the digging:
 
-- _"Why is my `invoice.paid` endpoint failing?"_ — it checks the endpoint's delivery stats, then the failed attempts and the exact response your handler returned.
+- _"Why is the `invoice.paid` event failing?"_ — it searches the correct endpoint,  checks the endpoint's delivery stats, then the failed attempts and the exact response your handler returned.
 - _"What does the payload for this event actually look like?"_ — it fetches a recent message and its JSON payload, so you can write your handler against the real thing.
 - _"My handler was down for an hour — replay what it missed."_ — it recovers the endpoint from that point in time.
 - _"Which endpoint is this message not reaching?"_ — it lists every endpoint the message was attempted against and how each one responded.
