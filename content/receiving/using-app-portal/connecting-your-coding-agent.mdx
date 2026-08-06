@@ -5,15 +5,13 @@ title: Connecting Your Coding Agent
 
 You can connect a coding agent directly to your webhooks using [MCP](https://modelcontextprotocol.io). Instead of clicking through the Portal to work out why a delivery failed, you can ask your agent, and it will look at your endpoints, messages, and failed attempts for you, right where you're writing the code that handles them.
 
-The connection is scoped to your application only: the agent sees the same data the Portal shows you, and nothing else.
-
 ## Connect your agent
 
 <Steps>
 
-### Open **Settings** → **MCP** in the Portal
+### Open 'Settings' → 'MCP'
 
-### Click **Connect to MCP**
+### Click 'Connect to MCP'
 
 This generates an access token and opens a dialog with ready-to-paste setup steps. Pick your agent from the tabs and follow the steps there.
 
@@ -34,7 +32,7 @@ Once connected, you can ask questions in plain language and let the agent do the
 - _"My handler was down for an hour — replay what it missed."_ — it recovers the endpoint from that point in time.
 - _"Which endpoint is this message not reaching?"_ — it lists every endpoint the message was attempted against and how each one responded.
 
-Under the hood, the agent has tools to read your application and its endpoints, endpoint delivery stats, messages and their payloads, delivery attempts and the responses your handlers returned, and endpoint transformations. It can also [resend a single message](./replaying-messages), recover an endpoint's failed messages, and update an endpoint's transformation.
+Under the hood, the agent has tools to read the data from your portal and its endpoints, endpoint delivery stats, messages and their payloads, delivery attempts and the responses your handlers returned, and endpoint transformations. It can also [resend a single message](./replaying-messages), recover an endpoint's failed messages, and update an endpoint's transformation.
 
 <Callout type="warning">
 
@@ -46,6 +44,6 @@ Resending, recovering, and updating a transformation are real actions: they send
 
 Your tokens are listed in the **MCP** tab, obfuscated, with the date each was created and when it expires.
 
-- **Tokens expire.** They're valid for 7 days by default;
+- **Tokens expire.** They're valid for 7 days by default.
 - **Revoke a token whenever you want.** Open the token's menu and select **Expire**. Any agent using it loses access immediately.
 - **Payloads reach your agent's model.** Anything the agent reads, including message payloads, is sent to the model provider behind your coding agent, so treat it the way you'd treat pasting a payload into that tool.
