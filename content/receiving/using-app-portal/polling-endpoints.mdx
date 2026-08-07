@@ -80,3 +80,231 @@ To call the Polling Endpoint, you'll need to create an endpoint-specific API key
 
 
 API keys are scoped exclusively to the endpoint they were created for, and they can be expired or rotated at any time.
+
+## Using AutoConfig
+
+You can also create and manage Polling Endpoints with AutoConfig.
+
+With AutoConfig, you can set event types and other configuration in code and AutoConfig will automatically ensure the settings are up to date.
+Configuration automatically changes when your code changes without needing to go to the UI and reconfigure the endpoint.
+
+When creating a Polling Endpoint, select **Use AutoConfig**. You'll get an AutoConfig token to use with the Svix SDK.
+
+![AutoConfig token in the Application Portal](/img/autoconfig/autoconfig-token.png)
+
+Use `AutoConfigConsumer` to configure the endpoint and poll for messages:
+
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP"]}>
+
+<TabItem value="JavaScript">
+```js
+import { AutoConfigConsumer } from "svix";
+
+const consumer = new AutoConfigConsumer(AUTO_CONFIG_TOKEN, {
+  filterTypes: ["invoice.paid", "user.created"],
+});
+
+// Create or update the polling endpoint when your code changes
+await consumer.subscribe();
+
+// Inside a worker loop
+const msgs = await consumer.receive("my-consumer");
+// ... process msgs.data
+await consumer.commit("my-consumer", msgs.data.at(-1).offset);
+```
+</TabItem>
+
+<TabItem value="Python">
+```python
+from svix import AutoConfigConsumer
+from svix.models import SinkInCommon
+
+consumer = AutoConfigConsumer(
+    AUTO_CONFIG_TOKEN,
+    SinkInCommon(
+        filter_types=["invoice.paid", "user.created"],
+    ),
+)
+
+# Create or update the polling endpoint when your code changes
+consumer.subscribe()
+
+# Inside a worker loop
+msgs = consumer.receive("my-consumer")
+# ... process msgs.data
+consumer.commit("my-consumer", msgs.data[-1].offset)
+```
+</TabItem>
+
+<TabItem value="Rust">
+```rust
+let consumer = svix::AutoConfigConsumer::new(
+    AUTO_CONFIG_TOKEN.to_string(),
+    svix::SinkInCommon {
+        filter_types: Some(vec![
+            "invoice.paid".to_string(),
+            "user.created".to_string(),
+        ]),
+        ..Default::default()
+    },
+)?;
+
+// Create or update the polling endpoint when your code changes
+consumer.subscribe().await?;
+
+// Inside a worker loop
+let msgs = consumer.receive("my-consumer".to_string(), None).await?;
+// ... process msgs.data
+let offset = msgs.data.last().unwrap().offset;
+consumer.commit("my-consumer".to_string(), offset, None).await?;
+```
+</TabItem>
+
+<TabItem value="Go">
+```go
+import (
+	"context"
+	svix "github.com/svix/svix-webhooks/go"
+	"github.com/svix/svix-webhooks/go/models"
+)
+
+consumer, err := svix.NewAutoConfigConsumer(AUTO_CONFIG_TOKEN, models.SinkInCommon{
+	FilterTypes: []string{"invoice.paid", "user.created"},
+})
+if err != nil {
+	panic(err)
+}
+
+// Create or update the polling endpoint when your code changes
+if _, err := consumer.Subscribe(ctx); err != nil {
+	panic(err)
+}
+
+// Inside a worker loop
+msgs, err := consumer.Receive(ctx, "my-consumer", nil)
+if err != nil {
+	panic(err)
+}
+// ... process msgs.Data
+offset := msgs.Data[len(msgs.Data)-1].Offset
+if err := consumer.Commit(ctx, "my-consumer", offset, nil); err != nil {
+	panic(err)
+}
+```
+</TabItem>
+
+<TabItem value="Java">
+```java
+import com.svix.AutoConfigConsumer;
+import com.svix.models.SinkInCommon;
+import java.util.Set;
+
+AutoConfigConsumer consumer = new AutoConfigConsumer(
+    AUTO_CONFIG_TOKEN,
+    new SinkInCommon()
+        .filterTypes(Set.of("invoice.paid", "user.created")));
+
+// Create or update the polling endpoint when your code changes
+consumer.subscribe();
+
+// Inside a worker loop
+var msgs = consumer.receive("my-consumer");
+// ... process msgs.getData()
+long offset = msgs.getData().get(msgs.getData().size() - 1).getOffset();
+consumer.commit("my-consumer", offset);
+```
+</TabItem>
+
+<TabItem value="Kotlin">
+```kotlin
+import com.svix.kotlin.AutoConfigConsumer
+import com.svix.kotlin.models.SinkInCommon
+
+val consumer = AutoConfigConsumer(
+    AUTO_CONFIG_TOKEN,
+    SinkInCommon(
+        filterTypes = setOf("invoice.paid", "user.created"),
+    ),
+)
+
+// Create or update the polling endpoint when your code changes
+consumer.subscribe()
+
+// Inside a worker loop
+val msgs = consumer.receive("my-consumer")
+// ... process msgs.data
+val offset = msgs.data.last().offset
+consumer.commit("my-consumer", offset)
+```
+</TabItem>
+
+<TabItem value="Ruby">
+```ruby
+require "svix"
+
+sink = Svix::SinkInCommon.new(
+  "filter_types" => ["invoice.paid", "user.created"],
+)
+
+consumer = Svix::AutoConfigConsumer.new(AUTO_CONFIG_TOKEN, sink)
+
+# Create or update the polling endpoint when your code changes
+consumer.subscribe
+
+# Inside a worker loop
+msgs = consumer.receive("my-consumer")
+# ... process msgs.data
+offset = msgs.data.last.offset
+consumer.commit("my-consumer", offset)
+```
+</TabItem>
+
+<TabItem value="C#">
+```csharp
+using Svix;
+using Svix.Models;
+
+var consumer = new AutoConfigConsumer(
+    AUTO_CONFIG_TOKEN,
+    new SinkInCommon
+    {
+        FilterTypes = new[] { "invoice.paid", "user.created" },
+    });
+
+// Create or update the polling endpoint when your code changes
+await consumer.SubscribeAsync();
+
+// Inside a worker loop
+var msgs = await consumer.ReceiveAsync("my-consumer");
+// ... process msgs.Data
+var offset = msgs.Data[^1].Offset;
+await consumer.CommitAsync("my-consumer", offset);
+```
+</TabItem>
+
+<TabItem value="PHP">
+```php
+use Svix\AutoConfigConsumer;
+use Svix\Models\SinkInCommon;
+
+$consumer = new AutoConfigConsumer(
+    AUTO_CONFIG_TOKEN,
+    SinkInCommon::create()
+        ->withFilterTypes(['invoice.paid', 'user.created']),
+);
+
+// Create or update the polling endpoint when your code changes
+$consumer->subscribe();
+
+// Inside a worker loop
+$msgs = $consumer->receive('my-consumer');
+// ... process $msgs->data
+$offset = end($msgs->data)->offset;
+$consumer->commit('my-consumer', $offset);
+```
+</TabItem>
+</CodeTabs>
+
+Calling `subscribe()` creates or updates the polling endpoint. In your worker, call `receive()` to fetch messages for a consumer, then `commit()` the last message's offset so the next poll continues from there.
+
+The AutoConfig token is scoped to the endpoint it was created for, and can also be rotated at any time.
