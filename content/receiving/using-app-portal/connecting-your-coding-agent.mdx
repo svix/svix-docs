@@ -3,7 +3,7 @@ title: Connecting Your Coding Agent
 ---
 # Connecting Your Coding Agent
 
-You can connect a coding agent directly to your webhooks using [MCP](https://modelcontextprotocol.io). Instead of clicking through the Portal to work out why a delivery failed, you can ask your agent, and it will look at your endpoints, messages, and failed attempts for you, right where you're writing the code that handles them.
+You can connect a coding agent directly to your webhooks using [MCP](https://modelcontextprotocol.io).
 
 ## Connect your agent
 
@@ -32,7 +32,6 @@ Once connected, you can ask questions in plain language and let the agent do the
 - _"My handler was down for an hour — replay what it missed."_ — it recovers the endpoint from that point in time.
 - _"Which endpoint is this message not reaching?"_ — it lists every endpoint the message was attempted against and how each one responded.
 
-Under the hood, the agent has tools to read the data from your portal and its endpoints, endpoint delivery stats, messages and their payloads, delivery attempts and the responses your handlers returned, and endpoint transformations. It can also [resend a single message](./replaying-messages), recover an endpoint's failed messages, and update an endpoint's transformation.
 
 <Callout type="warning">
 
