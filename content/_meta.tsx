@@ -46,6 +46,11 @@ const meta = {
       collapsed: true,
     },
   },
+  _ai: { type: 'separator', title: 'AI' },
+  ai: {
+    title: 'AI',
+    display: 'children',
+  },
   _security: { type: 'separator', title: 'Security & Compliance' },
   security: 'Security',
   retention: 'Retention',
