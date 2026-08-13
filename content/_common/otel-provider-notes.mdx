@@ -1,0 +1,18 @@
+## Notes on Integrating with Specific Observability Platforms
+
+Most major APM/Observability platforms support OpenTelemetry ingestion with minimal configuration. Depending on the specific tool, you use, you may need to add specific headers in order for ingestion to work correctly.
+
+### Coralogix
+Coralogix OpenTelemetry integration generally works by adding the following custom headers to your OpenTelemetry configuration:
+* `CX-Application-Name` (Should be set to the environment name that produces the data)
+* `CX-Subsystem-Name` (Should be set to the name of the service that produces the data)
+
+See [Coralogix OpenTelemetry documentation](https://coralogix.com/docs/opentelemetry/getting-started/) for further details.
+
+### New Relic
+New Relic also offers support for consuming OpenTelemetry Data, but you will need to add the following custom header to your configuration:
+* `api-key` (Must be set to your license key)
+
+See [New Relic OpenTelemetry documentation](https://docs.newrelic.com/docs/opentelemetry/best-practices/opentelemetry-otlp/) for further details.
+
+For additional instructions on how to integrate your specific observability platform with OpenTelemetry, please refer to your specific provider's documentation or [contact Svix support](https://www.svix.com/contact/).
