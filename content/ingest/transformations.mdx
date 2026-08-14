@@ -23,7 +23,7 @@ You can write Javascript code to edit an endpoint's Transformation, and test you
 
 Svix expects a Transformation to declare a function named `handler`. Svix will pass an object with the following properties to the function:
 
-- `method`, a string representing the HTTP method the webhook will be sent with. It is always `"POST"` by default, and its only valid values are `"POST"` or `"PUT"`.
+- `method`, a string representing the HTTP method the webhook will be sent with. It is always `"POST"` by default, and its only valid values are `"POST"`, `"PUT"`, or `"PATCH"`.
 - `url`, a string representing the destination endpoint's URL. It can be changed to any valid URL.
 - `payload`, which contains the webhook's payload as a JSON object. It can be changed as needed.
 - `eventType`, a string representing the event type. Changes to it are ignored. This will always have the value `svix.in` for ingest events
