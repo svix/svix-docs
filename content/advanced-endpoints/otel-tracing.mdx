@@ -1,6 +1,8 @@
 ---
 title: OpenTelemetry Tracing
 ---
+import OpenTelemetryProviderNotes from '../_common/otel-provider-notes.mdx'
+
 # OpenTelemetry Tracing
 
 Svix can deliver webhooks directly to an OpenTelemetry tracing collector as spans, without your customers having to set up any listener endpoint or write any glue code.
@@ -158,7 +160,7 @@ function handler(input) {
 
             // We use the eventType as the name of the span,
             // as it makes it easier to identify which events map to
-            // which spans in Grafana
+            // which spans in your OpenTelemetry platform.
             name: event.eventType,
 
             // We use the msgId as the traceIdKey, to ensure that all spans for the same
@@ -193,6 +195,10 @@ function handler(input) {
 }
 ```
 
-When the endpoint receives these webhooks, they'll be dispatched to Grafana. Here, we can see `msg_1234` as its own isolated trace, with the `message.attempt` and `http.attempt` spans correctly grouped together, with the expected attributes.
+When the endpoint receives these webhooks, they'll be dispatched to your observability platform.
+
+In this Grafana view, we can see `msg_1234` as its own isolated trace, with the `message.attempt` and `http.attempt` spans correctly grouped together, with the expected attributes.
 
 ![grafana-example](/img/stream/grafana-dashboard.png)
+
+<OpenTelemetryProviderNotes />
