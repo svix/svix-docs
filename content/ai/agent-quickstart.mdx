@@ -1,0 +1,138 @@
+---
+title: AI Quickstart
+---
+# AI Quickstart
+
+Building your Svix integration with an AI coding agent? This is the quickstart for you (well, for it). It gets Claude Code, Cursor, Codex, or any other coding agent set up with everything Svix ships for agents: skills, LLM-readable docs, an MCP server, and the CLI. If you're integrating by hand, the regular [Quickstart](/quickstart) is the place to start.
+
+## Set up your agent
+
+<Steps>
+
+### Install the Svix agent skills
+
+[Agent Skills](https://agentskills.io/) are instructions that load into your agent's context when it touches Svix. Ours teach it to integrate Svix the way our own engineers would: tenancy design, idempotency, App Portal embedding, signature verification, and the rest.
+
+```bash
+npx skills add svix/ai
+```
+
+This installs two skills from [svix/ai](https://github.com/svix/ai) into your project:
+
+- **`svix-sending-webhooks`**: everything for building on Svix. First-time setup, sending webhooks to your customers, receiving third-party webhooks with [Ingest](https://www.svix.com/ingest/), and the [Svix CLI](/tutorials/cli). Ask it for a plan and it switches modes: it investigates your repo, asks the questions it can't answer on its own, and writes an integration plan before touching any code.
+- **`receiving-webhooks`**: provider-agnostic guidelines for writing a webhook handler that verifies signatures correctly, from Svix or anyone else.
+
+### Create an API key
+
+This is the one step your agent can't do for you. Create a key on the [API Access page](https://dashboard.svix.com/api-access) and set it as an environment variable:
+
+```bash
+export SVIX_AUTH_TOKEN="testsk_..."
+```
+
+The token encodes your region, so there's no base URL to configure. Keep it server-side; the skills know not to hardcode it.
+
+### Tell it what you want
+
+That's it. Some prompts to start from:
+
+- "Add Svix webhooks to this app. Our customers should get an `invoice.paid` event when a payment settles."
+- "Write me a Svix integration plan before we build anything."
+- "Add a handler that receives and verifies our Svix webhooks."
+
+</Steps>
+
+## What Svix gives your agent
+
+| Resource | What it is |
+| --- | --- |
+| [Agent skills](https://github.com/svix/ai) | Integration instructions that load on demand, installed with `npx skills add svix/ai` |
+| LLM-readable docs | Every docs page as markdown, plus [llms.txt](https://docs.svix.com/llms.txt) and [llms-full.txt](https://docs.svix.com/llms-full.txt) indexes |
+| [App Portal MCP](/ai/app-portal-mcp) | Live tools for debugging webhook deliveries from inside the agent |
+| [Svix CLI](/tutorials/cli) | The full API from the shell, plus `svix listen` to relay webhooks to localhost |
+| [Agent plugins](https://github.com/svix/ai#personal-agent-plugins) | Deliver webhooks into agent runtimes without hosting a public endpoint |
+
+## Debugging deliveries over MCP
+
+The [App Portal MCP server](/ai/app-portal-mcp) gives an agent live tools against a consumer application: list endpoints, inspect failed delivery attempts and the exact response a handler returned, fetch real payloads, and replay missed messages. It's how your customers (or you, wearing their hat) answer "why is the `invoice.paid` event failing?" without leaving the editor.
+
+Tokens are generated from the App Portal and are scoped to a single application, so an agent only ever sees the data that application's owner already has. See the [App Portal MCP docs](/ai/app-portal-mcp) for enabling it and connecting an agent.
+
+## Context to paste
+
+If your agent doesn't support skills, or you're working in a chat instead of a repo, use this condensed version of what the skills teach. Save it where your tool looks for instructions:
+
+| Tool | Where it goes |
+| --- | --- |
+| Claude Code | `CLAUDE.md` |
+| Cursor | `.cursor/rules/svix.mdc` |
+| GitHub Copilot | `.github/copilot-instructions.md` |
+| Gemini CLI | `GEMINI.md` |
+| Codex, Jules, Amp, and [many others](https://agents.md/) | `AGENTS.md` |
+| A chat conversation | paste it directly |
+
+````markdown
+# Svix context for AI agents
+
+Svix is webhook-sending infrastructure: you make one API call and Svix
+handles delivery, retries, security, and observability. The docs are
+agent-readable: append `.md` to any https://docs.svix.com URL; the index
+is https://docs.svix.com/llms.txt and the API reference is
+https://api.svix.com/docs.
+
+## Core model
+
+- An **Application** is one webhook-receiving tenant, almost always one of
+  your customers. Create it with your own customer ID as the `uid` and use
+  that `uid` everywhere; you never need to store Svix IDs. Creation is
+  idempotent on `uid`.
+- An **Endpoint** is a URL an application's messages are delivered to.
+  Customers usually manage their own via the App Portal.
+- A **Message** is one webhook event, sent to one application and fanned
+  out to its endpoints. `eventType` uses a `group.event` convention
+  (e.g. `invoice.paid`); include the type in the payload too.
+- **Event Types** form your catalog; consumers subscribe per type.
+
+## The three calls that matter
+
+1. `application.create({ name, uid })`: once per customer.
+2. `message.create(uid, { eventType, payload })`: to send an event.
+3. `authentication.appPortalAccess(uid, {})`: magic link to the App
+   Portal, where customers add endpoints, view logs, and replay failures.
+
+## Rules
+
+- `SVIX_AUTH_TOKEN` is server-side only; read it from the environment,
+  never hardcode it or expose it to a browser. It encodes the region, so
+  no base URL is needed.
+- Official SDKs: JavaScript, Python, Go, Rust, Java, Kotlin, Ruby, C#,
+  PHP. Same call shapes, different argument conventions; check
+  https://docs.svix.com/quickstart.md for the exact syntax per language.
+- Make sends idempotent: a deterministic `eventId` per source event, or
+  the `Idempotency-Key` header.
+- Endpoints must be public HTTPS. For local development run
+  `svix listen http://localhost:8000/webhook/` (Svix CLI) to relay
+  deliveries to localhost.
+- Receivers must verify the `svix-signature` header against the **raw**
+  request body using the Svix SDK, then return a 2xx within seconds.
+- To receive third-party webhooks (Stripe, GitHub, ...) rather than send
+  your own, use Svix Ingest:
+  https://docs.svix.com/ingest/receiving-with-ingest.md
+````
+
+## Receiving webhooks into an agent
+
+Two more pieces exist for agents on the consuming side:
+
+- [Webhooks AutoConfig](/webhooks-autoconfig) lets an agent configure its own endpoint (URL, event types) in code, with the signing secret bundled into one token, instead of clicking through a UI.
+- The [agent plugins](https://github.com/svix/ai#personal-agent-plugins) poll a Svix sink and hand messages to an agent runtime as if they were inbound POSTs, so a laptop behind NAT can receive webhooks without a tunnel.
+
+## LLM-readable docs
+
+Everything on this site is available as plain markdown:
+
+- Append `.md` to any page URL, for example [docs.svix.com/quickstart.md](https://docs.svix.com/quickstart.md).
+- [docs.svix.com/llms.txt](https://docs.svix.com/llms.txt): an index of every page with a one-line description, following the [llms.txt convention](https://llmstxt.org/).
+- [docs.svix.com/llms-full.txt](https://docs.svix.com/llms-full.txt): the full documentation in one file.
+
+The API reference lives at [api.svix.com/docs](https://api.svix.com/docs), with request and response schemas for every endpoint.

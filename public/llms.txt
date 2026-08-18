@@ -49,6 +49,10 @@ A markdown version of any page is available by appending `.md` to the end of its
 - [Channels](https://docs.svix.com/channels): Organize and route webhooks using channels for better event management and delivery control.
 - [Advanced Endpoint Types](https://docs.svix.com/advanced-endpoint-types): Configure advanced endpoint types including custom headers, authentication, and delivery options.
 
+### AI
+- [AI Quickstart](https://docs.svix.com/ai/agent-quickstart): Set up an AI coding agent to build a Svix integration: agent skills (`npx skills add svix/ai`), MCP, CLI, and condensed context to load.
+- [App Portal MCP](https://docs.svix.com/ai/app-portal-mcp): MCP server that lets webhook consumers debug deliveries from their coding agent: inspect failed attempts, fetch payloads, and replay messages.
+
 ### API Reference
 - [Introduction](https://api.svix.com/docs#section/Introduction): Reference documentation and schemas for the Svix webhook service API.
 - [Main concepts](https://api.svix.com/docs#section/Introduction/Main-concepts): Core API concepts including messages, applications, endpoints, and event-types.
