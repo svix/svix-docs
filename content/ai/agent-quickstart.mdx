@@ -3,7 +3,13 @@ title: AI Quickstart
 ---
 # AI Quickstart
 
-Building your Svix integration with an AI coding agent? This is the quickstart for you (well, for it). It gets Claude Code, Cursor, Codex, or any other coding agent set up with everything Svix ships for agents: skills, LLM-readable docs, an MCP server, and the CLI. If you're integrating by hand, the regular [Quickstart](/quickstart) is the place to start.
+Building your Svix integration with an AI coding agent? This is the quickstart for you (well, for it). It gets Claude Code, Cursor, Codex, or any other coding agent set up to build your webhook sending integration: skills, LLM-readable docs, and the CLI. If you're integrating by hand, the regular [Quickstart](/quickstart) is the place to start.
+
+<Callout type="info">
+
+**Sending or receiving?** Svix is webhook *sending* infrastructure, and this page is for platforms sending webhooks to their customers. If you're on the receiving end, consuming webhooks that a Svix-powered provider sends you, connect your agent to the [App Portal MCP](/ai/app-portal-mcp) to debug your deliveries, and use the `receiving-webhooks` skill below when writing your handler.
+
+</Callout>
 
 ## Set up your agent
 
@@ -11,7 +17,7 @@ Building your Svix integration with an AI coding agent? This is the quickstart f
 
 ### Install the Svix agent skills
 
-[Agent Skills](https://agentskills.io/) are instructions that load into your agent's context when it touches Svix. Ours teach it to integrate Svix the way our own engineers would: tenancy design, idempotency, App Portal embedding, signature verification, and the rest.
+[Agent Skills](https://agentskills.io/) are instructions that load into your agent's context when it touches Svix. Ours teach it to integrate Svix the way our own engineers would: tenancy design, idempotency, App Portal embedding, and the rest.
 
 ```bash
 npx skills add svix/ai
@@ -20,7 +26,7 @@ npx skills add svix/ai
 This installs two skills from [svix/ai](https://github.com/svix/ai) into your project:
 
 - **`svix-sending-webhooks`**: everything for building on Svix. First-time setup, sending webhooks to your customers, receiving third-party webhooks with [Ingest](https://www.svix.com/ingest/), and the [Svix CLI](/tutorials/cli). Ask it for a plan and it switches modes: it investigates your repo, asks the questions it can't answer on its own, and writes an integration plan before touching any code.
-- **`receiving-webhooks`**: provider-agnostic guidelines for writing a webhook handler that verifies signatures correctly, from Svix or anyone else.
+- **`receiving-webhooks`**: guidelines for writing a webhook handler that verifies signatures correctly. Useful to you when testing your own webhooks end to end, and to your customers when they consume them.
 
 ### Create an API key
 
@@ -38,7 +44,8 @@ That's it. Some prompts to start from:
 
 - "Add Svix webhooks to this app. Our customers should get an `invoice.paid` event when a payment settles."
 - "Write me a Svix integration plan before we build anything."
-- "Add a handler that receives and verifies our Svix webhooks."
+- "Define a Svix event type catalog from the events this codebase already emits."
+- "Embed the Svix App Portal in our dashboard so customers can manage their own endpoints."
 
 </Steps>
 
@@ -48,15 +55,7 @@ That's it. Some prompts to start from:
 | --- | --- |
 | [Agent skills](https://github.com/svix/ai) | Integration instructions that load on demand, installed with `npx skills add svix/ai` |
 | LLM-readable docs | Every docs page as markdown, plus [llms.txt](https://docs.svix.com/llms.txt) and [llms-full.txt](https://docs.svix.com/llms-full.txt) indexes |
-| [App Portal MCP](/ai/app-portal-mcp) | Live tools for debugging webhook deliveries from inside the agent |
 | [Svix CLI](/tutorials/cli) | The full API from the shell, plus `svix listen` to relay webhooks to localhost |
-| [Agent plugins](https://github.com/svix/ai#personal-agent-plugins) | Deliver webhooks into agent runtimes without hosting a public endpoint |
-
-## Debugging deliveries over MCP
-
-The [App Portal MCP server](/ai/app-portal-mcp) gives an agent live tools against a consumer application: list endpoints, inspect failed delivery attempts and the exact response a handler returned, fetch real payloads, and replay missed messages. It's how your customers (or you, wearing their hat) answer "why is the `invoice.paid` event failing?" without leaving the editor.
-
-Tokens are generated from the App Portal and are scoped to a single application, so an agent only ever sees the data that application's owner already has. See the [App Portal MCP docs](/ai/app-portal-mcp) for enabling it and connecting an agent.
 
 ## Context to paste
 
@@ -113,18 +112,19 @@ https://api.svix.com/docs.
 - Endpoints must be public HTTPS. For local development run
   `svix listen http://localhost:8000/webhook/` (Svix CLI) to relay
   deliveries to localhost.
-- Receivers must verify the `svix-signature` header against the **raw**
+- Consumers verify the `svix-signature` header against the **raw**
   request body using the Svix SDK, then return a 2xx within seconds.
 - To receive third-party webhooks (Stripe, GitHub, ...) rather than send
   your own, use Svix Ingest:
   https://docs.svix.com/ingest/receiving-with-ingest.md
 ````
 
-## Receiving webhooks into an agent
+## Agent tools for your webhook consumers
 
-Two more pieces exist for agents on the consuming side:
+Your customers, the ones receiving your webhooks, get agent tooling of their own. These are worth knowing about because you enable or recommend them:
 
-- [Webhooks AutoConfig](/webhooks-autoconfig) lets an agent configure its own endpoint (URL, event types) in code, with the signing secret bundled into one token, instead of clicking through a UI.
+- The [App Portal MCP](/ai/app-portal-mcp) lets a customer point their coding agent at their deliveries: inspect failed attempts and the exact response their handler returned, fetch real payloads, and replay missed messages. Tokens are scoped to their single application, and you enable the feature per environment from your dashboard.
+- [Webhooks AutoConfig](/webhooks-autoconfig) lets a customer's agent configure its own endpoint (URL, event types) in code, with the signing secret bundled into one token, instead of clicking through a UI.
 - The [agent plugins](https://github.com/svix/ai#personal-agent-plugins) poll a Svix sink and hand messages to an agent runtime as if they were inbound POSTs, so a laptop behind NAT can receive webhooks without a tunnel.
 
 ## LLM-readable docs
