@@ -2,6 +2,13 @@
 
 Most major APM/Observability platforms support OpenTelemetry ingestion with minimal configuration. Depending on the specific tool, you use, you may need to add specific headers in order for ingestion to work correctly.
 
+### Datadog
+Datadog now supports tracing integration via OpenTelemetry natively. In order to set this up, you'll need to know which Datadog site you use and your API key.
+* Datadog's OpenTelemetry URLs are specified as `https://otlp.{SITE}/v1/traces`, e.g., `https://otlp.datadoghq.com/v1/traces` for the `US1` site.
+* `dd-api-key` header must be included and set to a valid API key.
+
+See [Datadog OTLP Intake documentation](https://docs.datadoghq.com/opentelemetry/setup/otlp_ingest/) for more details.
+
 ### Coralogix
 Coralogix OpenTelemetry integration generally works by adding the following custom headers to your OpenTelemetry configuration:
 * `CX-Application-Name` (Should be set to the environment name that produces the data)
