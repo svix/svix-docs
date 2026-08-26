@@ -9,7 +9,7 @@ Because of the way webhooks work, attackers can impersonate services by simply s
 
 In order to prevent it, Svix signs every webhook and its metadata with a unique key for each endpoint. This signature can then be used to verify the webhook indeed comes from Svix, and only process it if it is.
 
-Svix implements the [Standard Webhooks](https://www.standardwebhooks.com/) specification, which we co-created. The signature scheme described here is the one defined in [the spec](https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md), so any Standard Webhooks verification library can verify Svix webhooks.
+Svix implements the [Standard Webhooks](https://www.standardwebhooks.com/) specification, which we co-created. The signature scheme described here is the one defined in [the Standard Webhooks spec](https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md), so any Standard Webhooks verification library can verify Svix webhooks.
 
 Another potential security hole is what's called replay attacks. A [replay attack](https://en.wikipedia.org/wiki/Replay_attack) is when an attacker intercepts a valid payload (including the signature), and re-transmits it to your endpoint. This payload will pass signature validation, and will therefore be acted upon.
 
