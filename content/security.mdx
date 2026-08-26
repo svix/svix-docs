@@ -38,7 +38,7 @@ There are a few ways to prevent or reduce the likelihood of spoofing attacks, th
 
 #### Signature verification
 
-When signing the webhooks it's important to sign not only the payload, but also additional metadata such as idempotency ID and timestamp (more on those later). The signature scheme needs to use strong cryptographic primitives and used correctly. Some implementations use asymmetric signing using Ed25519 or RSA, but it's much more common (and recommended) to use `HMAC-SHA256`, which is the scheme the [Standard Webhooks specification](https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md) defines and what Svix uses by default. Svix implements the specification, which we co-created.
+When signing the webhooks it's important to sign not only the payload, but also additional metadata such as idempotency ID and timestamp (more on those later). The signature scheme needs to use strong cryptographic primitives and used correctly. Some implementations use asymmetric signing using Ed25519 or RSA, but it's much more common (and recommended) to use `HMAC-SHA256`, which is what Svix uses by default, following the symmetric scheme defined in the [Standard Webhooks specification](https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md). Svix co-created the specification and implements it.
 
 For more information, please refer to the [webhook verification](/receiving/verifying-payloads/how-manual) docs.
 
