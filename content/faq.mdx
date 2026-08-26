@@ -70,6 +70,10 @@ Webhooks as a service refers to Svix's software as a service (SaaS) webhook plat
 
 Yes! Our webhook service was designed for security from the ground up. We follow industry best practices, encrypt all data both in transit and at rest, and are compliant with SOC 2 Type II, GDPR, CCPA and more.
 
+### Is Svix compliant with the Standard Webhooks specification?
+
+Yes. Svix co-created the [Standard Webhooks](https://www.standardwebhooks.com/) specification and implements it. Webhooks are signed as defined in [the spec](https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md), with the `svix-id`, `svix-timestamp`, and `svix-signature` headers as branded aliases of the spec's `webhook-id`, `webhook-timestamp`, and `webhook-signature`. Svix webhooks use the spec's HMAC-SHA256 scheme by default, so any Standard Webhooks library can verify them, and the Svix libraries accept either set of header names.
+
 
 ### How to test and debug webhooks?
 

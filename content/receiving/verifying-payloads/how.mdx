@@ -7,6 +7,14 @@ As shown in the [Why Verify section](./why.mdx), verifying operational webhooks 
 
 <ReceivingSkillCallout />
 
+<Callout type="info">
+
+**Standard Webhooks**
+
+Svix implements the [Standard Webhooks](https://www.standardwebhooks.com/) specification, which we co-created. The `svix-id`, `svix-timestamp`, and `svix-signature` headers used below are the Svix-branded aliases of the spec's `webhook-id`, `webhook-timestamp`, and `webhook-signature` headers; the values are identical, and the Svix libraries accept either set of names. This also means any [Standard Webhooks library](https://github.com/standard-webhooks/standard-webhooks/tree/main/libraries) can verify Svix webhooks.
+
+</Callout>
+
 ## Verifying using our official libraries
 
 First install the libraries if you haven't already:
