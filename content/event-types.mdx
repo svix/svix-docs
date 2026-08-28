@@ -74,13 +74,13 @@ app = svix.event_type.create(EventTypeIn(
 <TabItem value="Rust">
 
 ```rust
- let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+ let svix = Svix::new("AUTH_TOKEN".to_owned(), None);
  let event_type = svix
      .event_type()
      .create(
          EventTypeIn {
-             name: "user.signup".to_string(),
-             description: "A user has signed up".to_string(),
+             name: "user.signup".to_owned(),
+             description: "A user has signed up".to_owned(),
              ..EventTypeIn::default()
          },
          None,
@@ -473,7 +473,7 @@ use std::{error::Error, fs::File};
 use svix::api::{EventTypeIn, Svix};
 
 async fn execute() -> Result<(), Box<dyn Error>> {
-    let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+    let svix = Svix::new("AUTH_TOKEN".to_owned(), None);
 
     let mut reader = csv::ReaderBuilder::new()
         .delimiter(b'|')
@@ -771,14 +771,14 @@ app = svix.event_type.create(EventTypeIn(
 ```rust
 use svix::api::{ApplicationIn, Svix, SvixOptions};
 
-let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let svix = Svix::new("AUTH_TOKEN".to_owned(), None);
 let event_type = svix
     .event_type()
     .create(
         EventTypeIn {
-            name: "user.signup".to_string(),
-            description: "A user has signed up".to_string(),
-            feature_flags: Some(vec!["beta-feature-a".to_string()]),
+            name: "user.signup".to_owned(),
+            description: "A user has signed up".to_owned(),
+            feature_flags: Some(vec!["beta-feature-a".to_owned()]),
             ..EventTypeIn::default()
         },
         None,
@@ -927,13 +927,13 @@ print(dashboard.url)
 <TabItem value="Rust">
 
 ```rust
-let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let svix = Svix::new("AUTH_TOKEN".to_owned(), None);
 let dashboard = svix
     .authentication()
     .app_portal_access(
-        "app_Xzx8bQeOB1D1XEYmAJaRGoj0".to_string(),
+        "app_Xzx8bQeOB1D1XEYmAJaRGoj0".to_owned(),
         AppPortalAccessIn {
-            feature_flags: Some(vec!["beta-feature-a".to_string()]),
+            feature_flags: Some(vec!["beta-feature-a".to_owned()]),
             ..Default::default()
         },
         None,
@@ -1067,11 +1067,11 @@ svix.event_type.upsert("user.signup", EventTypeUpsertIn(feature_flag=None))
 <TabItem value="Rust">
 
 ```rust
-let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let svix = Svix::new("AUTH_TOKEN".to_owned(), None);
 let event_type_out = svix
     .event_type()
     .upsert(
-        "user.signup".to_string(),
+        "user.signup".to_owned(),
         EventTypeUpsertIn {
             feature_flag: None,
             ..Default::default()

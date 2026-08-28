@@ -210,13 +210,13 @@ app = svix.application.create(ApplicationIn(
 ```rust
 use svix::api::{ApplicationIn, Svix, SvixOptions};
 
-let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let svix = Svix::new("AUTH_TOKEN".to_owned(), None);
 let app = svix
     .application()
     .create(
         ApplicationIn {
-            name: "Application name".to_string(),
-            uid: Some("example-customer-123".to_string()),
+            name: "Application name".to_owned(),
+            uid: Some("example-customer-123".to_owned()),
             ..ApplicationIn::default()
         },
         None,
@@ -382,13 +382,13 @@ svix.message.create(
 <TabItem value="Rust">
 
 ```rust
-let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let svix = Svix::new("AUTH_TOKEN".to_owned(), None);
 svix.message()
     .create(
-        "example-customer-123".to_string(),
+        "example-customer-123".to_owned(),
         MessageIn {
-            event_type: "invoice.paid".to_string(),
-            event_id: Some("evt_Wqb1k73rXprtTm7Qdlr38G".to_string()),
+            event_type: "invoice.paid".to_owned(),
+            event_id: Some("evt_Wqb1k73rXprtTm7Qdlr38G".to_owned()),
             payload: json!({
                 "type": "invoice.paid",
                 "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql",
@@ -603,13 +603,13 @@ svix.endpoint.create(
 <TabItem value="Rust">
 
 ```rust
-let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let svix = Svix::new("AUTH_TOKEN".to_owned(), None);
 svix.endpoint()
     .create(
-        "example-customer-123".to_string(),
+        "example-customer-123".to_owned(),
         EndpointIn {
-            url: "https://api.example.com/svix-webhooks/".to_string(),
-            description: Some("My main endpoint".to_string()),
+            url: "https://api.example.com/svix-webhooks/".to_owned(),
+            description: Some("My main endpoint".to_owned()),
             ..EndpointIn::default()
         },
         None,
@@ -761,8 +761,8 @@ svix = SvixAsync("AUTH_TOKEN", SvixOptions(server_url="THE_SERVER_URL"))
 ```rust
 use svix::api::{ApplicationIn, Svix, SvixOptions};
 
-let svix = Svix::new("AUTH_TOKEN".to_string(), SvixOptions {
-    server_url: "THE_SERVER_URL".to_string(),
+let svix = Svix::new("AUTH_TOKEN".to_owned(), SvixOptions {
+    server_url: "THE_SERVER_URL".to_owned(),
     ..SvixOptions::default()
 });
 ```

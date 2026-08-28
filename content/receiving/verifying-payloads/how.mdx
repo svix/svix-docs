@@ -198,7 +198,7 @@ wh.verify(payload, headers)
 ```rust
 use svix::webhooks::Webhook;
 
-let secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw".to_string();
+let secret = "whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw".to_owned();
 
 let mut headers = http::HeaderMap::new();
 headers.insert("svix-id", "msg_p5jXN8AQM9LWM0D4loKWxJek");

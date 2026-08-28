@@ -75,10 +75,10 @@ webhook.subscribe()
 let webhook = svix::AutoConfig::new(
     AUTO_CONFIG_TOKEN.to_string(),
     svix::EndpointIn {
-        url: "https://api.us.example.com/webhooks/acme".to_string(),
+        url: "https://api.us.example.com/webhooks/acme".to_owned(),
         event_types: Some(vec![
-            "invoice.paid".to_string(),
-            "user.created".to_string(),
+            "invoice.paid".to_owned(),
+            "user.created".to_owned(),
         ]),
         ..Default::default()
     },

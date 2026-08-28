@@ -50,11 +50,11 @@ print(dashboard.url)
 <TabItem value="Rust">
 
 ```rust
-let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let svix = Svix::new("AUTH_TOKEN".to_owned(), None);
 let dashboard = svix
     .authentication()
     .app_portal_access(
-        "app_Xzx8bQeOB1D1XEYmAJaRGoj0".to_string(),
+        "app_Xzx8bQeOB1D1XEYmAJaRGoj0".to_owned(),
         AppPortalAccessIn::default(),
         None,
     )
