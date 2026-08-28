@@ -142,14 +142,14 @@ The schedule
 
 Each message is attempted based on the following schedule, where each period is started following the failure of the preceding attempt:
 
--   Immediately
--   5 seconds
--   5 minutes
--   30 minutes
--   2 hours
--   5 hours
--   10 hours
--   10 hours (in addition to the previous)
+- Immediately
+- 5 seconds
+- 5 minutes
+- 30 minutes
+- 2 hours
+- 5 hours
+- 10 hours
+- 10 hours (in addition to the previous)
 
 If an endpoint is removed or disabled delivery attempts to the endpoint will be disabled as well.
 
@@ -207,7 +207,7 @@ If you want to replay a single event, you can find the message from the UI and c
 
 From there, click "resend" to have the same message send to your endpoint again.
 
-If you need to recover from a service outage and want to replay all the events since a given time, you can do so from the Endpoint page. On an endpoint's details page, click  "Options > Recover Failed Messages".
+If you need to recover from a service outage and want to replay all the events since a given time, you can do so from the Endpoint page. On an endpoint's details page, click "Options > Recover Failed Messages".
 
 From there, you can choose a time window to recover from.
 

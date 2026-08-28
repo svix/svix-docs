@@ -318,9 +318,9 @@ svix application create '{ "name": "Application name", "uid": "example-customer-
 ```shell
 # Change URL based on your selected region
 curl -X POST "https://api.us.svix.com/api/v1/app/" \
-    -H  "Accept: application/json" \
-    -H  "Content-Type: application/json" \
-    -H  "Authorization: Bearer AUTH_TOKEN" \
+    -H "Accept: application/json" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer AUTH_TOKEN" \
     -d '{"name": "Application name", "uid": "example-customer-123"}'
 ```
 
@@ -432,7 +432,7 @@ svix.getMessage().create("example-customer-123",
     .payload("{" +
        "\"type\": \"invoice.paid\"," +
        "\"id\": \"invoice_WF7WtCLFFtd8ubcTgboSFNql\"," +
-       "\"status\":  \"paid\"," +
+       "\"status\": \"paid\"," +
        "\"attempt\": 2" +
       "}"));
 ```
@@ -523,9 +523,9 @@ svix message create example-customer-123 '{ "eventType": "invoice.paid", "eventI
 ```shell
 # Change URL based on your selected region
 curl -X POST "https://api.us.svix.com/api/v1/app/example-customer-123/msg/" \
-    -H  "Accept: application/json" \
-    -H  "Content-Type: application/json" \
-    -H  "Authorization: Bearer AUTH_TOKEN" \
+    -H "Accept: application/json" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer AUTH_TOKEN" \
     -d '{"eventType": "invoice.paid", "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G", "payload": {"type": "invoice.paid", "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql", "status": "paid", "attempt": 2}}'
 ```
 
@@ -703,9 +703,9 @@ svix endpoint create example-customer-123 '{ "url": "https://api.example.com/svi
 ```shell
 # Change URL based on your selected region
 curl -X POST "https://api.us.svix.com/api/v1/app/example-customer-123/endpoint/" \
-    -H  "Accept: application/json" \
-    -H  "Content-Type: application/json" \
-    -H  "Authorization: Bearer AUTH_TOKEN" \
+    -H "Accept: application/json" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer AUTH_TOKEN" \
     -d '{"url": "https://api.example.com/svix-webhooks/", "description": "My main endpoint"}'
 ```
 
@@ -841,9 +841,9 @@ svix application create '{ "name": "Application name" }'
 ```shell
 # Just replace the URL below
 curl -X POST "https://api.us.svix.com/api/v1/app/" \
-    -H  "Accept: application/json" \
-    -H  "Content-Type: application/json" \
-    -H  "Authorization: Bearer AUTH_TOKEN" \
+    -H "Accept: application/json" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer AUTH_TOKEN" \
     -d '{"name": "Application name"}'
 ```
 
