@@ -69,16 +69,16 @@ app = svix.application.create(ApplicationIn(
 ```rust
 use svix::api::{ApplicationIn, Svix, SvixOptions};
 
-let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let svix = Svix::new("AUTH_TOKEN".to_owned(), None);
 let mut metadata = std::collections::HashMap::new();
-metadata.insert("svix.email".to_string(), serde_json::Value::String("example-customer-123@example.com".to_string()));
+metadata.insert("svix.email".to_owned(), serde_json::Value::String("example-customer-123@example.com".to_owned()));
 
 let app = svix
     .application()
     .create(
         ApplicationIn {
-            name: "Example customer 123".to_string(),
-            uid: Some("example-customer-123".to_string()),
+            name: "Example customer 123".to_owned(),
+            uid: Some("example-customer-123".to_owned()),
             metadata: Some(metadata),
             ..ApplicationIn::default()
         },
@@ -266,14 +266,14 @@ svix.application.patch("example-customer-123", {
 <TabItem value="Rust">
 
 ```rust
-let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let svix = Svix::new("AUTH_TOKEN".to_owned(), None);
 let mut metadata = std::collections::HashMap::new();
-metadata.insert("svix.email".to_string(), serde_json::Value::String("example-customer-123@example.com".to_string()));
+metadata.insert("svix.email".to_owned(), serde_json::Value::String("example-customer-123@example.com".to_owned()));
 
 let app = svix
     .application()
     .patch(
-        "example-customer-123".to_string(),
+        "example-customer-123".to_owned(),
         ApplicationPatch {
             metadata: Some(metadata),
             ..ApplicationPatch::default()

@@ -43,14 +43,14 @@ stream_event_type_out = svix.streaming.event_type.create(StreamEventTypeIn(
 <TabItem value="Rust">
 
 ```rust
-let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let svix = Svix::new("AUTH_TOKEN".to_owned(), None);
 let stream_event_type_out = svix
     .streaming()
     .event_type()
     .create(StreamEventTypeIn {
-        name: "user.signup".to_string(),
+        name: "user.signup".to_owned(),
         description: None,
-        feature_flags: Some(vec!["cool-new-feature".to_string()]),
+        feature_flags: Some(vec!["cool-new-feature".to_owned()]),
     }, None)
     .await?;
 ```

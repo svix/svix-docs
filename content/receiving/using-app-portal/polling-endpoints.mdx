@@ -142,8 +142,8 @@ let consumer = svix::AutoConfigConsumer::new(
     AUTO_CONFIG_TOKEN.to_string(),
     svix::SinkInCommon {
         filter_types: Some(vec![
-            "invoice.paid".to_string(),
-            "user.created".to_string(),
+            "invoice.paid".to_owned(),
+            "user.created".to_owned(),
         ]),
         ..Default::default()
     },
@@ -153,10 +153,10 @@ let consumer = svix::AutoConfigConsumer::new(
 consumer.subscribe().await?;
 
 // Inside a worker loop
-let msgs = consumer.receive("my-consumer".to_string(), None).await?;
+let msgs = consumer.receive("my-consumer".to_owned(), None).await?;
 // ... process msgs.data
 let offset = msgs.data.last().unwrap().offset;
-consumer.commit("my-consumer".to_string(), offset, None).await?;
+consumer.commit("my-consumer".to_owned(), offset, None).await?;
 ```
 </TabItem>
 

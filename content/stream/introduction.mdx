@@ -43,15 +43,15 @@ stream_out = svix.streaming.stream.create(StreamIn(
 <TabItem value="Rust">
 
 ```rust
-let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let svix = Svix::new("AUTH_TOKEN".to_owned(), None);
 
 let stream_out = svix
     .streaming()
     .stream()
     .create(
         StreamIn {
-            name: "My Stream".to_string(),
-            uid: Some("unique-identifier".to_string()),
+            name: "My Stream".to_owned(),
+            uid: Some("unique-identifier".to_owned()),
         },
         None
     ).await?;

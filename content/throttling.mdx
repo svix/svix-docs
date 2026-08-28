@@ -51,12 +51,12 @@ app = svix.application.create(ApplicationIn(name="Application name", throttle_ra
 ```rust
 use svix::api::{ApplicationIn, Svix, SvixOptions};
 
-let svix = Svix::new("AUTH_TOKEN".to_string(), None);
+let svix = Svix::new("AUTH_TOKEN".to_owned(), None);
 let app = svix
     .application()
     .create(
         ApplicationIn {
-            name: "Application name".to_string(),
+            name: "Application name".to_owned(),
             throttle_rate: Some(1000),
             ..ApplicationIn::default()
         },
