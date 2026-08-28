@@ -167,7 +167,7 @@ const headers = {
 const payload = '{"test": 2432232314}';
 
 const wh = new Webhook(secret);
-// Throws on error, returns the verified content on success
+// Throws on error
 wh.verify(payload, headers);
 ```
 
@@ -188,7 +188,7 @@ headers = {
 payload = '{"test": 2432232314}'
 
 wh = Webhook(secret)
-# Throws on error, returns the verified content on success
+# Throws on error, returns nothing on success
 wh.verify(payload, headers)
 ```
 
@@ -301,8 +301,8 @@ headers = {
 payload = '{"test": 2432232314}'
 
 wh = Svix::Webhook.new("whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw")
-# Raises on error, returns the verified content on success
-json = wh.verify(payload, headers)
+# Raises on error, returns nothing on success
+wh.verify(payload, headers)
 ```
 
 </TabItem>
@@ -342,9 +342,9 @@ $header = array(
         'svix-signature' => 'v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE=',
     );
 
-// Throws on error, returns the verified content on success
+// Throws on error
 $wh = new \Svix\Webhook('whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw');
-$json = $wh->verify($payload, $header);
+$wh->verify($payload, $header);
 ```
 
 </TabItem>
@@ -371,6 +371,8 @@ Here are examples on how to adjust the above examples to your favourite framewor
 ### Python (Django)
 
 ```python
+import json
+
 from django.http import HttpResponse
 
 from svix.webhooks import Webhook, WebhookVerificationError
@@ -384,10 +386,11 @@ def webhook_handler(request):
 
     try:
         wh = Webhook(secret)
-        msg = wh.verify(payload, headers)
+        wh.verify(payload, headers)
     except WebhookVerificationError as e:
         return HttpResponse(status=400)
 
+    msg = json.loads(payload)
     # Do something with the message...
 
     return HttpResponse(status=204)
@@ -396,6 +399,8 @@ def webhook_handler(request):
 ### Python (Flask)
 
 ```python
+import json
+
 from flask import request
 
 from svix.webhooks import Webhook, WebhookVerificationError
@@ -409,10 +414,11 @@ def webhook_handler():
 
     try:
         wh = Webhook(secret)
-        msg = wh.verify(payload, headers)
+        wh.verify(payload, headers)
     except WebhookVerificationError as e:
         return ('', 400)
 
+    msg = json.loads(payload)
     # Do something with the message...
 
     return ('', 204)
@@ -421,6 +427,8 @@ def webhook_handler():
 ### Python (FastAPI)
 
 ```python
+import json
+
 from fastapi import Request, Response, status
 
 from svix.webhooks import Webhook, WebhookVerificationError
@@ -434,11 +442,12 @@ async def webhook_handler(request: Request, response: Response):
 
     try:
         wh = Webhook(secret)
-        msg = wh.verify(payload, headers)
+        wh.verify(payload, headers)
     except WebhookVerificationError as e:
         response.status_code = status.HTTP_400_BAD_REQUEST
         return
 
+    msg = json.loads(payload)
     # Do something with the message...
 ```
 
@@ -463,13 +472,13 @@ export default async function handler(req, res) {
     const headers = req.headers;
 
     const wh = new Webhook(secret);
-    let msg;
     try {
-        msg = wh.verify(payload, headers);
+        wh.verify(payload, headers);
     } catch (err) {
         res.status(400).json({});
     }
 
+    const msg = JSON.parse(payload);
     // Do something with the message...
 
     res.json({});
@@ -492,10 +501,8 @@ export async function POST(req: Request) {
 
   const sivx = new Webhook(webhookSecret);
 
-  let msg;
-
   try {
-    msg = sivx.verify(body, {
+    sivx.verify(body, {
       "svix-id": svix_id,
       "svix-timestamp": svix_timestamp,
       "svix-signature": svix_signature,
@@ -504,6 +511,7 @@ export async function POST(req: Request) {
     return new Response("Bad Request", { status: 400 });
   }
 
+  const msg = JSON.parse(body);
   console.log(msg);
 
   // Rest
@@ -524,13 +532,13 @@ export const handler = async ({body, headers}) => {
     const payload = body;
 
     const wh = new Webhook(secret);
-    let msg;
     try {
-        msg = wh.verify(payload, headers);
+        wh.verify(payload, headers);
     } catch (err) {
         res.status(400).json({});
     }
 
+    const msg = JSON.parse(payload);
     // Do something with the message...
 
     res.json({});
@@ -555,13 +563,13 @@ app.post('/webhook', bodyParser.raw({ type: 'application/json' }), (req, res) =>
     const headers = req.headers;
 
     const wh = new Webhook(secret);
-    let msg;
     try {
-        msg = wh.verify(payload, headers);
+        wh.verify(payload, headers);
     } catch (err) {
         res.status(400).json({});
     }
 
+    const msg = JSON.parse(payload);
     // Do something with the message...
 
     res.json({});
@@ -604,13 +612,13 @@ class WebhookController {
     const payload = request.rawBody.toString('utf8');
     const headers = request.headers;
 
-    let msg;
     try {
-      msg = wh.verify(payload, headers);
+      wh.verify(payload, headers);
     } catch (err) {
       // handle error
     }
 
+    const msg = JSON.parse(payload);
     // Do something with the message...
   }
 }
@@ -630,15 +638,14 @@ export default defineEventHandler(async (event) => {
 
   const wh = new Webhook(secret);
 
-  let msg;
-
   try {
-      msg = wh.verify(payload, headers);
+      wh.verify(payload, headers);
   } catch (err) {
       setResponseStatus(event, 400);
       return "Bad Request";
   }
 
+  const msg = JSON.parse(payload);
   // Do something with the message...
   return "OK";
 })
@@ -800,6 +807,7 @@ Rails will create several files for you:
 Now we can add our verification logic to the newly created `app/controllers/webhook_controller.rb` file:
 
 ```rb
+require 'json'
 require 'svix'
 
 class WebhookController < ApplicationController
@@ -811,8 +819,9 @@ class WebhookController < ApplicationController
       headers = request.headers
       wh = Svix::Webhook.new("whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw")
 
-      json = wh.verify(payload, headers)
+      wh.verify(payload, headers)
 
+      json = JSON.parse(payload)
       # Do something with the message...
 
       head :no_content
@@ -839,8 +848,9 @@ Route::post('webhook', function(Request $request) {
 
     try {
         $wh = new Webhook("whsec_MfKQ9r8GKYqrTwjUPD8ILPZIo2LaLaSw");
-        $json = $wh->verify($payload, $headers);
+        $wh->verify($payload, $headers);
 
+        $json = json_decode($payload, true);
         # Do something with the message...
 
         return response()->noContent();

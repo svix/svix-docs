@@ -118,8 +118,8 @@ const headers = {
 const rawBody = '{"test": 2432232314}';
 
 const wh = new Webhook(secret);
-// Throws on error, returns the verified content on success
-const verified = wh.verify(rawBody, headers);
+// Throws on error
+wh.verify(rawBody, headers);
 ```
 
 For more instructions and examples of how to verify signatures, check out their [webhook verification documentation](https://docs.svix.com/receiving/verifying-payloads/how).
