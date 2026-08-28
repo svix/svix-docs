@@ -45,7 +45,7 @@ Call `subscribe()` to complete the configuration.
 import { AutoConfig } from "svix";
 
 const webhook = new AutoConfig(AUTO_CONFIG_TOKEN, {
-  filterTypes: ["invoice.paid", "user.created"],
+  eventTypes: ["invoice.paid", "user.created"],
   url: "https://api.us.example.com/webhooks/acme",
 });
 
@@ -62,7 +62,7 @@ webhook = AutoConfig(
     AUTO_CONFIG_TOKEN,
     EndpointIn(
         url="https://api.us.example.com/webhooks/acme",
-        filter_types=["invoice.paid", "user.created"],
+        event_types=["invoice.paid", "user.created"],
     ),
 )
 
@@ -76,7 +76,7 @@ let webhook = svix::AutoConfig::new(
     AUTO_CONFIG_TOKEN.to_string(),
     svix::EndpointIn {
         url: "https://api.us.example.com/webhooks/acme".to_string(),
-        filter_types: Some(vec![
+        event_types: Some(vec![
             "invoice.paid".to_string(),
             "user.created".to_string(),
         ]),
@@ -98,7 +98,7 @@ import (
 
 webhook, err := svix.NewAutoConfig(AUTO_CONFIG_TOKEN, models.EndpointIn{
 	Url:         "https://api.us.example.com/webhooks/acme",
-	FilterTypes: []string{"invoice.paid", "user.created"},
+	EventTypes: []string{"invoice.paid", "user.created"},
 })
 if err != nil {
     panic(err)
@@ -120,7 +120,7 @@ AutoConfig webhook = new AutoConfig(
         AUTO_CONFIG_TOKEN,
         new EndpointIn()
                 .url("https://api.us.example.com/webhooks/acme")
-                .filterTypes(Set.of("invoice.paid", "user.created")));
+                .eventTypes(Set.of("invoice.paid", "user.created")));
 
 webhook.subscribe();
 ```
@@ -135,7 +135,7 @@ val webhook = AutoConfig(
     AUTO_CONFIG_TOKEN,
     EndpointIn(
         url = "https://api.us.example.com/webhooks/acme",
-        filterTypes = setOf("invoice.paid", "user.created"),
+        eventTypes = setOf("invoice.paid", "user.created"),
     ),
 )
 
@@ -149,7 +149,7 @@ require "svix"
 
 endpoint = Svix::EndpointIn.new(
   "url" => "https://api.us.example.com/webhooks/acme",
-  "filterTypes" => ["invoice.paid", "user.created"],
+  "eventTypes" => ["invoice.paid", "user.created"],
 )
 
 webhook = Svix::AutoConfig.new(AUTO_CONFIG_TOKEN, endpoint)
@@ -169,7 +169,7 @@ var webhook = new AutoConfig(
     new EndpointIn
     {
         Url = "https://api.us.example.com/webhooks/acme",
-        FilterTypes = new[] { "invoice.paid", "user.created" },
+        EventTypes = new[] { "invoice.paid", "user.created" },
     });
 
 await webhook.SubscribeAsync();
@@ -184,7 +184,7 @@ use Svix\Models\EndpointIn;
 $webhook = new AutoConfig(
     AUTO_CONFIG_TOKEN,
     EndpointIn::create('https://api.us.example.com/webhooks/acme')
-        ->withFilterTypes(['invoice.paid', 'user.created']),
+        ->withEventTypes(['invoice.paid', 'user.created']),
 );
 
 $webhook->subscribe();
@@ -209,7 +209,7 @@ To verify the payload, call verify() on the same AutoConfig instance you used to
 import { AutoConfig } from "svix";
 
 const webhook = new AutoConfig(AUTO_CONFIG_TOKEN, {
-  filterTypes: ["invoice.paid", "user.created"],
+  eventTypes: ["invoice.paid", "user.created"],
   url: "https://api.us.example.com/webhooks/acme",
 });
 
@@ -245,7 +245,7 @@ import { AutoConfig } from "svix";
 const app = express();
 
 const webhook = new AutoConfig(AUTO_CONFIG_TOKEN, {
-  filterTypes: ["invoice.paid", "user.created"],
+  eventTypes: ["invoice.paid", "user.created"],
   url: "https://api.us.example.com/webhooks/acme",
 });
 
@@ -265,7 +265,7 @@ For example, in Next.js, you can use [instrumentation](https://nextjs.org/docs/a
 import { AutoConfig } from "svix";
 
 const webhook = new AutoConfig(AUTO_CONFIG_TOKEN, {
-  filterTypes: ["invoice.paid", "user.created"],
+  eventTypes: ["invoice.paid", "user.created"],
   url: "https://api.us.example.com/webhooks/acme",
 });
 
@@ -295,7 +295,7 @@ jobs:
           import { AutoConfig } from "svix";
 
           const webhook = new AutoConfig(AUTO_CONFIG_TOKEN, {
-            filterTypes: ["invoice.paid", "user.created"],
+            eventTypes: ["invoice.paid", "user.created"],
             url: "https://api.us.example.com/webhooks/acme",
           });
 

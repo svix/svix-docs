@@ -22,7 +22,7 @@ Here's an example of how this looks like in code:
 import { AutoConfig } from "svix";
 
 const webhook = new AutoConfig(AUTO_CONFIG_TOKEN, {
-  filterTypes: ["invoice.paid", "user.created"],
+  eventTypes: ["invoice.paid", "user.created"],
   url: "https://api.us.example.com/webhooks/acme",
 });
 
