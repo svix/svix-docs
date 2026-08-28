@@ -1052,7 +1052,7 @@ Once you're ready to release this new event type to all of your users simply rem
 
 ```js
 const svix = new Svix("AUTH_TOKEN");
-await svix.eventType.update("user.signup", { featureFlag: null });
+await svix.eventType.upsert("user.signup", { featureFlag: null });
 ```
 
 </TabItem>
@@ -1060,7 +1060,7 @@ await svix.eventType.update("user.signup", { featureFlag: null });
 
 ```python
 svix = Svix("AUTH_TOKEN")
-svix.event_type.update("user.signup", EventTypeUpdate(feature_flag=None))
+svix.event_type.upsert("user.signup", EventTypeUpsertIn(feature_flag=None))
 ```
 
 </TabItem>
@@ -1070,9 +1070,9 @@ svix.event_type.update("user.signup", EventTypeUpdate(feature_flag=None))
 let svix = Svix::new("AUTH_TOKEN".to_string(), None);
 let event_type_out = svix
     .event_type()
-    .update(
+    .upsert(
         "user.signup".to_string(),
-        EventTypeUpdate {
+        EventTypeUpsertIn {
             feature_flag: None,
             ..Default::default()
         },
@@ -1086,7 +1086,7 @@ let event_type_out = svix
 
 ```go
 svixClient := svix.New("AUTH_TOKEN", nil)
-eventTypeOut, _ := svixClient.EventType.Update(ctx, "user.signup", &svix.EventTypeUpdate{ FeatureFlag: nil })
+eventTypeOut, _ := svixClient.EventType.Upsert(ctx, "user.signup", &svix.EventTypeUpsertIn{ FeatureFlag: nil })
 ```
 
 </TabItem>
@@ -1094,7 +1094,7 @@ eventTypeOut, _ := svixClient.EventType.Update(ctx, "user.signup", &svix.EventTy
 
 ```java
 Svix svix = new Svix("AUTH_TOKEN");
-EventTypeOut eventTypeOut = svix.getEventType().update("user.signup", new EventTypeUpdate()
+EventTypeOut eventTypeOut = svix.getEventType().upsert("user.signup", new EventTypeUpsertIn()
     .featureFlag(null)
 );
 ```
@@ -1104,7 +1104,7 @@ EventTypeOut eventTypeOut = svix.getEventType().update("user.signup", new EventT
 
 ```kotlin
 val svix = Svix("AUTH_TOKEN")
-val eventTypeOut = svix.eventType.update("user.signup", EventTypeUpdate().featureFlag(null))
+val eventTypeOut = svix.eventType.upsert("user.signup", EventTypeUpsertIn().featureFlag(null))
 ```
 
 </TabItem>
@@ -1112,7 +1112,7 @@ val eventTypeOut = svix.eventType.update("user.signup", EventTypeUpdate().featur
 
 ```ruby
 svix = Svix::Client.new("AUTH_TOKEN")
-event_type_out = svix.event_type.update("user.signup", Svix::EventTypeUpdate.new({
+event_type_out = svix.event_type.upsert("user.signup", Svix::EventTypeUpsertIn.new({
     "feature_flag": nil
 }))
 ```
@@ -1122,7 +1122,7 @@ event_type_out = svix.event_type.update("user.signup", Svix::EventTypeUpdate.new
 
 ```csharp
 var svix = new SvixClient("AUTH_TOKEN");
-var eventTypeOut = await svix.EventType.Update("user.signup", new EventTypeUpdate{
+var eventTypeOut = await svix.EventType.Upsert("user.signup", new EventTypeUpsertIn{
     featureFlag: null
 });
 ```
@@ -1134,9 +1134,9 @@ var eventTypeOut = await svix.EventType.Update("user.signup", new EventTypeUpdat
 $svix = new Svix('AUTH_TOKEN');
 
 
-$eventTypeOut = $svix->eventType->update(
+$eventTypeOut = $svix->eventType->upsert(
   'user.signup',
-  EventTypeUpdate::create(description: 'updated description')
+  EventTypeUpsertIn::create(description: 'updated description')
     ->withFeatureFlag(null)
 );
 ```
@@ -1146,7 +1146,7 @@ $eventTypeOut = $svix->eventType->update(
 
 ```shell
 export SVIX_AUTH_TOKEN="AUTH_TOKEN"
-svix event-type update user.signup '{"featureFlag": null}'
+svix event-type upsert user.signup '{"featureFlag": null}'
 ```
 
 </TabItem>
