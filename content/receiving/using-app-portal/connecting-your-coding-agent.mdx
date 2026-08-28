@@ -27,7 +27,7 @@ Restart your agent if it was already running, then confirm the server is connect
 
 Once connected, you can ask questions in plain language and let the agent do the digging:
 
-- _"Why is the `invoice.paid` event failing?"_ — it searches the correct endpoint,  checks the endpoint's delivery stats, then the failed attempts and the exact response your handler returned.
+- _"Why is the `invoice.paid` event failing?"_ — it searches the correct endpoint, checks the endpoint's delivery stats, then the failed attempts and the exact response your handler returned.
 - _"What does the payload for this event actually look like?"_ — it fetches a recent message and its JSON payload, so you can write your handler against the real thing.
 - _"My handler was down for an hour — replay what it missed."_ — it recovers the endpoint from that point in time.
 - _"Which endpoint is this message not reaching?"_ — it lists every endpoint the message was attempted against and how each one responded.
