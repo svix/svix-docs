@@ -217,9 +217,9 @@ svix application create '{
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
 
 curl -X POST "https://api.us.svix.com/api/v1/app/" \
-    -H  "Accept: application/json" \
-    -H  "Content-Type: application/json" \
-    -H  "Authorization: Bearer ${SVIX_AUTH_TOKEN}" \
+    -H "Accept: application/json" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer ${SVIX_AUTH_TOKEN}" \
     -d '{
       "name": "Example customer 123",
       "uid": "example-customer-123",
@@ -392,9 +392,9 @@ svix application patch 'example-customer-123' '{ "metadata": { "svix.email": "ex
 export SVIX_AUTH_TOKEN='AUTH_TOKEN'
 
 curl -X PATCH "https://api.us.svix.com/api/v1/app/example-customer-123/" \
-    -H  "Accept: application/json" \
-    -H  "Content-Type: application/json" \
-    -H  "Authorization: Bearer ${SVIX_AUTH_TOKEN}" \
+    -H "Accept: application/json" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer ${SVIX_AUTH_TOKEN}" \
     -d '{ "metadata": { "svix.email": "example-customer-123@example.com" } }'
 ```
 
