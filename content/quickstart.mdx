@@ -184,7 +184,7 @@ In this example, we'll show how to create an application with the `example-custo
 ```js
 import { Svix } from "svix";
 
-const svix = new Svix("AUTH_TOKEN");
+const svix = new Svix("auth_token");
 const app = await svix.application.create({
   name: "Application name",
   uid: "example-customer-123"
@@ -197,7 +197,7 @@ const app = await svix.application.create({
 ```python
 from svix.api import Svix, ApplicationIn
 
-svix = Svix("AUTH_TOKEN")
+svix = Svix("auth_token")
 app = svix.application.create(ApplicationIn(
     name="Application name",
     uid="example-customer-123"
@@ -210,7 +210,7 @@ app = svix.application.create(ApplicationIn(
 ```rust
 use svix::api::{ApplicationIn, Svix, SvixOptions};
 
-let svix = Svix::new("AUTH_TOKEN".to_owned(), None);
+let svix = Svix::new("auth_token".to_owned(), None);
 let app = svix
     .application()
     .create(
@@ -232,7 +232,7 @@ import (
 	svix "github.com/svix/svix-webhooks/go"
 )
 
-svixClient := svix.New("AUTH_TOKEN", nil)
+svixClient := svix.New("auth_token", nil)
 app, err := svixClient.Application.Create(ctx, &svix.ApplicationIn{
     Name: "Application name",
     Uid:  "example-customer-123",
@@ -247,7 +247,7 @@ import com.svix.models.ApplicationIn;
 import com.svix.models.ApplicationOut;
 import com.svix.Svix;
 
-Svix svix = new Svix("AUTH_TOKEN");
+Svix svix = new Svix("auth_token");
 ApplicationOut app = svix.getApplication().create(
     new ApplicationIn().name("Application name").uid("example-customer-123")
 );
@@ -261,7 +261,7 @@ import com.svix.kotlin.models.ApplicationIn
 import com.svix.kotlin.models.ApplicationOut
 import com.svix.kotlin.Svix
 
-val svix = Svix("AUTH_TOKEN")
+val svix = Svix("auth_token")
 val applicationOut = svix.application.create(
     ApplicationIn(name = "Application name", uid = "example-customer-123")
 )
@@ -273,7 +273,7 @@ val applicationOut = svix.application.create(
 ```ruby
 require "svix"
 
-svix = Svix::Client.new("AUTH_TOKEN")
+svix = Svix::Client.new("auth_token")
 
 application_out = svix.application.create(Svix::ApplicationIn.new({
     "name" => "Application name",
@@ -285,7 +285,7 @@ application_out = svix.application.create(Svix::ApplicationIn.new({
 <TabItem value="C#">
 
 ```csharp
-var svix = new SvixClient("AUTH_TOKEN");
+var svix = new SvixClient("auth_token");
 applicationOut = await svix.Application.CreateAsync(
     new ApplicationIn(name: "Application name", uid: "example-customer-123")
 );
@@ -345,7 +345,7 @@ This example uses the [create message API](https://api.svix.com/docs#operation/c
 <TabItem value="JavaScript">
 
 ```js
-const svix = new Svix("AUTH_TOKEN");
+const svix = new Svix("auth_token");
 await svix.message.create("example-customer-123", {
   eventType: "invoice.paid",
   eventId: "evt_Wqb1k73rXprtTm7Qdlr38G",
@@ -362,7 +362,7 @@ await svix.message.create("example-customer-123", {
 <TabItem value="Python">
 
 ```python
-svix = Svix("AUTH_TOKEN")
+svix = Svix("auth_token")
 svix.message.create(
     "example-customer-123",
     MessageIn(
@@ -382,7 +382,7 @@ svix.message.create(
 <TabItem value="Rust">
 
 ```rust
-let svix = Svix::new("AUTH_TOKEN".to_owned(), None);
+let svix = Svix::new("auth_token".to_owned(), None);
 svix.message()
     .create(
         "example-customer-123".to_owned(),
@@ -406,7 +406,7 @@ svix.message()
 <TabItem value="Go">
 
 ```go
-svixClient := svix.New("AUTH_TOKEN", nil)
+svixClient := svix.New("auth_token", nil)
 eventId := "evt_Wqb1k73rXprtTm7Qdlr38G"
 svixClient.Message.Create(ctx, "example-customer-123", &svix.MessageIn{
     EventType: "invoice.paid",
@@ -424,7 +424,7 @@ svixClient.Message.Create(ctx, "example-customer-123", &svix.MessageIn{
 <TabItem value="Java">
 
 ```java
-Svix svix = new Svix("AUTH_TOKEN");
+Svix svix = new Svix("auth_token");
 svix.getMessage().create("example-customer-123",
   new MessageIn()
     .eventType("invoice.paid")
@@ -441,7 +441,7 @@ svix.getMessage().create("example-customer-123",
 <TabItem value="Kotlin">
 
 ```kotlin
-val svix = Svix("AUTH_TOKEN")
+val svix = Svix("auth_token")
 svix.message.create("example-customer-123",
         MessageIn(
             eventType = "invoice.paid",
@@ -458,7 +458,7 @@ svix.message.create("example-customer-123",
 <TabItem value="Ruby">
 
 ```ruby
-svix = Svix::Client.new("AUTH_TOKEN")
+svix = Svix::Client.new("auth_token")
 svix.message.create("example-customer-123",
     Svix::MessageIn.new({
         "event_type" => "invoice.paid",
@@ -475,7 +475,7 @@ svix.message.create("example-customer-123",
 <TabItem value="C#">
 
 ```csharp
-var svix = new SvixClient("AUTH_TOKEN");
+var svix = new SvixClient("auth_token");
 await svix.Message.CreateAsync("example-customer-123", new MessageIn(
     eventType: "invoice.paid",
     payload: new {
@@ -513,7 +513,7 @@ $svix->message->create(
 <TabItem value="CLI">
 
 ```shell
-export SVIX_AUTH_TOKEN="AUTH_TOKEN"
+export SVIX_AUTH_TOKEN="auth_token"
 svix message create example-customer-123 '{ "eventType": "invoice.paid", "eventId": "evt_Wqb1k73rXprtTm7Qdlr38G", "payload": { "type": "invoice.paid", "id": "invoice_WF7WtCLFFtd8ubcTgboSFNql", "status": "paid", "attempt": 2 } }'
 ```
 
@@ -578,7 +578,7 @@ Here is an example creating an endpoint using the [create endpoint API](https://
 <TabItem value="JavaScript">
 
 ```js
-const svix = new Svix("AUTH_TOKEN");
+const svix = new Svix("auth_token");
 await svix.endpoint.create("example-customer-123", {
   url: "https://api.example.com/svix-webhooks/",
   description: "My main endpoint",
@@ -589,7 +589,7 @@ await svix.endpoint.create("example-customer-123", {
 <TabItem value="Python">
 
 ```python
-svix = Svix("AUTH_TOKEN")
+svix = Svix("auth_token")
 svix.endpoint.create(
     "example-customer-123",
     EndpointIn(
@@ -603,7 +603,7 @@ svix.endpoint.create(
 <TabItem value="Rust">
 
 ```rust
-let svix = Svix::new("AUTH_TOKEN".to_owned(), None);
+let svix = Svix::new("auth_token".to_owned(), None);
 svix.endpoint()
     .create(
         "example-customer-123".to_owned(),
@@ -621,7 +621,7 @@ svix.endpoint()
 <TabItem value="Go">
 
 ```go
-svixClient := svix.New("AUTH_TOKEN", nil)
+svixClient := svix.New("auth_token", nil)
 svixClient.Endpoint.Create(ctx, "example-customer-123", &svix.EndpointIn{
     Url:         "https://api.example.com/svix-webhooks/",
     Description: svix.String("My main endpoint"),
@@ -632,7 +632,7 @@ svixClient.Endpoint.Create(ctx, "example-customer-123", &svix.EndpointIn{
 <TabItem value="Java">
 
 ```java
-Svix svix = new Svix("AUTH_TOKEN");
+Svix svix = new Svix("auth_token");
 svix.getEndpoint()
     .create("example-customer-123",
             new EndpointIn()
@@ -644,7 +644,7 @@ svix.getEndpoint()
 <TabItem value="Kotlin">
 
 ```kotlin
-val svix = Svix("AUTH_TOKEN")
+val svix = Svix("auth_token")
 val endpointOut =
     svix.endpoint.create("example-customer-123",
         EndpointIn(
@@ -656,7 +656,7 @@ val endpointOut =
 <TabItem value="Ruby">
 
 ```ruby
-svix = Svix::Client.new("AUTH_TOKEN")
+svix = Svix::Client.new("auth_token")
 endpoint_out =
     svix.endpoint.create("example-customer-123",
         Svix::EndpointIn.new({
@@ -668,7 +668,7 @@ endpoint_out =
 <TabItem value="C#">
 
 ```csharp
-var svix = new SvixClient("AUTH_TOKEN");
+var svix = new SvixClient("auth_token");
 endpointOut = await svix.Endpoint.CreateAsync(new EndpointIn(
     url: "https://api.example.com/svix-webhooks/",
     description: "My main endpoint"
@@ -693,7 +693,7 @@ $endpointOut = $svix->endpoint->create(
 <TabItem value="CLI">
 
 ```shell
-export SVIX_AUTH_TOKEN="AUTH_TOKEN"
+export SVIX_AUTH_TOKEN="auth_token"
 svix endpoint create example-customer-123 '{ "url": "https://api.example.com/svix-webhooks/", "description": "My main endpoint" }'
 ```
 
@@ -740,7 +740,7 @@ This is how you override the server URL in each of the libraries:
 ```js
 import { Svix } from "svix";
 
-const svix = new Svix("AUTH_TOKEN", { serverUrl: "THE_SERVER_URL" });
+const svix = new Svix("auth_token", { serverUrl: "THE_SERVER_URL" });
 ```
 
 </TabItem>
@@ -749,10 +749,10 @@ const svix = new Svix("AUTH_TOKEN", { serverUrl: "THE_SERVER_URL" });
 ```python
 from svix.api import Svix, SvixAsync, SvixOptions
 
-svix = Svix("AUTH_TOKEN", SvixOptions(server_url="THE_SERVER_URL"))
+svix = Svix("auth_token", SvixOptions(server_url="THE_SERVER_URL"))
 
 # Or use the async variants
-svix = SvixAsync("AUTH_TOKEN", SvixOptions(server_url="THE_SERVER_URL"))
+svix = SvixAsync("auth_token", SvixOptions(server_url="THE_SERVER_URL"))
 ```
 
 </TabItem>
@@ -761,7 +761,7 @@ svix = SvixAsync("AUTH_TOKEN", SvixOptions(server_url="THE_SERVER_URL"))
 ```rust
 use svix::api::{ApplicationIn, Svix, SvixOptions};
 
-let svix = Svix::new("AUTH_TOKEN".to_owned(), SvixOptions {
+let svix = Svix::new("auth_token".to_owned(), SvixOptions {
     server_url: "THE_SERVER_URL".to_owned(),
     ..SvixOptions::default()
 });
@@ -776,7 +776,7 @@ import (
 )
 
 serverUrl, _ := url.Parse("THE_SERVER_URL")
-svixClient := svix.New("AUTH_TOKEN", &svix.SvixOptions{
+svixClient := svix.New("auth_token", &svix.SvixOptions{
 	ServerUrl: serverUrl,
 })
 ```
@@ -787,7 +787,7 @@ svixClient := svix.New("AUTH_TOKEN", &svix.SvixOptions{
 ```java
 import com.svix.Svix;
 
-Svix svix = new Svix("AUTH_TOKEN", new SvixOptions().serverUrl("THE_SERVER_URL"));
+Svix svix = new Svix("auth_token", new SvixOptions().serverUrl("THE_SERVER_URL"));
 ```
 
 </TabItem>
@@ -796,7 +796,7 @@ Svix svix = new Svix("AUTH_TOKEN", new SvixOptions().serverUrl("THE_SERVER_URL")
 ```kotlin
 import com.svix.kotlin.Svix;
 
-val svix = Svix("AUTH_TOKEN", SvixOptions("THE_SERVER_URL"))
+val svix = Svix("auth_token", SvixOptions("THE_SERVER_URL"))
 ```
 
 </TabItem>
@@ -805,7 +805,7 @@ val svix = Svix("AUTH_TOKEN", SvixOptions("THE_SERVER_URL"))
 ```ruby
 require "svix"
 
-svix = Svix::Client.new("AUTH_TOKEN", Svix::SvixOptions.new(false, "THE_SERVER_URL"))
+svix = Svix::Client.new("auth_token", Svix::SvixOptions.new(false, "THE_SERVER_URL"))
 ```
 
 </TabItem>
@@ -814,7 +814,7 @@ svix = Svix::Client.new("AUTH_TOKEN", Svix::SvixOptions.new(false, "THE_SERVER_U
 ```csharp
 using Svix;
 
-var svix = new SvixClient("AUTH_TOKEN", new SvixOptions("THE_SERVER_URL"));
+var svix = new SvixClient("auth_token", new SvixOptions("THE_SERVER_URL"));
 ```
 
 </TabItem>
