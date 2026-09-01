@@ -1,0 +1,32 @@
+---
+title: Svix for AI Agents
+---
+
+# Svix for AI Agents
+
+Svix builds tools to make AI agents good at webhooks: teaching them to send and receive webhooks, giving them tools to debug live deliveries, and letting them receive webhooks without hosting a public HTTP server.
+
+## Agent Skills
+
+- **`svix-sending-webhooks`**: everything for working with Svix, from first-time setup to Dispatch (sending webhooks to your customers), Ingest (receiving third-party webhooks), and the Svix CLI.
+- **`receiving-webhooks`**: guidelines for building a robust webhook receiver.
+
+Install them into any project with `npx skills add svix/ai`, or as a plugin for [Claude Code](https://code.claude.com/docs/en/plugins) (`/plugin marketplace add svix/ai`), [Codex](https://developers.openai.com/codex/plugins), and any [Agent Plugins](https://agent-plugins.org/) client. See the [svix/ai repo](https://github.com/svix/ai) for details.
+
+## MCP servers
+
+[MCP](https://modelcontextprotocol.io) servers let an agent work against a live Svix account instead of just reading docs:
+
+- **[Consumer App Portal MCP](/ai/app-portal-mcp)**: your customers point their coding agent at their own webhook data. The agent can inspect endpoints, failed attempts, and payloads, then resend or recover deliveries.
+- **Dashboard MCP**: for the webhooks you receive through [Ingest](https://www.svix.com/ingest/). The agent can set up and debug ingest sources, endpoints, and signing secrets.
+
+## Agent runtime plugins
+
+Agent runtimes usually receive webhooks by exposing a public URL. These plugins invert that: they poll a Svix sink and hand each message to the runtime as if it were an inbound request, so they work from a laptop behind NAT, and events survive a restart:
+
+- **[`svix-openclaw`](https://github.com/svix/ai/tree/main/svix-openclaw)**: [OpenClaw](https://docs.openclaw.ai/) plugin.
+- **[`svix-hermes`](https://github.com/svix/ai/tree/main/svix-hermes)**: [Hermes Agent](https://github.com/NousResearch/hermes-agent) gateway plugin.
+
+## LLM-readable docs
+
+Every page on this site is available as plain markdown: append `.md` to any docs URL and give it to your agent.
