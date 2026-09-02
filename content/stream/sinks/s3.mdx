@@ -1,6 +1,8 @@
 ---
 title: Amazon S3
 ---
+import AwsStsNotes from '../../_common/aws-sts-notes.mdx'
+
 # Amazon S3
 
 Events can be sent to an S3 bucket using the `amazonS3` sink type.
@@ -102,3 +104,9 @@ And the files contents would match the jsonl format.
 ```
 
 If you want to control the format of the object more precisely, you can use `config.format = "raw"`, and set `data` to a string of the exact file contents you want.
+
+# Authentication
+
+You can authenticate sinks to S3 using either a fixed AWS Access Key ID and Secret Access Key, or by using a role and cross-account delegated authentication. In either case, the target user/role must have the `s3:PutObject` permission on the relevant bucket.
+
+<AwsStsNotes />

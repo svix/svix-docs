@@ -1,0 +1,81 @@
+## Authenticating with Amazon IAM Roles and STS
+
+Some sinks support authenticating using delegated authentication with Amazon Identity and Access Management (IAM) Roles. This
+can be more secure than using a fixed access key and secure token, because the remote session can only be used from a dedicated,
+Svix-operated AWS account via the [AWS Security Token Service](https://docs.aws.amazon.com/STS/latest/APIReference/Welcome.html).
+In order to use role-based authentication:
+
+ 1. Create your resource (S3 bucket, etc) as normal
+ 2. In AWS IAM, create a new role and grant it the appropriate policy on the resource; take note of the <abbr title="Amazon Resource Name">ARN</abbr> of the role, which should look like `arn:aws:iam::111111111111:role/some-name`.
+ 3. Create a trust policy for your new role that looks like the following:
+
+    ```json
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Principal": {
+                    "AWS": "565881507882"
+                },
+                "Action": "sts:AssumeRole",
+                "Condition": {
+                    "StringEquals": {
+                        "sts:ExternalId": "source:<stream ID>:id:"
+                    }
+                }
+            }
+        ]
+    }
+    ```
+    Note that the account **565881507882** is a dedicated, Svix-managed account used for all outgoing STS relationships.
+ 4. Create a new sink
+    ```shell
+    curl -X 'POST' 'https://api.svix.com/api/v1/stream/strm_abcdef1234567890abcde/sink' \
+      -H 'Authorization: Bearer AUTH_TOKEN' \
+      -H 'Content-Type: application/json' \
+      -d '{
+      "type": "amazonS3",
+      "config": {
+        "bucket": "my-s3-bucket-name",
+        "region": "us-west-2",
+        "roleArn": "<ARN of the role from step 2>
+      },
+      "uid": "unique-identifier",
+      "status": "enabled",
+      "batchSize": 1000,
+      "maxWaitSecs": 300,
+      "eventTypes": [],
+      "metadata": {}
+    }'
+    ```
+
+### External IDs
+
+By default, Svix sets the `sts:ExternalId` property to `source:<stream ID>:id:`; in the example above, it would be the string `source:strm_abcdef1234567890abcde:id:`. If you have multiple streams that you would like to allow to write to the same bucket, you can
+provide an `externalId` value of your own choosing as a property to the [`v1.streaming.sink.create`](https://api.svix.com/docs#tag/Sink/operation/v1.streaming.sink.create) call. This can be any string that does not contain the `:` character. The `sts:ExternalId` property
+will then be set to `source:<stream ID>:id:<your provided value>`. You can then write your Trust Relationship as the following:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "565881507882"
+            },
+            "Action": "sts:AssumeRole",
+            "Condition": {
+                "StringLike": {
+                    "sts:ExternalId": "source:*:id:<your selected value>"
+                }
+            }
+        }
+    ]
+}
+```
+
+Note that in this case, the External Id does serve as a secret, and an attacker with access to it could cause their own stream to write into your bucket.
+
+For more information about the `sts:ExternalID` property, please see the AWS documentation [Access to AWS accounts owned by third parties](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_common-scenarios_third-party.html).
