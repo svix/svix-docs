@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 4007",
     "build": "next build && npm run pagefind-vercel && npm run generate-md-vercel",
     "postbuild": "next-sitemap",
     "start": "next start",
