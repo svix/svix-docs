@@ -1,6 +1,8 @@
 ---
 title: Amazon EventBridge
 ---
+import AwsStsNotes from '../../_common/aws-sts-notes.mdx'
+
 # Amazon EventBridge
 
 Events can be sent to Amazon EventBridge using the `eventBridge` sink type.
@@ -104,3 +106,9 @@ The default transformation code would send two events to your event bus, with th
 To control the `detail` of each event, return your own array of strings in `payloads`. Each string becomes the `detail` of one EventBridge event.
 
 EventBridge accepts at most 10 entries per request, so larger batches are automatically split across multiple `PutEvents` calls.
+
+# Authentication
+
+You can authenticate sinks to EventBridge using either a fixed AWS Access Key ID and Secret Access Key, or by using a role and cross-account delegated authentication. In either case, the target user/role must have the `events:PutEvents` permission on the relevant Event Bus.
+
+<AwsStsNotes />
