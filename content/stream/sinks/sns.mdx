@@ -1,6 +1,8 @@
 ---
 title: Amazon SNS
 ---
+import AwsStsNotes from '../../_common/aws-sts-notes.mdx'
+
 # Amazon SNS
 
 Events can be sent to an Amazon SNS topic using the `sns` sink type.
@@ -116,3 +118,9 @@ function handler(input) {
 ```
 
 SNS accepts at most 10 messages per batch request, so larger batches are automatically split across multiple `PublishBatch` calls.
+
+# Authentication
+
+You can authenticate sinks to SNS using either a fixed AWS Access Key ID and Secret Access Key, or by using a role and cross-account delegated authentication. In either case, the target user/role must have the `sns:Publish` permission on the relevant topic.
+
+<AwsStsNotes />
