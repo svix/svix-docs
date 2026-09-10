@@ -1,6 +1,8 @@
 ---
 title: Amazon Redshift
 ---
+import AwsStsNotes from '../../_common/aws-sts-notes.mdx'
+
 # Amazon Redshift
 
 Events can be sent to an Amazon Redshift table using the `redshift` sink type. Svix writes to Redshift through the [Redshift Data API](https://docs.aws.amazon.com/redshift-data/latest/APIReference/Welcome.html), and supports both Redshift Serverless and provisioned clusters.
@@ -142,3 +144,9 @@ The transformation above inserts two rows into your table.
 | --- | --- |
 | `2025-07-21 14:23:18` | `{"email":"joe@enterprise.io"}` |
 | `2025-07-21 14:23:18` | `{"id":12,"timestamp":"2025-07-21T14:23:17.861Z"}` |
+
+# Authentication
+
+You can authenticate sinks to Redshift using either a fixed AWS Access Key ID and Secret Access Key, or by using a role and cross-account delegated authentication. In either case, the target user/role must have the `redshift-data:ExecuteStatement`, `redshift-data:BatchExecuteStatement`, and `redshift-data:DescribeStatement` permissions on the appropriate cluster.
+
+<AwsStsNotes />
