@@ -1,6 +1,8 @@
 ---
 title: Amazon SQS
 ---
+import AwsStsNotes from '../../_common/aws-sts-notes.mdx'
+
 # Amazon SQS
 
 Events can be sent to an Amazon SQS queue using the `sqs` sink type.
@@ -101,3 +103,9 @@ The default transformation code would send two messages to your queue, with the 
 To control the message bodies, return your own array of `messages`. Each message's `payload` becomes the body of one SQS message.
 
 SQS accepts at most 10 messages per batch request, so larger batches are automatically split across multiple `SendMessageBatch` calls.
+
+# Authentication
+
+You can authenticate sinks to SQS using either a fixed AWS Access Key ID and Secret Access Key, or by using a role and cross-account delegated authentication. In either case, the target user/role must have the `sqs:SendMessage` permission on the relevant queue.
+
+<AwsStsNotes />
