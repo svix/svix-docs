@@ -40,8 +40,8 @@ const meta = {
   },
   channels: 'Channels',
   'message-tags': 'Message Tags',
-  'advanced-endpoints': {
-    title: 'Advanced Endpoint Types',
+  'advanced-destinations': {
+    title: 'Advanced Destinations',
     theme: {
       collapsed: true,
     },
