@@ -26,6 +26,7 @@ const nextConfig: NextConfig = {
       { source: '/transformation-templates', destination: '/connectors', permanent: true },
       { source: '/polling-endpoints', destination: '/advanced-endpoints/polling-endpoints', permanent: true },
       { source: '/rate-limit', destination: '/throttling', permanent: true },
+      { source: '/advanced-endpoints', destination: '/advanced-destinations', permanent: true },
     ]
   },
   rewrites: async () => {

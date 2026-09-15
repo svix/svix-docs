@@ -47,7 +47,7 @@ A markdown version of any page is available by appending `.md` to the end of its
 - [Transformations](https://docs.svix.com/transformations): Transform webhook payloads before delivery using Svix's transformation engine.
 - [Connectors](https://docs.svix.com/connectors): Use pre-built connectors to integrate with popular services and platforms.
 - [Channels](https://docs.svix.com/channels): Organize and route webhooks using channels for better event management and delivery control.
-- [Advanced Endpoint Types](https://docs.svix.com/advanced-endpoint-types): Configure advanced endpoint types including custom headers, authentication, and delivery options.
+- [Advanced Destinations](https://docs.svix.com/advanced-endpoints): Configure advanced destinations including object storage, queues, and data warehouses.
 
 ### API Reference
 - [Introduction](https://api.svix.com/docs#section/Introduction): Reference documentation and schemas for the Svix webhook service API.
