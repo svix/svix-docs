@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
   redirects: async () => {
     return [
       { source: '/', destination: '/introduction', permanent: false },
+      { source: '/advanced-endpoints/:path*', destination: '/advanced-destinations/:path*', permanent: true },
       { source: '/advanced-destinations/intro', destination: '/advanced-destinations', permanent: true },
       { source: '/connectors/connectors', destination: '/connectors', permanent: true },
       { source: '/tutorials/connectors', destination: '/tutorials/slack-connector', permanent: true },
@@ -26,7 +27,6 @@ const nextConfig: NextConfig = {
       { source: '/transformation-templates', destination: '/connectors', permanent: true },
       { source: '/polling-endpoints', destination: '/advanced-destinations/polling-endpoints', permanent: true },
       { source: '/rate-limit', destination: '/throttling', permanent: true },
-      { source: '/advanced-endpoints', destination: '/advanced-destinations', permanent: true },
     ]
   },
   rewrites: async () => {
