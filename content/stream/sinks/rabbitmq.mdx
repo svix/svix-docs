@@ -35,6 +35,20 @@ Every event in the batch is published to RabbitMQ as a separate message, using t
 - `uri` — the AMQP connection URI for your RabbitMQ instance.
 - `routingKey` — the routing key each message is published with.
 
+### Virtual Host
+
+You can specify a virtual host when connecting to your RabbitMQ broker.
+
+The path after the host is the [vhost](https://www.rabbitmq.com/docs/uri-spec). Omit the path (no trailing slash) to use the default vhost (`/`). A trailing slash is an empty vhost, not `/`.
+
+```
+amqp://user:pass@host:5672          → vhost / (default)
+amqp://user:pass@host:5672/         → vhost "" (empty, usually rejected)
+amqp://user:pass@host:5672/my-vhost → vhost my-vhost
+```
+
+---
+
 # Transformations
 
 By default, all `rabbitMq` Sinks come bundled with the following transformation code.
