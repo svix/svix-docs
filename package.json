@@ -32,5 +32,8 @@
     "pagefind": "^1.4.0",
     "postcss": "^8.4.49",
     "tailwindcss": "^4.1.10"
+  },
+  "overrides": {
+    "@xmldom/xmldom": "^0.9.12"
   }
 }
