@@ -40,6 +40,7 @@ const meta = {
   },
   channels: 'Channels',
   'message-tags': 'Message Tags',
+  'custom-domains': 'Custom Domains',
   'advanced-endpoints': {
     title: 'Advanced Endpoint Types',
     theme: {
