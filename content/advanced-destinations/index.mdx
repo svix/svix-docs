@@ -27,6 +27,304 @@ You can choose the individual advanced destinations you'd like to make available
 
 ![Enable Advanced Destinations](/img/advanced-destinations/advanced-destinations-setting.png)
 
-When you enable Advanced Destinations, your users will be able to create them in the [App Portal](/app-portal).
+When you enable Advanced Destinations, your users will be able to create them in the [Application Portal](/app-portal).
 
 ![Advanced Destinations](/img/advanced-destinations/object-storage-endpoints.png)
+
+---
+
+# Using the API
+
+Like regular endpoints, Advanced Destinations can managed by your users via the [Application Portal](/app-portal), or through the Svix API.
+
+The `destination` API can be used to create, update, and delete Advanced Destinations. Here is an example of how to create an Amazon S3 destination using the [create destination API](https://api.svix.com/docs#tag/Destination/operation/v1.destination.create):
+
+<CodeTabs items={["JavaScript","Python","Rust","Go","Java","Kotlin","Ruby","C#","PHP","CLI","cURL"]}>
+<TabItem value="JavaScript">
+
+```js
+import { DestinationStatusIn, Svix } from "svix";
+
+const svix = new Svix("auth_token");
+const dest = await svix.destination.create("example-customer-123", {
+  uid: "unique-identifier",
+  status: DestinationStatusIn.Enabled,
+  batchSize: 100,
+  maxWaitSecs: 10,
+  type: "amazonS3",
+  config: {
+    bucket: "my-s3-bucket-name",
+    region: "us-west-2",
+    accessKeyId: "ACCESS_KEY",
+    secretAccessKey: "SECRET_KEY",
+  },
+});
+```
+
+</TabItem>
+<TabItem value="Python">
+
+```python
+from svix.api import DestinationIn, DestinationStatusIn, S3ConfigIn, Svix
+
+svix = Svix("auth_token")
+dest = svix.destination.create(
+    "example-customer-123",
+    DestinationIn(
+        uid="unique-identifier",
+        status=DestinationStatusIn.ENABLED,
+        batch_size=100,
+        max_wait_secs=10,
+        type="amazonS3",
+        config=S3ConfigIn(
+            bucket="my-s3-bucket-name",
+            region="us-west-2",
+            access_key_id="ACCESS_KEY",
+            secret_access_key="SECRET_KEY",
+        ),
+    ),
+)
+```
+
+</TabItem>
+<TabItem value="Rust">
+
+```rust
+use svix::api::{
+    DestinationIn, DestinationInConfig, DestinationStatusIn, S3ConfigIn, Svix,
+};
+
+let svix = Svix::new("auth_token".to_owned(), None);
+let dest = svix
+    .destination()
+    .create(
+        "example-customer-123".to_owned(),
+        DestinationIn {
+            uid: Some("unique-identifier".to_owned()),
+            status: Some(DestinationStatusIn::Enabled),
+            batch_size: Some(100),
+            max_wait_secs: Some(10),
+            event_types: None,
+            channels: None,
+            metadata: None,
+            config: DestinationInConfig::AmazonS3(S3ConfigIn {
+                bucket: "my-s3-bucket-name".to_owned(),
+                region: Some("us-west-2".to_owned()),
+                access_key_id: Some("ACCESS_KEY".to_owned()),
+                secret_access_key: Some("SECRET_KEY".to_owned()),
+                endpoint_url: None,
+                role_arn: None,
+                external_id: None,
+            }),
+        },
+        None,
+    )
+    .await?;
+```
+
+</TabItem>
+<TabItem value="Go">
+
+```go
+import (
+	svix "github.com/svix/svix-webhooks/go"
+)
+
+svixClient := svix.New("auth_token", nil)
+status := svix.DestinationStatusIn("enabled")
+batchSize := uint16(100)
+maxWaitSecs := uint16(10)
+dest, err := svixClient.Destination.Create(ctx, "example-customer-123", svix.DestinationIn{
+    Uid:         svix.String("unique-identifier"),
+    Status:      &status,
+    BatchSize:   &batchSize,
+    MaxWaitSecs: &maxWaitSecs,
+    Type:        "amazonS3",
+    Config: svix.S3ConfigIn{
+        Bucket:          "my-s3-bucket-name",
+        Region:          svix.String("us-west-2"),
+        AccessKeyId:     svix.String("ACCESS_KEY"),
+        SecretAccessKey: svix.String("SECRET_KEY"),
+    },
+}, nil)
+```
+
+</TabItem>
+<TabItem value="Java">
+
+```java
+import com.svix.models.DestinationIn;
+import com.svix.models.DestinationInConfig;
+import com.svix.models.DestinationOut;
+import com.svix.models.DestinationStatusIn;
+import com.svix.models.S3ConfigIn;
+import com.svix.Svix;
+
+Svix svix = new Svix("auth_token");
+DestinationOut dest = svix.getDestination().create(
+    "example-customer-123",
+    new DestinationIn()
+        .uid("unique-identifier")
+        .status(DestinationStatusIn.ENABLED)
+        .batchSize((short) 100)
+        .maxWaitSecs((short) 10)
+        .config(new DestinationInConfig.AmazonS3(
+            new S3ConfigIn()
+                .bucket("my-s3-bucket-name")
+                .region("us-west-2")
+                .accessKeyId("ACCESS_KEY")
+                .secretAccessKey("SECRET_KEY")
+        ))
+);
+```
+
+</TabItem>
+<TabItem value="Kotlin">
+
+```kotlin
+import com.svix.kotlin.models.DestinationIn
+import com.svix.kotlin.models.DestinationInConfig
+import com.svix.kotlin.models.DestinationStatusIn
+import com.svix.kotlin.models.S3ConfigIn
+import com.svix.kotlin.Svix
+
+val svix = Svix("auth_token")
+val dest = svix.destination.create(
+    "example-customer-123",
+    DestinationIn(
+        uid = "unique-identifier",
+        status = DestinationStatusIn.ENABLED,
+        batchSize = 100u,
+        maxWaitSecs = 10u,
+        config = DestinationInConfig.AmazonS3(
+            S3ConfigIn(
+                bucket = "my-s3-bucket-name",
+                region = "us-west-2",
+                accessKeyId = "ACCESS_KEY",
+                secretAccessKey = "SECRET_KEY",
+            )
+        )
+    )
+)
+```
+
+</TabItem>
+<TabItem value="Ruby">
+
+```ruby
+require "svix"
+
+svix = Svix::Client.new("auth_token")
+
+dest = svix.destination.create("example-customer-123", {
+    "uid" => "unique-identifier",
+    "status" => "enabled",
+    "batchSize" => 100,
+    "maxWaitSecs" => 10,
+    "type" => "amazonS3",
+    "config" => {
+        "bucket" => "my-s3-bucket-name",
+        "region" => "us-west-2",
+        "accessKeyId" => "ACCESS_KEY",
+        "secretAccessKey" => "SECRET_KEY"
+    }
+})
+```
+
+</TabItem>
+<TabItem value="C#">
+
+```csharp
+var svix = new SvixClient("auth_token");
+dest = await svix.Destination.CreateAsync(
+    "example-customer-123",
+    new DestinationIn
+    {
+        Uid = "unique-identifier",
+        Status = DestinationStatusIn.Enabled,
+        BatchSize = 100,
+        MaxWaitSecs = 10,
+        Config = DestinationInConfig.AmazonS3(
+            new S3ConfigIn
+            {
+                Bucket = "my-s3-bucket-name",
+                Region = "us-west-2",
+                AccessKeyId = "ACCESS_KEY",
+                SecretAccessKey = "SECRET_KEY",
+            }
+        ),
+    }
+);
+```
+
+</TabItem>
+<TabItem value="PHP">
+
+```php
+$svix = new Svix('AUTH_TOKEN');
+
+$dest = $svix->destination->create(
+  'example-customer-123',
+  DestinationIn::create(
+    DestinationInConfig::amazonS3(
+      S3ConfigIn::create('my-s3-bucket-name')
+        ->withRegion('us-west-2')
+        ->withAccessKeyId('ACCESS_KEY')
+        ->withSecretAccessKey('SECRET_KEY')
+    )
+  )
+    ->withUid('unique-identifier')
+    ->withStatus(DestinationStatusIn::ENABLED)
+    ->withBatchSize(100)
+    ->withMaxWaitSecs(10)
+);
+```
+
+</TabItem>
+<TabItem value="CLI">
+
+```shell
+export SVIX_AUTH_TOKEN='AUTH_TOKEN'
+svix destination create example-customer-123 '{
+  "uid": "unique-identifier",
+  "status": "enabled",
+  "batchSize": 100,
+  "maxWaitSecs": 10,
+  "type": "amazonS3",
+  "config": {
+    "bucket": "my-s3-bucket-name",
+    "region": "us-west-2",
+    "accessKeyId": "ACCESS_KEY",
+    "secretAccessKey": "SECRET_KEY"
+  }
+}'
+```
+
+</TabItem>
+<TabItem value="cURL">
+
+```shell
+# Change URL based on your selected region
+curl -X POST "https://api.us.svix.com/api/v1/app/example-customer-123/destination" \
+    -H "Accept: application/json" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer AUTH_TOKEN" \
+    -d '{
+      "uid": "unique-identifier",
+      "status": "enabled",
+      "batchSize": 100,
+      "maxWaitSecs": 10,
+      "type": "amazonS3",
+      "config": {
+        "bucket": "my-s3-bucket-name",
+        "region": "us-west-2",
+        "accessKeyId": "ACCESS_KEY",
+        "secretAccessKey": "SECRET_KEY"
+      }
+    }'
+```
+
+</TabItem>
+</CodeTabs>
+
+Using the API can be useful in cases where you are implementing [your own Consumer App Portal functionality](/app-portal#implementing-your-own-consumer-app-portal-functionality), or if you want to create a destination on behalf of your customers programmatically.
