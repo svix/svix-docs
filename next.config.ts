@@ -14,7 +14,8 @@ const nextConfig: NextConfig = {
   redirects: async () => {
     return [
       { source: '/', destination: '/introduction', permanent: false },
-      { source: '/advanced-endpoints/intro', destination: '/advanced-endpoints', permanent: true },
+      { source: '/advanced-endpoints/:path*', destination: '/advanced-destinations/:path*', permanent: true },
+      { source: '/advanced-destinations/intro', destination: '/advanced-destinations', permanent: true },
       { source: '/connectors/connectors', destination: '/connectors', permanent: true },
       { source: '/tutorials/connectors', destination: '/tutorials/slack-connector', permanent: true },
       { source: '/receiving/verifying-payloads', destination: '/receiving/verifying-payloads/why', permanent: false },
@@ -24,7 +25,7 @@ const nextConfig: NextConfig = {
       { source: '/management-ui', destination: '/app-portal', permanent: true },
       { source: '/account/retries', destination: '/retries', permanent: true },
       { source: '/transformation-templates', destination: '/connectors', permanent: true },
-      { source: '/polling-endpoints', destination: '/advanced-endpoints/polling-endpoints', permanent: true },
+      { source: '/polling-endpoints', destination: '/advanced-destinations/polling-endpoints', permanent: true },
       { source: '/rate-limit', destination: '/throttling', permanent: true },
     ]
   },
