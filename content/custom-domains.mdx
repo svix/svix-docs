@@ -1,0 +1,43 @@
+---
+title: Custom Domains
+---
+# Custom Domains
+
+<Callout type="info">
+
+**Important**
+
+Custom Domains are only available as part of the Professional and Enterprise tiers. Please refer to [the pricing page](https://www.svix.com/pricing/) for more information.
+
+</Callout>
+
+Svix supports using customer-owned domains in order to provide an experience that more closely matches your brand. Svix will present and route traffic through customer-owned domains for the following services:
+* Ingest
+* Application Portal
+* Event Catalog
+* Polling Endpoints
+* MCP
+
+The Application Portal and Event Catalog domains are global in nature. So, for example, all Svix regions will return app portal links using the global Application Portal custom domain you define.
+
+![App Portal Custom Domain](/img/custom-domains-1.png)
+
+For services that are regional, you will need to indicate for a given domain which region traffic should be forwarded to. Only Svix resources in the particular region defined will use the relevant custom domain.
+
+![Regional MCP Custom Domain](/img/custom-domains-2.png)
+
+Once you've added a domain, you'll need to create a CNAME in your own DNS zone that points to the Svix-generated URL.
+
+![CNAME setup](/img/custom-domains-3.png)
+
+The Svix backend will poll to confirm DNS resolves as expected. Once Svix can confirm that your DNS record is configured correctly, Svix will issue a TLS certificate and allow traffic to forward from your custom domain to the appropriate Svix endpoint.
+
+Once a domain is active, it will show up in your Custom Domains list along with its CNAME target and status.
+
+![Active Custom Domain](/img/custom-domains-4.png)
+
+The custom domain will then be displayed and used in place of Svix domains. Here is an example of a Polling Endpoint displayed using a custom domain:
+
+![Polling Endpoint with Custom Domain](/img/custom-domains-5.png)
+
+You can temporarily disable your custom domains as needed, which will disable forwarding traffic from the custom domain to Svix. Custom domains can be deleted as well, which will disable forwarding and delete the issued TLS certificates.

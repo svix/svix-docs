@@ -46,6 +46,7 @@ const meta = {
       collapsed: true,
     },
   },
+  'custom-domains': 'Custom Domains',
   _ai: { type: 'separator', title: 'AI' },
   ai: {
     title: 'AI',
