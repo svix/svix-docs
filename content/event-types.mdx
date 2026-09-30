@@ -205,14 +205,40 @@ Once you have a schema defined, your users will be able to view the schema defin
 
 To learn more about creating schemas, check out our guide on [adding your first event type schema](./tutorials/event-type-schema).
 
+
 ### Schema validation
 
 Svix doesn't enforce the event type schema when creating a message. There are a few reasons to why we do it, though the main one is that we would much rather send a message with a bad schema, than block messages because the schema was slightly wrong. This is especially true for more strict schemas like ones that enforce some fields follow a specific regex (a potentially minor violation).
 
 Additionally, since the payload is fully controlled by our customers (you), it's very easy to verify the schema on the sender side, before sending to Svix, which ensures people get exactly the level of validation they expect.
 
-We do however love schemas and think they are super important, so we plan on adding an automatic SDK generator that will have type checked and validated schemas for you client side, so that bad schemas will fail at compile time, not run time!
+We do however love schemas and think they are super-important, so we also provide an automatic SDK generator that uses validated schemas to generate type-checked and validated clients, so that bad schemas will fail at compile-time, not at runtime. You can use our SDK generator to build typed models for your event types [in the dashboard](https://dashboard.svix.com/event-types/create/generatesdk).
 
+### Schema examples
+
+Examples are an important part of your event type definition. They are visible in the Event Catalog, and your customers can use them as payloads to [send test messages](https://docs.svix.com/receiving/using-app-portal/testing-events) to their endpoints in the Application Portal.
+
+Examples are defined in your event type schema, and can be specified via the Svix Dashboard UI or the API.
+
+To define examples using the API, use the [JSON Schema `examples` keyword](https://json-schema.org/draft/2020-12/json-schema-validation#name-examples).
+
+```js
+const svix = new Svix("AUTH_TOKEN");
+await svix.eventType.create({
+  name: "user.signup",
+  schemas: {
+    "1": {
+      type: "object",
+      properties: {
+        userId: { type: "string" },
+        email: { type: "string" },
+      },
+      required: ["userId", "email"],
+      examples: [{ userId: "usr_123", email: "ada@example.com" }],
+    },
+  },
+});
+```
 
 ## Import event types from an OpenAPI specification
 
@@ -239,7 +265,6 @@ In addition to the standard features supported by the OpenAPI spec, Svix also su
 ```
 
 If your API spec has a `webhooks` section (or `x-webhooks`) you can continue to the next sections to learn how to upload it. If you need help with adding the `webhooks` section to your OpenAPI spec, please refer to the [Generating an OpenAPI spec section](#generating-an-openapi-spec).
-
 
 
 ### From the dashboard
