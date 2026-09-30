@@ -212,13 +212,13 @@ Svix doesn't enforce the event type schema when creating a message. There are a 
 
 Additionally, since the payload is fully controlled by our customers (you), it's very easy to verify the schema on the sender side, before sending to Svix, which ensures people get exactly the level of validation they expect.
 
-We do however love schemas and think they are super important, so we also provide an automatic SDK generator that has type checked and validated schemas for you client side, so that bad schemas will fail at compile time, not run time. You can use the SDK generator to get typed models for your event types [in the dashboard](https://dashboard.svix.com/event-types/create/generatesdk).
+We do however love schemas and think they are super-important, so we also provide an automatic SDK generator that uses validated schemas to generate type-checked and validated clients, so that bad schemas will fail at compile-time, not at runtime. You can use our SDK generator to build typed models for your event types [in the dashboard](https://dashboard.svix.com/event-types/create/generatesdk).
 
 ### Schema examples
 
 Examples are an important part of your event type definition. They are visible in the Event Catalog, and your customers can use them as payloads to [send test messages](https://docs.svix.com/receiving/using-app-portal/testing-events) to their endpoints in the Application Portal.
 
-Examples are part of your event type schema, and can be specified via the UI or the API.
+Examples are defined in your event type schema, and can be specified via the Svix Dashboard UI or the API.
 
 To define examples using the API, use the [JSON Schema `examples` keyword](https://json-schema.org/draft/2020-12/json-schema-validation#name-examples).
 
