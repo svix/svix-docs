@@ -10,6 +10,12 @@ const meta = {
   'event-types': 'Event Types',
   sinks: 'Sinks',
   portal: 'Stream Portal',
+  _tutorials: { type: 'separator', title: 'Tutorials' },
+  tutorials: {
+    title: 'Tutorials',
+    display: 'children',
+  },
+
 } satisfies Meta
 
 export default meta
