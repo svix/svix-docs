@@ -1,0 +1,66 @@
+---
+title: ElasticSearch / OpenSearch
+---
+# ElasticSearch / OpenSearch
+
+Events can be sent to an [ElasticSearch](https://www.elastic.co/elasticsearch) (or [OpenSearch](https://opensearch.org/)) index or [data stream](https://www.elastic.co/docs/manage-data/data-store/data-streams) to be
+indexed as documents. Like all sinks, an ElasticSearch sink can be created in the Stream Portal...
+
+![elasticsearch sink creation](/img/stream/elasticsearch-create.png)
+
+... or [in the API](https://api.svix.com/docs#tag/Sink/operation/v1.stream.sink.create).
+
+```shell
+curl -X 'POST' 'https://api.svix.com/api/v1/stream/strm_30XKA2tCdjHue2qLkTgc0/sink' \
+  -H 'Authorization: Bearer AUTH_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "type": "elasticSearch",
+  "config": {
+    "url": "https://username:password@server:9200",
+    "indexName": "my_index_name",
+    "refresh": true
+  },
+  "uid": "unique-identifier",
+  "status": "enabled",
+  "batchSize": 1000,
+  "maxWaitSecs": 300,
+  "eventTypes": [],
+  "metadata": {}
+}'
+```
+
+Every payload you publish will be indexed as a document using the `create` action on a [bulk index operation](https://www.elastic.co/docs/api/doc/elasticsearch/operation/operation-bulk).
+
+# Transformations
+
+By default, all `elasticSearch` Sinks come bundled with the following transformation code.
+
+
+```javascript
+/**
+ * @param input - The input object
+ * @param input.events - The array of events in the batch. The number of events in the batch is capped by the Sink's batch size.
+ * @param input.events[].payload - The message payload (string or JSON)
+ * @param input.events[].eventType - The message event type (string)
+ *
+ * @returns Object containing a series of documents to index
+ * @returns returns.documents - Array of index requests
+ * @returns returns.documents[].document - A JSON object of the document to index.
+ * @returns returns.documents[].id - An optional string to use as the document ID in ElasticSearch
+ */
+function handler(input) {
+
+  const documents = input.events.map((event) => ( { document: event.payload }));
+
+  return {
+    documents
+  };
+}
+```
+
+`input.events` matches the events sent in [`create_events`](https://api.svix.com/docs#tag/Event/operation/v1.stream.events.create).
+
+The returned object contain a single key (`documents`) containing an array of JSON objects -- each of these should contain a JSON object named `document` for the actual payload to index, and may contain a key named `id` which will be used as the document key in ElasticSearch. If `id` is not included, one is generated synthetically from the stream data.
+
+The default transformation will simply copy your created payloads into ElasticSearch.

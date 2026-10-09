@@ -15,6 +15,7 @@ const meta = {
   bigquery: 'Google BigQuery',
   clickhouse: 'ClickHouse',
   redshift: 'Amazon Redshift',
+  elasticsearch: 'ElasticSearch',
   poller: 'Polling Endpoint',
 } satisfies Meta
 
