@@ -65,6 +65,8 @@ Svix provides a [self-service app portal](../portal.mdx) where customers can con
 
 ![Configuring an S3 sink in Svix's app portal](/img/stream/tutorials/audit-logs/s3.png)
 
+Customers using the Elastic Security project can use Svix's new [ElasticSearch sink](../sinks/elasticsearch.mdx) to send data to Elastic.
+
 Customers who are using a SIEM that doesn’t natively understand ECS logs can easily reformat them using Svix Transformations configured right in the app-portal on their sink; for example, a customer using the Google Security Operations platform might want their data formatted as UDM instead; they could do this with the following transformation combined with the  [Google SecOps Webhook feed](https://docs.cloud.google.com/chronicle/docs/administration/feed-management#setup-webhook).
 
 ```js
