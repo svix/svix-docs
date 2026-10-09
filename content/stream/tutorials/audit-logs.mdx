@@ -7,21 +7,21 @@ In today’s heterogeneous workplace, where employees may be intermingling with 
 <abbr title="Security Information and Event Management">SIEM</abbr> products like Panther and Splunk can provide a single-pane-of-glass interface on top of these audit logs, and Svix is the essential glue to get data from your system directly to your customers' <abbr title="Security Operations Centers">SOCs</abbr>, so that security engineers can easily integrate your logs with the hundreds or thousands of other systems that they might be monitoring.
 This guide will walk you through exporting audit logs into your customers' SIEMs.
 
-## What Goes Into an Good Audit Log?
+## What Goes Into a Good Audit Log?
 
 Before you can use Svix Streams to send audit logs to your customers, you first need to decide what to put into the log records themselves.
 Audit logs should capture all security-sensitive actions in your system; at a minimum, you should make sure to emit logs for all user and group activities, and for other key activities in your system that could be used by an attacker.
 Some examples we've seen from our customers:
 
-- login attempts
-- user creations and deletions
-- group membership changes
-- data imports and exports
-- security credential creation (e.g., password or passkey changes, API token creations)
+- Login attempts
+- User creations and deletions
+- Group membership changes
+- Data imports and exports
+- Security credential creation (e.g., password or passkey changes, API token creations)
 
 ### Structuring Your Events
 
-Security Operations Centers work best with _wide events_ and with as much context as possible; JOINs are often expensive or impossible, and alerting rules will typically work on a small window of logs. When emitting audit logs; it’s best to make sure that each individual event contains as much information as possible. While every SIEM vendor has slightly different schemata, we recommend using a common base like the [Elastic Common Schema](https://www.elastic.co/docs/reference/ecs/ecs-using-ecs) for your audit logs.
+Security Operations Centers work best with _wide events_ and with as much context as possible; JOINs are often expensive or impossible, and alerting rules will typically work on a small window of logs. When emitting audit logs, it’s best to make sure that each individual event contains as much information as possible. While every SIEM vendor has slightly different schemata, we recommend using a common base like the [Elastic Common Schema](https://www.elastic.co/docs/reference/ecs/ecs-using-ecs) for your audit logs.
 For example, for a user login, you might have an event like the following:
 
 ```json
@@ -45,7 +45,7 @@ For example, for a user login, you might have an event like the following:
 }
 ```
 
-Node that the `@timestamp`, `event`, and `ecs` keys are all mandatory; the `user` key contains fields from the [ECS user vocabulary](https://www.elastic.co/docs/reference/ecs/ecs-user), and custom fields can be inserted under a custom top-level key.
+Note that the `@timestamp`, `event`, and `ecs` keys are all mandatory; the `user` key contains fields from the [ECS user vocabulary](https://www.elastic.co/docs/reference/ecs/ecs-user), and custom fields can be inserted under a custom top-level key.
 
 It can often be valuable to make each `event.action` in your logs correspond to a single [`eventType`](../event-types/introduction.mdx) in Svix so that your customers can use event-type filtering in their stream consumers to only gather the specific events that they want.
 
