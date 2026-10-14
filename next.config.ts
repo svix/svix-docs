@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
   redirects: async () => {
     return [
       { source: '/', destination: '/introduction', permanent: false },
+      { source: '/api', destination: 'https://api.svix.com/docs', permanent: false },
       { source: '/advanced-endpoints/:path*', destination: '/advanced-destinations/:path*', permanent: true },
       { source: '/advanced-destinations/intro', destination: '/advanced-destinations', permanent: true },
       { source: '/connectors/connectors', destination: '/connectors', permanent: true },
