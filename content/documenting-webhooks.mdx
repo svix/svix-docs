@@ -27,7 +27,7 @@ You normally use one endpoint per service, and that endpoint listens to all of t
 
 For example, if you receive webhooks from Acme Inc., you can structure your URL like: https://www.example.com/acme/webhooks/.
 
-The way to indicate that a webhook has been processed is by returning a 2xx (status code 200-299) response to the webhook message within a reasonable time-frame (15s).
+The way to indicate that a webhook has been processed is by returning a 2xx (status code 200-299) response to the webhook message within a reasonable time-frame (30s).
 
 It's also important to disable CSRF protection for this endpoint if the framework you use enables them by default.
 
